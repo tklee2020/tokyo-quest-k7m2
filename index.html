@@ -728,7 +728,7 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .tl__n small b{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--blue)}
 .tl__w{flex-shrink:0;font-size:12px;color:var(--muted);text-align:center;line-height:1.1}
 .leaveby{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:8px 11px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
-.leaveby b{font-family:var(--f-px);font-size:15px;color:var(--blue);font-variant-numeric:tabular-nums}
+.leaveby b{font-size:15.5px;font-weight:900;color:var(--blue);font-variant-numeric:tabular-nums}
 @media (min-width:900px){ .qnav__list{display:none} .qnav__list + .qnav__play{margin-left:auto} .questcol.is-list .quests{display:flex} .questcol.is-list .tl{display:none} }
 
 /* ---------- checklists ---------- */
@@ -792,6 +792,8 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .split__list .y{font-family:var(--f-px);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .split__list .x{display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:10px;background:none;color:var(--muted);font-size:18px;cursor:pointer}
 .split__list .x.is-arm{width:auto;padding:0 10px;color:var(--red);font-size:14px;font-weight:700}
+.split__tools{gap:8px;flex-wrap:wrap}
+.installbox:empty{display:none}
 .fx__live{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
 
 /* ---------- route line badges (2D) ---------- */
@@ -1224,6 +1226,7 @@ const TRIP = {
           memo: '에어서울 RS705. 나리타는 제1터미널 남쪽 윙으로 도착해요.',
           alt: { text: '지연되면 점심은 아르카킷 10층에서 늦게. 쇼핑은 21:00까지 가능해요.' } },
         { t: '10:40', node: 'nrt', place: 'nrt', title: '나리타 도착 · 입국', short: '나리타 도착', tags: ['move'], noFacts: true,
+          facts: [['여기서 살 것', '도쿄 서브웨이 티켓 48시간권 1,500엔 (여권 필요) · 지하 1층 게이세이 안내센터 {?}'], ['공항 열차', '게이세이 승차권 1,380엔 또는 IC카드 (48시간권으로는 못 타요)']],
           memo: 'Visit Japan Web QR로 입국심사·세관 → 지하 게이세이선 「나리타공항역」 승강장으로.',
           alt: { text: '입국 줄이 길면 액세스 특급 다음 열차(약 40분 간격)를 타요.' } },
         { t: '11:49', approx: true, node: 'hotel', title: '게이세이 액세스 특급으로 숙소까지', short: '액세스 특급 탑승', e: '🚆', ja: '京成 アクセス特急', tags: ['move'], q: 'アパホテル〈東日本橋駅前〉',
@@ -1376,6 +1379,12 @@ const TRIP = {
 
   /* ===================== 공략집 ===================== */
   tips: [
+    { icon: '📲', title: '홈 화면에 앱으로 설치 (인터넷 없어도 열려요)', body: [ { install: true }, { ul: [
+      '**아이폰(사파리):** 아래쪽 공유 버튼 → 「홈 화면에 추가」.',
+      '**안드로이드(크롬):** 위 버튼을 누르거나, 오른쪽 위 ⋮ → 「홈 화면에 추가」·「앱 설치」.',
+      '한 번 열어 두면 지하철처럼 인터넷이 끊겨도 일정·지도·공략집이 열려요. 날씨·환율은 마지막으로 받은 값을 보여줘요.',
+      '아이폰은 홈 화면 앱과 사파리의 저장 공간이 따로예요. 가방·체크리스트·정산 기록은 한쪽에서만 쓰세요.'
+    ] } ] },
     { icon: '🧾', title: '면세 (이번 여행은 지금 방식 그대로)', body: [ { ul: [
       '같은 가게에서 하루 합계 **5,000엔 이상**(세금 제외)이면 계산할 때 바로 면세돼요.',
       '**여권 실물 필수.** 사본·사진은 안 되고, Visit Japan Web의 면세 QR은 쓸 수 있어요.',
@@ -2024,7 +2033,12 @@ function detailHTML(it, di, k, opts){
     h += `<div class="broute"><span class="broute__k" aria-hidden="true">B</span><p><b>B루트</b> · ${rich(it.alt.text, w)}${ap ? ` <a href="${esc(mapsUrl(ap.q))}" ${EXT} aria-label="B루트 ${esc(ap.name)} 구글 지도 열기 (새 탭)">지도 ↗</a>` : ''}</p></div>`;
   }
   if (it.last) h += `<p class="lastline">🚃 막차 <b>${esc(it.last.t)}</b> · ${esc(it.last.txt)} (토·일)</p>`;
-  if (opts.buy){ const ph = ctxPhrases(it); if (ph.length) h += `<section class="sec"><h3>🗣️ 보여주는 일본어 <small>누르면 화면 가득 크게</small></h3><div class="phchips">${ph.map(x => `<button class="phchip" type="button" data-phr="${x.id}" aria-label="${esc(x.ko)} 일본어로 크게 보기">${esc(x.ko)}</button>`).join('')}</div></section>`; }
+  if (opts.buy){
+    const ph = ctxPhrases(it), lp = itLink(it), tx = p && p.ja && !it.sky && it.node !== 'nrt' && it.place !== 'hotel';
+    const extra = (tx ? `<button class="phchip" type="button" data-taxiplace="${esc(it.place)}" aria-label="${esc(p.name)} 택시 기사에게 보여줄 화면">🚕 택시 기사에게 보여주기</button>` : '')
+      + ((it.tags || []).some(t => t === 'drink' || t === 'food') ? `<button class="phchip" type="button" data-spend="${esc(itShort(it))}" aria-label="${esc(itShort(it))}에서 같이 쓴 돈 기록하기">🧾 같이 쓴 돈 기록</button>` : '');
+    if (ph.length || extra) h += `<section class="sec"><h3>🗣️ 현장에서 바로 쓰기 <small>누르면 화면 가득 크게</small></h3><div class="phchips">${extra}${ph.map(x => `<button class="phchip" type="button" data-phr="${x.id}" aria-label="${esc(x.ko)} 일본어로 크게 보기">${esc(x.ko)}</button>`).join('')}</div></section>`;
+  }
   h += linksHTML(itLink(it), name);
   const tag = opts.titleId ? 'h2 id="sheetTitle"' : 'h4';
   return { head: `<span class="qcard__emo k-${itKind(it)}" aria-hidden="true">${itEmo(it)}</span><div><p class="sh-time">DAY ${di + 1} · ${it.approx ? '약 ' : ''}${esc(it.t)}${it.end ? ' → ' + esc(it.end) : ''}</p><${tag}>${esc(name)}${ja ? ` <span class="ja" lang="ja">${esc(ja)}</span>` : ''}</${tag.split(' ')[0]}><div class="tags">${tagChips(it.tags)}</div></div>`, body: h };
@@ -2058,7 +2072,7 @@ function renderTimeline(di){
     const tr = tripOf(it), p = plc(it), plain = s => esc(String(s || '').replace(/\s*\{\?\}/g, ''));
     const hint = p && !it.noFacts ? (p.loc ? p.loc.split(' · ')[0] : (p.hours || '')) : '';
     const sub = tr ? (tr.board ? `🚆 ${esc(it.t)} 탑승 · ${fmtMin(tr.arrive)}쯤 도착` : `🚶 <b>${fmtMin(tr.leave)}</b> 출발 · 이동 약 ${tr.mins}분`)
-      : it.sky ? plain(it.move && it.move[0] && it.move[0].text) : hint ? plain(hint) : it.save ? '💾 세이브 포인트' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
+      : it.sky ? plain(it.move && it.move[0] && it.move[0].text) : hint ? plain(hint) : it.memo ? plain(it.memo.split(/[.!?]\s/)[0]) : it.save ? '💾 세이브 포인트' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
     return `<li data-k="${k}"><button class="tl__row" type="button" data-tl="${k}" aria-label="${esc(it.t)} ${esc(itName(it))}. 누르면 자세히"><span class="tl__t">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}${it.end ? `<small>→${esc(it.end)}</small>` : ''}</span><span class="tl__e" aria-hidden="true">${itEmo(it)}</span><span class="tl__n"><b>${esc(itShort(it))}</b><small>${sub}</small></span><span class="tl__s"></span><span class="tl__w qcard__wx" data-wx="${k}"></span></button></li>`;
   }).join('');
 }
@@ -2576,6 +2590,7 @@ function blockHTML(b, w){
   if (b.ul) return `<ul>${b.ul.map(x => `<li>${rich(x, w)}</li>`).join('')}</ul>`;
   if (b.pass) return `<div class="passbox" id="passBox"></div>`;
   if (b.wx) return `<div class="wxbox" id="wxBox"></div><p class="wxnote" id="wxNote"></p>`;
+  if (b.install) return `<div class="installbox" id="installBox"></div>`;
   if (b.contacts) return b.contacts.map(c => `<div class="contact"><div class="contact__who"><b>${esc(c.name)}</b><span>${rich(c.note, w)}</span></div>
     <a class="contact__num" href="tel:${esc(c.tel)}" aria-label="${esc(c.name)} 전화 걸기 ${esc(c.num)}">${esc(c.num)}</a>
     <button class="gbtn gbtn--icon" type="button" data-copy="${esc(c.num)}" aria-label="${esc(c.name)} 번호 복사">${ICON.copy}</button></div>`).join('');
@@ -2612,7 +2627,7 @@ function renderGuide(){
   const ckAcc = l => `<details class="acc reveal" data-ckacc="${l.id}"><summary><span class="acc__e" aria-hidden="true">${l.e}</span><span class="acc__t">${esc(l.title)}</span><span class="acc__c" data-ckn="${l.id}"></span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">${esc(l.sub)}</p><div data-cklist="${l.id}">${checklistHTML(l)}</div></div></details>`;
   const phr = `<details class="acc reveal" id="phrAcc"><summary><span class="acc__e" aria-hidden="true">🗣️</span><span class="acc__t">보여주는 일본어</span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">누르면 화면 가득 크게 떠요. 점원에게 그대로 보여주세요.</p><div class="phr">${(D.phrases || []).map(g => `<p class="phr__g">${esc(g.g)}</p>${g.list.map(phraseRow).join('')}`).join('')}</div></div></details>`;
   $('#tipsList').innerHTML = (D.checklists || []).map(ckAcc).join('') + phr + D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
-  paintChecks();
+  paintChecks(); renderInstall();
   $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('');
 }
 /* ---------- 체크리스트 ---------- */
@@ -2738,6 +2753,24 @@ async function loadRate(user){
 }
 function autoRate(){ if (!fxSrc || (!fxSrc.manual && Date.now() - (fxSrc.at || 0) > 6 * 3600e3)) loadRate(false); }
 
+/* ---------- 홈 화면 설치 ---------- */
+let installEvt = null;
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; renderInstall(); });
+addEventListener('appinstalled', () => { installEvt = null; renderInstall(); toast('📲 홈 화면에 설치했어요'); });
+function renderInstall(){
+  const box = $('#installBox'); if (!box) return;
+  if (isStandalone()) box.innerHTML = '<p class="passbox__s">✓ 지금 홈 화면 앱으로 보고 있어요.</p>';
+  else if (installEvt) box.innerHTML = '<button class="gbtn gbtn--gold gbtn--sm" type="button" id="installBtn">📲 이 휴대폰에 앱으로 설치</button>';
+  else box.innerHTML = '';
+}
+document.addEventListener('click', async e => {
+  if (!e.target.closest('#installBtn') || !installEvt) return;
+  const ev = installEvt; installEvt = null;
+  try { ev.prompt(); await ev.userChoice; } catch(err){}
+  renderInstall();
+});
+
 /* ---------- 같이 쓴 돈 · 반반 정산 ---------- */
 let split = store.get('split', []), splitWho = store.get('splitWho', 'a'), splitArm = null;
 if (!Array.isArray(split)) split = [];
@@ -2752,7 +2785,7 @@ function initSplit(){
     </form>
     <div class="split__res" id="splitRes" aria-live="polite"></div>
     <ul class="split__list" id="splitList" aria-label="같이 쓴 돈 기록"></ul>
-    <div class="bagtools"><button class="gbtn gbtn--sm" id="splitReset" type="button">기록 모두 지우기</button></div>`;
+    <div class="bagtools split__tools"><button class="gbtn gbtn--sm" id="splitShare" type="button">📤 정산 내역 보내기</button><button class="gbtn gbtn--sm" id="splitReset" type="button">기록 모두 지우기</button></div>`;
   const y = $('#splitY');
   y.addEventListener('input', () => { const c = cleanNum(y.value); y.value = c ? c.toLocaleString('ko-KR') : ''; });
   $('#split').addEventListener('click', e => {
@@ -2778,6 +2811,12 @@ function initSplit(){
     y.value = ''; $('#splitM').value = '';
     paintSplit(); toast(`🧾 ${splitWho.toUpperCase()}가 낸 ¥${fmtNum(amt)} 기록`);
   });
+  $('#splitShare').addEventListener('click', () => {
+    if (!split.length){ toast('아직 기록이 없어요'); return; }
+    const txt = splitText();
+    if (navigator.share) navigator.share({ title: '도쿄 같이 쓴 돈', text: txt }).catch(() => {});
+    else copyText(txt);
+  });
   let armed = 0;
   $('#splitReset').addEventListener('click', e => {
     const b = e.currentTarget;
@@ -2786,6 +2825,17 @@ function initSplit(){
     clearTimeout(armed); armed = 0; b.textContent = '기록 모두 지우기'; split = []; store.set('split', split); paintSplit(); toast('정산 기록을 모두 지웠어요');
   });
   paintSplit();
+}
+function splitSums(){
+  const sum = { a: 0, b: 0 }; split.forEach(x => { sum[x.w === 'b' ? 'b' : 'a'] += x.y; });
+  const tot = sum.a + sum.b; return { sum, tot, diff: sum.a - tot / 2 };
+}
+function splitText(){
+  const { sum, tot, diff } = splitSums(), won = v => `${fmtNum(v * fxRate / 100)}원`;
+  const f = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
+  const settle = Math.abs(diff) < 1 ? '딱 반반' : diff > 0 ? `B → A ¥${fmtNum(diff)} (≈${won(diff)})` : `A → B ¥${fmtNum(-diff)} (≈${won(-diff)})`;
+  return [`🧾 도쿄 같이 쓴 돈 (100엔=${fxRate}원)`, `합계 ¥${fmtNum(tot)} (≈${won(tot)}) · A ¥${fmtNum(sum.a)} · B ¥${fmtNum(sum.b)}`, `정산: ${settle}`, '']
+    .concat(split.slice().reverse().map(x => `· ${f.format(new Date(x.t))} ${x.m || '기록'} ¥${fmtNum(x.y)} (${x.w === 'b' ? 'B' : 'A'})`)).join('\n');
 }
 function paintSplit(){
   const res = $('#splitRes'), ul = $('#splitList'); if (!res) return;
@@ -4178,6 +4228,8 @@ function init(){
     const c = e.target.closest('[data-copy]'); if (c){ copyText(c.dataset.copy); return; }
     const tx = e.target.closest('[data-taxi]'); if (tx){ openBig(tx, hotelBig()); return; }
     const ph = e.target.closest('[data-phr]'); if (ph && PHR[ph.dataset.phr]){ const x = PHR[ph.dataset.phr]; openBig(ph, { name: x.ja, yomi: x.yomi, ko: x.ko }); return; }
+    const tp = e.target.closest('[data-taxiplace]'); if (tp && P[tp.dataset.taxiplace]){ const x = P[tp.dataset.taxiplace]; openBig(tp, { lead: 'ここへ行ってください', name: x.ja, addr: x.q && x.q !== x.ja ? x.q : '', ko: `${x.name} · 택시 기사님께 보여주세요` }); return; }
+    const sp = e.target.closest('[data-spend]'); if (sp){ const m = sp.dataset.spend; closeSheet(); showView('fx'); setTimeout(() => { const f = $('#splitM'), y = $('#splitY'); if (!f) return; f.value = m; $('#split').scrollIntoView({ block:'start', behavior: reduce ? 'auto' : 'smooth' }); y.focus({ preventScroll:true }); }, 380); return; }
     const ck = e.target.closest('[data-ck]'); if (ck){ toggleCheck(ck.dataset.ck); return; }
   });
   $('#taxiClose').addEventListener('click', closeTaxi);
