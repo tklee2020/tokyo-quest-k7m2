@@ -1,0 +1,14 @@
+{
+  "name": "trip-page-qa",
+  "private": true,
+  "description": "Headless Chrome QA for the trip page (uses the installed Chrome, no browser download)",
+  "scripts": {
+    "moments": "node harness.js scenarios/trip-moments.js",
+    "widths": "node harness.js scenarios/widths.js",
+    "gps": "node harness.js scenarios/gps.js",
+    "offline": "node offline.js 2d && node offline.js 3d",
+    "pinch": "node pinch.js",
+    "data": "node data-check.js"
+  },
+  "dependencies": { "puppeteer-core": "^23.0.0" }
+}
