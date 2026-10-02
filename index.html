@@ -38,6 +38,8 @@
   --f-ja:"Noto Sans JP","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
   --f-px:"Silkscreen",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
   --dusk-a:#FF8A3D30; --dusk-b:#8A4FD026;
+  --sky3-a:#A9D6F2; --sky3-b:#E6F2F1; --soil:#C9B38E; --soil-2:#9E8767; --glass:#A7C4DA; --trunk:#8B6B4E; --leaf:#80BF60; --leaf-2:#579B49;
+  --tt:#E8562A; --tt-w:#F6F3EE; --kawara:#56616C; --stars:linear-gradient(transparent,transparent);
   --gutter:16px;
   color-scheme:light;
 }
@@ -55,6 +57,9 @@
     --check-bg:#3A2F10; --check-fg:#F5D27A; --check-line:#9C7A22;
     --ok-bg:#173322; --ok-fg:#9AD9B0; --no-bg:#3C1F1B; --no-fg:#F4A99D;
     --skin:#F0C39A; --legs:#0E1322;
+    --sky3-a:#03060F; --sky3-b:#18224A; --soil:#1E2640; --soil-2:#121829; --glass:#24325C; --trunk:#3B3342; --leaf:#1F5A46; --leaf-2:#174536;
+    --tt:#FF6A33; --tt-w:#B4BED6; --kawara:#2B3452;
+    --stars:radial-gradient(1.5px 1.5px at 12% 18%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1px 1px at 30% 8%,#FFFFFFAA 50%,transparent 51%),radial-gradient(1.5px 1.5px at 52% 22%,#FFFFFFB0 50%,transparent 51%),radial-gradient(1px 1px at 71% 12%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 26%,#FFFFFF99 50%,transparent 51%),radial-gradient(1px 1px at 42% 34%,#FFFFFF80 50%,transparent 51%),radial-gradient(1px 1px at 63% 4%,#FFFFFFAA 50%,transparent 51%);
     color-scheme:dark;
   }
 }
@@ -71,6 +76,9 @@
   --check-bg:#3A2F10; --check-fg:#F5D27A; --check-line:#9C7A22;
   --ok-bg:#173322; --ok-fg:#9AD9B0; --no-bg:#3C1F1B; --no-fg:#F4A99D;
   --skin:#F0C39A; --legs:#0E1322;
+  --sky3-a:#03060F; --sky3-b:#18224A; --soil:#1E2640; --soil-2:#121829; --glass:#24325C; --trunk:#3B3342; --leaf:#1F5A46; --leaf-2:#174536;
+  --tt:#FF6A33; --tt-w:#B4BED6; --kawara:#2B3452;
+  --stars:radial-gradient(1.5px 1.5px at 12% 18%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1px 1px at 30% 8%,#FFFFFFAA 50%,transparent 51%),radial-gradient(1.5px 1.5px at 52% 22%,#FFFFFFB0 50%,transparent 51%),radial-gradient(1px 1px at 71% 12%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 26%,#FFFFFF99 50%,transparent 51%),radial-gradient(1px 1px at 42% 34%,#FFFFFF80 50%,transparent 51%),radial-gradient(1px 1px at 63% 4%,#FFFFFFAA 50%,transparent 51%);
   color-scheme:dark;
 }
 
@@ -526,6 +534,35 @@ html.dusk .mapframe::after{content:"";position:absolute;inset:0;z-index:2;pointe
 .sky__crew{transition:opacity .3s}
 .sky__crew.off{opacity:0}
 
+/* ---------- 3D map (three.js diorama) ---------- */
+.maptools{justify-items:end}
+.mapmode{display:grid;grid-template-columns:1fr 1fr;gap:3px;padding:3px;border:2px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:0 3px 0 var(--drop)}
+.mapmode button{min-width:42px;min-height:36px;padding:0 6px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-family:var(--f-px);font-size:13px;font-weight:700;letter-spacing:.04em;cursor:pointer;touch-action:manipulation;transition:background-color .2s,color .2s,transform .12s}
+.mapmode button:active{transform:scale(.94)}
+.mapmode button[aria-pressed="true"]{background:var(--gold);color:var(--on-gold)}
+.mapmode button[aria-busy="true"]{animation:busy 1s ease-in-out infinite}
+@keyframes busy{50%{opacity:.45}}
+.m3d{position:absolute;inset:0;z-index:1;display:none;overflow:hidden;background:var(--stars),linear-gradient(180deg,var(--sky3-a),var(--sky3-b) 62%);touch-action:none;-webkit-user-select:none;user-select:none}
+html.map3d .m3d{display:block}
+html.map3d .mapcam{visibility:hidden}
+html.map3d .mapframe,.m3d{overflow:clip;overflow-anchor:none}
+.m3d__cv{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;outline:none}
+.m3d__cv:focus-visible{box-shadow:inset 0 0 0 3px var(--gold)}
+.m3d.is-drag .m3d__cv{cursor:grabbing}
+.m3d__tags{position:absolute;inset:0;pointer-events:none}
+.n3{position:absolute;left:0;top:0;display:inline-flex;align-items:center;gap:4px;height:21px;padding:0 9px;border:0;border-radius:11px;background:var(--hud);color:var(--on-hud);font-family:var(--f-game);font-size:12px;line-height:1;white-space:nowrap;pointer-events:auto;cursor:pointer;box-shadow:0 2px 0 var(--drop);will-change:transform;transition:opacity .25s,background-color .2s,color .2s}
+.n3::after{content:"";position:absolute;inset:-12px -6px}
+.n3.is-dim{opacity:.62}
+.n3.is-here{background:var(--gold);color:var(--on-gold)}
+.n3.is-off{visibility:hidden}
+.n3__ok{display:none;place-items:center;width:15px;height:15px;margin-left:-4px;border-radius:50%;background:var(--gold);color:var(--on-gold);font-family:var(--f-body);font-size:10px;font-weight:900}
+.n3.is-clear .n3__ok{display:inline-grid}
+.n3.is-here .n3__ok{background:var(--on-gold);color:var(--gold)}
+.n3:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.m3d__load{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;margin:0;color:var(--ink);font-family:var(--f-game);font-size:15px}
+.m3d__cube{width:30px;height:30px;border:3px solid var(--edge);border-radius:7px;background:var(--gold);animation:cube 1.1s cubic-bezier(.5,0,.5,1) infinite}
+@keyframes cube{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(90deg)}100%{transform:translateY(0) rotate(180deg)}}
+
 .lnpass{margin-left:2px;padding:0 5px;border-radius:5px;font-size:10.5px;font-weight:700;line-height:1.6}
 .lnpass--ok{background:var(--ok-bg);color:var(--ok-fg)}
 .lnpass--no{background:var(--no-bg);color:var(--no-fg)}
@@ -633,11 +670,17 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
             <img id="mapbg" alt="" aria-hidden="true">
             <svg id="mapfg" viewBox="0 0 360 460" role="group" aria-label="도쿄 퀘스트 지도. 장소를 누르면 그 퀘스트로 이동"></svg>
           </div>
+          <div class="m3d" id="m3d" role="group" aria-label="3D 도쿄 퀘스트 지도. 한 손가락으로 돌리고 두 손가락으로 확대해요. 장소 이름을 누르면 그 퀘스트로 이동">
+            <div class="m3d__tags" id="m3dTags"></div>
+            <p class="m3d__load" id="m3dLoad" role="status" hidden><span class="m3d__cube" aria-hidden="true"></span>3D 도쿄 짓는 중…</p>
+          </div>
           <svg class="sky" id="sky" viewBox="0 0 360 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="인천에서 나리타까지 비행 경로"></svg>
           <div class="stage" id="stage" aria-hidden="true"></div>
           <button class="gbtn gbtn--gold gbtn--sm nearbtn" id="nearBtn" type="button" aria-label="지금 주변에서 할 것·살 것·추천 보기">📍 주변</button>
           <p class="guidechip" id="guideChip" hidden></p>
           <div class="maptools">
+            <button class="gbtn gbtn--sm" id="follow3d" type="button" hidden aria-label="아바타 따라가기로 돌아가기">🎯 따라가기</button>
+            <div class="mapmode" role="group" aria-label="지도 보기 방식"><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 지도로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 지도로 보기">3D</button></div>
             <button class="gbtn gbtn--icon" id="zoomBtn" type="button" aria-pressed="false" aria-label="지도 전체 보기"></button>
           </div>
           <div class="maplegend" aria-hidden="true"><span><i style="background:var(--a-hat)">A</i>아빠 A</span><span><i style="background:var(--b-hat);color:var(--on-red)">B</i>아빠 B</span></div>
@@ -1475,10 +1518,11 @@ function buildFg(di){
   legs.forEach((l, i) => { l.el = $('#leg-' + i, fg); l.len = l.el.getTotalLength(); });
   heroesEl = $('#heroes', fg); flipEl = $('.h-flip', heroesEl);
   updateBags();
+  m3dRoute(di);
   const route = $('#route', fg);
   if (anim) requestAnimationFrame(() => requestAnimationFrame(() => route.classList.add('drawn'))); else route.classList.add('drawn');
 }
-function setHero(x, y){ heroPos = { x, y }; heroesEl.style.transform = `translate(${x.toFixed(2)}px, ${(y - 14).toFixed(2)}px) scale(1.25)`; }
+function setHero(x, y){ heroPos = { x, y }; heroesEl.style.transform = `translate(${x.toFixed(2)}px, ${(y - 14).toFixed(2)}px) scale(1.25)`; m3dHero(x, y); }
 function face(dx){ if (Math.abs(dx) > 0.25) flipEl.style.transform = dx < 0 ? 'scaleX(-1)' : ''; }
 function cam(y, smoothMove){
   const fw = frame.clientWidth, fh = frame.clientHeight, wh = fw * WH / WW;
@@ -1499,7 +1543,7 @@ function walk(list, done){
   let i = 0, t0 = 0;
   const step = ts => {
     if (!t0) t0 = ts;
-    const cur = list[i], dur = clamp(420 + cur.leg.len * 3, 520, 1500) / speed, p = clamp((ts - t0) / dur, 0, 1);
+    const cur = list[i], dur = clamp(420 + cur.leg.len * 3, 520, 1500) / speed * (is3d ? W3SLOW : 1), p = clamp((ts - t0) / dur, 0, 1);
     const e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
     const pt = cur.leg.el.getPointAtLength((cur.rev ? 1 - e : e) * cur.leg.len);
     face(pt.x - heroPos.x);
@@ -1517,7 +1561,7 @@ function teleport(nodeId, smoothCam){
   if (anim && smoothCam) heroesEl.classList.add('blink');
   setHero(n.x, n.y); cam(n.y, smoothCam);
 }
-function markHere(nodeId){ $$('.node', fg).forEach(g => g.classList.toggle('is-here', g.dataset.node === nodeId)); }
+function markHere(nodeId){ $$('.node', fg).forEach(g => g.classList.toggle('is-here', g.dataset.node === nodeId)); m3dHere(nodeId); }
 function updateBags(){
   if (!heroesEl) return;
   const c = invCounts();
@@ -1525,6 +1569,7 @@ function updateBags(){
     const n = c[id].got ? Math.min(3, Math.ceil(c[id].got / 4)) : 0;
     $$(`.bag[data-crew="${id}"]`, heroesEl).forEach((b, i) => b.classList.toggle('on', i < n));
   });
+  m3dBags();
 }
 
 /* ================================================================
@@ -1657,6 +1702,7 @@ function refreshStatus(){
     const ks = items.map((it, k) => it.node === g.dataset.node ? k : -1).filter(k => k >= 0);
     g.classList.toggle('is-clear', ks.length > 0 && ks.every(k => st.past.has(k)));
   });
+  m3dStatus();
 }
 function play(){
   if (playT){ stopPlay(); return; }
@@ -1765,6 +1811,7 @@ function hideSky(){
   if (!skyOn) return;
   skyOn = false; cancelAnimationFrame(skyRaf); skyEl.classList.remove('is-on');
   if (heroesEl) heroesEl.style.visibility = '';
+  kick3d();
 }
 
 /* ================================================================
@@ -2213,6 +2260,7 @@ function showView(v, opts){
   if (changed && !opts.keepScroll) scrollTo({ top:0 });
   if (v === 'map') requestAnimationFrame(() => { cam(heroPos.y, false); if (act >= 0) scrollToCard(act, false); });
   watchReveal(sec);
+  kick3d();
 }
 const MODES = ['time', 'system', 'light', 'dark'], MODE_KO = { time:'도쿄 시간 자동', system:'시스템 설정', light:'낮', dark:'밤' };
 let mode = store.get('theme', 'time'); if (!MODES.includes(mode)) mode = 'time';
@@ -2227,7 +2275,7 @@ function applyTheme(){
   b.innerHTML = ICON[mode === 'time' ? 'clock' : mode === 'system' ? 'auto' : mode === 'light' ? 'sun' : 'moon'];
   b.setAttribute('aria-label', `화면 테마: ${MODE_KO[mode]}. 누르면 ${MODE_KO[next]}(으)로 바뀜`);
   b.title = `테마: ${MODE_KO[mode]}`;
-  requestAnimationFrame(() => { $('#metaTheme').setAttribute('content', tok('--hud') || '#1D2232'); buildBg(); });
+  requestAnimationFrame(() => { $('#metaTheme').setAttribute('content', tok('--hud') || '#1D2232'); buildBg(); m3dTheme(); });
 }
 let passStart = store.get('passStart', null), passArm = 0;
 const passLeft = () => passStart ? passStart + 48 * 3600e3 - Date.now() : null;
@@ -2269,6 +2317,1011 @@ function watchReveal(scope){
 }
 function setHudH(){ root.style.setProperty('--hud-h', $('#hud').offsetHeight + 'px'); }
 let prevTheme = null;
+
+/* ================================================================
+   3D 지도 — three.js 로우폴리 디오라마
+   2D와 같은 nodes 좌표·경로를 쓰고, 아바타 위치는 2D 애니메이션(setHero)을 그대로 따라가요.
+   three.js는 3D를 처음 켤 때만 불러와요.
+   ================================================================ */
+const THREE_SRC = [
+  'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.170.0/three.module.min.js',
+  'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js',
+  'https://unpkg.com/three@0.170.0/build/three.module.min.js'
+];
+const m3dEl = $('#m3d'), m3dTags = $('#m3dTags'), m3dLoad = $('#m3dLoad'), followBtn = $('#follow3d');
+const W3SLOW = 1.8;                       /* 3D에서는 걷는 속도를 조금 느리게 */
+let is3d = false, G = null, g3Promise = null, g3Seen = true, g3Raf = 0, nodeGo3 = null, m3dHereId = null;
+function hasGL(){
+  try {
+    const c = document.createElement('canvas'), gl = c.getContext('webgl2');
+    if (!gl) return false;
+    const x = gl.getExtension('WEBGL_lose_context'); if (x) x.loseContext();
+    return true;
+  } catch(e){ return false; }
+}
+function loadThree(){
+  if (!g3Promise) g3Promise = (async () => {
+    for (const u of THREE_SRC){ try { const m = await import(u); if (m && m.WebGLRenderer) return m; } catch(e){} }
+    throw new Error('three.js');
+  })().catch(e => { g3Promise = null; throw e; });
+  return g3Promise;
+}
+function paintModeBtns(){
+  $('#mode2d').setAttribute('aria-pressed', String(!is3d));
+  $('#mode3d').setAttribute('aria-pressed', String(is3d));
+}
+function leave3d(msg){
+  is3d = false; stop3d(); paintModeBtns();
+  root.classList.remove('map3d'); followBtn.hidden = true;
+  requestAnimationFrame(() => cam(heroPos.y, false));
+  if (msg) toast(msg);
+}
+async function setMapMode(on, opts){
+  opts = opts || {};
+  if (on && (reduce || !hasGL())){
+    if (!opts.silent) toast(reduce ? '움직임 줄이기 설정이 켜져 있어서 2D 지도로 보여줘요' : '이 기기에서는 3D 지도를 쓸 수 없어서 2D로 보여줘요');
+    return leave3d();
+  }
+  if (!opts.silent) store.set('mapmode', on ? '3d' : '2d');
+  if (!on) return leave3d();
+  is3d = true; paintModeBtns(); root.classList.add('map3d'); frame.scrollTop = 0;
+  if (!G){
+    const b = $('#mode3d');
+    m3dLoad.hidden = false; b.setAttribute('aria-busy', 'true');
+    let T = null;
+    try { T = await loadThree(); } catch(e){ T = null; }
+    m3dLoad.hidden = true; b.removeAttribute('aria-busy');
+    if (!T){ store.set('mapmode', '2d'); return leave3d('3D 지도를 불러오지 못했어요 · 인터넷 연결을 확인해 주세요'); }
+    if (!is3d) return;
+    if (!G){
+      try { build3d(T); }
+      catch(e){ console.warn('3D map', e); $$('canvas', m3dEl).forEach(c => c.remove()); m3dTags.innerHTML = ''; G = null; return leave3d('3D 지도를 만들지 못했어요 · 2D로 보여줄게요'); }
+    }
+  }
+  G.enter(); kick3d();
+}
+const run3d = () => is3d && !!G && g3Seen && !document.hidden && view === 'map' && !skyOn;
+function kick3d(){ if (!g3Raf && run3d()){ G.wake(); g3Raf = requestAnimationFrame(loop3d); } }
+function stop3d(){ if (g3Raf){ cancelAnimationFrame(g3Raf); g3Raf = 0; } }
+function loop3d(ts){ g3Raf = 0; if (!run3d()) return; g3Raf = requestAnimationFrame(loop3d); G.frame(ts); }
+function m3dRoute(di){ if (G) G.route(di); }
+function m3dHere(id){ m3dHereId = id; if (G) G.here(id); }
+function m3dStatus(){ if (G) G.status(); }
+function m3dBags(){ if (G) G.bags(); }
+function m3dTheme(){ if (G) G.theme(); }
+function m3dHero(x, y){ if (G) G.hero(x, y); }
+
+/* 2D 그림과 같은 곡선 (legD의 2차 곡선 · smooth()의 Q 곡선)을 점으로 */
+function legCtl(a, b, fly){
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+  const k = fly ? 48 : clamp(len * 0.2, 10, 40);
+  return [mx - dy / len * k, my + dx / len * k];
+}
+function legPts(a, b, fly, step){
+  const c = legCtl(a, b, fly), L = Math.hypot(c[0] - a.x, c[1] - a.y) + Math.hypot(b.x - c[0], b.y - c[1]);
+  const n = Math.max(6, Math.ceil(L / (step || 2))), out = [];
+  for (let i = 0; i <= n; i++){ const t = i / n, u = 1 - t; out.push([u*u*a.x + 2*u*t*c[0] + t*t*b.x, u*u*a.y + 2*u*t*c[1] + t*t*b.y]); }
+  return out;
+}
+function smoothPts(pts, step){
+  const out = [[pts[0][0], pts[0][1]]]; let cur = pts[0];
+  for (let i = 1; i < pts.length - 1; i++){
+    const c = pts[i], e = [(pts[i][0] + pts[i+1][0]) / 2, (pts[i][1] + pts[i+1][1]) / 2];
+    const n = Math.max(2, Math.ceil((Math.hypot(c[0] - cur[0], c[1] - cur[1]) + Math.hypot(e[0] - c[0], e[1] - c[1])) / step));
+    for (let k = 1; k <= n; k++){ const t = k / n, u = 1 - t; out.push([u*u*cur[0] + 2*u*t*c[0] + t*t*e[0], u*u*cur[1] + 2*u*t*c[1] + t*t*e[1]]); }
+    cur = e;
+  }
+  const l = pts[pts.length - 1], n = Math.max(1, Math.ceil(Math.hypot(l[0] - cur[0], l[1] - cur[1]) / step));
+  for (let k = 1; k <= n; k++){ const t = k / n; out.push([cur[0] + (l[0] - cur[0]) * t, cur[1] + (l[1] - cur[1]) * t]); }
+  return out;
+}
+/* 길이 기준으로 고르게 다시 찍기 → { pts, len, at(s) } */
+function arcPath(pts){
+  const cum = [0];
+  for (let i = 1; i < pts.length; i++) cum.push(cum[i-1] + Math.hypot(pts[i][0] - pts[i-1][0], pts[i][1] - pts[i-1][1]));
+  const len = cum[cum.length - 1];
+  const at = s => {
+    s = clamp(s, 0, len);
+    let lo = 0, hi = cum.length - 1;
+    while (hi - lo > 1){ const m = (lo + hi) >> 1; if (cum[m] <= s) lo = m; else hi = m; }
+    const seg = (cum[hi] - cum[lo]) || 1, t = (s - cum[lo]) / seg, a = pts[lo], b = pts[hi];
+    return { x: a[0] + (b[0] - a[0]) * t, y: a[1] + (b[1] - a[1]) * t, dx: (b[0] - a[0]) / seg, dy: (b[1] - a[1]) / seg };
+  };
+  return { pts, len, at };
+}
+const sstep = (a, b, v) => { const t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+const angLerp = (a, b, k) => { let d = (b - a) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; if (d < -Math.PI) d += Math.PI * 2; return a + d * k; };
+const easeBack = t => { const c = 1.9; t = clamp(t, 0, 1) - 1; return 1 + (c + 1) * t * t * t + c * t * t; };
+function build3d(T){
+  const X = x => x - WW / 2, Z = y => y - WH / 2;
+  const hex = n => { const v = tok(n); return v && v[0] === '#' ? v.slice(0, 7) : '#8899AA'; };
+  const col = n => new T.Color(hex(n));
+  const tinted = [];   /* [재질, 토큰, 곱할 값] — 테마가 바뀌면 다시 칠해요 */
+  const lam = (token, o, k) => { const m = new T.MeshLambertMaterial(Object.assign({ flatShading: true }, o)); if (token) tinted.push([m, token, k || 1]); return m; };
+  const basic = (token, o, k) => { const m = new T.MeshBasicMaterial(o || {}); if (token) tinted.push([m, token, k || 1]); return m; };
+  const box = (w, h, d) => new T.BoxGeometry(w, h, d);
+  const cyl = (rt, rb, h, s, open) => new T.CylinderGeometry(rt, rb, h, s || 8, 1, !!open);
+
+  /* ---- 렌더러 · 장면 · 카메라 · 빛 ---- */
+  const cv = document.createElement('canvas');
+  cv.className = 'm3d__cv'; cv.tabIndex = 0;
+  cv.setAttribute('aria-label', '3D 지도. 화살표 키로 돌리고, 플러스·마이너스 키로 확대·축소, F 키로 아바타 따라가기');
+  m3dEl.prepend(cv);
+  const renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = T.PCFShadowMap;
+  const scene = new T.Scene();
+  scene.fog = new T.Fog(0xffffff, 600, 1600);
+  const camera = new T.PerspectiveCamera(30, 1, 4, 3200);
+  const hemi = new T.HemisphereLight(0xffffff, 0x888888, 1.2);
+  const sun = new T.DirectionalLight(0xffffff, 2.2);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.bias = -0.0005; sun.shadow.normalBias = 0.6;
+  scene.add(hemi, sun, sun.target);
+  const world = new T.Group(), stat = new T.Group(); scene.add(world, stat);
+  const add = (geo, mat, x, y, z, parent, cast) => {
+    const m = new T.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0);
+    m.castShadow = cast !== false; m.receiveShadow = true; (parent || stat).add(m); return m;
+  };
+
+  /* ---- 모양 도우미 ---- */
+  function ribbonGeo(pts, w, y, us){
+    const pos = [], uv = [], idx = []; let acc = 0;
+    for (let i = 0; i < pts.length; i++){
+      const p = pts[i], a = pts[Math.max(0, i - 1)], b = pts[Math.min(pts.length - 1, i + 1)];
+      let dx = b[0] - a[0], dy = b[1] - a[1]; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+      const nx = -dy * w / 2, ny = dx * w / 2;
+      if (i) acc += Math.hypot(p[0] - pts[i-1][0], p[1] - pts[i-1][1]);
+      pos.push(X(p[0] + nx), y, Z(p[1] + ny), X(p[0] - nx), y, Z(p[1] - ny));
+      uv.push(acc * (us || 1), 0, acc * (us || 1), 1);
+      if (i){ const j = i * 2; idx.push(j - 2, j, j - 1, j - 1, j, j + 1); }
+    }
+    const g = new T.BufferGeometry();
+    g.setAttribute('position', new T.Float32BufferAttribute(pos, 3));
+    g.setAttribute('uv', new T.Float32BufferAttribute(uv, 2));
+    g.setIndex(idx); g.computeVertexNormals(); return g;
+  }
+  function shapeGeo(outer, holes){
+    const v = p => new T.Vector2(X(p[0]), -Z(p[1]));
+    const s = new T.Shape(outer.map(v));
+    (holes || []).forEach(h => s.holes.push(new T.Path(h.map(v))));
+    const g = new T.ShapeGeometry(s, 8); g.rotateX(-Math.PI / 2); return g;
+  }
+  const rrect = (x, y, w, h, r) => {
+    const o = [];
+    [[x + w - r, y + r, -Math.PI / 2], [x + w - r, y + h - r, 0], [x + r, y + h - r, Math.PI / 2], [x + r, y + r, Math.PI]].forEach(([cx, cy, a0]) => {
+      for (let i = 0; i <= 5; i++){ const a = a0 + i / 5 * Math.PI / 2; o.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]); }
+    });
+    return o;
+  };
+  const ellipse = (cx, cy, rx, ry, n) => Array.from({ length: n || 30 }, (_, i) => { const a = i / (n || 30) * Math.PI * 2; return [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]; });
+  function canvasTex(w, h){
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const t = new T.CanvasTexture(c); t.colorSpace = T.SRGBColorSpace; t.anisotropy = 4;
+    return { c, g: c.getContext('2d'), t };
+  }
+
+  /* ---- 물결 무늬 (emissiveMap으로 반짝이게) ---- */
+  const wave = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const g = c.getContext('2d'), R = rng(4242);
+    g.fillStyle = '#000'; g.fillRect(0, 0, 256, 256); g.strokeStyle = '#fff'; g.lineCap = 'round';
+    for (let i = 0; i < 30; i++){
+      const x = R() * 256, y = R() * 256, w = 10 + R() * 30, a = 0.3 + R() * 0.7, lw = 1.4 + R() * 2.4;
+      for (const ox of [0, -256]) for (const oy of [0, -256]){
+        g.globalAlpha = a; g.lineWidth = lw; g.beginPath(); g.moveTo(x + ox, y + oy); g.quadraticCurveTo(x + ox + w / 2, y + oy - 3 - a * 3, x + ox + w, y + oy); g.stroke();
+      }
+    }
+    const t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; return t;
+  })();
+  const wave2 = wave.clone(); wave2.repeat.set(1 / 34, 1 / 34); wave2.needsUpdate = true;
+  const mWater = lam('--water', { flatShading: false, emissive: 0xffffff, emissiveIntensity: 0.16, emissiveMap: wave });
+  const mWaterB = lam('--water', { flatShading: false, emissive: 0xffffff, emissiveIntensity: 0.16, emissiveMap: wave2 });
+  const mBank = lam('--water-edge', { flatShading: false });
+
+  /* ---- 땅 (디오라마 받침) ---- */
+  add(box(WW, 7, WH), lam('--soil'), 0, -3.52, 0, stat, false);
+  add(box(WW - 0.01, 6, WH - 0.01), lam('--soil-2'), 0, -10, 0, stat, false);
+  add(new T.PlaneGeometry(WW, WH).rotateX(-Math.PI / 2), lam('--land', { flatShading: false }), 0, 0, 0, stat, false);
+  const bayPts = smoothPts(BAY, 4), riverPts = smoothPts(RIVER, 3).filter(p => p[1] < bayY(p[0]) + 6), kandaPts = smoothPts(KANDA, 3);
+  add(shapeGeo(bayPts.concat([[WW, WH], [0, WH]])), mWaterB, 0, 0.06, 0, stat, false);
+  add(ribbonGeo(bayPts, 3.2, 0.07, 1 / 34), mBank, 0, 0, 0, stat, false);
+  add(ribbonGeo(riverPts, 21, 0.04, 1 / 34), mBank, 0, 0, 0, stat, false);
+  add(ribbonGeo(riverPts, 16, 0.08, 1 / 34), mWater, 0, 0, 0, stat, false);
+  add(ribbonGeo(kandaPts, 7.5, 0.07, 1 / 34), mWater, 0, 0, 0, stat, false);
+  /* 받침 옆면의 물 (바다·강이 가장자리에 닿는 곳) */
+  const mSide = lam('--water-edge');
+  add(box(WW, 4.2, 0.6), mSide, 0, -2.1, WH / 2 + 0.3, stat, false);
+  add(box(0.6, 4.2, WH - 376), mSide, WW / 2 + 0.3, -2.1, Z((376 + WH) / 2), stat, false);
+  add(box(0.6, 4.2, WH - 440), mSide, -WW / 2 - 0.3, -2.1, Z((440 + WH) / 2), stat, false);
+  add(box(18, 4.2, 0.6), mSide, X(252), -2.1, -WH / 2 - 0.3, stat, false);
+  add(box(0.6, 4.2, 7), mSide, -WW / 2 - 0.3, -2.1, Z(122), stat, false);
+  /* 공원 · 해자 */
+  const mPark = lam('--park', { flatShading: false });
+  add(shapeGeo(rrect(12, 194, 64, 80, 14)), mPark, 0, 0.03, 0, stat, false);
+  add(shapeGeo(ellipse(92, 40, 34, 22)), mPark, 0, 0.03, 0, stat, false);
+  add(shapeGeo(ellipse(154, 414, 22, 11)), mPark, 0, 0.09, 0, stat, false);
+  add(shapeGeo(rrect(5, 187, 78, 94, 19), [rrect(10.5, 192.5, 67, 83, 15)]), mWaterB, 0, 0.035, 0, stat, false);
+  /* 땅에 쓴 이름 (隅田川 · 皇居 · 東京湾) */
+  const texts = [];
+  function groundText(str, x, y, rot, size){
+    const ct = canvasTex(512, 128);
+    const m = new T.Mesh(new T.PlaneGeometry(size * 4, size).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ map: ct.t, transparent: true, depthWrite: false }));
+    m.position.set(X(x), 0.3, Z(y)); m.rotation.y = rot || 0; m.renderOrder = 1; world.add(m);
+    texts.push(Object.assign(ct, { str }));
+  }
+  groundText('隅 田 川', 236, 120, 62 * Math.PI / 180, 8.5);
+  groundText('皇 居', 44, 262, 0, 8);
+  groundText('東 京 湾', 280, 436, 0, 10);
+  function paintTexts(){
+    texts.forEach(t => {
+      t.g.clearRect(0, 0, 512, 128); t.g.fillStyle = hex('--muted'); t.g.globalAlpha = 0.9;
+      t.g.font = '600 84px "Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif';
+      t.g.textAlign = 'center'; t.g.textBaseline = 'middle'; t.g.fillText(t.str, 256, 66); t.t.needsUpdate = true;
+    });
+  }
+
+  /* ---- 이동 경로 · 철길 (건물이 길을 막지 않게 비워 둬요) ---- */
+  const allLegs = [];
+  D.days.forEach(d => { let p = d.start; d.items.forEach(it => { if (it.node !== p){ if (!N[p].sky && !N[it.node].sky) allLegs.push(legPts(N[p], N[it.node], false, 3)); p = it.node; } }); });
+  const jrPts = smoothPts(RAILS[0][1], 2), sobuPts = smoothPts(RAILS[1][1], 2);
+  const nodeList = Object.entries(N).filter(([, n]) => !n.sky);
+  const nearNode = (x, y) => { let d = Infinity, id = null; nodeList.forEach(([k, n]) => { const v = Math.hypot(n.x - x, n.y - y); if (v < d){ d = v; id = k; } }); return { d, id }; };
+  const rectHit = (pts, cx, cy, hw, hh, m) => pts.some(p => Math.hypot(Math.max(Math.abs(p[0] - cx) - hw, 0), Math.max(Math.abs(p[1] - cy) - hh, 0)) < m);
+  const onLegs = (x, y, m) => allLegs.some(p => nearLine(p, x, y, m));
+  const LMK = [[286, 60, 13], [206, 44, 13], [190, 60, 8], [256, 88, 11], [24, 392, 12], [112, 296, 7], [62, 212, 8]];
+  const dummy = new T.Object3D(), tmpC = new T.Color(), tmpC2 = new T.Color();
+  const gUnit = box(1, 1, 1).translate(0, 0.5, 0), gQuad = new T.PlaneGeometry(1, 1);
+
+  /* ---- 빌딩: 2D 낮 지도와 같은 시드로 같은 자리에 ---- */
+  const RB = rng(20261003), RH = rng(9157), blds = [];
+  const TALL = [[26, 132, 62, 24], [100, 300, 52, 12], [118, 246, 50, 14], [296, 150, 40, 9], [176, 186, 28, 4], [134, 368, 36, 5]];
+  for (let gy = 6; gy < WH; gy += 19) for (let gx = 4; gx < WW; gx += 21){
+    const x = gx + RB()*4 - 2, y = gy + RB()*4 - 2, w = 12 + RB()*6, h = 9 + RB()*5, cx = x + w/2, cy = y + h/2;
+    if (RB() < 0.1 || nearLine(RIVER, cx, cy, 15) || nearLine(KANDA, cx, cy, 8) || cy > bayY(cx) - 7 || inPark(cx, cy) || nodeList.some(([, n]) => Math.hypot(n.x - cx, n.y - cy) < 23)) continue;
+    if (allLegs.some(p => rectHit(p, cx, cy, w/2, h/2, 5.5)) || rectHit(jrPts, cx, cy, w/2, h/2, 3.4) || rectHit(sobuPts, cx, cy, w/2, h/2, 3.4)
+      || LMK.some(([lx, ly, r]) => Math.hypot(lx - cx, ly - cy) < r + Math.max(w, h) / 2)) continue;
+    let H = 3.5 + RH()*6; if (RH() < 0.16) H += 3 + RH()*8;
+    TALL.forEach(([tx, ty, r, b]) => { const d = Math.hypot(cx - tx, cy - ty); if (d < r) H += b * (1 - d / r) * (0.55 + RH()*0.9); });
+    blds.push({ cx, cy, w: w - 1.4, d: h - 1.4, H: Math.min(H, 40), hs: RH()*2 - 1, ls: RH(), k: (RH()*5) | 0 });
+  }
+  const iBld = new T.InstancedMesh(gUnit, new T.MeshLambertMaterial({ color: 0xffffff }), blds.length);
+  const iPl = new T.InstancedMesh(gUnit, lam('--block-edge'), blds.length);
+  const roofs = blds.filter(b => b.H > 7 && b.ls < 0.55);
+  const iRoof = new T.InstancedMesh(gUnit, lam('--block-edge', {}, 0.9), roofs.length);
+  iBld.castShadow = iBld.receiveShadow = iPl.receiveShadow = iRoof.castShadow = true;
+  blds.forEach((b, i) => {
+    dummy.position.set(X(b.cx), 0, Z(b.cy)); dummy.rotation.set(0, 0, 0);
+    dummy.scale.set(b.w, b.H, b.d); dummy.updateMatrix(); iBld.setMatrixAt(i, dummy.matrix);
+    dummy.scale.set(b.w + 1.6, 0.3, b.d + 1.6); dummy.updateMatrix(); iPl.setMatrixAt(i, dummy.matrix);
+  });
+  roofs.forEach((b, i) => {
+    dummy.position.set(X(b.cx) + (b.hs * 0.25) * b.w, b.H, Z(b.cy) + (b.ls - 0.3) * 0.4 * b.d);
+    dummy.scale.set(b.w * 0.34, 1.3, b.d * 0.3); dummy.updateMatrix(); iRoof.setMatrixAt(i, dummy.matrix);
+  });
+  world.add(iBld, iPl, iRoof);
+  /* 유리창 띠(낮) · 켜진 창문(밤) */
+  const RW = rng(5309), bands = [], lits = [];
+  blds.forEach(b => {
+    const floors = Math.floor((b.H - 1.2) / 2.7);
+    [[0, 1, b.w, b.d], [0, -1, b.w, b.d], [1, 0, b.d, b.w], [-1, 0, b.d, b.w]].forEach(([nx, nz, fw, dep]) => {
+      const px = X(b.cx) + nx * (dep / 2 + 0.05), pz = Z(b.cy) + nz * (dep / 2 + 0.05), ry = Math.atan2(nx, nz);
+      const cols = Math.max(1, Math.floor((fw - 1) / 2.3)), cw = (fw - 1) / cols;
+      for (let f = 0; f < floors; f++){
+        const y = 1.75 + f * 2.7;
+        bands.push([px, y, pz, ry, fw - 1.3]);
+        for (let c = 0; c < cols; c++) if (RW() < 0.34){ const off = (c - (cols - 1) / 2) * cw; lits.push([px + nx * 0.06 + off * nz, y, pz + nz * 0.06 - off * nx, ry, RW()]); }
+      }
+    });
+  });
+  const iBand = new T.InstancedMesh(gQuad, lam('--glass', { flatShading: false }), bands.length);
+  bands.forEach((q, i) => { dummy.position.set(q[0], q[1], q[2]); dummy.rotation.set(0, q[3], 0); dummy.scale.set(q[4], 1.05, 1); dummy.updateMatrix(); iBand.setMatrixAt(i, dummy.matrix); });
+  const iLit = new T.InstancedMesh(gQuad, new T.MeshBasicMaterial({ color: 0xffffff }), lits.length);
+  lits.forEach((q, i) => { dummy.position.set(q[0], q[1], q[2]); dummy.rotation.set(0, q[3], 0); dummy.scale.set(1.2, 1.0, 1); dummy.updateMatrix(); iLit.setMatrixAt(i, dummy.matrix); });
+  iBand.receiveShadow = true;
+  world.add(iBand, iLit);
+
+  /* ---- 나무: 공원 + 스미다강 둑길 (가을이라 은행잎 몇 그루) ---- */
+  const RT = rng(8086), trees = [];
+  const treeOK = (x, y) => !onLegs(x, y, 5) && !nearLine(jrPts, x, y, 4) && !nearLine(sobuPts, x, y, 4) && nearNode(x, y).d > 13 && !LMK.some(([lx, ly, r]) => Math.hypot(lx - x, ly - y) < r + 2);
+  for (let y = 199; y < 272; y += 9) for (let x = 17; x < 74; x += 9){
+    const px = x + RT()*4 - 2, py = y + RT()*4 - 2;
+    if (RT() < 0.25 || (Math.abs(py - 262) < 6 && px > 24 && px < 64) || !treeOK(px, py)) continue;
+    trees.push([px, py, RT() < 0.65 ? 1 : 0, 0.8 + RT()*0.45, RT()]);
+  }
+  for (let y = 22; y < 60; y += 7.5) for (let x = 62; x < 124; x += 7.5){
+    const px = x + RT()*3 - 1.5, py = y + RT()*3 - 1.5;
+    if (((px - 92) / 30) ** 2 + ((py - 40) / 18) ** 2 > 1 || RT() < 0.18 || !treeOK(px, py)) continue;
+    trees.push([px, py, 0, 0.8 + RT()*0.5, RT()]);
+  }
+  for (let y = 407; y < 422; y += 6.5) for (let x = 136; x < 174; x += 7){
+    const px = x + RT()*2, py = y + RT()*2;
+    if (((px - 154) / 19) ** 2 + ((py - 414) / 9) ** 2 > 1 || !treeOK(px, py)) continue;
+    trees.push([px, py, RT() < 0.5 ? 1 : 0, 0.7 + RT()*0.3, RT()]);
+  }
+  const BR2D = [[234, 80], [201, 168], [199, 214], [190, 270]];
+  for (let i = 3; i < riverPts.length - 1; i += 4){
+    const p = riverPts[i], q = riverPts[i + 1], l = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, nx = -(q[1] - p[1]) / l, ny = (q[0] - p[0]) / l;
+    for (const sd of [-1, 1]){
+      const x = p[0] + nx * 12.8 * sd, y = p[1] + ny * 12.8 * sd;
+      if (y > bayY(x) - 9 || BR2D.some(b => Math.hypot(b[0] - x, b[1] - y) < 16) || RT() < 0.2 || !treeOK(x, y)) continue;
+      trees.push([x, y, 0, 0.6 + RT()*0.25, RT()]);
+    }
+  }
+  const rounds = trees.filter(t => !t[2]), pines = trees.filter(t => t[2]);
+  const iTrunk = new T.InstancedMesh(cyl(0.32, 0.5, 2.4, 5).translate(0, 1.2, 0), lam('--trunk'), trees.length);
+  const iRound = new T.InstancedMesh(new T.IcosahedronGeometry(2.5, 0).translate(0, 3.9, 0), new T.MeshLambertMaterial({ flatShading: true }), rounds.length);
+  const iPine = new T.InstancedMesh(new T.ConeGeometry(2.3, 5.8, 6).translate(0, 4.7, 0), new T.MeshLambertMaterial({ flatShading: true }), pines.length);
+  trees.forEach((t, i) => { dummy.position.set(X(t[0]), 0, Z(t[1])); dummy.rotation.set(0, t[4] * 6.28, 0); dummy.scale.setScalar(t[3]); dummy.updateMatrix(); iTrunk.setMatrixAt(i, dummy.matrix); });
+  rounds.forEach((t, i) => { dummy.position.set(X(t[0]), 0, Z(t[1])); dummy.rotation.set(0, t[4] * 6.28, 0); dummy.scale.set(t[3], t[3] * (0.9 + t[4] * 0.25), t[3]); dummy.updateMatrix(); iRound.setMatrixAt(i, dummy.matrix); });
+  pines.forEach((t, i) => { dummy.position.set(X(t[0]), 0, Z(t[1])); dummy.rotation.set(0, t[4] * 6.28, 0); dummy.scale.setScalar(t[3]); dummy.updateMatrix(); iPine.setMatrixAt(i, dummy.matrix); });
+  [iTrunk, iRound, iPine].forEach(m => { m.castShadow = m.receiveShadow = true; world.add(m); });
+
+  /* ---- 다리: 2D 그림의 다리 + 경로가 강을 건너는 곳 ---- */
+  const inWater = (x, y) => (nearLine(RIVER, x, y, 10.5) || nearLine(KANDA, x, y, 4.6)) && y < bayY(x) - 2;
+  const bridges = BR2D.map(([x, y]) => ({ x, y, len: 27, ang: 0, w: 5.4 }));
+  allLegs.forEach(p => {
+    let s = -1;
+    for (let i = 0; i <= p.length; i++){
+      const w = i < p.length && inWater(p[i][0], p[i][1]);
+      if (w && s < 0) s = i;
+      else if (!w && s >= 0){
+        const a = p[Math.max(0, s - 2)], b = p[Math.min(p.length - 1, i + 1)], bx = (a[0] + b[0]) / 2, by = (a[1] + b[1]) / 2;
+        if (!bridges.some(o => Math.hypot(o.x - bx, o.y - by) < 18)) bridges.push({ x: bx, y: by, len: Math.hypot(b[0] - a[0], b[1] - a[1]) + 3, ang: Math.atan2(b[1] - a[1], b[0] - a[0]), w: 7 });
+        s = -1;
+      }
+    }
+  });
+  const iDeck = new T.InstancedMesh(gUnit, lam('--block'), bridges.length);
+  const iRail = new T.InstancedMesh(gUnit, new T.MeshLambertMaterial({ flatShading: true }), bridges.length * 2);
+  bridges.forEach((b, i) => {
+    dummy.rotation.set(0, -b.ang, 0);
+    dummy.position.set(X(b.x), 0.15, Z(b.y)); dummy.scale.set(b.len, 0.75, b.w); dummy.updateMatrix(); iDeck.setMatrixAt(i, dummy.matrix);
+    for (const sd of [-1, 1]){
+      dummy.position.set(X(b.x) - Math.sin(b.ang) * sd * (b.w / 2 - 0.2), 0.9, Z(b.y) + Math.cos(b.ang) * sd * (b.w / 2 - 0.2));
+      dummy.scale.set(b.len, 0.85, 0.36); dummy.updateMatrix(); iRail.setMatrixAt(i * 2 + (sd > 0 ? 1 : 0), dummy.matrix);
+    }
+  });
+  iDeck.castShadow = iDeck.receiveShadow = iRail.castShadow = true;
+  world.add(iDeck, iRail);
+  const BRIDGE_TOK = ['--blue', '--b-body', '--gold', '--red', '--a-body'];
+
+  /* ---- 철길 · 전철 (역 근처에서는 땅속으로) ---- */
+  const mBed = lam('--block-edge', { flatShading: false });
+  add(ribbonGeo(jrPts, 4.4, 0.1, 1), mBed, 0, 0, 0, stat, false);
+  add(ribbonGeo(sobuPts, 4.4, 0.1, 1), mBed, 0, 0, 0, stat, false);
+  add(ribbonGeo(jrPts, 1.1, 0.13, 1), lam('--line-jr', { flatShading: false }), 0, 0, 0, stat, false);
+  add(ribbonGeo(sobuPts, 1.1, 0.13, 1), lam('--line-sobu', { flatShading: false }), 0, 0, 0, stat, false);
+  const mTrainWin = new T.MeshBasicMaterial({ color: 0x223355 }), mCar = lam('--tt-w');
+  const trains = [];
+  function mkTrain(pts, token, n, speed, s0){
+    const path = arcPath(pts), stripe = lam(token), cars = [];
+    for (let i = 0; i < n; i++){
+      const g = new T.Group();
+      add(box(2.8, 2.3, 6.6), mCar, 0, 1.15, 0, g);
+      add(box(2.86, 0.5, 6.66), stripe, 0, 0.75, 0, g, false);
+      add(box(2.9, 0.7, 5.4), mTrainWin, 0, 1.6, 0, g, false);
+      world.add(g); cars.push(g);
+    }
+    trains.push({ path, cars, speed, s0 });
+  }
+  mkTrain(jrPts, '--line-jr', 4, 26, 40);
+  mkTrain(sobuPts, '--line-sobu', 3, 22, 10);
+
+  /* ---- 배: 스미다강 유람선(야카타부네) 둘 · 만의 페리 ---- */
+  const boats = [], mLantern = basic('--gold');
+  function mkBoat(pts, speed, s0, ferry){
+    const g = new T.Group();
+    if (ferry){
+      add(box(4.2, 1.5, 13), mCar, 0, 0.6, 0, g);
+      add(box(4.26, 0.5, 13.06), lam('--blue'), 0, 0.9, 0, g, false);
+      add(box(3.2, 2.2, 6), mCar, 0, 2.4, -1, g);
+      add(box(3.24, 0.6, 5), mTrainWin, 0, 2.7, -1, g, false);
+    } else {
+      add(box(2.6, 1.0, 7.6), lam('--trunk'), 0, 0.45, 0, g);
+      add(box(2.1, 1.5, 5.4), mCar, 0, 1.7, 0, g);
+      add(box(2.14, 0.55, 4.6), mTrainWin, 0, 1.8, 0, g, false);
+      add(box(2.7, 0.35, 6.1), lam('--red'), 0, 2.6, 0, g);
+      for (const z of [-3.2, 3.2]) add(new T.SphereGeometry(0.42, 8, 6), mLantern, 0, 2.1, z, g, false);
+    }
+    world.add(g); boats.push({ g, path: arcPath(pts), speed, s0, ph: s0 * 0.13 });
+  }
+  mkBoat(riverPts, 5.5, 30, false);
+  mkBoat(riverPts, 4.2, 260, false);
+  mkBoat(smoothPts([[24, 454], [110, 450], [200, 444], [290, 424], [350, 404]], 4), 4.5, 60, true);
+
+  /* ---- 랜드마크 ---- */
+  const mTower = lam('--tower', { emissive: 0x000000 }), mDeck = lam('--tt-w', { emissive: 0x000000 }), mGlass = lam('--glass');
+  const mTT = lam('--tt', { emissive: 0x000000 }), mTTW = lam('--tt-w', { emissive: 0x000000 });
+  const mRed = lam('--red'), mKawara = lam('--kawara'), mStone = lam('--tt-w'), mGold = lam('--gold', { emissive: 0x000000 });
+  const grp = (x, y) => { const g = new T.Group(); g.position.set(X(x), 0, Z(y)); stat.add(g); return g; };
+  const pyr = (r, h) => { const g = new T.ConeGeometry(r, h, 4); g.rotateY(Math.PI / 4); return g; };
+  /* 스카이트리 */
+  const st = grp(286, 60);
+  add(cyl(2.3, 5.4, 40, 6), mTower, 0, 20, 0, st);
+  add(cyl(4.6, 4.2, 4.2, 14), mDeck, 0, 37, 0, st);
+  add(cyl(4.75, 4.75, 1.3, 14), mGlass, 0, 37.4, 0, st);
+  add(cyl(1.7, 2.3, 16, 6), mTower, 0, 48, 0, st);
+  add(cyl(3.1, 2.8, 2.4, 12), mDeck, 0, 53.5, 0, st);
+  add(cyl(0.4, 1.1, 18, 6), mTower, 0, 65, 0, st);
+  const beacon = add(new T.SphereGeometry(0.8, 8, 6), basic('--red'), 0, 74.6, 0, st, false); beacon.userData.live = true;
+  add(box(17, 4.4, 8), lam('--block'), 10, 2.2, 5, st);
+  /* 도쿄타워 */
+  const tt = grp(24, 392);
+  [[0, 12, 7.2, 4.6, mTT], [12, 15, 4.6, 4.0, mTTW], [15, 25, 4.0, 2.5, mTT], [25, 28, 2.5, 2.1, mTTW], [28, 40, 2.1, 1.1, mTT], [40, 43, 1.1, 0.9, mTTW], [43, 55, 0.9, 0.25, mTT]]
+    .forEach(([y0, y1, rb, rt, m]) => { const g = cyl(rt, rb, y1 - y0, 4); g.rotateY(Math.PI / 4); add(g, m, 0, (y0 + y1) / 2, 0, tt); });
+  add(box(6.8, 2.8, 6.8), mTTW, 0, 14.6, 0, tt);
+  add(box(3.4, 1.6, 3.4), mTTW, 0, 28.6, 0, tt);
+  /* 센소지 본당 · 오층탑 */
+  const ss = grp(206, 44);
+  add(box(15, 1.2, 11), mStone, 0, 0.6, 0, ss);
+  add(box(12, 5, 8.5), mRed, 0, 3.7, 0, ss);
+  const sr = pyr(11.5, 5.4); sr.scale(1, 1, 0.78); add(sr, mKawara, 0, 8.9, 0, ss);
+  const pg = grp(190, 60);
+  add(box(6, 1, 6), mStone, 0, 0.5, 0, pg);
+  for (let i = 0; i < 5; i++){ const s = 4.2 - i * 0.42, y = 1 + i * 3.1; add(box(s, 2, s), mRed, 0, y + 1, 0, pg); add(pyr((s + 2.6) * 0.75, 1.3), mKawara, 0, y + 2.6, 0, pg); }
+  add(cyl(0.22, 0.4, 5, 6), mGold, 0, 19.2, 0, pg);
+  /* 아사히 맥주 본사 (황금 불꽃 + 거품 얹은 맥주잔 빌딩) */
+  const ah = grp(256, 88);
+  add(box(7, 7, 7), lam('--hud'), -2.5, 3.5, 2, ah);
+  const fl = new T.ConeGeometry(2.1, 9, 7); fl.rotateZ(Math.PI / 2.25); add(fl, mGold, -1.2, 9.4, 2, ah);
+  add(box(6, 18, 6), mGold, 5, 9, -2.5, ah);
+  add(box(6.3, 2.2, 6.3), mStone, 5, 19.1, -2.5, ah);
+  /* 긴자 와코 시계탑 */
+  const wk = grp(112, 296);
+  add(box(8, 9, 8), mStone, 0, 4.5, 0, wk);
+  add(cyl(3.2, 3.2, 4.6, 12), mStone, 0, 11.3, 0, wk);
+  add(new T.SphereGeometry(2.5, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2), mKawara, 0, 13.6, 0, wk);
+  add(new T.CircleGeometry(1.45, 18), basic('--surface'), 0, 11.5, 3.27, wk, false);
+  add(box(0.22, 1.1, 0.1), basic('--eye'), 0, 11.85, 3.33, wk, false);
+  add(box(0.8, 0.22, 0.1), basic('--eye'), 0.32, 11.5, 3.33, wk, false);
+  /* 고쿄 후시미 망루 */
+  const yg = grp(62, 212);
+  add(box(10, 3, 9), lam('--block-edge'), 0, 1.5, 0, yg);
+  [[7.4, 2.6, 6.4, 3, 6.4], [5.6, 2.2, 4.8, 7.6, 5], [3.8, 1.9, 3.2, 11.6, 3.7]].forEach(([w, h, d, y, r]) => { add(box(w, h, d), mStone, 0, y + h / 2, 0, yg); const rf = pyr(r, 1.6); rf.scale(1, 1, d / w); add(rf, mKawara, 0, y + h + 0.8, 0, yg); });
+
+  /* ---- 구름 그림자 (낮에만): 구름은 화면에 그리지 않고 그림자만 도시 위로 흘러가요 ---- */
+  const clouds = [], mCloud = new T.MeshBasicMaterial(), RC = rng(777), gPuff = new T.IcosahedronGeometry(1, 0);
+  sun.shadow.camera.layers.enable(1);
+  for (let i = 0; i < 7; i++){
+    const g = new T.Group(), n = 3 + ((RC() * 3) | 0);
+    for (let k = 0; k < n; k++){
+      const r = 9 + RC() * 9, m = new T.Mesh(gPuff, mCloud);
+      m.scale.set(r, r * 0.5, r * 0.8); m.position.set((k - n / 2) * r * 0.9, RC() * 3, (RC() - 0.5) * 10);
+      m.castShadow = true; m.layers.set(1); g.add(m);
+    }
+    g.position.set(-300 + RC() * 600, 130 + RC() * 20, -220 + RC() * 440); g.userData.v = 2.4 + RC() * 2.8;
+    clouds.push(g); world.add(g);
+  }
+
+  /* ---- 장소 노드: 받침(아바타가 올라서요) + 기둥 위 토큰(이모지) + 이름표(HTML 버튼) ---- */
+  const PLAT = 2.6, nodes3 = [], hitList = [];
+  const gPlinth = cyl(10.8, 11.4, 0.7, 28), gPlat = cyl(9.6, 9.9, 1.9, 28, true), gTop = new T.CircleGeometry(9.6, 28).rotateX(-Math.PI / 2), gPole = cyl(0.55, 0.72, 25, 6);
+  const gDisk = cyl(5.4, 5.4, 1.3, 26); gDisk.rotateX(Math.PI / 2);
+  const gFace = new T.CircleGeometry(4.72, 28), gHalo = new T.RingGeometry(9.9, 12.4, 44).rotateX(-Math.PI / 2), gRing = new T.RingGeometry(8.3, 9.7, 44).rotateX(-Math.PI / 2);
+  const mEdge = lam('--edge'), mPlinth = lam('--block-edge'), mTop = lam('--surface', { flatShading: false }), mTopBase = lam('--gold-tint', { flatShading: false }), mClear = basic('--gold');
+  nodeList.forEach(([id, n]) => {
+    const g = grp(n.x, n.y);
+    add(gPlinth, mPlinth, 0, 0.35, 0, g, false);
+    add(gPlat, mEdge, 0, 1.65, 0, g); add(gTop, n.base ? mTopBase : mTop, 0, PLAT, 0, g, false);
+    const ring = add(gRing, mClear, 0, PLAT + 0.04, 0, g, false); ring.visible = false; ring.userData.live = true;
+    const halo = new T.Mesh(gHalo, new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false }));
+    halo.position.y = PLAT + 0.06; halo.visible = false; halo.userData.live = true; g.add(halo);
+    add(gPole, mEdge, 0, PLAT + 12.5, -7.6, g);
+    const sign = new T.Group(); sign.position.set(0, PLAT + 27.4, -7.6); sign.rotation.order = 'YXZ'; sign.userData.live = true; g.add(sign);
+    add(gDisk, mEdge, 0, 0, 0, sign);
+    const ct = canvasTex(128, 128);
+    const face = new T.Mesh(gFace, new T.MeshBasicMaterial({ map: ct.t, transparent: true }));
+    face.position.z = 0.67; sign.add(face);
+    const hit = new T.Mesh(cyl(12.5, 12.5, 38, 8)); hit.position.set(X(n.x), 19, Z(n.y)); hit.updateMatrixWorld(); hit.userData.id = id; hitList.push(hit);
+    const lbl = document.createElement('button');
+    lbl.type = 'button'; lbl.className = 'n3'; lbl.dataset.node = id;
+    lbl.innerHTML = `<span class="n3__ok" aria-hidden="true">✓</span>${esc(n.label || n.name)}`;
+    m3dTags.appendChild(lbl);
+    nodes3.push({ id, n, g, sign, face, ct, halo, ring, lbl, wx: X(n.x), wz: Z(n.y), ph: (n.x * 13 + n.y * 7) % 6.28, here: false, dim: false, lx: NaN, ly: NaN, off: null, pop: 0 });
+  });
+  function paintFaces(){
+    nodes3.forEach(o => {
+      const g = o.ct.g; g.clearRect(0, 0, 128, 128);
+      g.fillStyle = hex(o.n.base ? '--gold-tint' : '--surface'); g.beginPath(); g.arc(64, 64, 63, 0, Math.PI * 2); g.fill();
+      g.font = '74px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText(o.n.e, 64, 70); o.ct.t.needsUpdate = true;
+    });
+  }
+
+  /* ---- 경로: 반짝이는 점 + 흐릿한 띠 (2D legD와 같은 곡선) ---- */
+  const DOTS = 900, iDot = new T.InstancedMesh(new T.IcosahedronGeometry(1, 0), lam('--route', { emissive: 0x000000 }), DOTS);
+  iDot.count = 0; iDot.frustumCulled = false; world.add(iDot);
+  const trailG = new T.Group(); world.add(trailG);
+  const mTrail = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25, depthWrite: false });
+  let dots = [], routeT0 = 0;
+  const surfAt = (x, y) => { const nn = nearNode(x, y); return nn.d < 9.7 ? PLAT : (inWater(x, y) ? 0.9 : 0); };
+  function route(di){
+    const day = D.days[di], seq = new Set([day.start]);
+    day.items.forEach(it => seq.add(it.node));
+    trailG.children.forEach(m => m.geometry.dispose()); trailG.clear();
+    dots = []; let k = 0;
+    legs.forEach(l => {
+      const a = N[l.a], b = N[l.b]; if (a.sky || b.sky) return;
+      const ap = arcPath(legPts(a, b, l.fly, 1.5)), n = Math.max(1, Math.floor(ap.len / 4.6));
+      for (let i = 0; i <= n; i++){
+        const p = ap.at(i / n * ap.len);
+        if (Math.hypot(p.x - a.x, p.y - a.y) < 11.5 || Math.hypot(p.x - b.x, p.y - b.y) < 11.5 || dots.length >= DOTS) continue;
+        dots.push({ x: X(p.x), y: 1.1 + (inWater(p.x, p.y) ? 0.9 : 0), z: Z(p.y), k: k++ });
+      }
+      const m = new T.Mesh(ribbonGeo(ap.pts, 5.2, 0.18, 1), mTrail); m.renderOrder = 2; trailG.add(m);
+    });
+    iDot.count = dots.length; routeT0 = clock;
+    nodes3.forEach(o => {
+      const inR = seq.has(o.id), cnt = day.items.filter(it => it.node === o.id).length;
+      o.dim = !inR; o.lbl.classList.toggle('is-dim', !inR);
+      o.face.material.opacity = inR ? 1 : 0.55;
+      o.lbl.setAttribute('aria-label', `${o.n.name} ${o.n.ja}${cnt ? `, 퀘스트 ${cnt}개` : (o.n.bars ? ', 주점 던전 보기' : '')}`);
+    });
+  }
+  function animDots(t){
+    const since = t - routeT0, total = Math.min(1.3, dots.length * 0.014), n = Math.max(1, dots.length);
+    for (const d of dots){
+      const ap = clamp((since - d.k / n * total) / 0.3, 0, 1);
+      const pulse = Math.pow(Math.max(0, Math.sin(t * 2.4 - d.k * 0.36)), 10);
+      const s = (ap < 1 ? easeBack(ap) : 1) * (0.8 + pulse * 0.45);
+      dummy.position.set(d.x, d.y + pulse * 0.6, d.z); dummy.rotation.set(0.4, t * 0.9 + d.k, 0);
+      dummy.scale.setScalar(Math.max(0.001, s)); dummy.updateMatrix(); iDot.setMatrixAt(d.k, dummy.matrix);
+    }
+    iDot.instanceMatrix.needsUpdate = true;
+  }
+
+  /* ---- 아바타 둘 (A: 노란 비니·파란 후드, B: 빨간 캡·초록 후드) ---- */
+  const HM = { skin: lam('--skin'), legs: lam('--legs'), shoe: lam('--edge'), eye: basic('--eye'), white: lam('--tt-w'), mug: lam('--gold'), foam: lam('--tt-w'),
+    cheek: basic('--bag2', { transparent: true, opacity: 0.5, depthWrite: false }), blob: basic('--drop', { transparent: true, opacity: 0.22, depthWrite: false }) };
+  const bagM = ['--bag1', '--bag2', '--bag3'].map(t => lam(t));
+  const tags = [];
+  function makeHero(id){
+    const A = id === 'a', tk = A ? ['--a-body', '--a-hat'] : ['--b-body', '--b-hat'];
+    const body = lam(tk[0]), bodyD = lam(tk[0], {}, 0.8), hat = lam(tk[1]), hatD = lam(tk[1], {}, 0.84);
+    const r3 = new T.Group(), pel = new T.Group(); r3.add(pel);
+    const mk = (geo, mat, x, y, z, p) => add(geo, mat, x, y, z, p);
+    const legL = new T.Group(), legR = new T.Group(); legL.position.set(-0.72, 3, 0); legR.position.set(0.72, 3, 0); pel.add(legL, legR);
+    [legL, legR].forEach(l => { mk(box(1.2, 2.6, 1.3), HM.legs, 0, -1.3, 0, l); mk(box(1.36, 0.72, 1.95), HM.shoe, 0, -2.64, 0.28, l); });
+    const torso = new T.Group(); torso.position.y = 3; pel.add(torso);
+    mk(cyl(1.95, 2.35, 3.9, 8), body, 0, 1.95, 0, torso);
+    mk(box(2.3, 1.0, 0.4), bodyD, 0, 1.15, 2.02, torso);
+    mk(new T.IcosahedronGeometry(1.45, 0), bodyD, 0, 3.75, -1.3, torso);
+    for (const sx of [-0.45, 0.45]) mk(cyl(0.1, 0.1, 1.1, 4), HM.white, sx, 3.1, 1.96, torso);
+    const arms = [-1, 1].map(sd => {
+      const a = new T.Group(); a.position.set(sd * 2.2, 3.55, 0); a.rotation.z = sd * 0.12; torso.add(a);
+      mk(box(1.0, 2.9, 1.1), body, 0, -1.35, 0, a); mk(new T.IcosahedronGeometry(0.62, 0), HM.skin, 0, -3.0, 0, a); return a;
+    });
+    const head = new T.Group(); head.position.y = 3.95; torso.add(head);
+    mk(new T.IcosahedronGeometry(2.55, 1), HM.skin, 0, 2.4, 0, head);
+    const eyes = [-0.88, 0.88].map(x => mk(box(0.5, 0.82, 0.3), HM.eye, x, 2.0, 2.36, head));
+    for (const x of [-1.45, 1.45]){ const c = mk(new T.CircleGeometry(0.4, 10), HM.cheek, x, 1.62, 2.02, head); c.castShadow = false; c.rotation.y = x * 0.42; }
+    const sm = mk(new T.TorusGeometry(0.4, 0.12, 4, 10, Math.PI), HM.eye, 0, 1.5, 2.4, head); sm.rotation.z = Math.PI; sm.castShadow = false;
+    if (A){
+      mk(new T.SphereGeometry(2.75, 12, 7, 0, Math.PI * 2, 0, Math.PI / 2), hat, 0, 3.1, 0, head);
+      mk(cyl(2.82, 2.86, 0.9, 14), hatD, 0, 3.3, 0, head);
+      mk(new T.IcosahedronGeometry(0.85, 0), hat, 0, 5.95, 0, head);
+    } else {
+      mk(new T.SphereGeometry(2.72, 12, 7, 0, Math.PI * 2, 0, Math.PI / 2), hat, 0, 3.15, 0, head);
+      mk(new T.CylinderGeometry(2.15, 2.15, 0.28, 12, 1, false, -Math.PI / 2, Math.PI), hatD, 0, 3.2, 1.3, head);
+      mk(new T.IcosahedronGeometry(0.36, 0), hatD, 0, 5.9, 0, head);
+    }
+    const outer = A ? arms[0] : arms[1], inner = A ? arms[1] : arms[0], so = A ? -1 : 1;
+    const bags = bagM.map((m, i) => { const b = new T.Group(); b.position.set(so * 0.15, -3.2, 0); outer.add(b); mk(box(1.5, 1.8, 0.85), m, so * i * 0.3, -1.05 - i * 0.1, (i - 1) * 0.6, b); b.visible = false; return b; });
+    const mug = new T.Group(); mug.position.set(0, -3.3, 0.45); inner.add(mug);
+    mk(cyl(0.62, 0.62, 1.35, 8), HM.mug, 0, 0, 0, mug); mk(cyl(0.66, 0.66, 0.42, 8), HM.foam, 0, 0.84, 0, mug); mug.visible = false;
+    const blob = new T.Mesh(new T.CircleGeometry(2.7, 20).rotateX(-Math.PI / 2), HM.blob); blob.renderOrder = 1; r3.add(blob);
+    const tc = canvasTex(64, 64), tag = new T.Sprite(new T.SpriteMaterial({ map: tc.t, transparent: true }));
+    tag.scale.setScalar(2.5); tag.position.y = 15.4; r3.add(tag); tags.push({ tc, tok: tk[1], ch: A ? 'A' : 'B', ink: A ? '--on-gold' : '--on-red' });
+    return { r3, pel, legL, legR, torso, arms, head, eyes, bags, mug, blob, tag, outer, inner, so, ph: A ? 0 : 0.7, blinkAt: 1 + Math.random() * 3, look: 0 };
+  }
+  function paintTags(){
+    tags.forEach(t => {
+      const g = t.tc.g; g.clearRect(0, 0, 64, 64);
+      g.fillStyle = hex('--edge'); g.beginPath(); g.arc(32, 32, 30, 0, Math.PI * 2); g.fill();
+      g.fillStyle = hex(t.tok); g.beginPath(); g.arc(32, 32, 25, 0, Math.PI * 2); g.fill();
+      g.fillStyle = hex(t.ink); g.font = '700 30px "Silkscreen",ui-monospace,monospace'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText(t.ch, 32, 34); t.tc.t.needsUpdate = true;
+    });
+  }
+  const CREW = 1.42, crew = new T.Group(); crew.scale.setScalar(CREW); world.add(crew);
+  const hA = makeHero('a'), hB = makeHero('b'), heroes3 = [hA, hB];
+  hA.r3.position.x = -3.1; hB.r3.position.x = 3.1; hA.r3.rotation.y = 0.16; hB.r3.rotation.y = -0.16;
+  crew.add(hA.r3, hB.r3);
+  const crewLamp = new T.PointLight(0xffd86b, 0, 80, 1.4); crewLamp.position.set(0, 17, 7); crew.add(crewLamp);
+
+  /* 아바타는 관절마다 한 덩어리(정점 색)로 합쳐서 그리기 횟수를 줄여요. 눈은 깜빡여야 해서 따로 */
+  const tokOf = new Map(tinted.map(([m, tk, k]) => [m, [tk, k]]));
+  const mRig = new T.MeshLambertMaterial({ vertexColors: true, flatShading: true }), rigs = [];
+  function rig(bone, cast, keep){
+    const kids = bone.children.filter(c => c.isMesh && !(keep || []).includes(c)); if (!kids.length) return;
+    let n = 0;
+    const geos = kids.map(m => { m.updateMatrix(); const g = (m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone()).applyMatrix4(m.matrix); n += g.attributes.position.count; return [g, m.material]; });
+    const pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), parts = []; let o = 0;
+    geos.forEach(([g, mat]) => { const c = g.attributes.position.count; pos.set(g.attributes.position.array, o * 3); nor.set(g.attributes.normal.array, o * 3); parts.push([o, c, mat]); o += c; g.dispose(); });
+    const mg = new T.BufferGeometry();
+    mg.setAttribute('position', new T.BufferAttribute(pos, 3)); mg.setAttribute('normal', new T.BufferAttribute(nor, 3)); mg.setAttribute('color', new T.BufferAttribute(new Float32Array(n * 3), 3));
+    kids.forEach(m => bone.remove(m));
+    const mesh = new T.Mesh(mg, mRig); mesh.castShadow = cast; mesh.receiveShadow = true; bone.add(mesh); rigs.push({ mg, parts });
+  }
+  function paintRigs(){
+    rigs.forEach(r => {
+      const a = r.mg.attributes.color;
+      r.parts.forEach(([o, c, mat]) => {
+        if (mat === HM.cheek) tmpC.copy(col('--skin')).lerp(col('--bag2'), 0.5);
+        else { const t = tokOf.get(mat); tmpC.set(t ? hex(t[0]) : '#FFFFFF'); if (t && t[1] !== 1) tmpC.multiplyScalar(t[1]); }
+        for (let i = 0; i < c; i++) a.setXYZ(o + i, tmpC.r, tmpC.g, tmpC.b);
+      });
+      a.needsUpdate = true;
+    });
+  }
+  heroes3.forEach(h => { [h.legL, h.legR, h.torso, h.arms[0], h.arms[1]].forEach(b => rig(b, true)); rig(h.head, true, h.eyes); rig(h.mug, false); });
+  const crewHit = new T.Mesh(cyl(9, 9, 22, 8));
+  const poof = new T.Mesh(new T.RingGeometry(3, 4.6, 32).rotateX(-Math.PI / 2), basic('--surface', { transparent: true, opacity: 0, depthWrite: false }));
+  world.add(poof);
+  /* 실시간 위치: 아바타 → 목표 노드까지 금색 점선 호 + 표적 고리 */
+  const GD = 44, GR = 18, iGuide = new T.InstancedMesh(box(1, 1, 1), basic('--gold'), GD + GR);
+  iGuide.frustumCulled = false; iGuide.visible = false; world.add(iGuide);
+
+  /* ---- 카메라: 한 손가락 회전(각도 제한) · 두 손가락 핀치 줌·이동 · 휠 줌 · 키보드 ---- */
+  const AZ0 = 0.36, POL0 = 0.94, AZL = 1.25, PMIN = 0.42, PMAX = 1.22, ZMIN = 0.35, ZMAX = 3.2;
+  const ctl = { az: AZ0 - 0.7, pol: 0.42, dist: 1100, gaz: AZ0, gpol: POL0, zoom: 1, free: false, vaz: 0, vpol: 0, t: new T.Vector3(), gt: new T.Vector3(), drag: false };
+  let W = 1, FH = 1, lastZoomAll = zoomAll, intro = true, settled = false, first = true;
+  const baseDist = () => clamp(150 / (0.536 * Math.min(Math.max(W / FH, 0.45), 1.3)), 230, 560);
+  const overDist = () => Math.max(380 / (0.536 * Math.max(W / FH, 0.45)), 470 * Math.cos(0.72) / 0.536) * 1.02;
+  const clampAng = () => { ctl.gaz = clamp(ctl.gaz, AZ0 - AZL, AZ0 + AZL); ctl.gpol = clamp(ctl.gpol, PMIN, PMAX); };
+  const ac = new AbortController(), on = (el, ev, fn, o) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, o || {}));
+  function panBy(dx, dy){
+    const k = ctl.dist * 0.536 / FH, kv = k / Math.max(0.35, Math.cos(ctl.pol)), ca = Math.cos(ctl.az), sa = Math.sin(ctl.az);
+    ctl.gt.x = clamp(ctl.gt.x - dx * k * ca - dy * kv * sa, -WW / 2, WW / 2);
+    ctl.gt.z = clamp(ctl.gt.z + dx * k * sa - dy * kv * ca, -WH / 2, WH / 2);
+    ctl.free = true;
+  }
+  function resetView(){ ctl.free = false; ctl.zoom = 1; ctl.gaz = AZ0; ctl.gpol = POL0; ctl.vaz = ctl.vpol = 0; settled = false; if (zoomAll) $('#zoomBtn').click(); }
+  const ptrs = new Map(), ray = new T.Raycaster(), ndc = new T.Vector2();
+  let tap = null, pinch = null, suppress = 0, lastMove = 0, jumpT = -9, poofT = -9, landT = -9;
+  on(m3dEl, 'pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 2) return;
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, pan: e.button === 2 || e.shiftKey });
+    ctl.vaz = ctl.vpol = 0; pinch = null; settled = false;
+    tap = ptrs.size === 1 ? { id: e.pointerId, t: performance.now(), cv: e.target === cv } : null;
+    if (ptrs.size >= 2){ ctl.drag = true; ptrs.forEach((_, id) => { try { m3dEl.setPointerCapture(id); } catch(x){} }); }
+  });
+  on(m3dEl, 'pointermove', e => {
+    const p = ptrs.get(e.pointerId); if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
+    if (!ctl.drag && Math.hypot(p.x - p.x0, p.y - p.y0) > 6){ ctl.drag = true; tap = null; m3dEl.classList.add('is-drag'); try { m3dEl.setPointerCapture(e.pointerId); } catch(x){} }
+    if (!ctl.drag) return;
+    const now = performance.now(), dts = clamp((now - lastMove) / 1000, 0.008, 0.1); lastMove = now; settled = false;
+    if (ptrs.size >= 2){
+      const [a, b] = Array.from(ptrs.values()), span = Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)), cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
+      if (pinch){
+        ctl.zoom = clamp(ctl.zoom * pinch.span / span, ZMIN, ZMAX);
+        pinch.acc += Math.hypot(cx - pinch.cx, cy - pinch.cy);
+        if (pinch.acc > 14) panBy(cx - pinch.cx, cy - pinch.cy);
+      }
+      pinch = { span, cx, cy, acc: pinch ? pinch.acc : 0 };
+    } else if (p.pan) panBy(dx, dy);
+    else {
+      const da = -dx * 0.0085, dp = -dy * 0.006;
+      ctl.gaz += da; ctl.gpol += dp; clampAng();
+      ctl.vaz = ctl.vaz * 0.5 + da / dts * 0.5; ctl.vpol = ctl.vpol * 0.5 + dp / dts * 0.5;
+    }
+  });
+  const up = e => {
+    if (!ptrs.has(e.pointerId)) return;
+    ptrs.delete(e.pointerId); pinch = null;
+    if (tap && tap.id === e.pointerId && !ctl.drag && tap.cv && performance.now() - tap.t < 650) tapAt(e.clientX, e.clientY);
+    if (!ptrs.size){
+      if (ctl.drag){ suppress = performance.now() + 90; if (performance.now() - lastMove > 80) ctl.vaz = ctl.vpol = 0; }
+      ctl.drag = false; tap = null; m3dEl.classList.remove('is-drag');
+    }
+  };
+  on(m3dEl, 'pointerup', up); on(m3dEl, 'pointercancel', up);
+  on(m3dEl, 'contextmenu', e => e.preventDefault());
+  on(m3dEl, 'click', e => { if (performance.now() < suppress){ e.stopPropagation(); e.preventDefault(); } }, { capture: true });
+  on(m3dEl, 'wheel', e => {
+    e.preventDefault();
+    const dy = e.deltaY * (e.deltaMode === 1 ? 30 : 1);
+    ctl.zoom = clamp(ctl.zoom * Math.exp(dy * (e.ctrlKey ? 0.01 : 0.0011)), ZMIN, ZMAX); settled = false;
+  }, { passive: false });
+  on(cv, 'keydown', e => {
+    const k = e.key; let used = true;
+    if (k === 'ArrowLeft') ctl.gaz += 0.2; else if (k === 'ArrowRight') ctl.gaz -= 0.2;
+    else if (k === 'ArrowUp') ctl.gpol -= 0.1; else if (k === 'ArrowDown') ctl.gpol += 0.1;
+    else if (k === '+' || k === '=') ctl.zoom = clamp(ctl.zoom / 1.2, ZMIN, ZMAX);
+    else if (k === '-' || k === '_') ctl.zoom = clamp(ctl.zoom * 1.2, ZMIN, ZMAX);
+    else if (k === 'f' || k === 'F' || k === 'Home') resetView(); else used = false;
+    if (used){ e.preventDefault(); clampAng(); settled = false; }
+  });
+  on(m3dTags, 'click', e => { const b = e.target.closest('.n3'); if (b && nodeGo3) nodeGo3(b); });
+  on(followBtn, 'click', resetView);
+  function tapAt(x, y){
+    const r = cv.getBoundingClientRect();
+    ndc.set((x - r.left) / r.width * 2 - 1, -((y - r.top) / r.height) * 2 + 1); ray.setFromCamera(ndc, camera);
+    if (ray.intersectObject(crewHit, false).length){ jumpT = clock; return; }
+    const h = ray.intersectObjects(hitList, false);
+    if (h.length && nodeGo3) nodeGo3({ dataset: { node: h[0].object.userData.id } });
+  }
+
+  /* ---- 아바타 움직임 (2D가 정한 위치를 따라가며 걷기·뛰기·올라서기·건배) ---- */
+  let hx = 0, hz = 0, hpx = NaN, hpz = NaN, yaw = 0, amp = 0, phase = 0, idleT = 0, wasMoving = false;
+  const lead = new T.Vector3();
+  function hero(x, y){ hx = X(x); hz = Z(y); }
+  function updCrew(dt, t){
+    if (isNaN(hpx)){ hpx = hx; hpz = hz; }
+    const mx = hx - hpx, mz = hz - hpz, d = Math.hypot(mx, mz);
+    if (d > 30){ poofT = t; }
+    const sp = d > 30 ? 0 : d / dt, moving = sp > 2.5;
+    hpx = hx; hpz = hz;
+    amp += ((moving ? clamp(sp / 9, 0.4, 1) : 0) - amp) * (1 - Math.exp(-dt * (moving ? 10 : 7)));
+    if (moving){ yaw = angLerp(yaw, Math.atan2(mx, mz), 1 - Math.exp(-dt * 11)); idleT = 0; }
+    else {
+      idleT += dt;
+      if (idleT > 0.45) yaw = angLerp(yaw, Math.atan2(camera.position.x - crew.position.x, camera.position.z - crew.position.z), 1 - Math.exp(-dt * 2.4));
+    }
+    if (wasMoving && !moving) landT = t;
+    wasMoving = moving;
+    phase += dt * Math.min(sp / 4.4, 3.3) * Math.PI * 2;
+    const lk = moving ? Math.min(sp * 0.22, 24) / Math.max(d, 1e-3) : 0;
+    lead.x += (mx * lk - lead.x) * (1 - Math.exp(-dt * 3)); lead.z += (mz * lk - lead.z) * (1 - Math.exp(-dt * 3));
+    const px = hx + WW / 2, py = hz + WH / 2, s = sstep(12.2, 8.8, nearNode(px, py).d);
+    let alt = PLAT * s + Math.sin(Math.PI * s) * 1.8, surf = PLAT * (s > 0.5 ? 1 : 0);
+    if (s < 0.01 && inWater(px, py)){ alt = 0.9; surf = 0.9; }
+    const jt = t - jumpT; if (jt < 0.62) alt += Math.sin(jt / 0.62 * Math.PI) * 6;
+    crew.position.set(hx, alt, hz); crew.rotation.y = yaw;
+    const pt = t - poofT, lt = t - landT;
+    let sc = CREW; if (pt < 0.55) sc *= 0.3 + 0.7 * easeBack(pt / 0.55);
+    crew.scale.set(sc, sc * (lt < 0.3 ? 1 - Math.sin(lt / 0.3 * Math.PI) * 0.09 : 1), sc);
+    poof.visible = pt < 0.6;
+    if (poof.visible){ poof.position.set(hx, surf + 0.3, hz); poof.scale.setScalar(1 + pt * 6); poof.material.opacity = 0.75 * (1 - pt / 0.6); }
+    crewHit.position.set(hx, alt + 11, hz); crewHit.updateMatrixWorld();
+    const cheers = !moving && !!heroesEl && heroesEl.classList.contains("cheers"), waving = jt < 1.1;
+    heroes3.forEach((h, i) => {
+      const p = phase + (i ? 0.25 : 0), sw = Math.sin(p) * amp, br = Math.sin(t * 2.2 + h.ph * 3), still = 1 - amp;
+      h.legL.rotation.x = sw * 0.85; h.legR.rotation.x = -sw * 0.85;
+      h.pel.position.y = Math.abs(Math.sin(p)) * amp * 0.5;
+      h.pel.rotation.x = amp * (0.1 + amp * 0.06);
+      h.torso.rotation.y = sw * 0.14;
+      h.torso.rotation.z = cheers ? Math.sin(t * 2.4 + h.ph * 4) * 0.07 : 0;
+      h.torso.scale.y = 1 + still * br * 0.02;
+      const [aL, aR] = h.arms;
+      aL.rotation.set(-sw * 0.8, 0, -0.12 - still * 0.04 * br); aR.rotation.set(sw * 0.8, 0, 0.12 + still * 0.04 * br);
+      if (cheers){
+        const c = Math.pow(Math.max(0, Math.sin(t * 3.2)), 6);
+        h.inner.rotation.set(-2.15 - c * 0.25, 0, -h.so * (0.25 + c * 0.4));
+      }
+      if (waving) h.outer.rotation.set(0, 0, h.so * (2.5 + Math.sin(t * 16) * 0.3));
+      h.mug.visible = cheers; h.mug.rotation.x = -h.inner.rotation.x;
+      h.bags.forEach(b => { b.rotation.x = -h.outer.rotation.x * 0.85; });
+      h.look += ((idleT > 1.2 ? Math.sin(t * 0.45 + h.ph * 5) * 0.4 + (Math.sin(t * 0.21 + h.ph) > 0.8 ? -h.so * 0.55 : 0) : 0) - h.look) * (1 - Math.exp(-dt * 3));
+      h.head.rotation.set(Math.sin(t * 1.1 + h.ph) * 0.04 * still - amp * 0.08, h.look, 0);
+      if (t > h.blinkAt + 0.13) h.blinkAt = t + 1.8 + Math.random() * 3.2;
+      const bl = t > h.blinkAt ? 0.12 : 1; h.eyes.forEach(e => { e.scale.y = bl; });
+      h.blob.position.y = (surf - alt) / sc + 0.08;
+      h.tag.position.y = 15.4 + Math.sin(t * 2 + h.ph * 2) * 0.25;
+    });
+  }
+
+  /* ---- 노드 · 배경의 작은 움직임 ---- */
+  function updNodes(t, dt){
+    const tilt = (Math.PI / 2 - ctl.pol) * 0.55;
+    for (const o of nodes3){
+      o.pop += ((o.here ? 1.2 : (o.dim ? 0.8 : 1)) - o.pop) * (1 - Math.exp(-dt * 6));
+      o.sign.rotation.set(-tilt, ctl.az, Math.sin(t * 1.3 + o.ph) * 0.05);
+      o.sign.position.y = PLAT + 27.4 + Math.sin(t * 1.6 + o.ph) * 0.45 + (o.here ? Math.abs(Math.sin(t * 2.6)) * 1.1 : 0);
+      o.sign.scale.setScalar(o.pop);
+      if (o.here){ const h = (t * 0.55) % 1; o.halo.visible = true; o.halo.scale.setScalar(0.85 + h * 0.9); o.halo.material.opacity = 0.6 * (1 - h); }
+      else o.halo.visible = false;
+    }
+  }
+  let dark = false, twT = 0, sunT = 0;
+  const litOn = lits.map(() => true), winC = new T.Color(), sunDir = new T.Vector3(0.4, 1, 0.5).normalize();
+  function updAmbient(t, dt){
+    wave.offset.x = (t * 0.012) % 1; wave2.offset.set((t * 0.006) % 1, (t * 0.004) % 1);
+    clouds.forEach(c => { c.position.x += c.userData.v * dt; if (c.position.x > 300) c.position.x = -300; });
+    trains.forEach(tr => {
+      const L = tr.path.len, span = L - 2, u = (tr.s0 + t * tr.speed) % (span * 2), dir = u < span ? 1 : -1, s = (u < span ? u : span * 2 - u) + 1;
+      tr.cars.forEach((g, i) => {
+        const si = s - dir * i * 7.1, p = tr.path.at(si), e = Math.min(si, L - si);
+        const sink = Math.max(1 - sstep(9, 18, nearNode(p.x, p.y).d), 1 - sstep(3, 16, e));
+        g.visible = sink < 0.98; g.position.set(X(p.x), -sink * 4.6, Z(p.y)); g.rotation.y = Math.atan2(p.dx, p.dy);
+      });
+    });
+    boats.forEach(b => {
+      const L = Math.max(20, b.path.len - 60), u = (b.s0 + t * b.speed) % (L * 2), back = u >= L, p = b.path.at((back ? L * 2 - u : u) + 20);
+      b.g.position.set(X(p.x), 0.1 + Math.sin(t * 1.7 + b.ph) * 0.14, Z(p.y));
+      b.g.rotation.set(0, Math.atan2(p.dx, p.dy) + (back ? Math.PI : 0), Math.sin(t * 1.3 + b.ph) * 0.04);
+    });
+    beacon.visible = (t % 1.7) < 0.3;
+    if (dark && t - twT > 0.35 && lits.length){
+      twT = t;
+      for (let k = 0; k < 4; k++){
+        const i = (Math.random() * lits.length) | 0;
+        if (litOn[i] && Math.random() > 0.3) continue;
+        litOn[i] = !litOn[i]; tmpC.copy(winC).multiplyScalar(litOn[i] ? 0.55 + lits[i][4] * 0.45 : 0.06); iLit.setColorAt(i, tmpC);
+      }
+      iLit.instanceColor.needsUpdate = true;
+    }
+  }
+  function updGuide(t){
+    const it = live && cur >= 0 && act >= 0 ? D.days[cur].items[act] : null, n = it ? N[it.node] : null;
+    iGuide.visible = !!(n && !n.sky);
+    if (!iGuide.visible) return;
+    const ax = crew.position.x, az = crew.position.z, bx = X(n.x), bz = Z(n.y), L = Math.hypot(bx - ax, bz - az), hg = Math.min(36, L * 0.22);
+    const pos = u => [ax + (bx - ax) * u, 3 + Math.sin(u * Math.PI) * hg, az + (bz - az) * u];
+    for (let i = 0; i < GD; i++){
+      const u = (i + (t * 1.2) % 1) / GD, a = pos(u), b = pos(Math.min(1, u + 0.02));
+      dummy.position.set(a[0], a[1], a[2]); dummy.updateMatrixWorld(); if (L > 1) dummy.lookAt(b[0], b[1], b[2]);
+      dummy.scale.set(1.8, 1.8, Math.max(1.4, L / GD * 0.55)); dummy.updateMatrix(); iGuide.setMatrixAt(i, dummy.matrix);
+    }
+    for (let i = 0; i < GR; i++){
+      const a = i / GR * Math.PI * 2 + t * 0.6;
+      dummy.position.set(bx + Math.cos(a) * 17, PLAT + 0.7, bz + Math.sin(a) * 17); dummy.rotation.set(0, -a, 0); dummy.scale.set(1.5, 0.6, 3.6); dummy.updateMatrix(); iGuide.setMatrixAt(GD + i, dummy.matrix);
+    }
+    iGuide.instanceMatrix.needsUpdate = true;
+  }
+  let shadowB = 0;
+  function updCam(dt){
+    if (zoomAll !== lastZoomAll){ lastZoomAll = zoomAll; ctl.free = false; ctl.zoom = 1; ctl.vaz = ctl.vpol = 0; ctl.gaz = AZ0; ctl.gpol = zoomAll ? 0.72 : POL0; }
+    if (!ctl.drag && (Math.abs(ctl.vaz) > 0.01 || Math.abs(ctl.vpol) > 0.01)){
+      ctl.gaz += ctl.vaz * dt; ctl.gpol += ctl.vpol * dt; const f = Math.exp(-dt * 4.2); ctl.vaz *= f; ctl.vpol *= f; clampAng();
+    }
+    if (!ctl.free){ if (zoomAll) ctl.gt.set(0, 0, 8); else ctl.gt.set(crew.position.x + lead.x, crew.position.y * 0.6 + 6, crew.position.z + lead.z); }
+    const gd = clamp((zoomAll ? overDist() : baseDist()) * ctl.zoom, 110, 1300);
+    const kt = 1 - Math.exp(-dt * (ctl.drag ? 16 : intro ? 2 : 4.2)), ka = 1 - Math.exp(-dt * (ctl.drag ? 20 : intro ? 1.6 : 5)), kd = 1 - Math.exp(-dt * (intro ? 1.5 : 6));
+    ctl.t.lerp(ctl.gt, kt); ctl.az += (ctl.gaz - ctl.az) * ka; ctl.pol += (ctl.gpol - ctl.pol) * ka; ctl.dist += (gd - ctl.dist) * kd;
+    if (intro && Math.abs(ctl.dist - gd) < 4) intro = false;
+    settled = !ctl.drag && Math.abs(ctl.gaz - ctl.az) < 1e-3 && Math.abs(ctl.gpol - ctl.pol) < 1e-3 && Math.abs(gd - ctl.dist) < 0.3 && ctl.t.distanceToSquared(ctl.gt) < 0.02 && Math.abs(ctl.vaz) < 0.01;
+    const sp = Math.sin(ctl.pol);
+    camera.position.set(ctl.t.x + ctl.dist * sp * Math.sin(ctl.az), ctl.t.y + ctl.dist * Math.cos(ctl.pol), ctl.t.z + ctl.dist * sp * Math.cos(ctl.az));
+    camera.lookAt(ctl.t);
+    camera.near = Math.max(2, ctl.dist * 0.15); camera.far = ctl.dist * 3 + 700; camera.updateProjectionMatrix();
+    scene.fog.near = ctl.dist * 1.05; scene.fog.far = ctl.dist * 2.7 + 300;
+    const sb = clamp(ctl.dist * 0.45, 110, 340);
+    if (Math.abs(sb - shadowB) > shadowB * 0.12){ shadowB = sb; const c = sun.shadow.camera; c.left = c.bottom = -sb; c.right = c.top = sb; c.near = 10; c.far = 1000; c.updateProjectionMatrix(); }
+    const snap = sb * 2 / 1024;
+    sun.target.position.set(Math.round(ctl.t.x / snap) * snap, 0, Math.round(ctl.t.z / snap) * snap);
+    sun.position.copy(sun.target.position).addScaledVector(sunDir, 450);
+  }
+  const pv = new T.Vector3();
+  function updLabels(){
+    for (const o of nodes3){
+      pv.set(o.wx, 0.4, o.wz + 12.4).project(camera);
+      const off = pv.z > 1 || pv.x < -1.15 || pv.x > 1.15 || pv.y < -1.2 || pv.y > 1.15;
+      if (off !== o.off){ o.off = off; o.lbl.classList.toggle('is-off', off); }
+      if (off) continue;
+      const x = Math.round((pv.x * 0.5 + 0.5) * W * 2) / 2, y = Math.round((0.5 - pv.y * 0.5) * FH * 2) / 2;
+      if (x !== o.lx || y !== o.ly){ o.lx = x; o.ly = y; o.lbl.style.transform = `translate(${x}px,${y}px) translate(-50%,0)`; }
+    }
+  }
+  function updFollowUI(){
+    const show = !zoomAll && (ctl.free || Math.abs(ctl.gaz - AZ0) > 0.2 || Math.abs(ctl.gpol - POL0) > 0.15 || Math.abs(Math.log(ctl.zoom)) > 0.3);
+    if (followBtn.hidden === show) followBtn.hidden = !show;
+  }
+
+  /* ---- 낮·밤 (도쿄 시간 기준 테마를 그대로 따라가요) ---- */
+  function setSun(dusk){
+    if (dark){ sunDir.set(-0.35, 1, -0.5).normalize(); return; }
+    const m = jst().min % 1440, a = Math.PI * clamp((m - 345) / 705, 0.1, 0.9);
+    sunDir.set(Math.cos(a), 0.55 + Math.sin(a) * 0.9 - (dusk ? 0.2 : 0), 0.35 + Math.sin(a) * 0.55).normalize();
+  }
+  function theme(){
+    dark = tok('--window-op') === '1';
+    const dusk = root.classList.contains('dusk');
+    tinted.forEach(([m, tk, k]) => { m.color.set(hex(tk)); if (k !== 1) m.color.multiplyScalar(k); });
+    const base = col('--block'), acc = ['--k-gu', '--k-food', '--k-move', '--k-baby', '--k-drink'].map(col);
+    blds.forEach((b, i) => { tmpC.copy(base).lerp(acc[b.k], b.ls < 0.45 ? 0.55 + b.ls * 0.6 : 0.08).offsetHSL(0, 0, b.hs * 0.035); iBld.setColorAt(i, tmpC); });
+    if (iBld.instanceColor) iBld.instanceColor.needsUpdate = true;
+    const lf = col('--leaf'), lf2 = col('--leaf-2'), au = col('--gold'), au2 = col('--tt');
+    rounds.forEach((t, i) => { tmpC.copy(lf).lerp(lf2, t[4]); if (t[4] > 0.85) tmpC.lerp(t[4] > 0.94 ? au2 : au, dark ? 0.3 : 0.6); iRound.setColorAt(i, tmpC); });
+    pines.forEach((t, i) => { tmpC.copy(lf2).lerp(lf, t[4] * 0.4).multiplyScalar(0.92); iPine.setColorAt(i, tmpC); });
+    bridges.forEach((b, i) => { tmpC.copy(col(BRIDGE_TOK[i % BRIDGE_TOK.length])); iRail.setColorAt(i * 2, tmpC); iRail.setColorAt(i * 2 + 1, tmpC); });
+    [iRound, iPine, iRail].forEach(m => { if (m.instanceColor) m.instanceColor.needsUpdate = true; });
+    winC.set(hex('--window'));
+    lits.forEach((q, i) => { tmpC.copy(winC).multiplyScalar(litOn[i] ? 0.55 + q[4] * 0.45 : 0.06); iLit.setColorAt(i, tmpC); });
+    if (iLit.instanceColor) iLit.instanceColor.needsUpdate = true;
+    iLit.visible = dark;
+    mTrainWin.color.set(dark ? hex('--window') : hex('--hud'));
+    mTower.emissive.copy(col('--tower')).multiplyScalar(dark ? 0.5 : 0);
+    mDeck.emissive.copy(winC).multiplyScalar(dark ? 0.45 : 0);
+    mTT.emissive.copy(col('--tt')).multiplyScalar(dark ? 0.6 : 0);
+    mTTW.emissive.copy(winC).multiplyScalar(dark ? 0.3 : 0);
+    mGold.emissive.copy(au).multiplyScalar(dark ? 0.35 : 0);
+    iDot.material.emissive.copy(col('--route')).multiplyScalar(dark ? 0.7 : 0.3);
+    [mWater, mWaterB].forEach(m => { m.emissive.copy(dark ? winC : new T.Color(0xffffff)); m.emissiveIntensity = dark ? 0.22 : 0.16; });
+    mTrail.color.set(hex('--route')); mTrail.opacity = dark ? 0.32 : 0.22;
+    nodes3.forEach(o => o.halo.material.color.set(hex('--gold')));
+    setSun(dusk); sunT = clock;
+    hemi.groundColor.set(hex('--land'));
+    crewLamp.color.copy(winC); crewLamp.intensity = dark ? 120 : 0;
+    if (dark){ hemi.color.set('#6378BC'); hemi.intensity = 1.75; sun.color.set('#A9BEFF'); sun.intensity = 0.9; }
+    else { hemi.color.set(hex('--sky3-a')); hemi.intensity = dusk ? 1.05 : 1.4; sun.color.set(dusk ? '#FFB27A' : '#FFF3DE'); sun.intensity = dusk ? 2.0 : 2.3; }
+    clouds.forEach(c => { c.visible = !dark; });
+    scene.fog.color.set(hex('--sky3-b'));
+    paintTexts(); paintFaces(); paintTags(); paintRigs();
+    settled = false;
+  }
+
+  /* ---- 2D 상태 반영 ---- */
+  function here(id){ nodes3.forEach(o => { o.here = o.id === id; o.lbl.classList.toggle('is-here', o.here); }); }
+  function status(){
+    if (cur < 0) return;
+    const st = dayStatus(cur), items = D.days[cur].items;
+    nodes3.forEach(o => {
+      const ks = items.map((it, k) => it.node === o.id ? k : -1).filter(k => k >= 0), c = ks.length > 0 && ks.every(k => st.past.has(k));
+      o.ring.visible = c; o.lbl.classList.toggle('is-clear', c);
+    });
+  }
+  function bags(){
+    const c = invCounts();
+    heroes3.forEach((h, i) => { const g = c[i ? 'b' : 'a'].got, n = g ? Math.min(3, Math.ceil(g / 4)) : 0; h.bags.forEach((b, k) => { b.visible = k < n; }); });
+  }
+  function resize(){
+    const r = m3dEl.getBoundingClientRect(); W = Math.max(1, r.width); FH = Math.max(1, r.height);
+    renderer.setSize(W, FH, false); camera.aspect = W / FH; camera.updateProjectionMatrix(); settled = false;
+  }
+  const ro = new ResizeObserver(resize); ro.observe(m3dEl);
+  const io = new IntersectionObserver(es => { g3Seen = es[es.length - 1].isIntersecting; kick3d(); }, { threshold: 0 });
+  io.observe(frame);
+  on(document, 'visibilitychange', kick3d);
+  on(cv, 'webglcontextlost', e => { e.preventDefault(); const g = G; G = null; if (g) g.dispose(); leave3d('3D 지도가 멈춰서 2D로 바꿨어요'); });
+  let clock = 0, last = 0, skip = 0;
+  function tick(ts){
+    const now = ts / 1000;
+    const busy = ctl.drag || !settled || intro || amp > 0.02 || live || clock - routeT0 < 1.8 || clock - poofT < 0.8 || clock - jumpT < 1.2;
+    if (!busy && (++skip & 1)) return;            /* 가만히 있을 땐 30fps로 */
+    const dt = last ? clamp(now - last, 0.001, 0.05) : 1 / 60; last = now; clock += dt;
+    const t = clock;
+    updCrew(dt, t); updCam(dt); updNodes(t, dt); animDots(t); updAmbient(t, dt); updGuide(t);
+    if (!dark && t - sunT > 60){ sunT = t; setSun(root.classList.contains('dusk')); }
+    renderer.render(scene, camera);
+    updLabels(); updFollowUI();
+  }
+  function enter(){
+    resize();
+    if (cur >= 0) route(cur);
+    here(m3dHereId); status(); bags(); theme();
+    hero(heroPos.x, heroPos.y); hpx = NaN;
+    if (first){ first = false; ctl.t.set(hx, 0, hz); ctl.gt.copy(ctl.t); }
+    settled = false;
+  }
+  function dispose(){
+    ac.abort(); ro.disconnect(); io.disconnect();
+    scene.traverse(o => { if (o.geometry) o.geometry.dispose(); });
+    renderer.dispose(); cv.remove(); m3dTags.innerHTML = '';
+  }
+
+  /* 움직이지 않는 지형·랜드마크·노드 받침은 재질별로 한 덩어리로 합쳐요 (휴대폰에서 그리기 호출 줄이기) */
+  (function bakeStatic(){
+    stat.updateMatrixWorld(true);
+    const buckets = new Map(), olds = [];
+    (function walk(o){
+      for (const c of o.children.slice()){
+        if (c.userData.live) continue;
+        if (c.isMesh && !c.isInstancedMesh && !Array.isArray(c.material)){
+          const key = c.material.uuid + (c.castShadow ? '+' : '-');
+          if (!buckets.has(key)) buckets.set(key, { mat: c.material, cast: c.castShadow, list: [] });
+          buckets.get(key).list.push(c); olds.push(c);
+        } else walk(c);
+      }
+    })(stat);
+    olds.forEach(m => m.parent.remove(m));
+    buckets.forEach(b => {
+      const geos = b.list.map(m => (m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone()).applyMatrix4(m.matrixWorld));
+      const hasUV = geos.every(g => g.attributes.uv), n = geos.reduce((t, g) => t + g.attributes.position.count, 0);
+      const pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uvs = hasUV ? new Float32Array(n * 2) : null; let o = 0;
+      geos.forEach(g => { pos.set(g.attributes.position.array, o * 3); nor.set(g.attributes.normal.array, o * 3); if (uvs) uvs.set(g.attributes.uv.array, o * 2); o += g.attributes.position.count; g.dispose(); });
+      const mg = new T.BufferGeometry();
+      mg.setAttribute('position', new T.BufferAttribute(pos, 3)); mg.setAttribute('normal', new T.BufferAttribute(nor, 3)); if (uvs) mg.setAttribute('uv', new T.BufferAttribute(uvs, 2));
+      const mesh = new T.Mesh(mg, b.mat); mesh.castShadow = b.cast; mesh.receiveShadow = true; stat.add(mesh);
+    });
+  })();
+  G = { route, here, status, bags, theme, hero, enter, dispose, frame: tick, wake(){ last = 0; settled = false; } };
+}
 
 function init(){
   renderPrintPlan(); renderBars(); renderGuide(); renderMiniBase(); initBag(); renderNeeds(); initFx();
@@ -2319,6 +3372,10 @@ function init(){
   };
   fg.addEventListener('click', e => { const g = e.target.closest('.node'); if (g) nodeGo(g); });
   fg.addEventListener('keydown', e => { if (e.key !== 'Enter' && e.key !== ' ') return; const g = e.target.closest('.node'); if (g){ e.preventDefault(); nodeGo(g); } });
+  nodeGo3 = nodeGo;
+  $('#mode2d').addEventListener('click', () => { if (is3d) setMapMode(false); });
+  $('#mode3d').addEventListener('click', () => { if (!is3d) setMapMode(true); });
+  if (store.get('mapmode', '2d') === '3d') setMapMode(true, { silent:true });
 
   $('#dock').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) showView(b.dataset.view); });
   $('#bagPill').addEventListener('click', e => { e.preventDefault(); showView('bag'); });
