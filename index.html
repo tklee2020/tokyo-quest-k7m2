@@ -672,6 +672,11 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .nb--next{background:var(--blue);color:var(--on-blue)}
 .nb--fit{background:var(--gold);color:var(--on-gold)}
 .nb--off{background:var(--no-bg);color:var(--no-fg)}
+.nb--on{background:var(--ok-bg);color:var(--ok-fg)}
+.nb--soon{background:var(--check-bg);color:var(--check-fg)}
+.nb--pre{background:var(--k-gu);color:var(--k-gu-ink)}
+.nb--done{background:var(--surface-2);color:var(--muted)}
+.spot summary .nb{margin-left:auto}
 .irow{display:flex;align-items:stretch;gap:8px}
 .irow .nrow{flex:1;min-width:0}
 .irow__ck{display:grid;place-items:center;flex-shrink:0;width:52px;min-height:52px;border:2px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:0 2px 0 var(--drop);cursor:pointer;transition:transform .12s}
@@ -684,6 +689,14 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .sec h3 small{font-family:var(--f-body);font-size:12px;color:var(--muted)}
 .getbtn{width:100%;min-height:54px;font-size:17px}
 .sheet__back{justify-self:start}
+
+/* ---------- first-visit hello ---------- */
+.hello{display:grid;gap:8px;margin:-2px 0 14px;padding:12px 14px;border:2px solid var(--gold);border-radius:18px;background:var(--surface);box-shadow:0 4px 0 var(--drop)}
+.hello__t{font-family:var(--f-game);font-size:17px}
+.hello__l{margin:0;padding-left:1.1em;display:grid;gap:3px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.hello__l b{color:var(--ink)}
+.hello__b{display:flex;flex-wrap:wrap;gap:8px}
+html.map3d .hello{border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),0 6px 0 var(--side-gold),0 13px 16px -6px var(--amb)}
 
 /* ---------- weather ---------- */
 .ch__wx{position:absolute;top:-7px;left:-5px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--hud-2);font-size:13px;line-height:1;box-shadow:0 0 0 2px var(--hud)}
@@ -863,6 +876,16 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
       <span class="titlebar__sub">아빠 둘의 도쿄 2박 3일</span>
       <span class="titlebar__pills"><span class="pill pill--gold" id="ddayPill">D-?</span><a class="pill" href="#bag" id="bagPill" aria-label="가방 화면으로">🎒 0/0</a></span>
     </div>
+    <aside class="hello" id="hello" hidden aria-labelledby="helloT">
+      <p class="hello__t" id="helloT">👋 처음이면 이것만 보세요</p>
+      <ul class="hello__l">
+        <li><b>카드를 옆으로 넘기면</b> 아바타가 다음 장소로 걸어가요. 경로 위 배지 = 탈 노선·걸리는 시간</li>
+        <li><b>☰ 목록</b> = 하루 일정 한눈에 + 몇 시에 나서야 하는지</li>
+        <li><b>📍 주변</b> = 지금 근처에서 할 것·살 것·영업 중인 곳</li>
+        <li><b>공략집</b> = 체크리스트·보여주는 일본어 · <b>환전·정산</b> = 같이 쓴 돈 반반</li>
+      </ul>
+      <div class="hello__b"><button class="gbtn gbtn--gold gbtn--sm" type="button" data-sharelink>📤 같이 가는 사람에게 링크 보내기</button><button class="gbtn gbtn--sm" type="button" id="helloX">알겠어요</button></div>
+    </aside>
     <div class="mapgrid">
       <div class="mapcol">
         <div class="mapframe" id="mapframe">
@@ -1465,6 +1488,41 @@ const TRIP = {
     ucchan: ['shinjuku', 35.6930, 139.6996], horaiya: ['shinjuku', 35.6929, 139.6997], tsukini: ['shinjuku', 35.6941, 139.7045],
     nrt: ['nrt', 35.7720, 140.3929], icn: ['icn', 37.4602, 126.4407]
   },
+  /* 요일별 영업시간 — 위 places의 hours 문구를 그대로 옮긴 값 (지금 영업 중인지 표시용). 0 = 휴무, 없으면 표시 안 함 */
+  openHours: {
+    kamiya:   { sat: ['11:00-20:00'], sun: ['11:00-20:00'], mon: 0 },
+    okamoto:  { sat: ['11:00-23:00'], sun: ['11:00-22:30'], mon: ['11:00-23:00'] },
+    shochan:  { sat: ['12:00-21:00'], sun: ['12:00-21:00'], mon: ['12:00-21:00'] },
+    bunraku:  { sat: ['12:00-22:00'], sun: ['11:00-22:00'] },
+    ohyama:   { sat: ['14:00-23:00'], sun: ['14:00-22:00'], mon: 0 },
+    daitoryo: { sat: ['10:00-23:30'], sun: ['10:00-23:30'], mon: ['10:00-23:30'] },
+    uokusa:   { sat: ['12:00-19:30'], sun: ['12:00-19:30'], mon: ['12:00-19:30'] },
+    nonki:    { sat: ['13:00-23:00'], sun: ['13:00-23:00'], mon: ['15:00-23:30'] },
+    bariki:   { sat: ['12:00-23:30'], sun: ['12:00-23:30'], mon: ['12:00-23:30'] },
+    sasashin: { sat: ['16:00-22:00'], sun: 0, mon: ['16:00-22:00'] },
+    daiana:   { sat: ['15:00-23:00'], sun: ['15:00-23:00'] },
+    lion:     { sat: ['11:30-22:30'], sun: ['11:30-22:00'] },
+    tonton:   { sat: ['12:00-22:30'], sun: ['12:00-21:30'] },
+    bairin:   { sat: ['11:30-20:00'], sun: ['11:30-20:00'], mon: ['11:30-20:00'] },
+    kagari:   { sat: ['11:00-21:30'], sun: ['11:00-21:30'], mon: ['11:00-21:30'] },
+    komatsuan:{ sat: ['11:00-22:00'], sun: ['11:00-22:00'] },
+    ucchan:   { sat: ['16:00-23:00'], sun: ['16:00-23:00'], mon: ['16:00-23:00'] },
+    horaiya:  { sat: ['14:30-23:00'], sun: ['13:00-22:00'] },
+    tsukini:  { sat: ['14:00-05:00'], sun: ['14:00-24:00'] },
+    zanmai:   { sat: ['00:00-24:00'], sun: ['00:00-24:00'], mon: ['00:00-24:00'] },
+    monju:    { sat: ['06:30-23:00'], sun: 0, mon: ['06:30-23:00'] },
+    arcakit_food: { sat: ['11:00-22:30'], sun: ['11:00-22:30'], mon: ['11:00-22:30'] },
+    akachan:  { sat: ['10:00-21:00'], sun: ['10:00-21:00'], mon: ['10:00-21:00'] },
+    uq_arcakit: { sat: ['10:00-21:00'], sun: ['10:00-21:00'], mon: ['10:00-21:00'] },
+    nmitsukoshi: { sat: ['10:00-19:00'], sun: ['10:00-19:00'], mon: ['10:00-19:00'] },
+    takashimaya: { sat: ['10:30-19:30'], sun: ['10:30-19:30'], mon: ['10:30-19:30'] },
+    uq_ginza: { sat: ['11:00-21:00'], sun: ['11:00-21:00'], mon: ['11:00-21:00'] },
+    gu_ginza: { sat: ['11:00-21:00'], sun: ['11:00-21:00'], mon: ['11:00-21:00'] },
+    gmitsukoshi: { sat: ['10:00-20:00'], sun: ['10:00-20:00'], mon: ['10:00-20:00'] },
+    matsuya:  { sat: ['11:00-20:00'], sun: ['11:00-19:30'], mon: ['11:00-20:00'] },
+    uq_tokyo: { sat: ['11:00-21:00'], sun: ['11:00-21:00'], mon: ['11:00-21:00'] },
+    gu_marronnier: { sat: ['11:00-21:00'], sun: ['11:00-21:00'], mon: ['11:00-21:00'] }
+  },
   /* 미리 저장해 둔 주변 추천 (일정에 없어도 들르기 좋은 곳) */
   extras: {
     nakamise:   { name: '나카미세 거리', e: '🏮', ja: '仲見世通り', q: '仲見世通り 浅草', area: 'asakusa', ll: [35.7123, 139.7963], when: ['morning', 'day'], desc: '센소지 앞 참배길 상점가. 닌교야키·센베이 군것질하며 걷기 좋아요.' },
@@ -1566,6 +1624,7 @@ const D = TRIP, P = D.places, L = D.lines, N = D.nodes;
 Object.entries(D.areas || {}).forEach(([id, a]) => { if (N[id]) Object.assign(N[id], a); });
 Object.entries(D.geo || {}).forEach(([id, g]) => { if (P[id]){ P[id].area = g[0]; P[id].ll = [g[1], g[2]]; } });
 Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ sight:true }, x); });
+Object.entries(D.openHours || {}).forEach(([id, o]) => { if (P[id]) P[id].oh = o; });
 const root = document.documentElement;
 const NS = 'tokyoquest:';
 const store = {
@@ -1705,6 +1764,31 @@ function tripOf(it){
   if (!legs.length || !mins) return null;
   const t = toMin(it.t);
   return legs.some(m => m.line === 'keisei') ? { board:true, mins, arrive: t + mins } : { board:false, mins, leave: t - mins - LEAVE_PAD };
+}
+/* 지금 영업 중인지 (여행 날에만): { s:'on'|'soon'|'pre'|'done'|'off', t:문구 } */
+const DAYK = ['sat', 'sun', 'mon'];
+function openState(p, di, min){
+  if (!p || !p.oh || di < 0) return null;
+  const o = p.oh[DAYK[di]];
+  if (o === 0) return { s:'off', t:'오늘 휴무' };
+  if (!o) return null;
+  let next = null;
+  for (const r of o){
+    const [a, b] = r.split('-'), st = toMin(a); let en = toMin(b); if (en <= st) en += 1440;
+    if (st === 0 && en >= 1440) return { s:'on', t:'24시간 영업' };
+    if (min >= st && min < en){ const left = en - min; return left <= 45 ? { s:'soon', t:`${left}분 뒤 마감` } : { s:'on', t:`영업 중 · ${b}까지` }; }
+    if (min < st && (next == null || st < next)) next = st;
+  }
+  return next != null ? { s:'pre', t:`${fmtMin(next)} 오픈` } : { s:'done', t:'오늘 영업 끝' };
+}
+const openNow = p => { const di = todayIdx(); return di >= 0 ? openState(p, di, jst().min) : null; };
+function paintOpen(){
+  const di = todayIdx(), min = jst().min;
+  $$('[data-oh]').forEach(el => {
+    const o = di >= 0 ? openState(P[el.dataset.oh], di, min) : null;
+    el.hidden = !o; if (!o) return;
+    el.className = `nb nb--${o.s}`; el.textContent = o.t;
+  });
 }
 function mainLine(it){
   const ms = (it.move || []).filter(m => m.line !== 'air');
@@ -2015,6 +2099,7 @@ function detailHTML(it, di, k, opts){
   let h = '';
   const wxNow = opts.buy ? itWx(it, di) : null, tr = tripOf(it);
   if (wxNow && wxNow.t != null){ const x = wxInfo(wxNow.c, wxNow.night); facts.push(['날씨', `${x.e} ${x.t} · ${Math.round(wxNow.t)}°${wxNow.p != null ? ` · 비 ${wxNow.p}%` : ''} (예보)`]); }
+  if (opts.buy && p && di === todayIdx()){ const os = openState(p, di, jst().min); if (os) facts.unshift(['지금', ({ on:'🟢 ', soon:'🟠 ', pre:'🔵 ' }[os.s] || '🔴 ') + os.t]); }
   if (it.memo) h += `<div class="say"><span class="say__who say__who--${k % 2 ? 'b' : 'a'}" aria-hidden="true">${k % 2 ? 'B' : 'A'}</span><p><span class="sr">아빠 ${k % 2 ? 'B' : 'A'}: </span>${rich(it.memo, w)}</p></div>`;
   if (it.move){
     const lb = tr ? (tr.board ? `<p class="leaveby">🚆 <b>${esc(it.t)}</b> 탑승 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(약 ${tr.mins}분)</span></p>`
@@ -2408,10 +2493,11 @@ function nearbyHTML(id, src){
   rows.sort((p, q) => (got[p.x.key] ? 1 : 0) - (got[q.x.key] ? 1 : 0));
   const recs = Object.entries(P).filter(([pid, p]) => p.area === id && (p.desc || p.sight) && pid !== 'hotel').map(([pid, p]) => {
     const when = p.when || (p.tags && p.tags.includes('drink') ? ['day', 'night'] : ['morning', 'day', 'night']);
-    const o = p.open ? p.open[dk] : null;
-    return { pid, p, fit: when.includes(b) && o !== 0, off: o === 0, d: fix && p.ll ? hav(fix.ll, p.ll) : null };
+    const o = p.open ? p.open[dk] : null, os = tdi >= 0 ? openState(p, tdi, jst().min) : null;
+    const off = o === 0 || !!(os && (os.s === 'off' || os.s === 'done'));
+    return { pid, p, os, fit: when.includes(b) && !off && (!os || os.s === 'on' || os.s === 'soon'), off, d: fix && p.ll ? hav(fix.ll, p.ll) : null };
   }).sort((x, y) => (y.fit - x.fit) || (x.off - y.off) || ((x.d || 0) - (y.d || 0)));
-  const rh = recs.map(r => `<button class="nrow" type="button" data-place="${r.pid}"><span class="nrow__e" aria-hidden="true">${r.p.e || '📍'}</span><span class="nrow__t"><b>${esc(r.p.name)}</b><small>${esc((r.p.desc || '').split('. ')[0])}</small></span>${r.off ? '<span class="nb nb--off">오늘 휴무</span>' : (r.fit ? '<span class="nb nb--fit">지금 추천</span>' : '')}${r.d != null ? `<span class="nb">${fmtDist(r.d)}</span>` : ''}<span class="nrow__go" aria-hidden="true">›</span></button>`).join('');
+  const rh = recs.map(r => `<button class="nrow" type="button" data-place="${r.pid}"><span class="nrow__e" aria-hidden="true">${r.p.e || '📍'}</span><span class="nrow__t"><b>${esc(r.p.name)}</b><small>${esc((r.p.desc || '').split('. ')[0])}</small></span>${r.os ? `<span class="nb nb--${r.os.s}">${esc(r.os.t)}</span>` : (r.off ? '<span class="nb nb--off">오늘 휴무</span>' : (r.fit ? '<span class="nb nb--fit">지금 추천</span>' : ''))}${r.d != null ? `<span class="nb">${fmtDist(r.d)}</span>` : ''}<span class="nrow__go" aria-hidden="true">›</span></button>`).join('');
   const liveBtn = `<button class="gbtn gbtn--sm${live ? ' gbtn--go' : ''}" type="button" data-live aria-pressed="${live}">${live ? '📡 실시간 위치 끄기' : '📡 실시간 위치 켜기'}</button>`;
   return `<span id="nearMark" hidden></span><header class="sh-head"><span class="qcard__emo k-move" aria-hidden="true">📍</span><div><p class="sh-time">${esc(src)}</p><h2 id="sheetTitle">지금 ${esc(n.name)} 근처 <span class="ja" lang="ja">${esc(n.ja)}</span></h2></div></header>
     <div class="nearbar">${liveBtn}</div>
@@ -2438,6 +2524,7 @@ function placeDetailHTML(pid){
   return `<header class="sh-head"><span class="qcard__emo k-${k}" aria-hidden="true">${p.e || '📍'}</span><div><p class="sh-time">${esc(N[p.area] ? N[p.area].name : '')} 근처 추천</p><h2 id="sheetTitle">${esc(p.name)}${p.ja ? ` <span class="ja" lang="ja">${esc(p.ja)}</span>` : ''}</h2>${p.tags ? `<div class="tags">${tagChips(p.tags)}</div>` : ''}</div></header>
     ${p.desc ? `<p>${rich(p.desc)}</p>` : ''}
     ${p.open ? openDays(p.open) : ''}
+    ${(() => { const o = openNow(p); return o ? `<p><span class="nb nb--${o.s}">지금 ${esc(o.t)}</span></p>` : ''; })()}
     ${factsHTML(placeFacts(p))}
     ${fix && p.ll ? `<p class="lastline">🧭 지금 위치에서 직선 약 ${fmtDist(hav(fix.ll, p.ll))}</p>` : ''}
     ${linksHTML(p, p.name)}`;
@@ -2576,12 +2663,13 @@ function renderBars(){
       <header class="area__head"><span class="area__e" aria-hidden="true">${a.e}</span><div><h3 class="area__name" id="ar-${a.id}">${esc(a.name)} <span class="ja" lang="ja">${esc(a.ja)}</span></h3>${a.tonight ? `<span class="area__tonight">⭐ ${esc(a.tonight)} 코스</span>` : ''}</div></header>
       ${moveHTML(a.access, w)}
       <ol class="stages" aria-label="${esc(a.name)} 추천 코스">${a.course.map(c => { const p = P[c.place]; return `<li><span class="stg" aria-hidden="true">${p.e}</span><span class="stg__n">${esc(c.step)}</span><span class="stg__t">${esc(p.short || p.name)}</span><span class="stg__note">${rich(c.note, w)}</span></li>`; }).join('')}</ol>
-      <div class="spots">${a.spots.map(id => { const p = P[id], ww = w + ' · ' + p.name; return `<details class="spot"><summary><span class="spot__e" aria-hidden="true">${p.e}</span><span class="spot__n"><b>${esc(p.name)}</b><span class="ja" lang="ja">${esc(p.ja)}</span></span>${ICON.chev}</summary>
+      <div class="spots">${a.spots.map(id => { const p = P[id], ww = w + ' · ' + p.name; return `<details class="spot"><summary><span class="spot__e" aria-hidden="true">${p.e}</span><span class="spot__n"><b>${esc(p.name)}</b><span class="ja" lang="ja">${esc(p.ja)}</span></span>${p.oh ? `<span class="nb" data-oh="${id}" hidden></span>` : ''}${ICON.chev}</summary>
         <div class="spot__body">${openDays(p.open)}${p.desc ? `<p>${rich(p.desc, ww)}</p>` : ''}${factsHTML(placeFacts(p), ww)}${linksHTML(p, p.name)}</div></details>`; }).join('')}</div>
       <div class="area__foot"><span>🚃 막차 · ${rich(a.last, w)}</span><span>🚕 택시 · ${rich(a.taxi, w)}</span></div>
     </article>`;
   }).join('');
   applyArea(D.bars.some(a => a.id === sel) ? sel : 'all');
+  paintOpen();
   $('#areafilter').addEventListener('click', e => { const c = e.target.closest('[data-area]'); if (!c) return; applyArea(c.dataset.area); store.set('area', c.dataset.area); watchReveal($('#areas')); });
 }
 function applyArea(id){
@@ -2635,7 +2723,7 @@ function renderGuide(){
   const phr = `<details class="acc reveal" id="phrAcc"><summary><span class="acc__e" aria-hidden="true">🗣️</span><span class="acc__t">보여주는 일본어</span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">누르면 화면 가득 크게 떠요. 점원에게 그대로 보여주세요.</p><div class="phr">${(D.phrases || []).map(g => `<p class="phr__g">${esc(g.g)}</p>${g.list.map(phraseRow).join('')}`).join('')}</div></div></details>`;
   $('#tipsList').innerHTML = (D.checklists || []).map(ckAcc).join('') + phr + D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
   paintChecks(); renderInstall();
-  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('');
+  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('') + '<p><button class="gbtn gbtn--sm" type="button" data-sharelink>📤 이 페이지 링크 보내기</button></p>';
 }
 /* ---------- 체크리스트 ---------- */
 let checks = store.get('checks', {});
@@ -4163,7 +4251,7 @@ function init(){
   showView(VIEWS.includes(h) ? h : 'map', { keepScroll:true });
   updateTicker(); setHudH();
   autoFollow(true);
-  setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); }, 30000);
+  setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); paintOpen(); }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); } });
   paintWx(); loadWx();
   addEventListener('online', () => { toast('📶 인터넷 다시 연결됐어요'); updateTicker(); loadWx(true); if (view === 'fx') autoRate(); });
@@ -4204,6 +4292,14 @@ function init(){
     openQuest(k);
   });
   $('#checkbar').addEventListener('click', e => { openChecklist(e.currentTarget.dataset.cl); });
+  if (!store.get('hello', false)) $('#hello').hidden = false;
+  $('#helloX').addEventListener('click', () => { $('#hello').hidden = true; store.set('hello', true); });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('[data-sharelink]')) return;
+    const url = location.href.split('#')[0];
+    if (navigator.share) navigator.share({ title: 'TOKYO QUEST · 도쿄 2박 3일', text: '도쿄 2박 3일 일정·지도·정산 (홈 화면에 추가하면 오프라인에서도 열려요)', url }).catch(() => {});
+    else copyText(url);
+  });
   const zb = $('#zoomBtn'); zb.innerHTML = ICON.zoom;
   zb.addEventListener('click', () => { zoomAll = !zoomAll; zb.setAttribute('aria-pressed', String(zoomAll)); zb.innerHTML = zoomAll ? ICON.follow : ICON.zoom; zb.setAttribute('aria-label', zoomAll ? '아바타 따라가기' : '지도 전체 보기'); cam(heroPos.y, true); });
   const nodeGo = g => {
