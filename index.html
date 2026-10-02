@@ -2192,12 +2192,17 @@ function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); bt
    시트 (상세)
    ================================================================ */
 const sheet = $('#sheet'), sheetPanel = $('#sheetPanel'), sheetBody = $('#sheetBody');
-let sheetFrom = null, sheetBack = null, sheetReopen = null, sheetCloseT = 0;
+let sheetFrom = null, sheetBack = null, sheetReopen = null, sheetCloseT = 0, sheetIsOpen = false;
+/* 휴대폰 '뒤로' 버튼·제스처는 열린 시트·큰 화면부터 닫아요 (페이지를 벗어나지 않게) */
+let ovlDepth = 0, popSkip = 0;
+function ovlPush(){ try { history.pushState({ tq:'ovl' }, ''); ovlDepth++; } catch(e){} }
+function ovlPop(){ if (ovlDepth > 0){ ovlDepth--; popSkip++; try { history.back(); } catch(e){ popSkip--; } } }
 function openSheet(html, back){
   sheetBack = back || null;
   sheetBody.innerHTML = (sheetBack ? '<button class="gbtn gbtn--sm sheet__back" type="button" data-back>← 뒤로</button>' : '') + html;
   sheetPanel.scrollTop = 0;
   clearTimeout(sheetCloseT);
+  if (!sheetIsOpen){ sheetIsOpen = true; ovlPush(); }
   if (!sheet.hidden && sheet.classList.contains('open')) return;
   sheetFrom = document.activeElement;
   sheet.hidden = false; sheetPanel.style.transform = '';
@@ -2205,12 +2210,14 @@ function openSheet(html, back){
   document.body.style.overflow = 'hidden';
   setTimeout(() => $('.sheet__x', sheet).focus({ preventScroll:true }), 60);
 }
-function closeSheet(){
-  if (sheet.hidden) return;
+function closeSheet(fromPop){
+  if (sheet.hidden || !sheetIsOpen) return;
+  sheetIsOpen = false;
   sheet.classList.remove('open'); sheetPanel.style.transform = '';
   document.body.style.overflow = '';
   sheetCloseT = setTimeout(() => { sheet.hidden = true; }, reduce ? 0 : 340);
   if (sheetFrom && sheetFrom.focus) sheetFrom.focus({ preventScroll:true });
+  if (fromPop !== true) ovlPop();
 }
 function openQuest(k){
   const qd = cur, it = D.days[qd].items[k], d = detailHTML(it, qd, k, { buy:true, titleId:true });
@@ -4222,8 +4229,14 @@ function init(){
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (mode === 'system') applyTheme(); });
 
   const taxi = $('#taxi'); let taxiFrom = null;
-  const openBig = (from, o) => { fillBig(o); taxiFrom = from; taxi.hidden = false; $('#taxiClose').focus(); };
-  const closeTaxi = () => { taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); };
+  const openBig = (from, o) => { fillBig(o); taxiFrom = from; if (taxi.hidden) ovlPush(); taxi.hidden = false; $('#taxiClose').focus(); };
+  const closeTaxi = fromPop => { if (taxi.hidden) return; taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); if (fromPop !== true) ovlPop(); };
+  const syncUrl = () => { try { history.replaceState(null, '', view === 'map' ? location.pathname + location.search : '#' + view); } catch(e){} };
+  addEventListener('popstate', () => {
+    if (popSkip > 0){ popSkip--; syncUrl(); return; }
+    if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else closeSheet(true); }
+    syncUrl();
+  });
   document.addEventListener('click', e => {
     const c = e.target.closest('[data-copy]'); if (c){ copyText(c.dataset.copy); return; }
     const tx = e.target.closest('[data-taxi]'); if (tx){ openBig(tx, hotelBig()); return; }
@@ -4232,7 +4245,7 @@ function init(){
     const sp = e.target.closest('[data-spend]'); if (sp){ const m = sp.dataset.spend; closeSheet(); showView('fx'); setTimeout(() => { const f = $('#splitM'), y = $('#splitY'); if (!f) return; f.value = m; $('#split').scrollIntoView({ block:'start', behavior: reduce ? 'auto' : 'smooth' }); y.focus({ preventScroll:true }); }, 380); return; }
     const ck = e.target.closest('[data-ck]'); if (ck){ toggleCheck(ck.dataset.ck); return; }
   });
-  $('#taxiClose').addEventListener('click', closeTaxi);
+  $('#taxiClose').addEventListener('click', () => closeTaxi());
   taxi.addEventListener('click', e => { if (e.target === taxi) closeTaxi(); });
   document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!taxi.hidden) closeTaxi(); else closeSheet(); });
 
