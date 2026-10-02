@@ -557,6 +557,8 @@ html.dusk .mapframe::after{content:"";position:absolute;inset:0;z-index:2;pointe
 .mapmode button[aria-pressed="true"]{background:var(--gold);color:var(--on-gold)}
 .mapmode button[aria-busy="true"]{animation:busy 1s ease-in-out infinite}
 @keyframes busy{50%{opacity:.45}}
+.follow3d.is-off{background:var(--gold);color:var(--on-gold)}
+html.map3d .follow3d.is-off{--side:var(--side-gold)}
 .m3d{position:absolute;inset:0;z-index:1;display:none;overflow:hidden;background:var(--stars),linear-gradient(180deg,var(--sky3-a),var(--sky3-b) 62%);touch-action:none;-webkit-user-select:none;user-select:none}
 html.map3d .m3d{display:block}
 html.map3d .mapcam{visibility:hidden}
@@ -920,7 +922,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
           <button class="gbtn gbtn--gold gbtn--sm nearbtn" id="nearBtn" type="button" aria-label="지금 주변에서 할 것·살 것·추천 보기">📍 주변</button>
           <p class="guidechip" id="guideChip" hidden></p>
           <div class="maptools">
-            <button class="gbtn gbtn--sm" id="follow3d" type="button" hidden aria-label="아바타 따라가기로 돌아가기">🎯 따라가기</button>
+            <button class="gbtn gbtn--icon follow3d" id="follow3d" type="button" hidden aria-label="아바타 위치 · 기본 배율로 돌아가기" title="기본 보기"></button>
             <div class="mapmode" role="group" aria-label="화면 스타일"><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 도트 화면으로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 입체 화면으로 보기">3D</button></div>
             <button class="gbtn gbtn--icon" id="zoomBtn" type="button" aria-pressed="false" aria-label="지도 전체 보기"></button>
           </div>
@@ -3972,15 +3974,18 @@ function build3d(T){
     ctl.gt.z = clamp(ctl.gt.z + dx * k * sa - dy * kv * ca, -WH / 2, WH / 2);
     ctl.free = true;
   }
+  const DMIN = 110, DMAX = 1300;
+  const zBase = () => zoomAll ? overDist() : baseDist() * (fl ? fFactor : 1);
+  function zoomTo(z){ const b = zBase(); ctl.zoom = clamp(z, Math.max(ZMIN, DMIN / b), Math.min(ZMAX, DMAX / b)); settled = false; }
   function resetView(){ ctl.free = false; ctl.zoom = 1; ctl.gaz = AZ0; ctl.gpol = POL0; ctl.vaz = ctl.vpol = 0; settled = false; if (zoomAll) $('#zoomBtn').click(); }
   const ptrs = new Map(), ray = new T.Raycaster(), ndc = new T.Vector2();
-  let tap = null, pinch = null, suppress = 0, lastMove = 0, jumpT = -9, poofT = -9, landT = -9;
+  let tap = null, pinch = null, multi = false, suppress = 0, lastMove = 0, jumpT = -9, poofT = -9, landT = -9;
   on(m3dEl, 'pointerdown', e => {
     if (e.pointerType === 'mouse' && e.button !== 0 && e.button !== 2) return;
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, pan: e.button === 2 || e.shiftKey });
     ctl.vaz = ctl.vpol = 0; pinch = null; settled = false;
     tap = ptrs.size === 1 ? { id: e.pointerId, t: performance.now(), cv: e.target === cv } : null;
-    if (ptrs.size >= 2){ ctl.drag = true; ptrs.forEach((_, id) => { try { m3dEl.setPointerCapture(id); } catch(x){} }); }
+    if (ptrs.size >= 2){ multi = true; tap = null; ctl.drag = true; m3dEl.classList.add('is-drag'); ptrs.forEach((_, id) => { try { m3dEl.setPointerCapture(id); } catch(x){} }); }
   });
   on(m3dEl, 'pointermove', e => {
     const p = ptrs.get(e.pointerId); if (!p) return;
@@ -3991,12 +3996,18 @@ function build3d(T){
     if (ptrs.size >= 2){
       const [a, b] = Array.from(ptrs.values()), span = Math.max(20, Math.hypot(a.x - b.x, a.y - b.y)), cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
       if (pinch){
-        ctl.zoom = clamp(ctl.zoom * pinch.span / span, ZMIN, ZMAX);
-        pinch.acc += Math.hypot(cx - pinch.cx, cy - pinch.cy);
-        if (pinch.acc > 14) panBy(cx - pinch.cx, cy - pinch.cy);
+        /* 시작점에서 실제로 얼마나 변했는지로 줌인지 이동인지 정하고, 손을 뗄 때까지 그 하나만 해요
+           (손가락마다 이벤트가 따로 와서 생기는 순간 흔들림은 무시) */
+        if (!pinch.mode){
+          if (Math.abs(Math.log(span / pinch.s0)) > 0.1){ pinch.mode = 'zoom'; zoomTo(ctl.zoom * pinch.s0 / span); }
+          else if (Math.hypot(cx - pinch.c0x, cy - pinch.c0y) > 28){ pinch.mode = 'pan'; panBy(cx - pinch.c0x, cy - pinch.c0y); }
+        }
+        else if (pinch.mode === 'zoom') zoomTo(ctl.zoom * pinch.span / span);
+        else panBy(cx - pinch.cx, cy - pinch.cy);
       }
-      pinch = { span, cx, cy, acc: pinch ? pinch.acc : 0 };
-    } else if (p.pan) panBy(dx, dy);
+      pinch = pinch ? Object.assign(pinch, { span, cx, cy }) : { span, cx, cy, s0: span, c0x: cx, c0y: cy, mode: null };
+    } else if (multi) return;                 /* 두 손가락 중 하나만 뗀 상태: 돌리지 않아요 */
+    else if (p.pan) panBy(dx, dy);
     else {
       const da = -dx * 0.0085, dp = -dy * 0.006;
       ctl.gaz += da; ctl.gpol += dp; clampAng();
@@ -4006,26 +4017,29 @@ function build3d(T){
   const up = e => {
     if (!ptrs.has(e.pointerId)) return;
     ptrs.delete(e.pointerId); pinch = null;
+    if (ptrs.size === 1) ptrs.forEach(q => { q.x0 = q.x; q.y0 = q.y; });
     if (tap && tap.id === e.pointerId && !ctl.drag && tap.cv && performance.now() - tap.t < 650) tapAt(e.clientX, e.clientY);
     if (!ptrs.size){
       if (ctl.drag){ suppress = performance.now() + 90; if (performance.now() - lastMove > 80) ctl.vaz = ctl.vpol = 0; }
-      ctl.drag = false; tap = null; m3dEl.classList.remove('is-drag');
+      ctl.drag = false; tap = null; multi = false; m3dEl.classList.remove('is-drag');
     }
   };
   on(m3dEl, 'pointerup', up); on(m3dEl, 'pointercancel', up);
   on(m3dEl, 'contextmenu', e => e.preventDefault());
+  on(m3dEl, 'gesturestart', e => e.preventDefault()); on(m3dEl, 'gesturechange', e => e.preventDefault());
+  on(m3dEl, 'touchmove', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
   on(m3dEl, 'click', e => { if (performance.now() < suppress){ e.stopPropagation(); e.preventDefault(); } }, { capture: true });
   on(m3dEl, 'wheel', e => {
     e.preventDefault();
     const dy = e.deltaY * (e.deltaMode === 1 ? 30 : 1);
-    ctl.zoom = clamp(ctl.zoom * Math.exp(dy * (e.ctrlKey ? 0.01 : 0.0011)), ZMIN, ZMAX); settled = false;
+    zoomTo(ctl.zoom * Math.exp(dy * (e.ctrlKey ? 0.01 : 0.0011)));
   }, { passive: false });
   on(cv, 'keydown', e => {
     const k = e.key; let used = true;
     if (k === 'ArrowLeft') ctl.gaz += 0.2; else if (k === 'ArrowRight') ctl.gaz -= 0.2;
     else if (k === 'ArrowUp') ctl.gpol -= 0.1; else if (k === 'ArrowDown') ctl.gpol += 0.1;
-    else if (k === '+' || k === '=') ctl.zoom = clamp(ctl.zoom / 1.2, ZMIN, ZMAX);
-    else if (k === '-' || k === '_') ctl.zoom = clamp(ctl.zoom * 1.2, ZMIN, ZMAX);
+    else if (k === '+' || k === '=') zoomTo(ctl.zoom / 1.2);
+    else if (k === '-' || k === '_') zoomTo(ctl.zoom * 1.2);
     else if (k === 'f' || k === 'F' || k === 'Home') resetView(); else used = false;
     if (used){ e.preventDefault(); clampAng(); settled = false; }
   });
@@ -4167,9 +4181,9 @@ function build3d(T){
       if (fl) ctl.gt.copy(zoomAll ? fv.set(FX, LT, 0) : fGoal);
       else if (zoomAll) ctl.gt.set(0, 0, 8); else ctl.gt.set(crew.position.x + lead.x, crew.position.y * 0.6 + 6, crew.position.z + lead.z);
     }
-    const gd = clamp((zoomAll ? overDist() : baseDist() * (fl ? fFactor : 1)) * ctl.zoom, 110, 1300);
+    const gd = clamp(zBase() * ctl.zoom, DMIN, DMAX);
     if (snapCam){ snapCam = false; ctl.t.copy(ctl.gt); ctl.dist = gd; ctl.az = ctl.gaz; ctl.pol = ctl.gpol; }
-    const kt = 1 - Math.exp(-dt * (ctl.drag ? 16 : intro ? 2 : 4.2)), ka = 1 - Math.exp(-dt * (ctl.drag ? 20 : intro ? 1.6 : 5)), kd = 1 - Math.exp(-dt * (intro ? 1.5 : 6));
+    const kt = 1 - Math.exp(-dt * (ctl.drag ? 16 : intro ? 2 : 4.2)), ka = 1 - Math.exp(-dt * (ctl.drag ? 20 : intro ? 1.6 : 5)), kd = 1 - Math.exp(-dt * (ctl.drag ? 22 : intro ? 1.5 : 6));
     ctl.t.lerp(ctl.gt, kt); ctl.az += (ctl.gaz - ctl.az) * ka; ctl.pol += (ctl.gpol - ctl.pol) * ka; ctl.dist += (gd - ctl.dist) * kd;
     if (intro && Math.abs(ctl.dist - gd) < 4) intro = false;
     settled = !ctl.drag && Math.abs(ctl.gaz - ctl.az) < 1e-3 && Math.abs(ctl.gpol - ctl.pol) < 1e-3 && Math.abs(gd - ctl.dist) < 0.3 && ctl.t.distanceToSquared(ctl.gt) < 0.02 && Math.abs(ctl.vaz) < 0.01;
@@ -4216,8 +4230,9 @@ function build3d(T){
     }
   }
   function updFollowUI(){
-    const show = !zoomAll && (ctl.free || Math.abs(ctl.gaz - AZ0) > 0.2 || Math.abs(ctl.gpol - POL0) > 0.15 || Math.abs(Math.log(ctl.zoom)) > 0.3);
-    if (followBtn.hidden === show) followBtn.hidden = !show;
+    if (followBtn.hidden) followBtn.hidden = false;
+    const off = zoomAll || ctl.free || Math.abs(ctl.gaz - AZ0) > 0.12 || Math.abs(ctl.gpol - POL0) > 0.1 || Math.abs(Math.log(ctl.zoom)) > 0.12;
+    if (followBtn.classList.contains('is-off') !== off) followBtn.classList.toggle('is-off', off);
   }
 
   /* ---- 낮·밤 (도쿄 시간 기준 테마를 그대로 따라가요) ---- */
@@ -4411,7 +4426,7 @@ function init(){
     if (navigator.share) navigator.share({ title: 'TOKYO QUEST · 도쿄 2박 3일', text: '도쿄 2박 3일 일정·지도·정산 (홈 화면에 추가하면 오프라인에서도 열려요)', url }).catch(() => {});
     else copyText(url);
   });
-  const zb = $('#zoomBtn'); zb.innerHTML = ICON.zoom;
+  const zb = $('#zoomBtn'); zb.innerHTML = ICON.zoom; followBtn.innerHTML = ICON.follow;
   zb.addEventListener('click', () => { zoomAll = !zoomAll; zb.setAttribute('aria-pressed', String(zoomAll)); zb.innerHTML = zoomAll ? ICON.follow : ICON.zoom; zb.setAttribute('aria-label', zoomAll ? '아바타 따라가기' : '지도 전체 보기'); cam(heroPos.y, true); });
   const nodeGo = g => {
     const id = g.dataset.node, items = D.days[cur].items;
