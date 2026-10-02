@@ -1,0 +1,17 @@
+{
+  "name": "TOKYO QUEST · 아빠 둘의 도쿄 2박 3일",
+  "short_name": "도쿄 퀘스트",
+  "description": "도쿄 2박 3일 (2026.10.03–10.05) 일정·지도·쇼핑·주점·환전",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1D2232",
+  "theme_color": "#1D2232",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -7,6 +7,13 @@
 <meta name="description" content="TOKYO QUEST — 아빠 둘의 도쿄 2박 3일 (2026.10.03–10.05)">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1D2232" id="metaTheme">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="도쿄 퀘스트">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Silkscreen:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
@@ -212,7 +219,7 @@ html.anim .route.drawn .leg-dots{opacity:1}
 .heroes .bag{opacity:0;stroke:var(--edge);stroke-width:.6}
 .heroes .bag.on{opacity:1}
 .heroes .bag-0{fill:var(--bag1)} .heroes .bag-1{fill:var(--bag2)} .heroes .bag-2{fill:var(--bag3)}
-.heroes .h-tags text{font-family:var(--f-px);font-size:8px;font-weight:700;text-anchor:middle;fill:var(--on-gold);stroke:var(--edge);stroke-width:2.4;paint-order:stroke}
+.heroes .h-tags text{font-family:var(--f-px);font-size:8px;font-weight:700;text-anchor:middle;fill:#FFFFFF;stroke:#1D2232;stroke-width:2.4;paint-order:stroke}
 .heroes.walking .legl{animation:step .26s ease-in-out infinite alternate}
 .heroes.walking .legr{animation:step .26s ease-in-out infinite alternate-reverse}
 .heroes.walking .bobber{animation:bob .26s ease-in-out infinite alternate}
@@ -285,7 +292,7 @@ html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
 .sheet.open .sheet__scrim{opacity:1}
 .sheet.open .sheet__panel{transform:none}
 .sheet__grab{width:44px;height:5px;margin:4px auto 10px;border-radius:9px;background:var(--line)}
-.sheet__x{position:sticky;top:0;float:right;z-index:2}
+.sheet__x{position:sticky;top:0;float:right;z-index:2;margin-bottom:-44px}
 .sheet__body{display:grid;gap:14px}
 .sh-head{display:flex;align-items:center;gap:12px;padding-right:50px}
 .sh-head .qcard__emo{width:58px;height:58px;font-size:30px}
@@ -615,6 +622,17 @@ html.map3d .sheet__grab{box-shadow:inset 0 1px 2px var(--lo)}
   html.map3d .qcard.is-active{--dz:9px;transform:translateY(-4px)}
 }
 html.map3d .sky{display:none}
+html.map3d :is(.checkbar,.ckrow,.phrow,.phchip,.split,.tl li.is-active .tl__row){border-color:transparent;border-style:solid;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 var(--dz,5px) 0 var(--side),0 calc(var(--dz,5px) + 7px) 16px -6px var(--amb)}
+html.map3d :is(.ckrow,.phrow,.phchip,.tl li.is-active .tl__row){--dz:3px}
+html.map3d .split{--dz:7px}
+html.map3d :is(.checkbar,.ckrow[aria-pressed="true"]){--side:var(--side-gold)}
+html.map3d :is(.ckrow,.phrow,.phchip,.checkbar){transition:transform .16s cubic-bezier(.3,.7,.3,1),box-shadow .16s,background-color .2s}
+html.map3d :is(.ckrow,.phrow,.phchip,.checkbar):active{--dz:1px;transform:translateY(3px)}
+html.map3d :is(.split__res,.leaveby,.raintip){box-shadow:inset 0 1px 0 var(--hi-hud),0 3px 0 var(--lo)}
+html.map3d .split__who{border-color:transparent;box-shadow:inset 0 2px 4px var(--lo),inset 0 0 0 2px var(--lo)}
+html.map3d .wxday{border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 60%);box-shadow:inset 0 1px 0 var(--hi),0 4px 0 var(--side-s)}
+html.map3d .ch__wx{box-shadow:0 0 0 2px var(--hud),0 3px 0 2px var(--side-hud)}
+html.map3d .tl li::after{box-shadow:0 2px 0 var(--lo)}
 .n3--static{pointer-events:none;cursor:default}
 .n3--chip{background:var(--surface);color:var(--ink);box-shadow:0 3px 0 var(--side-s)}
 .m3d__cv.is-cut{animation:cut .5s ease-out}
@@ -667,6 +685,125 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .getbtn{width:100%;min-height:54px;font-size:17px}
 .sheet__back{justify-self:start}
 
+/* ---------- weather ---------- */
+.ch__wx{position:absolute;top:-7px;left:-5px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--hud-2);font-size:13px;line-height:1;box-shadow:0 0 0 2px var(--hud)}
+.events li.events__wx{border-style:solid;border-color:var(--blue);background:var(--surface)}
+.events li.events__wx b{font-variant-numeric:tabular-nums}
+.events li.events__rain{border-style:solid;border-color:var(--check-line);background:var(--check-bg);color:var(--check-fg);font-weight:700}
+.qcard__wx{display:grid;justify-items:center;flex-shrink:0;margin-left:auto;padding-left:4px;font-size:20px;line-height:1.1}
+.qcard__wx small{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.qcard__wx small.is-wet{color:var(--blue)}
+.wxbox{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.wxday{display:grid;justify-items:center;gap:2px;padding:10px 4px;border:2px solid var(--line);border-radius:14px;background:var(--surface-2);text-align:center;font-size:12.5px;line-height:1.35}
+.wxday__e{font-size:28px;line-height:1.2}
+.wxday__t{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.wxday__p{color:var(--blue);font-weight:700}
+.wxnote{font-size:12px;color:var(--muted)}
+.raintip{display:flex;gap:8px;align-items:flex-start;padding:9px 12px;border-radius:12px;background:var(--check-bg);color:var(--check-fg);font-size:13.5px;font-weight:700}
+
+/* ---------- day timeline (list mode) ---------- */
+.qnav__list{margin-left:auto}
+.qnav__list + .qnav__play{margin-left:0}
+.questcol.is-list .quests{display:none}
+.tl{display:none;list-style:none;margin:8px 0 6px;padding:0}
+.questcol.is-list .tl{display:grid;gap:0}
+.tl li{position:relative;padding-left:16px}
+.tl li::before{content:"";position:absolute;left:5px;top:0;bottom:0;border-left:3px dotted var(--line)}
+.tl li:first-child::before{top:26px}
+.tl li:last-child::before{bottom:calc(100% - 26px)}
+.tl li::after{content:"";position:absolute;left:0;top:20px;width:13px;height:13px;border:2px solid var(--edge);border-radius:50%;background:var(--surface)}
+.tl li.is-past::after{background:var(--gold)}
+.tl li.is-now::after{background:var(--red);border-color:var(--red);box-shadow:0 0 0 4px var(--route-glow)}
+.tl__row{display:flex;align-items:center;gap:9px;width:100%;min-height:54px;margin:3px 0;padding:6px 10px;border:2px solid transparent;border-radius:14px;background:none;color:var(--ink);text-align:left;cursor:pointer;transition:background-color .2s,border-color .2s}
+.tl__row:active{transform:scale(.99)}
+.tl li.is-active .tl__row{border-color:var(--edge);background:var(--surface);box-shadow:0 3px 0 var(--drop)}
+.tl li.is-past .tl__row{opacity:.7}
+.tl__t{flex-shrink:0;width:60px;font-family:var(--f-px);font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap}
+.tl__t small{display:block;font-size:10.5px;font-weight:400;color:var(--muted)}
+.apx{font-family:var(--f-body);font-weight:700;margin-right:1px}
+.tl__e{flex-shrink:0;font-size:22px;line-height:1}
+.tl__n{flex:1;min-width:0;display:grid;line-height:1.35}
+.tl__n b{font-family:var(--f-game);font-weight:400;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tl__n small{overflow:hidden;font-size:12px;color:var(--muted);text-overflow:ellipsis;white-space:nowrap}
+.tl__n small b{font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--blue)}
+.tl__w{flex-shrink:0;font-size:12px;color:var(--muted);text-align:center;line-height:1.1}
+.leaveby{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:8px 11px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
+.leaveby b{font-family:var(--f-px);font-size:15px;color:var(--blue);font-variant-numeric:tabular-nums}
+@media (min-width:900px){ .qnav__list{display:none} .qnav__list + .qnav__play{margin-left:auto} .questcol.is-list .quests{display:flex} .questcol.is-list .tl{display:none} }
+
+/* ---------- checklists ---------- */
+.checkbar{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0 10px;padding:10px 12px;border:2px solid var(--edge);border-radius:16px;background:var(--gold-tint);color:var(--ink);box-shadow:0 3px 0 var(--drop);text-align:left;cursor:pointer;font-family:var(--f-game);font-size:16px}
+.checkbar__e{font-size:24px}
+.checkbar__t{flex:1;min-width:0;display:grid;line-height:1.3}
+.checkbar__t small{font-family:var(--f-body);font-size:12px;color:var(--muted)}
+.checkbar .xp{width:64px;flex-shrink:0}
+.checkbar__n{font-family:var(--f-px);font-size:13px;font-weight:700}
+.cklist{display:grid;gap:8px}
+.ckrow{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:6px 10px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);box-shadow:0 2px 0 var(--drop);color:var(--ink);cursor:pointer;text-align:left;font-size:14px;line-height:1.4;transition:transform .12s}
+.ckrow:active{transform:translateY(2px)}
+.ckrow__e{flex-shrink:0;font-size:20px}
+.ckrow__t{flex:1;min-width:0}
+.ckrow__t small{display:block;font-size:12px;color:var(--muted)}
+.ckrow__ck{display:grid;place-items:center;flex-shrink:0;width:26px;height:26px;border:2px solid var(--edge);border-radius:8px}
+.ckrow__ck svg{width:15px;height:15px;opacity:0}
+.ckrow[aria-pressed="true"]{background:var(--gold-tint)}
+.ckrow[aria-pressed="true"] .ckrow__t{text-decoration:line-through;text-decoration-color:var(--gold-ink);color:var(--muted)}
+.ckrow[aria-pressed="true"] .ckrow__ck{background:var(--gold)}
+.ckrow[aria-pressed="true"] .ckrow__ck svg{opacity:1;color:var(--on-gold)}
+.ckhead{display:flex;align-items:center;gap:10px;font-family:var(--f-game);font-size:15px}
+.ckhead .xp{flex:1}
+
+/* ---------- phrases ---------- */
+.phr{display:grid;gap:8px}
+.phr__g{margin-top:6px;font-family:var(--f-game);font-size:15px;color:var(--muted)}
+.phrow{display:grid;gap:1px;width:100%;padding:9px 12px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);box-shadow:0 2px 0 var(--drop);color:var(--ink);text-align:left;cursor:pointer;transition:transform .12s}
+.phrow:active{transform:translateY(2px)}
+.phrow__ja{font-family:var(--f-ja);font-size:16px;font-weight:500;line-height:1.45}
+.phrow__ko{font-size:13px;color:var(--muted);line-height:1.4}
+.phrow__ko b{color:var(--ink);font-weight:700}
+.phchips{display:flex;flex-wrap:wrap;gap:7px}
+.phchip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:4px 12px;border:2px solid var(--edge);border-radius:12px;background:var(--surface);color:var(--ink);box-shadow:0 2px 0 var(--drop);cursor:pointer;text-align:left;font-size:13px;line-height:1.3}
+.phchip span[lang="ja"]{font-size:14px;font-weight:500}
+.taxi__ko{font-size:15px;color:#5A6070}
+.taxi__yomi{font-size:16px;color:#3A4050}
+
+/* ---------- split (shared expenses) ---------- */
+.split{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;max-width:560px;margin-top:18px;padding:16px;border:2px solid var(--edge);border-radius:20px;background:var(--surface);box-shadow:0 4px 0 var(--drop)}
+.split h3{font-family:var(--f-game);font-weight:400;font-size:19px}
+.split__sub{font-size:13px;color:var(--muted)}
+.split__form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;min-width:0}
+.split__form .field{width:100%;min-width:0}
+.split__amt{font-family:var(--f-px);font-size:18px;font-weight:700;text-align:right}
+.split__who{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:3px;border:2px solid var(--edge);border-radius:12px}
+.split__who button{min-width:48px;padding:0 8px;min-height:36px;border:0;border-radius:9px;background:transparent;font-family:var(--f-game);font-size:14px;cursor:pointer}
+.split__who button[aria-pressed="true"]{background:var(--a-hat);color:var(--on-gold)}
+.split__who button[data-who="b"][aria-pressed="true"]{background:var(--b-hat);color:var(--on-red)}
+.split__memo{grid-column:1/-1}
+.split__add{grid-column:1/-1}
+.split__res{display:grid;gap:6px;padding:12px 14px;border-radius:14px;background:var(--hud);color:var(--on-hud);font-size:13.5px}
+.split__res b{font-family:var(--f-game);font-weight:400;font-size:18px;color:var(--gold)}
+.split__res small{color:var(--hud-muted);font-size:12px}
+.split__list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.split__list li{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 10px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
+.split__list .who{display:grid;place-items:center;flex-shrink:0;width:26px;height:26px;border:2px solid var(--edge);border-radius:50%;font-family:var(--f-px);font-size:11px;font-weight:700;background:var(--a-hat);color:var(--on-gold)}
+.split__list .who--b{background:var(--b-hat);color:var(--on-red)}
+.split__list .m{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.split__list .m small{color:var(--muted);font-size:11.5px}
+.split__list .y{font-family:var(--f-px);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.split__list .x{display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:10px;background:none;color:var(--muted);font-size:18px;cursor:pointer}
+.split__list .x.is-arm{width:auto;padding:0 10px;color:var(--red);font-size:14px;font-weight:700}
+.fx__live{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+
+/* ---------- route line badges (2D) ---------- */
+.leg-lbl{pointer-events:none}
+.leg-lbl rect{fill:var(--surface);stroke:var(--edge);stroke-width:1.2}
+.leg-lbl circle{fill:var(--sign-bg);stroke-width:2.4}
+.leg-lbl .sym{font-family:var(--f-body);font-size:6.6px;font-weight:900;text-anchor:middle;dominant-baseline:central;fill:var(--sign-fg)}
+.leg-lbl .dur{font-family:var(--f-game);font-size:8.5px;dominant-baseline:central;fill:var(--ink)}
+html.anim .route .leg-lbl{opacity:0;transition:opacity .4s}
+html.anim .route.drawn .leg-lbl{opacity:1}
+.ticker__k--off{background:var(--muted);color:var(--surface)}
+
 /* ---------- reveal ---------- */
 html.anim .reveal{transition:opacity .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1)}
 html.anim .reveal.pending{opacity:0;transform:translateY(18px)}
@@ -675,7 +812,7 @@ html.anim .reveal.pending{opacity:0;transform:translateY(18px)}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
 }
 @media print{
-  .hud,.dock,.totop,.toast,.sheet,.taxi,.skip,.mapcol,.nearbtn,.guidechip,.qnav,.quests,.events,.minibase,.chips,.addrow,.budget,.tile__x,.bagtools,.links,.copy,.gbtn,#v-fx{display:none!important}
+  .hud,.dock,.totop,.toast,.sheet,.taxi,.skip,.mapcol,.nearbtn,.guidechip,.qnav,.quests,.tl,.checkbar,.split,.phchips,.events,.minibase,.chips,.addrow,.budget,.tile__x,.bagtools,.links,.copy,.gbtn,#v-fx{display:none!important}
   body{background:#FFFFFF;padding:0}
   .view[hidden]{display:block!important}
   .printonly{display:block}
@@ -752,9 +889,12 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
           <button class="gbtn gbtn--icon" id="prevQ" type="button" aria-label="이전 퀘스트"></button>
           <span class="qnav__count" id="qcount" aria-live="polite">1/1</span>
           <button class="gbtn gbtn--icon" id="nextQ" type="button" aria-label="다음 퀘스트"></button>
-          <button class="gbtn gbtn--gold gbtn--sm qnav__play" id="playQ" type="button" aria-pressed="false">▶ 경로 재생</button>
+          <button class="gbtn gbtn--sm qnav__list" id="listQ" type="button" aria-pressed="false" aria-label="하루 일정을 목록으로 한눈에 보기">☰ 목록</button>
+          <button class="gbtn gbtn--gold gbtn--sm qnav__play" id="playQ" type="button" aria-pressed="false" aria-label="경로 재생">▶ 재생</button>
         </div>
         <div class="quests" id="quests" aria-label="이번 챕터 퀘스트 목록. 옆으로 넘기면 아바타가 따라 걸어요"></div>
+        <ol class="tl" id="tl" aria-label="이번 챕터 일정 한눈에 보기"></ol>
+        <button class="checkbar" id="checkbar" type="button" hidden></button>
         <ul class="events" id="events" aria-label="이번 챕터 알림"></ul>
         <div class="minibase" id="minibase"></div>
       </div>
@@ -791,9 +931,11 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
 
   <!-- ============ FX ============ -->
   <section class="view wrap" id="v-fx" data-view="fx" hidden aria-labelledby="fxT">
-    <header class="vhead"><p class="eyebrow">EXCHANGE</p><h2 id="fxT">환전소 · 엔 ↔ 원</h2></header>
+    <header class="vhead"><p class="eyebrow">EXCHANGE · SPLIT</p><h2 id="fxT">환전소 · 정산</h2>
+      <p class="vhead__sub">엔 ↔ 원 계산기와 둘이 같이 쓴 돈 나누기. 이 휴대폰에 저장돼요.</p></header>
     <form class="fx" id="fxForm" autocomplete="off">
       <div class="fx__rate"><label for="fxRate">💴 100엔 =</label><input class="field" id="fxRate" inputmode="decimal"><span>원</span></div>
+      <div class="fx__live"><button class="gbtn gbtn--sm" id="fxLive" type="button">🔄 오늘 환율 불러오기</button><span id="fxSrc"></span></div>
       <div class="fx__pair">
         <label for="fxJpy">엔 (¥)<input class="field" id="fxJpy" inputmode="numeric" placeholder="0"></label>
         <span class="fx__eq" aria-hidden="true">⇄</span>
@@ -803,6 +945,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
       <table class="fx__table" id="fxTable" aria-label="자주 보는 금액 환산표"></table>
       <p class="fx__hint" id="fxHint"></p>
     </form>
+    <section class="split" id="split" aria-labelledby="splitT"></section>
   </section>
 </main>
 
@@ -812,7 +955,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
     <button type="button" data-view="bag"><span class="ico" aria-hidden="true">🎒</span>가방<span class="dock__n" id="dockBag" aria-hidden="true"></span></button>
     <button type="button" data-view="bars"><span class="ico" aria-hidden="true">🍺</span>주점</button>
     <button type="button" data-view="guide"><span class="ico" aria-hidden="true">📜</span>공략집</button>
-    <button type="button" data-view="fx"><span class="ico" aria-hidden="true">💴</span>환전소</button>
+    <button type="button" data-view="fx"><span class="ico" aria-hidden="true">💴</span>환전·정산</button>
   </div>
 </nav>
 
@@ -830,11 +973,13 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
 
 <div class="taxi" id="taxi" hidden role="dialog" aria-modal="true" aria-labelledby="taxiName">
   <div class="taxi__card" lang="ja">
-    <p class="taxi__lead">ここへ行ってください</p>
+    <p class="taxi__lead" id="taxiLead">ここへ行ってください</p>
     <p class="taxi__name" id="taxiName"></p>
     <p class="taxi__addr" id="taxiAddr"></p>
     <p class="taxi__tel" id="taxiTel"></p>
-    <button class="gbtn" id="taxiClose" type="button" lang="ko" aria-label="택시용 주소 화면 닫기">닫기</button>
+    <p class="taxi__yomi" id="taxiYomi" lang="ko" hidden></p>
+    <p class="taxi__ko" id="taxiKo" lang="ko" hidden></p>
+    <button class="gbtn" id="taxiClose" type="button" lang="ko" aria-label="크게 보기 화면 닫기">닫기</button>
   </div>
 </div>
 <noscript><p class="wrap">이 페이지는 자바스크립트를 켜야 보여요.</p></noscript>
@@ -862,7 +1007,7 @@ const TRIP = {
     { key: 'back', kind: '오는 편', no: 'RS702', airline: '에어서울', date: '10.05 MON',
       from: { code: 'NRT', name: '나리타 제1터미널 남쪽', time: '12:50' },
       to:   { code: 'ICN', name: '인천 제2터미널', time: '15:30' },
-      note: '히가시니혼바시 08:26발 액세스 특급 → 나리타공항역 09:40 도착 {?}' }
+      note: '히가시니혼바시 08:26발 액세스 특급 → 나리타공항역 09:40 도착 (평일 시간표 확인)' }
   ],
 
   /* 아들 둘 — 쇼핑 퀘스트 */
@@ -948,8 +1093,8 @@ const TRIP = {
     addressCopy: '東京都中央区東日本橋3丁目12-14',
     phone: '0570-040-811', tel: '0570040811',
     phoneNote: '0570 내비다이얼이라 한국 휴대폰 로밍으로는 안 걸릴 수 있어요 {?}',
-    inout: '체크인 15:00 · 체크아웃 10:00 {?}',
-    luggage: '체크인 전 프런트 보관 가능 · 체크아웃 후 당일 보관 {?} (귀중품·깨지는 물건 제외)',
+    inout: '체크인 15:00 · 체크아웃 10:00 (예약 플랜에 따라 다를 수 있어요)',
+    luggage: '체크인 전·체크아웃 후 프런트 보관 가능 (깨지는 물건·노트북 같은 정밀기기 제외 · 분실·파손 보상 없음)',
     stations: [
       { line: 'asakusa',  name: '히가시니혼바시', ja: '東日本橋', walk: 'B4 출구 1분' },
       { line: 'shinjuku', name: '바쿠로요코야마', ja: '馬喰横山', walk: '도보 3분' },
@@ -992,7 +1137,7 @@ const TRIP = {
 
     tsukiji: { name: '츠키지 장외시장', short: '츠키지 아침', e: '🍣', ja: '築地場外市場', q: '築地場外市場', url: 'https://www.tsukiji.or.jp/',
       hours: '가게마다 다름 · 06:00–09:00은 업자 우선, 09:00–14:00 일반 손님', closed: '일요일·공휴일·일부 수요일 (10월: 일요일, 10/7·12·21·28)' },
-    zanmai: { name: '스시잔마이 별관', e: '🍣', ja: 'すしざんまい 別館', q: 'すしざんまい 別館 築地', hours: '24시간', closed: '없음' },
+    zanmai: { name: '스시잔마이 본점', e: '🍣', ja: 'すしざんまい 本店', q: 'すしざんまい 本店 築地4-11-9', hours: '24시간 (별관은 08:00–19:00이라 아침엔 본점으로)', closed: '없음' },
     monju: { name: '몬주 바쿠로요코야마점', e: '🍜', ja: '文殊 馬喰横山店', q: '文殊 馬喰横山', hours: '월–토 06:30–23:00 {?}', loc: '바쿠로요코야마역 구내 서서 먹는 소바' },
 
     kamiya: { name: '가미야 바', short: '가미야 바', e: '🥃', ja: '神谷バー', q: '神谷バー 浅草', url: 'http://www.kamiya-bar.com/', tags: ['drink'],
@@ -1083,9 +1228,9 @@ const TRIP = {
           alt: { text: '입국 줄이 길면 액세스 특급 다음 열차(약 40분 간격)를 타요.' } },
         { t: '11:49', approx: true, node: 'hotel', title: '게이세이 액세스 특급으로 숙소까지', short: '액세스 특급 탑승', e: '🚆', ja: '京成 アクセス特急', tags: ['move'], q: 'アパホテル〈東日本橋駅前〉',
           move: [{ line: 'keisei', text: '나리타공항 → 히가시니혼바시 직통', dur: '약 76~80분' }],
-          facts: [['요금', '1,380엔 (IC 1,372엔) · 특급권 필요 없음'], ['토·일 출발', '나리타공항(T1) 11:09 · 11:49 · 12:29 … 약 40분 간격 {?}']],
+          facts: [['요금', '1,380엔 (IC 1,372엔) · 특급권 필요 없음'], ['토·일 출발', '나리타공항(T1) 11:09 · 11:49 · 12:29 … 약 40분 간격 · 11:09발은 10:40 도착이면 빠듯해서 11:49발이 현실적']],
           memo: '행선지가 아사쿠사선 직통인지 확인하고 타기. 「アクセス特急」 표시면 OK.',
-          alt: { text: 'JR 소부선 쾌속 — 나리타공항 → 바쿠로초 직통, 약 90분 · 1,410엔. 매시 58~59분 출발 {?}' } },
+          alt: { text: 'JR 소부선 쾌속 — 나리타공항 → 바쿠로초 직통, 약 89분 · 1,410엔. 토·일 매시 58~59분 출발 (11:58발 → 바쿠로초 13:27)' } },
         { t: '13:05', approx: true, node: 'hotel', place: 'hotel', title: '숙소에 짐 맡기기', short: '세이브 · 짐 맡기기', save: true, tags: ['move'],
           memo: '체크인 전이라도 프런트에 캐리어를 맡기고 바로 출발. 히가시니혼바시역 B4 출구에서 1분.',
           alt: { text: '프런트가 붐비면 짐만 맡기고 체크인은 17:10에 한 번에.' } },
@@ -1116,7 +1261,7 @@ const TRIP = {
           alt: { text: '비가 오면 건너뛰고 바로 귀가.' } },
         { t: '22:00', node: 'hotel', place: 'hotel', title: '숙소 귀가', short: '세이브 · 귀가', save: true, tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
           move: [{ line: 'asakusa', text: '아사쿠사 → 히가시니혼바시', dur: '6분' }],
-          facts: [['막차', '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) {?}']],
+          facts: [['막차', '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) · 그다음 00:26 열차는 히가시니혼바시에 안 서요']],
           alt: { text: '택시 낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' } }
       ] },
 
@@ -1178,17 +1323,17 @@ const TRIP = {
       items: [
         { t: '06:25', node: 'hotel', place: 'hotel', title: '체크아웃 · 짐 맡기기', short: '세이브 · 체크아웃', save: true, tags: ['move'],
           memo: '체크아웃 먼저, 캐리어는 프런트에 맡기고 몸만 츠키지로.',
-          alt: { text: '짐 보관이 안 되면 방에 두고 나갔다가 07:55에 돌아와 체크아웃 (체크아웃 10:00 {?}).' } },
+          alt: { text: '짐 보관이 안 되면 방에 두고 나갔다가 07:55에 돌아와 체크아웃 (체크아웃 10:00).' } },
         { t: '06:40', end: '07:40', node: 'tsukiji', place: 'tsukiji', tags: ['food'],
           move: [{ line: 'asakusa', text: '히가시니혼바시 → 히가시긴자 (4정거장)', dur: '7분' }, { line: 'walk', text: '히가시긴자 → 장외시장', dur: '5분' }],
-          memo: '「기쓰네야」 호르몬동(06:30~) → 「야마초」 계란말이 꼬치(06:00~) → 초밥은 「스시잔마이 별관」(24시간). 07:40엔 꼭 일어서기!',
-          alt: { text: '기쓰네야 줄이 길면 「스시잔마이 별관」 초밥으로. 숙취가 심하면 츠키지는 건너뛰고 07:47발 열차로.', place: 'zanmai' } },
+          memo: '「기쓰네야」 호르몬동(06:30~) → 「야마초」 계란말이 꼬치(06:00~) → 초밥은 24시간 「스시잔마이 본점」(별관은 08:00 개점이라 안 돼요). 07:40엔 꼭 일어서기!',
+          alt: { text: '기쓰네야 줄이 길면 「스시잔마이 본점」(24시간) 초밥으로. 숙취가 심하면 츠키지는 건너뛰고 07:47발 열차로.', place: 'zanmai' } },
         { t: '07:55', node: 'hotel', place: 'hotel', title: '숙소에서 짐 찾기', short: '세이브 · 짐 찾기', save: true, tags: ['move'],
           move: [{ line: 'asakusa', text: '히가시긴자 → 히가시니혼바시', dur: '7분' }],
           memo: '짐 최종 정리: 위탁은 1인 15kg 1개. 로션·세제 같은 액체류는 위탁 캐리어에, 무게는 둘이 나눠 맞추기.',
           alt: { text: '츠키지를 건너뛰었다면 바쿠로요코야마역 서서 먹는 소바 「몬주」로 아침 (월–토).', place: 'monju' } },
         { t: '08:26', node: 'nrt', title: '게이세이 액세스 특급으로 나리타', short: '08:26 공항 열차', e: '🚆', ja: '京成 アクセス特急', tags: ['move'], q: '成田国際空港 第1ターミナル',
-          move: [{ line: 'keisei', text: '히가시니혼바시 08:26 → 나리타공항역(제1터미널) 09:40', dur: '약 74분 {?}' }],
+          move: [{ line: 'keisei', text: '히가시니혼바시 08:26 → 나리타공항역(제1터미널) 09:40', dur: '약 74분' }],
           memo: '「普通 印旛日本医大」행이나 아오토·다카사고·사쿠라행은 공항에 안 가요. 「アクセス特急 成田空港」 확인! 에어서울은 제1터미널이라 종점까지 타요.',
           alt: { text: '놓치면 09:16발(10:32 도착, 출발 2시간 18분 전) — 모바일 체크인 필수. 여유 있게 가려면 07:47발(08:59 도착).' } },
         { t: '09:40', node: 'nrt', place: 'nrt', title: '나리타 제1터미널 · 체크인 · 출국', short: '공항 체크인', tags: ['move'], noFacts: true,
@@ -1206,7 +1351,7 @@ const TRIP = {
     { id: 'asakusa', name: '아사쿠사', ja: '浅草', e: '🏮', tonight: 'Day 1 밤',
       access: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 직통', dur: '6분' }],
       course: [{ step: '1차', place: 'kamiya', note: '20:00 마감이라 먼저' }, { step: '2차', place: 'shochan', note: '니코미 품절 전에' }, { step: '3차', place: 'okamoto', note: '23:00까지' }],
-      spots: ['kamiya', 'okamoto', 'shochan'], last: '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) {?}', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+      spots: ['kamiya', 'okamoto', 'shochan'], last: '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일)', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
     { id: 'ueno', name: '우에노', ja: '上野', e: '🍢', tonight: 'Day 2 밤',
       access: [{ line: 'hibiya', text: '고덴마초 → 우에노 직통', dur: '6분' }],
       course: [{ step: '1차', place: 'bunraku', note: '일요일 음식 19:00까지' }, { step: '2차', place: 'ohyama', note: '일 22:00 마감' }, { step: '3차', place: 'daitoryo', note: '23:30까지' }],
@@ -1222,7 +1367,7 @@ const TRIP = {
     { id: 'ginza', name: '긴자·유라쿠초', ja: '銀座', e: '🕰️',
       access: [{ line: 'asakusa', text: '히가시니혼바시 → 히가시긴자 직통', dur: '7분' }],
       course: [{ step: '1차', place: 'lion', note: '1934년 비어홀' }, { step: '2차', place: 'tonton', note: '고가 밑 · 일 21:30까지' }],
-      spots: ['lion', 'tonton', 'bairin', 'kagari', 'komatsuan'], last: '히가시긴자 00:11 → 히가시니혼바시 00:18 (토·일) {?}', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+      spots: ['lion', 'tonton', 'bairin', 'kagari', 'komatsuan'], last: '히가시긴자 00:11 → 히가시니혼바시 00:18 (토·일)', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
     { id: 'shinjuku', name: '신주쿠', ja: '新宿', e: '🌃',
       access: [{ line: 'shinjuku', text: '바쿠로요코야마 → 신주쿠 직통', dur: '약 20분' }],
       course: [{ step: '1차', place: 'ucchan', note: '16:00 오픈' }, { step: '2차', place: 'horaiya', note: '1947년부터' }, { step: '3차', place: 'tsukini', note: '골든가이' }],
@@ -1248,7 +1393,7 @@ const TRIP = {
       '첫 개찰부터 48시간. Day 1 오후(13:30경) 긴시초 갈 때 개시하면 Day 3 아침 츠키지 왕복까지 들어와요.',
       '**패스가 안 되는 것:** JR(소부선 쾌속 등)과 공항 열차 게이세이 액세스 특급. 일정 카드에 「별도」로 표시해 뒀어요.',
       '공항 ↔ 숙소 액세스 특급은 IC카드나 승차권(1,380엔)으로 타는 게 간단해요.',
-      '48시간권 가격 1,200엔 · 나리타공항에서 구입 가능 {?}',
+      '**48시간권 1,500엔** (2026-03-14 인상 · 24시간 1,000엔 · 72시간 2,000엔). 살 때 **여권 필요**.', '나리타공항 T1 지하 1층 「SKYLINER & KEISEI INFORMATION CENTER」(07:00–21:00)에서 판매 {?}',
       'JR·공항 열차용으로 Welcome Suica(나리타공항역 발매기, 28일) 같은 IC카드 하나는 있으면 편해요.'
     ] } ] },
     { icon: '🧳', title: '짐 싸기 (위탁 1인 15kg · 1개)', body: [ { ul: [
@@ -1258,7 +1403,7 @@ const TRIP = {
       '면세 밀봉 봉투는 뜯지 말고 그대로.',
       '체크아웃 전에 무게 확인. 휴대용 저울이 있으면 편해요.'
     ] } ] },
-    { icon: '🌂', title: '10월 도쿄 날씨', body: [
+    { icon: '🌂', title: '도쿄 날씨 · 3일 예보', body: [ { wx: true },
       '평균 최고 22.0°C · 최저 14.8°C (기상청 평년값). 10월은 비가 가장 많은 달(평년 234.8mm)이고 태풍이 올 수 있어요. 접이식 우산과 얇은 겉옷을 챙기세요.'
     ] },
     { icon: '🚕', title: '택시·막차', body: [ { ul: [
@@ -1285,10 +1430,10 @@ const TRIP = {
   areas: {
     icn:        { ll: [37.4602, 126.4407], todo: ['여권 실물 · Visit Japan Web QR 캡처', '엔화·트래블카드 확인', '보조배터리는 기내 가방으로'] },
     nrt:        { ll: [35.7720, 140.3929], todo: ['에어서울은 제1터미널 남쪽 윙', '도착하면 지하 「나리타공항역」에서 액세스 특급', '출국 때 면세 봉투는 뜯지 않기 · 남은 엔화는 면세점에서'] },
-    hotel:      { ll: [35.6928, 139.7838], todo: ['짐 맡기기·찾기는 프런트에서', '체크아웃 10:00 {?}', '술 마시고 귀가할 땐 택시 카드 보여주기'] },
+    hotel:      { ll: [35.6928, 139.7838], todo: ['짐 맡기기·찾기는 프런트에서', '체크아웃 10:00', '술 마시고 귀가할 땐 택시 카드 보여주기'] },
     kinshicho:  { ll: [35.6975, 139.8140], todo: ['아카짱혼포 5층 · 유니클로 4층 · GU 6층 (아르카킷)', '면세는 같은 가게 하루 5,000엔 이상 · 여권 실물', '부피 큰 기저귀·물티슈는 오늘 사서 숙소로'] },
-    asakusa:    { ll: [35.7110, 139.7960], todo: ['가미야 바 20:00 마감 (L.O. 19:30)', '쇼짱 니코미는 품절 전에', '막차 00:08 아사쿠사 → 히가시니혼바시 {?}'] },
-    ueno:       { ll: [35.7100, 139.7745], todo: ['분라쿠는 일요일 음식 주문 19:00까지', '니쿠노 오야마 일요일 음식 L.O. 21:00', '막차 00:01 우에노 → 고덴마초 {?}'] },
+    asakusa:    { ll: [35.7110, 139.7960], todo: ['가미야 바 20:00 마감 (L.O. 19:30)', '쇼짱 니코미는 품절 전에', '막차 00:08 아사쿠사 → 히가시니혼바시'] },
+    ueno:       { ll: [35.7100, 139.7745], todo: ['분라쿠는 일요일 음식 주문 19:00까지', '니쿠노 오야마 일요일 음식 L.O. 21:00', '막차 00:01 우에노 → 고덴마초'] },
     nihonbashi: { ll: [35.6850, 139.7737], todo: ['미쓰코시 본점 10:00 개점 · 본관 7층 미키하우스', '다카시마야는 10:30 개점'] },
     ningyocho:  { ll: [35.6862, 139.7826], todo: ['일요일엔 문 닫는 집이 많아요 (사사신 휴무)', '숙소까지 약 1km, 걸어서 귀가 가능'] },
     ginza:      { ll: [35.6717, 139.7650], todo: ['보행자 천국 토·일 12:00–17:00', '긴자 미쓰코시 신관 10층: 패밀리아·미키하우스', 'B네 출산 선물은 포장 요청', '마쓰야 긴자 일요일 19:30 마감'] },
@@ -1307,7 +1452,7 @@ const TRIP = {
     uq_ginza: ['ginza', 35.6697, 139.7636], gu_ginza: ['ginza', 35.6711, 139.7649], gmitsukoshi: ['ginza', 35.6714, 139.7660], matsuya: ['ginza', 35.6726, 139.7667],
     uq_tokyo: ['ginza', 35.6745, 139.7665], gu_marronnier: ['ginza', 35.6745, 139.7665], bairin: ['ginza', 35.6690, 139.7621], kagari: ['ginza', 35.6705, 139.7627],
     komatsuan: ['ginza', 35.6711, 139.7646], lion: ['ginza', 35.6692, 139.7632], tonton: ['ginza', 35.6745, 139.7613],
-    tsukiji: ['tsukiji', 35.6655, 139.7705], zanmai: ['tsukiji', 35.6655, 139.7710],
+    tsukiji: ['tsukiji', 35.6655, 139.7705], zanmai: ['tsukiji', 35.6653, 139.7706],
     ucchan: ['shinjuku', 35.6930, 139.6996], horaiya: ['shinjuku', 35.6929, 139.6997], tsukini: ['shinjuku', 35.6941, 139.7045],
     nrt: ['nrt', 35.7720, 140.3929], icn: ['icn', 37.4602, 126.4407]
   },
@@ -1334,11 +1479,73 @@ const TRIP = {
     '미키하우스 출산 선물': '선물용이라고 하면 포장해 줘요.'
   },
 
+  /* 체크리스트 — [이모지, 할 일, 작은 설명]. from/until(도쿄 시간) 사이에는 지도 화면에도 떠요 */
+  checklists: [
+    { id: 'pre', e: '🧳', title: '출발 전 체크', sub: '10/3 새벽, 집 나서기 전에', until: '2026-10-03T10:40:00+09:00', items: [
+      ['🛂', '여권 실물 · 두 사람 다', '면세 계산에도 실물이 필요해요'],
+      ['📱', 'Visit Japan Web QR 화면 캡처', '공항 와이파이가 느릴 때 대비'],
+      ['✈️', '에어서울 모바일 체크인', '카운터에서는 짐만 맡기면 돼요'],
+      ['📶', '일본 데이터 (eSIM · 로밍 · 포켓와이파이)', ''],
+      ['💴', '엔화 현금 + 트래블카드', '쇼짱·분라쿠·다이토료 등은 현금만 받아요'],
+      ['🔌', '돼지코 어댑터 (일본 콘센트는 11자 · 100V)', '휴대폰 충전기는 대부분 그대로 꽂아 써도 돼요'],
+      ['🔋', '충전기 · 보조배터리', '보조배터리는 위탁 말고 기내 가방에'],
+      ['🌂', '접이식 우산 · 얇은 겉옷', '10월은 도쿄에서 비가 가장 많은 달'],
+      ['👣', 'A네 아들 발 길이 재서 가방 메모에 적기', '첫걸음 신발 사이즈 고를 때 써요'],
+      ['👜', '접이식 쇼핑백 (캐리어 안에)', '현지에서 기저귀·옷 정리용'],
+      ['⚖️', '휴대용 저울', '위탁 1인 15kg · 1개'],
+      ['💊', '숙취해소제 · 상비약', ''],
+      ['📲', '이 페이지를 홈 화면에 추가', '한 번 열어 두면 지하철에서 인터넷이 끊겨도 열려요']
+    ] },
+    { id: 'back', e: '🛫', title: '귀국 전 체크', sub: '10/5 아침, 체크아웃할 때', from: '2026-10-04T20:00:00+09:00', until: '2026-10-05T12:50:00+09:00', items: [
+      ['🧾', '면세 밀봉 봉투는 뜯지 않기', '일본을 떠날 때까지'],
+      ['🧴', '로션·세제 같은 액체류는 위탁 캐리어에', '기내에는 100ml 이하 용기만'],
+      ['⚖️', '위탁 1인 15kg · 1개 무게 확인', '넘으면 두 사람 캐리어끼리 나누기'],
+      ['🔌', '방에 충전기·돼지코 두고 오지 않기', ''],
+      ['🛂', '여권 · 두 사람 다', ''],
+      ['🚆', '08:26 「アクセス特急 成田空港」 행선지 확인', '「普通」이나 아오토·다카사고·사쿠라행은 공항에 안 가요'],
+      ['💴', '남은 엔화는 공항 면세점에서', '']
+    ] }
+  ],
+
+  /* 보여주는 일본어 — 누르면 화면 가득 크게 떠요 */
+  phrases: [
+    { g: '🛍️ 쇼핑 · 면세', list: [
+      { id: 'tax',   ja: '免税できますか？', yomi: '멘제- 데키마스카?', ko: '면세 되나요?' },
+      { id: 'wrap',  ja: 'プレゼント用に包んでいただけますか？', yomi: '프레젠토요-니 츠츤데 이타다케마스카?', ko: '선물용으로 포장해 주실 수 있나요?' },
+      { id: 'size',  ja: 'これの別のサイズはありますか？', yomi: '코레노 베츠노 사이즈와 아리마스카?', ko: '이거 다른 사이즈 있나요?' },
+      { id: 'floor', ja: 'ベビー用品は何階ですか？', yomi: '베비-요-힌와 난가이데스카?', ko: '아기용품은 몇 층이에요?' },
+      { id: 'bag',   ja: '袋をもう一枚ください。', yomi: '후쿠로오 모- 이치마이 쿠다사이', ko: '봉투 하나 더 주세요.' },
+      { id: 'card',  ja: 'カードは使えますか？', yomi: '카-도와 츠카에마스카?', ko: '카드 되나요?' }
+    ] },
+    { g: '🍺 술집 · 식당', list: [
+      { id: 'two',   ja: '2人です。入れますか？', yomi: '후타리데스. 하이레마스카?', ko: '두 명이에요. 들어갈 수 있나요?' },
+      { id: 'beer',  ja: '生ビールを2つください。', yomi: '나마비-루오 후타츠 쿠다사이', ko: '생맥주 두 잔 주세요.' },
+      { id: 'rec',   ja: 'おすすめは何ですか？', yomi: '오스스메와 난데스카?', ko: '추천 메뉴가 뭐예요?' },
+      { id: 'same',  ja: 'これをもう一つください。', yomi: '코레오 모- 히토츠 쿠다사이', ko: '이거 하나 더 주세요.' },
+      { id: 'menu',  ja: '韓国語か英語のメニューはありますか？', yomi: '칸코쿠고카 에-고노 메뉴-와 아리마스카?', ko: '한국어나 영어 메뉴 있나요?' },
+      { id: 'bill',  ja: 'お会計をお願いします。', yomi: '오카이케-오 오네가이시마스', ko: '계산해 주세요.' }
+    ] },
+    { g: '🚃 이동 · 숙소', list: [
+      { id: 'nrt',   ja: 'この電車は成田空港に行きますか？', yomi: '코노 덴샤와 나리타쿠-코-니 이키마스카?', ko: '이 열차 나리타 공항 가나요?' },
+      { id: 'hng',   ja: 'この電車は東日本橋に止まりますか？', yomi: '코노 덴샤와 히가시니혼바시니 토마리마스카?', ko: '이 열차 히가시니혼바시에 서나요?' },
+      { id: 'luggage', ja: '荷物を預かっていただけますか？', yomi: '니모츠오 아즈캇테 이타다케마스카?', ko: '짐 좀 맡아 주실 수 있나요?' },
+      { id: 'stop',  ja: 'ここで止めてください。', yomi: '코코데 토메테 쿠다사이', ko: '(택시) 여기서 세워 주세요.' },
+      { id: 'receipt', ja: '領収書をください。', yomi: '료-슈-쇼오 쿠다사이', ko: '영수증 주세요.' }
+    ] },
+    { g: '🆘 급할 때', list: [
+      { id: 'help',  ja: '助けてください！', yomi: '타스케테 쿠다사이!', ko: '도와주세요!' },
+      { id: 'wallet', ja: '財布をなくしました。', yomi: '사이후오 나쿠시마시타', ko: '지갑을 잃어버렸어요.' },
+      { id: 'pharm', ja: '近くに薬局はありますか？', yomi: '치카쿠니 얏쿄쿠와 아리마스카?', ko: '근처에 약국 있나요?' },
+      { id: 'sick',  ja: '具合が悪いです。病院に行きたいです。', yomi: '구아이가 와루이데스. 뵤-인니 이키타이데스', ko: '몸이 안 좋아요. 병원에 가고 싶어요.' },
+      { id: 'korean', ja: '韓国語を話せる方はいますか？', yomi: '칸코쿠고오 하나세루 카타와 이마스카?', ko: '한국어 하시는 분 계세요?' }
+    ] }
+  ],
+
   fx: { rate: 950, quick: [1000, 3000, 5000, 10000, 30000], table: [500, 1000, 3000, 5000, 10000, 20000, 50000],
         note: '기본 환율 950원은 예시 값이에요. 그날 환율로 바꿔 쓰세요.' },
 
   footer: [
-    '2026-10-02 기준으로 공식 사이트·예약 사이트에서 확인한 정보예요. 영업시간과 가격은 바뀔 수 있어요.',
+    '2026-10-02 기준으로 공식 사이트·시간표 사이트에서 확인한 정보예요. 공항 열차·막차·숙소 시간은 10/2에 한 번 더 확인했어요. 영업시간과 가격은 바뀔 수 있어요.',
     '「확인 필요」 배지는 출처끼리 다르거나 끝까지 확인하지 못한 값이에요. 바로 위 목록에 모아 두었어요.'
   ]
 };
@@ -1473,6 +1680,116 @@ function dayStatus(di){
 }
 const todayIdx = () => D.days.findIndex(d => d.date === jst().date);
 
+/* ---------- 이동 시간 · 몇 시에 나서야 하나 ---------- */
+function durMin(s){
+  s = String(s || '').replace(/\{\?\}/g, '');
+  let m = 0; const h = /(\d+)\s*시간/.exec(s); if (h) m += +h[1] * 60;
+  const x = /(\d+)(?:\s*~\s*(\d+))?\s*분/.exec(s); if (x) m += +(x[2] || x[1]);
+  return m;
+}
+const fmtMin = m => { m = ((Math.round(m) % 1440) + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+const LEAVE_PAD = 5;   /* 역까지 걷기·환승 여유 */
+/* 공항 열차처럼 시각이 곧 탑승 시각이면 도착 시각을, 아니면 그 시각에 닿으려면 언제 나서야 하는지 */
+function tripOf(it){
+  const legs = (it.move || []).filter(m => m.line !== 'air');
+  const mins = legs.reduce((t, m) => t + durMin(m.dur), 0);
+  if (!legs.length || !mins) return null;
+  const t = toMin(it.t);
+  return legs.some(m => m.line === 'keisei') ? { board:true, mins, arrive: t + mins } : { board:false, mins, leave: t - mins - LEAVE_PAD };
+}
+function mainLine(it){
+  const ms = (it.move || []).filter(m => m.line !== 'air');
+  const m = ms.find(x => L[x.line] && L[x.line].sym) || ms[0];
+  return m ? m.line : null;
+}
+
+/* ================================================================
+   날씨 — Open-Meteo 무료 예보(도쿄 중앙구). 받은 값은 이 휴대폰에 저장해 두고 오프라인에서도 보여요
+   ================================================================ */
+const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.78&timezone=Asia%2FTokyo'
+  + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum'
+  + '&hourly=temperature_2m,precipitation_probability,weather_code'
+  + `&start_date=${D.start}&end_date=${D.end}`;
+let wx = null, wxBusy = false;
+try { const w0 = store.get('wx', null); if (w0 && w0.d && w0.h && w0.v === 1) wx = w0; } catch(e){}
+function wxInfo(c, night){
+  let e = '🌡️', t = '';
+  if (c === 0){ e = '☀️'; t = '맑음'; }
+  else if (c === 1){ e = '🌤️'; t = '대체로 맑음'; }
+  else if (c === 2){ e = '⛅'; t = '구름 조금'; }
+  else if (c === 3){ e = '☁️'; t = '흐림'; }
+  else if (c === 45 || c === 48){ e = '🌫️'; t = '안개'; }
+  else if (c >= 51 && c <= 57){ e = '🌦️'; t = '이슬비'; }
+  else if (c >= 61 && c <= 67){ e = '🌧️'; t = c === 65 ? '강한 비' : c === 61 ? '약한 비' : '비'; }
+  else if ((c >= 71 && c <= 77) || c === 85 || c === 86){ e = '🌨️'; t = '눈'; }
+  else if (c >= 80 && c <= 82){ e = c === 80 ? '🌦️' : '🌧️'; t = c === 82 ? '강한 소나기' : '소나기'; }
+  else if (c >= 95){ e = '⛈️'; t = '뇌우'; }
+  if (night && c <= 1) e = '🌙';
+  return { e, t };
+}
+const wxDay = date => (wx && wx.d[date]) || null;
+function wxAt(date, min){
+  if (!wx) return null;
+  if (min >= 1440){ date = addDay(date, 1); min -= 1440; }
+  const h = Math.floor(min / 60), w = wx.h[`${date}T${String(h).padStart(2, '0')}`];
+  return w ? Object.assign({ night: h < 6 || h >= 18 }, w) : null;
+}
+const itWxMin = it => it.end ? Math.round((toMin(it.t) + toMin(it.end) + (toMin(it.end) < toMin(it.t) ? 1440 : 0)) / 2) : toMin(it.t);
+const itWx = (it, di) => (it.sky ? null : wxAt(D.days[di].date, itWxMin(it)));
+async function loadWx(force){
+  if (wxBusy || navigator.onLine === false) return;
+  if (!force && wx && Date.now() - wx.at < 45 * 60e3) return;
+  wxBusy = true;
+  try {
+    const ac = new AbortController(), to = setTimeout(() => ac.abort(), 9000);
+    const r = await fetch(WX_URL, { signal: ac.signal }); clearTimeout(to);
+    if (!r.ok) throw new Error('wx ' + r.status);
+    const j = await r.json(); if (!j.daily || !j.hourly) throw new Error('wx');
+    const o = { v:1, at: Date.now(), d:{}, h:{} }, num = v => (typeof v === 'number' ? v : null);
+    j.daily.time.forEach((t, i) => { o.d[t] = { c: j.daily.weather_code[i], hi: num(j.daily.temperature_2m_max[i]), lo: num(j.daily.temperature_2m_min[i]), pp: num(j.daily.precipitation_probability_max[i]), ps: num(j.daily.precipitation_sum[i]) }; });
+    j.hourly.time.forEach((t, i) => { o.h[t.slice(0, 13)] = { t: num(j.hourly.temperature_2m[i]), p: num(j.hourly.precipitation_probability[i]), c: j.hourly.weather_code[i] }; });
+    wx = o; store.set('wx', wx); paintWx();
+  } catch(e){ /* 오프라인·차단: 저장해 둔 예보를 그대로 보여요 */ }
+  finally { wxBusy = false; }
+}
+function paintWx(){
+  paintChWx();
+  if (cur >= 0){ renderEvents(cur); paintCardWx(); }
+  renderWxBox();
+}
+function paintChWx(){
+  $$('.ch').forEach((b, i) => {
+    const d = D.days[i], w = wxDay(d.date);
+    let s = $('.ch__wx', b);
+    if (!w){ if (s) s.remove(); return; }
+    if (!s){ s = document.createElement('span'); s.className = 'ch__wx'; s.setAttribute('aria-hidden', 'true'); b.appendChild(s); }
+    const x = wxInfo(w.c);
+    s.textContent = x.e;
+    b.setAttribute('aria-label', `챕터 ${i + 1}, ${d.md} ${d.dowKo}요일, ${d.title}. 날씨 ${x.t}${w.hi != null ? ` 최고 ${Math.round(w.hi)}도` : ''}${w.pp != null ? ` 비 올 확률 ${w.pp}%` : ''}`);
+  });
+}
+function paintCardWx(){
+  const day = D.days[cur];
+  $$('[data-wx]').forEach(el => {
+    const k = +el.dataset.wx, it = day.items[k], w = it ? itWx(it, cur) : null;
+    if (!w || w.t == null){ el.innerHTML = ''; return; }
+    const x = wxInfo(w.c, w.night), wet = w.p != null && w.p >= 40;
+    el.innerHTML = `<span aria-hidden="true">${x.e}</span><small class="${wet ? 'is-wet' : ''}">${wet ? w.p + '%' : Math.round(w.t) + '°'}</small>`;
+    el.title = `${x.t} · ${Math.round(w.t)}° · 비 ${w.p == null ? '?' : w.p}%`;
+  });
+}
+function renderWxBox(){
+  const box = $('#wxBox'); if (!box) return;
+  if (!wx){ box.innerHTML = ''; $('#wxNote').textContent = navigator.onLine === false ? '인터넷이 연결되면 3일 예보를 불러와요.' : '예보를 불러오는 중…'; return; }
+  box.innerHTML = D.days.map(d => {
+    const w = wxDay(d.date); if (!w) return '';
+    const x = wxInfo(w.c);
+    return `<div class="wxday"><span>${d.md} <span lang="ja">${d.dow}</span></span><span class="wxday__e" aria-hidden="true">${x.e}</span><span>${esc(x.t)}</span><span class="wxday__t">${w.hi != null ? Math.round(w.hi) : '?'}° / ${w.lo != null ? Math.round(w.lo) : '?'}°</span>${w.pp != null ? `<span class="wxday__p">☂ ${w.pp}%</span>` : ''}</div>`;
+  }).join('');
+  const at = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).format(new Date(wx.at));
+  $('#wxNote').textContent = `Open-Meteo 예보 · ${at} (도쿄 시간) 업데이트 · 퀘스트 카드 오른쪽에 그 시간 날씨가 떠요`;
+}
+
 /* ================================================================
    지도
    ================================================================ */
@@ -1557,10 +1874,10 @@ function buildFg(di){
   const day = D.days[di];
   legs = []; legOf = [];
   let prev = day.start; const seq = new Set([prev]);
-  day.items.forEach((it, k) => { if (it.node !== prev){ legs.push({ a:prev, b:it.node, fly: prev === 'icn' || it.node === 'icn' }); legOf[k] = legs.length - 1; seq.add(it.node); prev = it.node; } });
+  day.items.forEach((it, k) => { if (it.node !== prev){ legs.push({ a:prev, b:it.node, fly: prev === 'icn' || it.node === 'icn', line: mainLine(it), tr: tripOf(it), syms: [...new Set((it.move || []).map(m => m.line).filter(x => L[x] && L[x].sym))] }); legOf[k] = legs.length - 1; seq.add(it.node); prev = it.node; } });
   let h = '<g class="route" id="route">';
-  legs.forEach((l, i) => { const d = legD(N[l.a], N[l.b], l.fly); h += `<path class="leg-trail" pathLength="1" d="${d}" style="transition-delay:${(i*0.16).toFixed(2)}s"/><path class="leg-dots${l.fly ? ' leg--fly' : ''}" id="leg-${i}" d="${d}" style="transition-delay:${(i*0.16 + 0.25).toFixed(2)}s"/>`; });
-  h += '</g><g class="nodes">';
+  legs.forEach((l, i) => { const d = legD(N[l.a], N[l.b], l.fly), c = !l.fly && l.line && L[l.line].color; h += `<path class="leg-trail" pathLength="1" d="${d}" style="transition-delay:${(i*0.16).toFixed(2)}s"/><path class="leg-dots${l.fly ? ' leg--fly' : ''}" id="leg-${i}" d="${d}" style="transition-delay:${(i*0.16 + 0.25).toFixed(2)}s${c ? ';stroke:' + c : ''}"/>`; });
+  h += legBadges() + '</g><g class="nodes">';
   Object.entries(N).forEach(([id, n]) => {
     if (n.sky) return;
     const lbl = n.label || n.name, inRoute = seq.has(id), w = lbl.length * 10.5 + 14;
@@ -1582,6 +1899,34 @@ function buildFg(di){
   m3dRoute(di);
   const route = $('#route', fg);
   if (anim) requestAnimationFrame(() => requestAnimationFrame(() => route.classList.add('drawn'))); else route.classList.add('drawn');
+}
+/* 경로 위 노선 배지: 어떤 노선으로 몇 분 (노드·다른 배지와 안 겹치는 자리로) */
+function legBadges(){
+  const obst = [], placed = [];
+  Object.values(N).forEach(n => {
+    if (n.sky) return;
+    const lbl = n.label || n.name, w = lbl.length * 10.5 + 14, lx = clamp(n.x, w / 2 + 3, WW - w / 2 - 3);
+    obst.push([n.x - 17, n.y - 17, n.x + 17, n.y + 19], [lx - w / 2 - 1, n.y + 19, lx + w / 2 + 1, n.y + 37.5]);
+  });
+  const area = (p, q) => Math.max(0, Math.min(p[2], q[2]) - Math.max(p[0], q[0])) * Math.max(0, Math.min(p[3], q[3]) - Math.max(p[1], q[1]));
+  return legs.map((l, i) => {
+    if (l.fly || !l.line) return '';
+    const syms = l.syms.length ? l.syms.slice(0, 2) : [l.line], mins = l.tr ? l.tr.mins : 0, txt = mins ? `${mins}분` : '';
+    const sw = syms.length * 12.4, tw = txt.length * 5 + 3, w = sw + tw + 5, x0 = -w / 2 + 2.5;
+    const a = N[l.a], b = N[l.b], c = legCtl(a, b, false);
+    const at = t => { const u = 1 - t; return [u*u*a.x + 2*u*t*c[0] + t*t*b.x, u*u*a.y + 2*u*t*c[1] + t*t*b.y]; };
+    let best = null, bestS = Infinity;
+    for (const t of [0.5, 0.42, 0.58, 0.34, 0.66, 0.27, 0.73, 0.2, 0.8]){
+      const p = at(t), r = [p[0] - w / 2 - 2, p[1] - 9.5, p[0] + w / 2 + 2, p[1] + 9.5];
+      let sc = obst.concat(placed).reduce((v, q) => v + area(r, q), 0);
+      if (r[0] < 2 || r[2] > WW - 2) sc += 400;
+      if (sc < bestS){ bestS = sc; best = { p, r }; }
+      if (sc === 0) break;
+    }
+    placed.push(best.r);
+    const ic = syms.map((id, j) => { const ln = L[id], cx = x0 + 6.2 + j * 12.4; return ln.emo ? `<text x="${cx.toFixed(1)}" y=".6" font-size="8.5" text-anchor="middle" dominant-baseline="central">${ln.emo}</text>` : `<circle cx="${cx.toFixed(1)}" r="5.5" style="stroke:${ln.color}"/><text class="sym" x="${cx.toFixed(1)}" y=".3"${ln.sym.length > 1 ? ' font-size="5.2"' : ''}>${esc(ln.sym)}</text>`; }).join('');
+    return `<g class="leg-lbl" transform="translate(${best.p[0].toFixed(1)},${best.p[1].toFixed(1)})" style="transition-delay:${(i*0.16 + 0.4).toFixed(2)}s"><rect x="${(-w / 2).toFixed(1)}" y="-7.5" width="${w.toFixed(1)}" height="15" rx="7.5"/>${ic}<text class="dur" x="${(x0 + sw + 1.5).toFixed(1)}" y=".6">${txt}</text></g>`;
+  }).join('');
 }
 function setHero(x, y){ heroPos = { x, y }; heroesEl.style.transform = `translate(${x.toFixed(2)}px, ${(y - 14).toFixed(2)}px) scale(1.25)`; m3dHero(x, y); }
 function face(dx){ if (Math.abs(dx) > 0.25) flipEl.style.transform = dx < 0 ? 'scaleX(-1)' : ''; }
@@ -1648,8 +1993,8 @@ function cardHTML(it, di, k){
   const kind = itKind(it), name = itShort(it), ja = itJa(it), lp = itLink(it);
   const kindLbl = it.save ? '💾 세이브' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
   return `<article class="qcard k-${kind}" data-k="${k}" id="q-${di}-${k}" aria-label="${esc(it.t)} ${esc(itName(it))}">
-    <div class="qcard__top"><span class="qcard__time">${it.approx ? '~' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span><span class="qcard__kind">${kindLbl}</span></div>
-    <div class="qcard__main"><span class="qcard__emo" aria-hidden="true">${itEmo(it)}</span><div class="qcard__ttl"><h3>${esc(name)}</h3>${ja ? `<span class="ja" lang="ja">${esc(ja)}</span>` : ''}</div></div>
+    <div class="qcard__top"><span class="qcard__time">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span><span class="qcard__kind">${kindLbl}</span></div>
+    <div class="qcard__main"><span class="qcard__emo" aria-hidden="true">${itEmo(it)}</span><div class="qcard__ttl"><h3>${esc(name)}</h3>${ja ? `<span class="ja" lang="ja">${esc(ja)}</span>` : ''}</div><span class="qcard__wx" data-wx="${k}"></span></div>
     <p class="qcard__how">${howHTML(it)}</p>
     <div class="qcard__btns">${lp && lp.q ? `<a class="gbtn gbtn--go" href="${esc(mapsUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 구글 지도 열기 (새 탭)">${ICON.pin}지도</a><a class="gbtn" href="${esc(dirUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 대중교통 길찾기 (새 탭)">${ICON.route}길</a>` : ''}<button class="gbtn" type="button" data-open="${k}" aria-label="${esc(itName(it))} 자세히 보기">자세히</button></div>
   </article>`;
@@ -1659,9 +2004,16 @@ function detailHTML(it, di, k, opts){
   const p = plc(it), name = itName(it), ja = itJa(it), w = `Day ${di + 1} · ${it.t} ${itShort(it)}`;
   const facts = (p && !it.noFacts ? placeFacts(p) : []).concat(it.facts || []);
   let h = '';
+  const wxNow = opts.buy ? itWx(it, di) : null, tr = tripOf(it);
+  if (wxNow && wxNow.t != null){ const x = wxInfo(wxNow.c, wxNow.night); facts.push(['날씨', `${x.e} ${x.t} · ${Math.round(wxNow.t)}°${wxNow.p != null ? ` · 비 ${wxNow.p}%` : ''} (예보)`]); }
   if (it.memo) h += `<div class="say"><span class="say__who say__who--${k % 2 ? 'b' : 'a'}" aria-hidden="true">${k % 2 ? 'B' : 'A'}</span><p><span class="sr">아빠 ${k % 2 ? 'B' : 'A'}: </span>${rich(it.memo, w)}</p></div>`;
-  if (it.move) h += `<section class="sec"><h3>🧭 이동</h3>${moveHTML(it.move, w)}</section>`;
+  if (it.move){
+    const lb = tr ? (tr.board ? `<p class="leaveby">🚆 <b>${esc(it.t)}</b> 탑승 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(약 ${tr.mins}분)</span></p>`
+                              : `<p class="leaveby">⏱ ${esc(it.t)}에 닿으려면 <b>${fmtMin(tr.leave)}</b>쯤 출발 <span>(이동 약 ${tr.mins}분 + 여유 ${LEAVE_PAD}분)</span></p>`) : '';
+    h += `<section class="sec"><h3>🧭 이동</h3>${moveHTML(it.move, w)}${lb}</section>`;
+  }
   if (facts.length || (p && p.open)) h += `<section class="sec"><h3>📋 정보</h3>${factsHTML(facts, w)}${p && p.open ? openDays(p.open) : ''}</section>`;
+  if (wxNow && wxNow.p != null && wxNow.p >= 50) h += `<p class="raintip"><span aria-hidden="true">☔</span><span>이 시간 비 올 확률 ${wxNow.p}% · 우산 챙기고${it.alt ? ' 아래 B루트도 확인!' : ''}</span></p>`;
   if (opts.buy && p && p.shops){
     const rows = [];
     D.kids.forEach(kid => kidItems(kid).forEach(x => { if (p.shops.includes(x.shop)) rows.push(itemRowHTML(kid, x)); }));
@@ -1671,7 +2023,8 @@ function detailHTML(it, di, k, opts){
     const ap = it.alt.place ? P[it.alt.place] : null;
     h += `<div class="broute"><span class="broute__k" aria-hidden="true">B</span><p><b>B루트</b> · ${rich(it.alt.text, w)}${ap ? ` <a href="${esc(mapsUrl(ap.q))}" ${EXT} aria-label="B루트 ${esc(ap.name)} 구글 지도 열기 (새 탭)">지도 ↗</a>` : ''}</p></div>`;
   }
-  if (it.last) h += `<p class="lastline">🚃 막차 <b>${esc(it.last.t)}</b> · ${esc(it.last.txt)} (토·일) ${NEED}</p>`;
+  if (it.last) h += `<p class="lastline">🚃 막차 <b>${esc(it.last.t)}</b> · ${esc(it.last.txt)} (토·일)</p>`;
+  if (opts.buy){ const ph = ctxPhrases(it); if (ph.length) h += `<section class="sec"><h3>🗣️ 보여주는 일본어 <small>누르면 화면 가득 크게</small></h3><div class="phchips">${ph.map(x => `<button class="phchip" type="button" data-phr="${x.id}" aria-label="${esc(x.ko)} 일본어로 크게 보기">${esc(x.ko)}</button>`).join('')}</div></section>`; }
   h += linksHTML(itLink(it), name);
   const tag = opts.titleId ? 'h2 id="sheetTitle"' : 'h4';
   return { head: `<span class="qcard__emo k-${itKind(it)}" aria-hidden="true">${itEmo(it)}</span><div><p class="sh-time">DAY ${di + 1} · ${it.approx ? '약 ' : ''}${esc(it.t)}${it.end ? ' → ' + esc(it.end) : ''}</p><${tag}>${esc(name)}${ja ? ` <span class="ja" lang="ja">${esc(ja)}</span>` : ''}</${tag.split(' ')[0]}><div class="tags">${tagChips(it.tags)}</div></div>`, body: h };
@@ -1681,8 +2034,52 @@ function renderQuests(di, dir){
   qwrap.innerHTML = day.items.map((it, k) => cardHTML(it, di, k)).join('');
   cards = $$('.qcard', qwrap);
   if (anim && dir){ qwrap.classList.remove('slide-l', 'slide-r'); void qwrap.offsetWidth; qwrap.classList.add(dir > 0 ? 'slide-r' : 'slide-l'); }
-  $('#events').innerHTML = (day.events || []).map(e => `<li><span aria-hidden="true">${e.e}</span><span>${rich(e.t)}</span></li>`).join('');
+  renderEvents(di); renderTimeline(di); paintCardWx();
   observeCards();
+}
+function renderEvents(di){
+  const day = D.days[di], w = wxDay(day.date);
+  let h = '';
+  if (w){
+    const x = wxInfo(w.c);
+    h += `<li class="events__wx"><span aria-hidden="true">${x.e}</span><span>${day.md} 도쿄 ${esc(x.t)} · <b>${w.hi != null ? Math.round(w.hi) : '?'}° / ${w.lo != null ? Math.round(w.lo) : '?'}°</b>${w.pp != null ? ` · 비 ${w.pp}%` : ''}</span></li>`;
+    if ((w.pp != null && w.pp >= 50) || (w.ps != null && w.ps >= 3)) h += `<li class="events__rain"><span aria-hidden="true">☂️</span><span>비 예보 · 접이식 우산 챙기고, 카드의 ☔ 표시는 B루트도 확인</span></li>`;
+  }
+  h += (day.events || []).map(e => `<li><span aria-hidden="true">${e.e}</span><span>${rich(e.t)}</span></li>`).join('');
+  $('#events').innerHTML = h;
+}
+
+/* --- 하루 일정 한눈에 (목록 모드) --- */
+const tlEl = $('#tl'), qcol = $('.questcol');
+let listMode = !!store.get('listmode', false);
+function renderTimeline(di){
+  const day = D.days[di];
+  tlEl.innerHTML = day.items.map((it, k) => {
+    const tr = tripOf(it), p = plc(it), plain = s => esc(String(s || '').replace(/\s*\{\?\}/g, ''));
+    const hint = p && !it.noFacts ? (p.loc ? p.loc.split(' · ')[0] : (p.hours || '')) : '';
+    const sub = tr ? (tr.board ? `🚆 ${esc(it.t)} 탑승 · ${fmtMin(tr.arrive)}쯤 도착` : `🚶 <b>${fmtMin(tr.leave)}</b> 출발 · 이동 약 ${tr.mins}분`)
+      : it.sky ? plain(it.move && it.move[0] && it.move[0].text) : hint ? plain(hint) : it.save ? '💾 세이브 포인트' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
+    return `<li data-k="${k}"><button class="tl__row" type="button" data-tl="${k}" aria-label="${esc(it.t)} ${esc(itName(it))}. 누르면 자세히"><span class="tl__t">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}${it.end ? `<small>→${esc(it.end)}</small>` : ''}</span><span class="tl__e" aria-hidden="true">${itEmo(it)}</span><span class="tl__n"><b>${esc(itShort(it))}</b><small>${sub}</small></span><span class="tl__s"></span><span class="tl__w qcard__wx" data-wx="${k}"></span></button></li>`;
+  }).join('');
+}
+function paintTimeline(){
+  if (cur < 0) return;
+  const st = dayStatus(cur);
+  $$('li', tlEl).forEach(li => {
+    const k = +li.dataset.k;
+    li.classList.toggle('is-active', k === act);
+    li.classList.toggle('is-now', k === st.now);
+    li.classList.toggle('is-past', st.past.has(k) && k !== st.now);
+    $('.tl__s', li).innerHTML = k === st.now ? '<span class="nb nb--now">NOW</span>' : (k === st.next ? '<span class="nb nb--next">NEXT</span>' : '');
+  });
+}
+function setListMode(on){
+  listMode = on; store.set('listmode', on);
+  qcol.classList.toggle('is-list', on);
+  const b = $('#listQ'); b.setAttribute('aria-pressed', String(on));
+  b.textContent = on ? '🃏 카드' : '☰ 목록';
+  b.setAttribute('aria-label', on ? '퀘스트 카드로 보기' : '하루 일정을 목록으로 한눈에 보기');
+  if (!on && act >= 0) requestAnimationFrame(() => scrollToCard(act, false));
 }
 function observeCards(){
   if (qio) qio.disconnect();
@@ -1711,6 +2108,7 @@ function activate(j, opts){
   const day = D.days[cur], it = day.items[j];
   cards.forEach((c, k) => { c.classList.toggle('is-active', k === j); c.dataset.side = k < j ? 'l' : (k > j ? 'r' : ''); });
   $('#qcount').textContent = `${j + 1}/${day.items.length}`;
+  paintTimeline();
   const path = [];
   if (prev >= 0 && opts.walk !== false){
     if (j > prev){ for (let k = prev + 1; k <= j; k++) if (legOf[k] != null) path.push({ leg: legs[legOf[k]], rev:false }); }
@@ -1763,17 +2161,18 @@ function refreshStatus(){
     const ks = items.map((it, k) => it.node === g.dataset.node ? k : -1).filter(k => k >= 0);
     g.classList.toggle('is-clear', ks.length > 0 && ks.every(k => st.past.has(k)));
   });
+  paintTimeline();
   m3dStatus();
 }
 function play(){
   if (playT){ stopPlay(); return; }
-  const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'true'); btn.textContent = '■ 멈춤';
+  const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'true'); btn.textContent = '■ 멈춤'; btn.setAttribute('aria-label', '경로 재생 멈춤');
   userMoved = true;
   if (act >= cards.length - 1) goTo(0);
   const tick = () => { if (act >= cards.length - 1){ stopPlay(); return; } playT = setTimeout(() => { goTo(act + 1); tick(); }, 1700); };
   playT = 1; tick();
 }
-function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'false'); btn.textContent = '▶ 경로 재생'; }
+function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'false'); btn.textContent = '▶ 재생'; btn.setAttribute('aria-label', '경로 재생'); }
 
 /* ================================================================
    시트 (상세)
@@ -2176,6 +2575,7 @@ function blockHTML(b, w){
   if (typeof b === 'string') return `<p>${rich(b, w)}</p>`;
   if (b.ul) return `<ul>${b.ul.map(x => `<li>${rich(x, w)}</li>`).join('')}</ul>`;
   if (b.pass) return `<div class="passbox" id="passBox"></div>`;
+  if (b.wx) return `<div class="wxbox" id="wxBox"></div><p class="wxnote" id="wxNote"></p>`;
   if (b.contacts) return b.contacts.map(c => `<div class="contact"><div class="contact__who"><b>${esc(c.name)}</b><span>${rich(c.note, w)}</span></div>
     <a class="contact__num" href="tel:${esc(c.tel)}" aria-label="${esc(c.name)} 전화 걸기 ${esc(c.num)}">${esc(c.num)}</a>
     <button class="gbtn gbtn--icon" type="button" data-copy="${esc(c.num)}" aria-label="${esc(c.name)} 번호 복사">${ICON.copy}</button></div>`).join('');
@@ -2209,9 +2609,63 @@ function renderGuide(){
   }).join('');
   $('#base').innerHTML = hotelHTML();
   const acc = (icon, title, body) => `<details class="acc reveal"><summary><span class="acc__e" aria-hidden="true">${icon}</span><span class="acc__t">${esc(title)}</span>${ICON.chev}</summary><div class="acc__body">${body}</div></details>`;
-  $('#tipsList').innerHTML = D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
+  const ckAcc = l => `<details class="acc reveal" data-ckacc="${l.id}"><summary><span class="acc__e" aria-hidden="true">${l.e}</span><span class="acc__t">${esc(l.title)}</span><span class="acc__c" data-ckn="${l.id}"></span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">${esc(l.sub)}</p><div data-cklist="${l.id}">${checklistHTML(l)}</div></div></details>`;
+  const phr = `<details class="acc reveal" id="phrAcc"><summary><span class="acc__e" aria-hidden="true">🗣️</span><span class="acc__t">보여주는 일본어</span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">누르면 화면 가득 크게 떠요. 점원에게 그대로 보여주세요.</p><div class="phr">${(D.phrases || []).map(g => `<p class="phr__g">${esc(g.g)}</p>${g.list.map(phraseRow).join('')}`).join('')}</div></div></details>`;
+  $('#tipsList').innerHTML = (D.checklists || []).map(ckAcc).join('') + phr + D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
+  paintChecks();
   $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('');
 }
+/* ---------- 체크리스트 ---------- */
+let checks = store.get('checks', {});
+const ckKey = (l, x) => l.id + '::' + x[1];
+const ckCount = l => ({ n: l.items.filter(x => checks[ckKey(l, x)]).length, all: l.items.length });
+function checklistHTML(l){
+  return `<div class="cklist">${l.items.map(x => { const k = ckKey(l, x), on = !!checks[k]; return `<button class="ckrow" type="button" data-ck="${esc(k)}" aria-pressed="${on}"><span class="ckrow__e" aria-hidden="true">${x[0]}</span><span class="ckrow__t">${rich(x[1])}${x[2] ? `<small>${rich(x[2])}</small>` : ''}</span><span class="ckrow__ck" aria-hidden="true">${ICON.check}</span></button>`; }).join('')}</div>`;
+}
+function toggleCheck(k){
+  if (checks[k]) delete checks[k]; else checks[k] = 1;
+  store.set('checks', checks); paintChecks();
+  const l = (D.checklists || []).find(x => k.indexOf(x.id + '::') === 0);
+  if (l && checks[k]){ const c = ckCount(l); if (c.n === c.all) toast(`✅ ${l.title} 완료!`); }
+}
+function paintChecks(){
+  $$('[data-ck]').forEach(b => b.setAttribute('aria-pressed', String(!!checks[b.dataset.ck])));
+  (D.checklists || []).forEach(l => { const c = ckCount(l); $$(`[data-ckn="${l.id}"]`).forEach(el => { el.textContent = `${c.n}/${c.all}`; }); });
+  renderCheckbar();
+}
+function activeChecklist(){
+  const now = Date.now();
+  return (D.checklists || []).find(l => (!l.from || now >= Date.parse(l.from)) && (!l.until || now < Date.parse(l.until))) || null;
+}
+function renderCheckbar(){
+  const b = $('#checkbar'), l = activeChecklist();
+  if (!l){ b.hidden = true; return; }
+  const c = ckCount(l);
+  b.hidden = false; b.dataset.cl = l.id;
+  b.innerHTML = `<span class="checkbar__e" aria-hidden="true">${l.e}</span><span class="checkbar__t">${esc(l.title)}<small>${esc(l.sub)}</small></span><span class="xp" aria-hidden="true"><span style="--p:${c.n / c.all}"></span></span><span class="checkbar__n">${c.n}/${c.all}</span>`;
+  b.setAttribute('aria-label', `${l.title} ${c.n}/${c.all} 완료. 눌러서 체크리스트 열기`);
+}
+function openChecklist(id){
+  const l = (D.checklists || []).find(x => x.id === id); if (!l) return;
+  sheetReopen = () => openChecklist(id);
+  openSheet(`<header class="sh-head"><span class="qcard__emo k-save" aria-hidden="true">${l.e}</span><div><p class="sh-time">${esc(l.sub)}</p><h2 id="sheetTitle">${esc(l.title)} <span class="acc__c" data-ckn="${l.id}"></span></h2></div></header><div data-cklist="${l.id}">${checklistHTML(l)}</div>`);
+  paintChecks();
+}
+
+/* ---------- 보여주는 일본어 ---------- */
+const PHR = {};
+(D.phrases || []).forEach(g => g.list.forEach(p => { PHR[p.id] = p; }));
+const phraseRow = p => `<button class="phrow" type="button" data-phr="${p.id}" aria-label="${esc(p.ko)} — 일본어로 크게 보기"><span class="phrow__ja" lang="ja">${esc(p.ja)}</span><span class="phrow__ko"><b>${esc(p.ko)}</b> · ${esc(p.yomi)}</span></button>`;
+function ctxPhrases(it){
+  const t = it.tags || [], ids = [];
+  if (t.includes('drink')) ids.push('two', 'beer', 'rec', 'bill');
+  else if (t.includes('food')) ids.push('two', 'menu', 'rec', 'bill');
+  else if (t.includes('baby') || t.includes('gu')) ids.push('tax', 'wrap', 'size', 'floor');
+  if ((it.move || []).some(m => m.line === 'keisei')) ids.push(it.node === 'nrt' ? 'nrt' : 'hng');
+  if (it.save && it.node === 'hotel') ids.push('luggage');
+  return ids.map(id => PHR[id]).filter(Boolean);
+}
+
 function renderNeeds(){
   const list = Array.from(needs.values());
   $('#tipsList').insertAdjacentHTML('beforeend', `<details class="acc reveal" id="needs"><summary><span class="acc__e" aria-hidden="true">❓</span><span class="acc__t">확인 필요 모아보기</span><span class="acc__c">${list.length}</span>${ICON.chev}</summary><div class="acc__body"><p>공식 출처로 끝까지 확인하지 못했거나 바뀔 수 있는 값이에요. 가기 전이나 현장에서 한 번 더 보세요.</p><ul class="needlist">${list.map(x => `<li><small>${esc(x.where.join(' · '))}</small>${esc(x.text)}</li>`).join('')}</ul></div></details>`);
@@ -2222,33 +2676,126 @@ function renderPrintPlan(){
 function renderMiniBase(){
   const h = D.hotel, p = P[h.place];
   $('#minibase').innerHTML = `<span class="minibase__e" aria-hidden="true">🏨</span><span class="minibase__t"><b>베이스캠프 · 숙소</b>히가시니혼바시역 B4 출구 1분</span><button class="gbtn gbtn--gold gbtn--sm" type="button" data-taxi aria-label="택시 기사에게 보여줄 숙소 주소 크게 보기">🚕 택시</button><a class="gbtn gbtn--icon" href="${esc(dirUrl(p.q))}" ${EXT} aria-label="숙소까지 대중교통 길찾기 (새 탭)">${ICON.route}</a>`;
-  $('#taxiName').textContent = p.ja;
-  $('#taxiAddr').textContent = h.addressCopy;
-  $('#taxiTel').textContent = 'TEL ' + h.phone;
+}
+const hotelBig = () => ({ lead: 'ここへ行ってください', name: P[D.hotel.place].ja, addr: D.hotel.addressCopy, tel: 'TEL ' + D.hotel.phone, ko: '숙소 주소 · 택시 기사님께 보여주세요' });
+function fillBig(o){
+  [['taxiLead', o.lead], ['taxiName', o.name], ['taxiAddr', o.addr], ['taxiTel', o.tel], ['taxiYomi', o.yomi], ['taxiKo', o.ko]].forEach(([id, v]) => { const el = $('#' + id); el.textContent = v || ''; el.hidden = !v; });
 }
 
 /* ================================================================
    환전소
    ================================================================ */
+let fxRate = parseFloat(store.get('fxRate', D.fx.rate)) || D.fx.rate, fxSrc = store.get('fxSrc', null);
+const fmtNum = n => Math.round(n).toLocaleString('ko-KR');
+const cleanNum = v => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
 function initFx(){
   const rateEl = $('#fxRate'), jpy = $('#fxJpy'), krw = $('#fxKrw');
-  let rate = parseFloat(store.get('fxRate', D.fx.rate)) || D.fx.rate;
-  rateEl.value = rate;
-  const clean = v => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
-  const fmt = n => n ? Math.round(n).toLocaleString('ko-KR') : '';
+  rateEl.value = fxRate;
+  const fmt = n => n ? fmtNum(n) : '';
   const table = () => {
-    $('#fxTable').innerHTML = '<tbody>' + D.fx.table.map(y => `<tr><td>¥${y.toLocaleString('ko-KR')}</td><td>${Math.round(y * rate / 100).toLocaleString('ko-KR')}원</td></tr>`).join('') + '</tbody>';
-    $('#fxHint').innerHTML = `면세 기준 5,000엔 ≈ <b>${Math.round(5000 * rate / 100).toLocaleString('ko-KR')}원</b> · ${esc(D.fx.note)}`;
+    $('#fxTable').innerHTML = '<tbody>' + D.fx.table.map(y => `<tr><td>¥${y.toLocaleString('ko-KR')}</td><td>${fmtNum(y * fxRate / 100)}원</td></tr>`).join('') + '</tbody>';
+    $('#fxHint').innerHTML = `면세 기준 5,000엔 ≈ <b>${fmtNum(5000 * fxRate / 100)}원</b> · ${fxSrc && fxSrc.host ? '시장 중간 환율이라 카드·현금 환전 때는 조금 달라요.' : esc(D.fx.note)}`;
   };
-  const fromJ = () => { krw.value = fmt(clean(jpy.value) * rate / 100); };
-  const fromK = () => { jpy.value = fmt(clean(krw.value) * 100 / rate); };
-  jpy.addEventListener('input', () => { const c = clean(jpy.value); jpy.value = c ? c.toLocaleString('ko-KR') : ''; fromJ(); });
-  krw.addEventListener('input', () => { const c = clean(krw.value); krw.value = c ? c.toLocaleString('ko-KR') : ''; fromK(); });
-  rateEl.addEventListener('input', () => { const r = clean(rateEl.value); if (r > 0){ rate = r; store.set('fxRate', r); fromJ(); table(); } });
+  const fromJ = () => { krw.value = fmt(cleanNum(jpy.value) * fxRate / 100); };
+  const fromK = () => { jpy.value = fmt(cleanNum(krw.value) * 100 / fxRate); };
+  jpy.addEventListener('input', () => { const c = cleanNum(jpy.value); jpy.value = c ? c.toLocaleString('ko-KR') : ''; fromJ(); });
+  krw.addEventListener('input', () => { const c = cleanNum(krw.value); krw.value = c ? c.toLocaleString('ko-KR') : ''; fromK(); });
+  rateEl.addEventListener('input', () => { const r = cleanNum(rateEl.value); if (r > 0){ fxRate = r; store.set('fxRate', r); fxSrc = { manual:true, at: Date.now() }; store.set('fxSrc', fxSrc); fromJ(); table(); paintFxSrc(); paintSplit(); } });
   $('#fxQuick').innerHTML = D.fx.quick.map(y => `<button class="chip" type="button" data-y="${y}" aria-label="${y.toLocaleString('ko-KR')}엔 환산">¥${y.toLocaleString('ko-KR')}</button>`).join('');
   $('#fxQuick').addEventListener('click', e => { const c = e.target.closest('[data-y]'); if (!c) return; jpy.value = (+c.dataset.y).toLocaleString('ko-KR'); fromJ(); });
   $('#fxForm').addEventListener('submit', e => e.preventDefault());
-  jpy.value = (1000).toLocaleString('ko-KR'); fromJ(); table();
+  $('#fxLive').addEventListener('click', () => loadRate(true));
+  fxApply = (r, src) => { fxRate = r; rateEl.value = r; store.set('fxRate', r); fxSrc = src; store.set('fxSrc', src); fromJ(); table(); paintFxSrc(); paintSplit(); };
+  jpy.value = (1000).toLocaleString('ko-KR'); fromJ(); table(); paintFxSrc();
+  initSplit();
+}
+let fxApply = null, fxBusy = false;
+function paintFxSrc(){
+  const el = $('#fxSrc'); if (!el) return;
+  const t = fxSrc && fxSrc.at ? new Intl.DateTimeFormat('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).format(new Date(fxSrc.at)) : '';
+  el.textContent = fxSrc && fxSrc.host ? `${t} 불러옴 · ${fxSrc.host}` : fxSrc && fxSrc.manual ? `직접 입력한 환율 (${t})` : '지금은 예시 환율이에요';
+}
+async function loadRate(user){
+  if (fxBusy || !fxApply) return;
+  if (navigator.onLine === false){ if (user) toast('📴 오프라인이라 환율을 못 불러와요'); return; }
+  const btn = $('#fxLive'); fxBusy = true; btn.setAttribute('aria-busy', 'true');
+  const SRC = [
+    ['https://open.er-api.com/v6/latest/JPY', j => j && j.rates && j.rates.KRW],
+    ['https://api.frankfurter.app/latest?from=JPY&to=KRW', j => j && j.rates && j.rates.KRW]
+  ];
+  let ok = false;
+  for (const [u, pick] of SRC){
+    try {
+      const ac = new AbortController(), to = setTimeout(() => ac.abort(), 8000);
+      const r = await fetch(u, { signal: ac.signal }); clearTimeout(to);
+      if (!r.ok) continue;
+      const v = pick(await r.json());
+      if (v > 2 && v < 30){ fxApply(Math.round(v * 1000) / 10, { host: new URL(u).hostname, at: Date.now() }); ok = true; break; }
+    } catch(e){}
+  }
+  fxBusy = false; btn.removeAttribute('aria-busy');
+  if (user) toast(ok ? `💴 오늘 환율 · 100엔 = ${fxRate}원` : '환율을 못 불러왔어요 · 직접 입력해 주세요');
+}
+function autoRate(){ if (!fxSrc || (!fxSrc.manual && Date.now() - (fxSrc.at || 0) > 6 * 3600e3)) loadRate(false); }
+
+/* ---------- 같이 쓴 돈 · 반반 정산 ---------- */
+let split = store.get('split', []), splitWho = store.get('splitWho', 'a'), splitArm = null;
+if (!Array.isArray(split)) split = [];
+function initSplit(){
+  $('#split').innerHTML = `<h3 id="splitT">🧾 같이 쓴 돈 · 반반 정산</h3>
+    <p class="split__sub">술값·택시·밥처럼 둘이 같이 쓴 돈만 적어요. 누가 누구에게 얼마 주면 되는지 바로 계산해요.</p>
+    <form class="split__form" id="splitForm" autocomplete="off">
+      <label class="sr" for="splitY">금액 (엔)</label><input class="field split__amt" id="splitY" inputmode="numeric" placeholder="¥ 금액" enterkeyhint="next">
+      <div class="split__who" role="group" aria-label="낸 사람"><button type="button" data-who="a" aria-pressed="${splitWho === 'a'}">A가 냄</button><button type="button" data-who="b" aria-pressed="${splitWho === 'b'}">B가 냄</button></div>
+      <label class="sr" for="splitM">메모</label><input class="field split__memo" id="splitM" type="text" placeholder="메모 (비우면 지금 퀘스트 이름)" enterkeyhint="done">
+      <button class="gbtn gbtn--gold split__add" type="submit">+ 기록하기</button>
+    </form>
+    <div class="split__res" id="splitRes" aria-live="polite"></div>
+    <ul class="split__list" id="splitList" aria-label="같이 쓴 돈 기록"></ul>
+    <div class="bagtools"><button class="gbtn gbtn--sm" id="splitReset" type="button">기록 모두 지우기</button></div>`;
+  const y = $('#splitY');
+  y.addEventListener('input', () => { const c = cleanNum(y.value); y.value = c ? c.toLocaleString('ko-KR') : ''; });
+  $('#split').addEventListener('click', e => {
+    const w = e.target.closest('[data-who]');
+    if (w){ splitWho = w.dataset.who; store.set('splitWho', splitWho); $$('[data-who]', $('#split')).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.who === splitWho))); return; }
+    const x = e.target.closest('[data-sdel]');
+    if (x){
+      const id = x.dataset.sdel;
+      if (splitArm !== id){ splitArm = id; x.textContent = '삭제'; x.classList.add('is-arm'); setTimeout(() => { if (splitArm === id){ splitArm = null; paintSplit(); } }, 3000); return; }
+      split = split.filter(s => String(s.id) !== id); splitArm = null; store.set('split', split); paintSplit(); toast('기록을 지웠어요');
+    }
+  });
+  $('#splitForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const amt = cleanNum(y.value); if (!amt){ y.focus(); toast('금액을 엔으로 적어 주세요'); return; }
+    let memo = $('#splitM').value.trim();
+    if (!memo){
+      const di = todayIdx(), st = di >= 0 ? dayStatus(di) : null;
+      memo = st && st.now >= 0 ? itShort(D.days[di].items[st.now]) : (cur >= 0 && act >= 0 ? itShort(D.days[cur].items[act]) : '');
+    }
+    split.unshift({ id: Date.now(), y: Math.round(amt), w: splitWho, m: memo, t: Date.now() });
+    store.set('split', split);
+    y.value = ''; $('#splitM').value = '';
+    paintSplit(); toast(`🧾 ${splitWho.toUpperCase()}가 낸 ¥${fmtNum(amt)} 기록`);
+  });
+  let armed = 0;
+  $('#splitReset').addEventListener('click', e => {
+    const b = e.currentTarget;
+    if (!split.length) return;
+    if (!armed){ armed = setTimeout(() => { armed = 0; b.textContent = '기록 모두 지우기'; }, 3500); b.textContent = '한 번 더 누르면 모두 지워져요'; return; }
+    clearTimeout(armed); armed = 0; b.textContent = '기록 모두 지우기'; split = []; store.set('split', split); paintSplit(); toast('정산 기록을 모두 지웠어요');
+  });
+  paintSplit();
+}
+function paintSplit(){
+  const res = $('#splitRes'), ul = $('#splitList'); if (!res) return;
+  const sum = { a: 0, b: 0 }; split.forEach(x => { sum[x.w === 'b' ? 'b' : 'a'] += x.y; });
+  const tot = sum.a + sum.b, diff = sum.a - tot / 2;
+  const won = v => `≈ ${fmtNum(v * fxRate / 100)}원`;
+  const settle = !tot ? '아직 기록이 없어요' : Math.abs(diff) < 1 ? '딱 반반! 줄 돈 없음 🍻' : diff > 0 ? `B → A <b>¥${fmtNum(diff)}</b> <small>${won(diff)}</small>` : `A → B <b>¥${fmtNum(-diff)}</b> <small>${won(-diff)}</small>`;
+  res.innerHTML = `<span>합계 ¥${fmtNum(tot)} <small>${won(tot)}</small> · A ¥${fmtNum(sum.a)} · B ¥${fmtNum(sum.b)}</span><span>정산: ${settle}</span>`;
+  const f = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
+  ul.innerHTML = split.map(x => `<li><span class="who${x.w === 'b' ? ' who--b' : ''}" aria-label="${x.w === 'b' ? 'B' : 'A'}가 냄">${x.w === 'b' ? 'B' : 'A'}</span><span class="m">${esc(x.m || '기록')} <small>${f.format(new Date(x.t))}</small></span><span class="y">¥${fmtNum(x.y)}</span><button class="x" type="button" data-sdel="${x.id}" aria-label="${esc(x.m || '기록')} ¥${fmtNum(x.y)} 지우기">×</button></li>`).join('');
 }
 
 /* ================================================================
@@ -2266,6 +2813,7 @@ let tickAction = null;
 function updateTicker(){
   updateTicker0();
   if (live) $('#ticker').insertAdjacentHTML('afterbegin', '<span class="ticker__k ticker__k--live">📡 LIVE</span>');
+  if (navigator.onLine === false) $('#ticker').insertAdjacentHTML('afterbegin', '<span class="ticker__k ticker__k--off" title="인터넷 연결 없음 · 저장된 화면">📴</span>');
   const left = passLeft();
   if (left != null && left > 0) $('#ticker').insertAdjacentHTML('beforeend', `<span class="ticker__last">🎫 ${fmtHM(left)}</span>`);
   renderPassBox();
@@ -2285,6 +2833,8 @@ function updateTicker0(){
         const rem = lm - n.min;
         last = rem > 0 ? `<span class="ticker__last">🚃 막차 ${esc(it.last.t)} · ${Math.floor(rem / 60)}:${String(rem % 60).padStart(2, '0')} 남음</span>` : `<span class="ticker__last">🚕 막차 끝 · 택시로</span>`;
       }
+      const nx = st.now >= 0 ? st.next : pick, ntr = nx >= 0 ? tripOf(items[nx]) : null;
+      if (ntr && !ntr.board){ const dl = ntr.leave - n.min; if (dl <= 40 && dl >= -10 && (!last || dl <= 20)) last = `<span class="ticker__last">${dl > 0 ? `🚶 ${fmtMin(ntr.leave)} 출발` : '🏃 지금 출발'}</span>`; }
       t.innerHTML = st.now >= 0
         ? `<span class="pulse" aria-hidden="true"></span><span class="ticker__k ticker__k--now">NOW</span><span class="ticker__t"><b>${esc(it.t)}</b>${esc(itShort(it))}</span>${last}`
         : `<span class="ticker__k">NEXT</span><span class="ticker__t"><b>${esc(it.t)}</b>${esc(itShort(it))}</span>${last}`;
@@ -2323,6 +2873,7 @@ function showView(v, opts){
   if (changed && !opts.keepScroll) scrollTo({ top:0 });
   if (v === 'map') requestAnimationFrame(() => { cam(heroPos.y, false); if (act >= 0) scrollToCard(act, false); });
   watchReveal(sec);
+  if (v === 'fx') autoRate();
   kick3d();
 }
 const MODES = ['time', 'system', 'light', 'dark'], MODE_KO = { time:'도쿄 시간 자동', system:'시스템 설정', light:'낮', dark:'밤' };
@@ -2900,7 +3451,13 @@ function build3d(T){
   }
 
   /* ---- 경로: 반짝이는 점 + 흐릿한 띠 (2D legD와 같은 곡선) ---- */
-  const DOTS = 900, iDot = new T.InstancedMesh(new T.IcosahedronGeometry(1, 0), lam('--route', { emissive: 0x000000 }), DOTS);
+  const DOTS = 900, iDot = new T.InstancedMesh(new T.IcosahedronGeometry(1, 0), lam(null, { color: 0xffffff, emissive: 0x000000 }), DOTS);
+  const lineHex = id => { const v = id && L[id] && L[id].color, m = v && /var\((--[\w-]+)\)/.exec(v); return m ? hex(m[1]) : null; };
+  function paintDots(){
+    const rc = hex('--route');
+    dots.forEach(d => { tmpC.set(d.c || rc); iDot.setColorAt(d.k, tmpC); });
+    if (iDot.instanceColor) iDot.instanceColor.needsUpdate = true;
+  }
   iDot.count = 0; iDot.frustumCulled = false; world.add(iDot);
   const trailG = new T.Group(); world.add(trailG);
   const mTrail = new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25, depthWrite: false });
@@ -2913,15 +3470,15 @@ function build3d(T){
     dots = []; let k = 0;
     legs.forEach(l => {
       const a = N[l.a], b = N[l.b]; if (a.sky || b.sky) return;
-      const ap = arcPath(legPts(a, b, l.fly, 1.5)), n = Math.max(1, Math.floor(ap.len / 4.6));
+      const ap = arcPath(legPts(a, b, l.fly, 1.5)), n = Math.max(1, Math.floor(ap.len / 4.6)), lc = lineHex(l.line);
       for (let i = 0; i <= n; i++){
         const p = ap.at(i / n * ap.len);
         if (Math.hypot(p.x - a.x, p.y - a.y) < 11.5 || Math.hypot(p.x - b.x, p.y - b.y) < 11.5 || dots.length >= DOTS) continue;
-        dots.push({ x: X(p.x), y: 1.1 + (inWater(p.x, p.y) ? 0.9 : 0), z: Z(p.y), k: k++ });
+        dots.push({ x: X(p.x), y: 1.1 + (inWater(p.x, p.y) ? 0.9 : 0), z: Z(p.y), k: k++, c: lc });
       }
       const m = new T.Mesh(ribbonGeo(ap.pts, 5.2, 0.18, 1), mTrail); m.renderOrder = 2; trailG.add(m);
     });
-    iDot.count = dots.length; routeT0 = clock;
+    iDot.count = dots.length; routeT0 = clock; paintDots();
     nodes3.forEach(o => {
       const inR = seq.has(o.id), cnt = day.items.filter(it => it.node === o.id).length;
       o.dim = !inR; o.lbl.classList.toggle('is-dim', !inR);
@@ -3440,7 +3997,7 @@ function build3d(T){
     mTT.emissive.copy(col('--tt')).multiplyScalar(dark ? 0.6 : 0);
     mTTW.emissive.copy(winC).multiplyScalar(dark ? 0.3 : 0);
     mGold.emissive.copy(au).multiplyScalar(dark ? 0.35 : 0);
-    iDot.material.emissive.copy(col('--route')).multiplyScalar(dark ? 0.7 : 0.3);
+    iDot.material.emissive.setScalar(dark ? 0.28 : 0.06); paintDots();
     [mWater, mWaterB, mSea].forEach(m => { m.emissive.copy(dark ? winC : new T.Color(0xffffff)); m.emissiveIntensity = dark ? 0.22 : 0.16; });
     mTrail.color.set(hex('--route')); mTrail.opacity = dark ? 0.32 : 0.22;
     nodes3.forEach(o => o.halo.material.color.set(hex('--gold')));
@@ -3549,8 +4106,14 @@ function init(){
   showView(VIEWS.includes(h) ? h : 'map', { keepScroll:true });
   updateTicker(); setHudH();
   autoFollow(true);
-  setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); }, 30000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); } });
+  setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); } });
+  paintWx(); loadWx();
+  addEventListener('online', () => { toast('📶 인터넷 다시 연결됐어요'); updateTicker(); loadWx(true); if (view === 'fx') autoRate(); });
+  addEventListener('offline', () => { toast('📴 오프라인 · 저장해 둔 화면으로 보여요'); updateTicker(); });
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && /(^|\.)github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)){
+    addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+  }
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => document.addEventListener(ev, () => { lastInteract = Date.now(); }, { passive:true }));
   $('#nearBtn').addEventListener('click', () => { userMoved = true; openNearby(); });
   document.addEventListener('click', e => {
@@ -3575,6 +4138,15 @@ function init(){
   $('#prevQ').addEventListener('click', () => { stopPlay(); userMoved = true; goTo(act - 1); });
   $('#nextQ').addEventListener('click', () => { stopPlay(); userMoved = true; goTo(act + 1); });
   $('#playQ').addEventListener('click', play);
+  $('#listQ').addEventListener('click', () => setListMode(!listMode));
+  setListMode(listMode);
+  tlEl.addEventListener('click', e => {
+    const b = e.target.closest('[data-tl]'); if (!b) return;
+    const k = +b.dataset.tl; userMoved = true; stopPlay();
+    if (k !== act) goTo(k, false);
+    openQuest(k);
+  });
+  $('#checkbar').addEventListener('click', e => { openChecklist(e.currentTarget.dataset.cl); });
   const zb = $('#zoomBtn'); zb.innerHTML = ICON.zoom;
   zb.addEventListener('click', () => { zoomAll = !zoomAll; zb.setAttribute('aria-pressed', String(zoomAll)); zb.innerHTML = zoomAll ? ICON.follow : ICON.zoom; zb.setAttribute('aria-label', zoomAll ? '아바타 따라가기' : '지도 전체 보기'); cam(heroPos.y, true); });
   const nodeGo = g => {
@@ -3600,11 +4172,13 @@ function init(){
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (mode === 'system') applyTheme(); });
 
   const taxi = $('#taxi'); let taxiFrom = null;
-  const openTaxi = from => { taxiFrom = from; taxi.hidden = false; $('#taxiClose').focus(); };
-  const closeTaxi = () => { taxi.hidden = true; if (taxiFrom) taxiFrom.focus(); };
+  const openBig = (from, o) => { fillBig(o); taxiFrom = from; taxi.hidden = false; $('#taxiClose').focus(); };
+  const closeTaxi = () => { taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); };
   document.addEventListener('click', e => {
     const c = e.target.closest('[data-copy]'); if (c){ copyText(c.dataset.copy); return; }
-    const tx = e.target.closest('[data-taxi]'); if (tx) openTaxi(tx);
+    const tx = e.target.closest('[data-taxi]'); if (tx){ openBig(tx, hotelBig()); return; }
+    const ph = e.target.closest('[data-phr]'); if (ph && PHR[ph.dataset.phr]){ const x = PHR[ph.dataset.phr]; openBig(ph, { name: x.ja, yomi: x.yomi, ko: x.ko }); return; }
+    const ck = e.target.closest('[data-ck]'); if (ck){ toggleCheck(ck.dataset.ck); return; }
   });
   $('#taxiClose').addEventListener('click', closeTaxi);
   taxi.addEventListener('click', e => { if (e.target === taxi) closeTaxi(); });
