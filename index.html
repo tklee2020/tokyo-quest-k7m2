@@ -292,7 +292,7 @@ html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
 .sheet.open .sheet__scrim{opacity:1}
 .sheet.open .sheet__panel{transform:none}
 .sheet__grab{width:44px;height:5px;margin:4px auto 10px;border-radius:9px;background:var(--line)}
-.sheet__x{position:sticky;top:0;float:right;z-index:2;margin-bottom:-44px}
+.sheet__x{position:sticky;top:0;float:right;z-index:2}
 .sheet__body{display:grid;gap:14px}
 .sh-head{display:flex;align-items:center;gap:12px;padding-right:50px}
 .sh-head .qcard__emo{width:58px;height:58px;font-size:30px}
@@ -634,6 +634,10 @@ html.map3d .wxday{border-color:transparent;background-image:linear-gradient(180d
 html.map3d .ch__wx{box-shadow:0 0 0 2px var(--hud),0 3px 0 2px var(--side-hud)}
 html.map3d .tl li::after{box-shadow:0 2px 0 var(--lo)}
 .n3--static{pointer-events:none;cursor:default}
+.n3--leg{height:19px;gap:3px;padding:0 7px 0 3px;border-radius:10px;background:var(--surface);color:var(--ink);font-size:11px;box-shadow:0 2px 0 var(--side-s);opacity:.94}
+.n3--leg::after{content:none}
+.n3__sym{display:inline-grid;place-items:center;min-width:15px;height:15px;padding:0 1px;border:2px solid var(--c);border-radius:50%;background:#FFFFFF;color:#141414;font:900 7.5px/1 var(--f-body);font-style:normal;letter-spacing:-.03em}
+.n3__emo{font-style:normal;font-size:11px;line-height:1}
 .n3--chip{background:var(--surface);color:var(--ink);box-shadow:0 3px 0 var(--side-s)}
 .m3d__cv.is-cut{animation:cut .5s ease-out}
 @keyframes cut{from{opacity:0}to{opacity:1}}
@@ -688,6 +692,10 @@ html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;wi
 .sec__sub{margin:-4px 0 8px;font-size:12.5px;color:var(--muted)}
 .sec h3 small{font-family:var(--f-body);font-size:12px;color:var(--muted)}
 .getbtn{width:100%;min-height:54px;font-size:17px}
+.sheetnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:4px;padding-top:12px;border-top:2px dashed var(--line)}
+.sheetnav .gbtn{min-width:0;justify-content:flex-start;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.sheetnav .gbtn:last-child{justify-content:flex-end}
+.sheetnav .gbtn span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .sheet__back{justify-self:start}
 
 /* ---------- first-visit hello ---------- */
@@ -1235,6 +1243,7 @@ const TRIP = {
   days: [
     { date: '2026-10-03', md: '10.3', dow: '土', dowKo: '토', start: 'nrt', title: '도착 · 긴시초 쇼핑 · 아사쿠사 밤',
       events: [
+        { e: '🎫', t: '나리타 도착하면 48시간권 먼저 (1,500엔 · 여권) — 개시는 13:30 긴시초 갈 때' },
         { e: '🛍️', t: '아카짱혼포 5층·유니클로 4층·GU 6층이 한 건물 (아르카킷)' },
         { e: '🥃', t: '가미야 바는 20:00 마감 → 아사쿠사 1차로' },
         { e: '🐟', t: '츠키지는 Day 3 월요일 아침에' }
@@ -1293,6 +1302,7 @@ const TRIP = {
 
     { date: '2026-10-04', md: '10.4', dow: '日', dowKo: '일', start: 'hotel', title: '니혼바시·긴자 쇼핑 · 우에노 밤',
       events: [
+        { e: '🍙', t: '아침은 숙소 근처 편의점에서 (몬주 서서 먹는 소바는 일요일 휴무) · 미쓰코시 10:00 개점' },
         { e: '🚶', t: '긴자 보행자 천국 토·일 12:00–17:00' },
         { e: '⛔', t: '일요일: 츠키지 휴시 · 사사신·렌가테이 휴무' },
         { e: '🎀', t: '패밀리아 긴자 본점은 폐점 → 긴자 미쓰코시 신관 10층' },
@@ -2305,9 +2315,11 @@ function closeSheet(fromPop){
   if (fromPop !== true) ovlPop();
 }
 function openQuest(k){
-  const qd = cur, it = D.days[qd].items[k], d = detailHTML(it, qd, k, { buy:true, titleId:true });
+  const qd = cur, items = D.days[qd].items, it = items[k], d = detailHTML(it, qd, k, { buy:true, titleId:true });
   sheetReopen = () => openQuest(k);
-  openSheet(`<header class="sh-head">${d.head}</header>${d.body}`);
+  const pv = items[k - 1], nx = items[k + 1];
+  const nav = `<nav class="sheetnav" aria-label="이전·다음 퀘스트">${pv ? `<button class="gbtn gbtn--sm" type="button" data-qnav="${k - 1}">‹ <span>${esc(pv.t)} ${esc(itShort(pv))}</span></button>` : '<span></span>'}${nx ? `<button class="gbtn gbtn--sm" type="button" data-qnav="${k + 1}"><span>${esc(nx.t)} ${esc(itShort(nx))}</span> ›</button>` : ''}</nav>`;
+  openSheet(`<header class="sh-head">${d.head}</header>${d.body}${nav}`);
 }
 (function sheetGestures(){
   let y0 = 0, dy = 0, drag = false;
@@ -2539,6 +2551,8 @@ function autoFollow(silent){
   if (cur !== di) selectChapter(di, { index:k }); else if (act !== k) goTo(k);
 }
 sheetBody.addEventListener('click', e => {
+  const qn = e.target.closest('[data-qnav]');
+  if (qn){ const k = +qn.dataset.qnav; userMoved = true; stopPlay(); goTo(k); openQuest(k); return; }
   const t = e.target.closest('[data-near],[data-q],[data-place],[data-item],[data-back],[data-live]'); if (!t) return;
   if (t.dataset.near){ openNearby(t.dataset.near); return; }
   if (t.dataset.q){ const [qd, qk] = t.dataset.q.split(':').map(Number); closeSheet(); showView('map'); userMoved = true; if (cur !== qd) selectChapter(qd, { index:qk }); else goTo(qk); setTimeout(() => openQuest(qk), 420); return; }
@@ -3623,12 +3637,27 @@ function build3d(T){
       }
       const m = new T.Mesh(ribbonGeo(ap.pts, 5.2, 0.18, 1), mTrail); m.renderOrder = 2; trailG.add(m);
     });
-    iDot.count = dots.length; routeT0 = clock; paintDots();
+    iDot.count = dots.length; routeT0 = clock; paintDots(); buildLegTags();
     nodes3.forEach(o => {
       const inR = seq.has(o.id), cnt = day.items.filter(it => it.node === o.id).length;
       o.dim = !inR; o.lbl.classList.toggle('is-dim', !inR);
       o.face.material.opacity = inR ? 1 : 0.55;
       o.lbl.setAttribute('aria-label', `${o.n.name} ${o.n.ja}${cnt ? `, 퀘스트 ${cnt}개` : (o.n.bars ? ', 주점 던전 보기' : '')}`);
+    });
+  }
+  /* 경로 위 노선 배지 (2D와 같은 내용, 구간 가운데에 떠 있는 이름표) */
+  const legTags = [];
+  function buildLegTags(){
+    legTags.forEach(o => o.lbl.remove()); legTags.length = 0;
+    legs.forEach(l => {
+      const a = N[l.a], b = N[l.b]; if (a.sky || b.sky || l.fly || !l.line) return;
+      const c = legCtl(a, b, false), px = 0.25 * a.x + 0.5 * c[0] + 0.25 * b.x, py = 0.25 * a.y + 0.5 * c[1] + 0.25 * b.y;
+      const syms = l.syms.length ? l.syms.slice(0, 2) : [l.line], mins = l.tr ? l.tr.mins : 0;
+      const el = document.createElement('span');
+      el.className = 'n3 n3--static n3--leg'; el.setAttribute('aria-hidden', 'true');
+      el.innerHTML = syms.map(id => { const ln = L[id]; return ln.emo ? `<i class="n3__emo">${ln.emo}</i>` : `<i class="n3__sym" style="--c:${ln.color}">${esc(ln.sym)}</i>`; }).join('') + (mins ? `${mins}분` : '');
+      m3dTags.prepend(el);
+      legTags.push({ lbl: el, pos: new T.Vector3(X(px), 2.4 + (inWater(px, py) ? 0.9 : 0), Z(py)), lx: NaN, ly: NaN, off: null });
     });
   }
   function animDots(t){
@@ -4100,6 +4129,14 @@ function build3d(T){
     }
   }
   function updLabels(){
+    for (const o of legTags){
+      pv.copy(o.pos).project(camera);
+      const off = pv.z > 1 || pv.x < -1.1 || pv.x > 1.1 || pv.y < -1.1 || pv.y > 1.1;
+      if (off !== o.off){ o.off = off; o.lbl.classList.toggle('is-off', off); }
+      if (off) continue;
+      const x = Math.round((pv.x * 0.5 + 0.5) * W * 2) / 2, y = Math.round((0.5 - pv.y * 0.5) * FH * 2) / 2;
+      if (x !== o.lx || y !== o.ly){ o.lx = x; o.ly = y; o.lbl.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%)`; }
+    }
     for (const o of nodes3){
       pv.set(o.wx, 0.4, o.wz + 12.4).project(camera);
       const off = pv.z > 1 || pv.x < -1.15 || pv.x > 1.15 || pv.y < -1.2 || pv.y > 1.15;
