@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#1D2232" id="metaTheme">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Silkscreen:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Silkscreen:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
 <style>
 /* Layout: phone = sticky game HUD + world map where two avatars walk + swipeable quest cards + fixed dock; ≥900px = map sticky left, quest list right */
 :root{
@@ -40,6 +40,7 @@
   --dusk-a:#FF8A3D30; --dusk-b:#8A4FD026;
   --sky3-a:#A9D6F2; --sky3-b:#E6F2F1; --soil:#C9B38E; --soil-2:#9E8767; --glass:#A7C4DA; --trunk:#8B6B4E; --leaf:#80BF60; --leaf-2:#579B49;
   --tt:#E8562A; --tt-w:#F6F3EE; --kawara:#56616C; --stars:linear-gradient(transparent,transparent);
+  --hi:#FFFFFFA6; --hi-hud:#FFFFFF24; --lo:#1D22321A; --amb:#1D223238; --side-s:#C3CDD8; --side-hud:#0B0E19; --side-gold:#C08A00; --side-blue:#1C4C9E; --side-red:#8E2816; --ink-side:#0B0F1C;
   --gutter:16px;
   color-scheme:light;
 }
@@ -59,6 +60,7 @@
     --skin:#F0C39A; --legs:#0E1322;
     --sky3-a:#03060F; --sky3-b:#18224A; --soil:#1E2640; --soil-2:#121829; --glass:#24325C; --trunk:#3B3342; --leaf:#1F5A46; --leaf-2:#174536;
     --tt:#FF6A33; --tt-w:#B4BED6; --kawara:#2B3452;
+    --hi:#FFFFFF1F; --hi-hud:#FFFFFF1A; --lo:#0000004D; --amb:#00000099; --side-s:#0A0F1E; --side-hud:#000000; --side-gold:#A87A0E; --side-blue:#3C5FB0; --side-red:#B4483A; --ink-side:#6E7894;
     --stars:radial-gradient(1.5px 1.5px at 12% 18%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1px 1px at 30% 8%,#FFFFFFAA 50%,transparent 51%),radial-gradient(1.5px 1.5px at 52% 22%,#FFFFFFB0 50%,transparent 51%),radial-gradient(1px 1px at 71% 12%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 26%,#FFFFFF99 50%,transparent 51%),radial-gradient(1px 1px at 42% 34%,#FFFFFF80 50%,transparent 51%),radial-gradient(1px 1px at 63% 4%,#FFFFFFAA 50%,transparent 51%);
     color-scheme:dark;
   }
@@ -78,6 +80,7 @@
   --skin:#F0C39A; --legs:#0E1322;
   --sky3-a:#03060F; --sky3-b:#18224A; --soil:#1E2640; --soil-2:#121829; --glass:#24325C; --trunk:#3B3342; --leaf:#1F5A46; --leaf-2:#174536;
   --tt:#FF6A33; --tt-w:#B4BED6; --kawara:#2B3452;
+  --hi:#FFFFFF1F; --hi-hud:#FFFFFF1A; --lo:#0000004D; --amb:#00000099; --side-s:#0A0F1E; --side-hud:#000000; --side-gold:#A87A0E; --side-blue:#3C5FB0; --side-red:#B4483A; --ink-side:#6E7894;
   --stars:radial-gradient(1.5px 1.5px at 12% 18%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1px 1px at 30% 8%,#FFFFFFAA 50%,transparent 51%),radial-gradient(1.5px 1.5px at 52% 22%,#FFFFFFB0 50%,transparent 51%),radial-gradient(1px 1px at 71% 12%,#FFFFFFCC 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 26%,#FFFFFF99 50%,transparent 51%),radial-gradient(1px 1px at 42% 34%,#FFFFFF80 50%,transparent 51%),radial-gradient(1px 1px at 63% 4%,#FFFFFFAA 50%,transparent 51%);
   color-scheme:dark;
 }
@@ -562,6 +565,62 @@ html.map3d .mapframe,.m3d{overflow:clip;overflow-anchor:none}
 .m3d__load{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;margin:0;color:var(--ink);font-family:var(--f-game);font-size:15px}
 .m3d__cube{width:30px;height:30px;border:3px solid var(--edge);border-radius:7px;background:var(--gold);animation:cube 1.1s cubic-bezier(.5,0,.5,1) infinite}
 @keyframes cube{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(90deg)}100%{transform:translateY(0) rotate(180deg)}}
+/* ---------- 3D mode skin: the whole page becomes chunky toy blocks lit from above, matching the diorama ---------- */
+html.map3d{--f-px:"Fredoka","Jua",ui-rounded,system-ui,sans-serif;--side:var(--side-s)}
+html.map3d body{background:linear-gradient(180deg,var(--sky3-a),var(--bg) 560px) no-repeat,var(--bg)}
+html.map3d :is(.gbtn,.pill,.qcard,.chip,.tile,.kid,.area,.pass,.acc,.fx,.nrow,.irow__ck,.shoprow,.totop,.mapmode,.buy,.spot,.say p,.contact,.events li){border-color:transparent;border-style:solid;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 var(--dz,5px) 0 var(--side),0 calc(var(--dz,5px) + 7px) 16px -6px var(--amb)}
+html.map3d :is(.qcard,.area,.pass,.kid,.fx){--dz:7px}
+html.map3d :is(.chip,.pill,.irow__ck,.spot,.contact,.say p,.events li){--dz:3px}
+html.map3d :is(.gbtn--gold,.pill--gold,.irow__ck[aria-pressed="true"],.buy[aria-pressed="true"]){--side:var(--side-gold)}
+html.map3d .gbtn--go{--side:var(--side-blue)}
+html.map3d .base .gbtn{--side:var(--side-hud)}
+html.map3d .qcard.is-now{--side:var(--side-red);border-color:var(--red)}
+html.map3d .tile[aria-pressed="true"]{--side:var(--side-gold);border-color:var(--gold)}
+html.map3d .chip[aria-pressed="true"]{--side:var(--ink-side);--dz:2px;transform:translateY(3px)}
+html.map3d :is(.gbtn,.chip,.tile,.nrow,.irow__ck,.kid,.buy){transition:transform .16s cubic-bezier(.3,.7,.3,1),box-shadow .16s,background-color .2s,color .2s}
+html.map3d :is(.gbtn,.chip,.tile,.nrow,.irow__ck,.kid,.buy):active{--dz:1px;transform:translateY(4px)}
+html.map3d .mapmode button[aria-pressed="true"]{box-shadow:inset 0 1px 0 var(--hi),0 3px 0 var(--side-gold);transform:translateY(-2px)}
+html.map3d :is(.minibase,.base,.sizecard,.lastline,.area__foot,.maplegend span){border-color:transparent;background-image:linear-gradient(180deg,var(--hi-hud),transparent 60%);box-shadow:inset 0 1px 0 var(--hi-hud),0 5px 0 var(--side-hud),0 12px 20px -8px var(--amb)}
+html.map3d :is(.lastline,.area__foot,.maplegend span){box-shadow:inset 0 1px 0 var(--hi-hud),0 3px 0 var(--side-hud)}
+html.map3d :is(.toast,.stage,.guidechip){background-image:linear-gradient(180deg,var(--hi-hud),transparent 60%);box-shadow:inset 0 1px 0 var(--hi-hud),0 5px 0 var(--side-gold),0 14px 22px -8px var(--amb)}
+html.map3d .hud{background-image:linear-gradient(180deg,var(--hi-hud),transparent);box-shadow:0 4px 0 var(--side-hud),0 12px 24px -10px var(--amb)}
+html.map3d :is(.ch,.hudbtn){border-color:transparent;background-color:var(--hud-2);background-image:linear-gradient(180deg,var(--hi-hud),transparent 60%);box-shadow:inset 0 1px 0 var(--hi-hud),0 4px 0 var(--side-hud);transition:transform .16s cubic-bezier(.3,.7,.3,1),box-shadow .16s,background-color .2s,color .2s}
+html.map3d .ch[aria-selected="true"]{background-color:var(--gold);box-shadow:inset 0 1px 0 var(--hi),0 4px 0 var(--side-gold),0 9px 14px -6px var(--amb);transform:translateY(-2px)}
+html.map3d :is(.ch,.hudbtn):active{transform:translateY(3px);box-shadow:inset 0 1px 0 var(--hi-hud),0 1px 0 var(--side-hud)}
+html.map3d .ticker__k{box-shadow:0 2px 0 var(--side-hud)}
+html.map3d .dock{border-radius:20px 20px 0 0;background-image:linear-gradient(180deg,var(--hi-hud),transparent 50%);box-shadow:0 -4px 0 var(--side-hud),0 -12px 24px -10px var(--amb)}
+html.map3d .dock button{transition:transform .22s cubic-bezier(.3,1.4,.5,1),background-color .2s,box-shadow .2s}
+html.map3d .dock button[aria-current="page"]{background-image:linear-gradient(180deg,var(--hi-hud),transparent 60%);box-shadow:inset 0 1px 0 var(--hi-hud),0 4px 0 var(--side-hud);transform:translateY(-3px)}
+html.map3d .logo{font-size:23px;letter-spacing:.03em;color:var(--on-hud);text-shadow:-1px -1px 0 var(--edge),1px -1px 0 var(--edge),-1px 1px 0 var(--edge),1px 1px 0 var(--edge),0 2px 0 var(--edge),0 3px 0 var(--edge),0 4px 0 var(--edge),0 9px 10px var(--amb)}
+html.map3d .logo span{color:var(--gold)}
+html.map3d .mapframe{border-color:transparent;box-shadow:0 5px 0 var(--soil),0 10px 0 var(--soil-2),0 22px 30px -12px var(--amb)}
+html.map3d :is(.qcard__emo,.kid__face,.area__e,.stg,.acc__e){border-color:transparent;background-image:radial-gradient(circle at 32% 24%,var(--hi),transparent 62%);box-shadow:inset 0 -3px 0 var(--lo),0 4px 0 var(--side),0 9px 14px -6px var(--amb)}
+html.map3d :is(.qcard__emo,.kid__face,.area__e,.stg,.acc__e,.tile__e,.nrow__e,.minibase__e,.spot__e,.buy__e,.dock .ico,.say__who){text-shadow:0 3px 3px var(--amb)}
+html.map3d .say__who{border-color:transparent;box-shadow:inset 0 2px 0 var(--hi),0 3px 0 var(--side-hud)}
+html.map3d :is(.qcard__kind,.tag,.nb,.d3,.move__dur,.stat,.tile__s,.lnpass,.qcard__badge,.acc__c){box-shadow:inset 0 1px 0 var(--hi),0 2px 0 var(--lo)}
+html.map3d .field{border-color:transparent;box-shadow:inset 0 3px 6px var(--lo),inset 0 0 0 2px var(--lo),0 1px 0 var(--hi)}
+html.map3d .xp{border-color:transparent;box-shadow:inset 0 2px 3px var(--lo),0 1px 0 var(--hi)}
+html.map3d .xp span{background-image:linear-gradient(180deg,var(--hi),transparent 70%)}
+html.map3d .stages{box-shadow:inset 0 3px 8px var(--lo)}
+html.map3d .sheet__panel{border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 140px);box-shadow:0 -12px 32px -10px var(--amb)}
+html.map3d .sheet__grab{box-shadow:inset 0 1px 2px var(--lo)}
+@media (max-width:899px){
+  html.map3d .qcard{transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .3s,box-shadow .3s}
+  html.map3d .qcard[data-side="l"]{transform:perspective(900px) rotateY(24deg) scale(.9)}
+  html.map3d .qcard[data-side="r"]{transform:perspective(900px) rotateY(-24deg) scale(.9)}
+  html.map3d .qcard.is-active{transform:perspective(900px) translateY(-3px)}
+}
+@media (min-width:900px){
+  html.map3d .qcard{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+  html.map3d .qcard.is-active{--dz:9px;transform:translateY(-4px)}
+}
+html.map3d .sky{display:none}
+.n3--static{pointer-events:none;cursor:default}
+.n3--chip{background:var(--surface);color:var(--ink);box-shadow:0 3px 0 var(--side-s)}
+.m3d__cv.is-cut{animation:cut .5s ease-out}
+@keyframes cut{from{opacity:0}to{opacity:1}}
+html.skin-fade *,html.skin-fade *::before,html.skin-fade *::after{transition:box-shadow .5s ease,background-color .5s ease,border-color .5s ease,color .5s ease,text-shadow .5s ease,transform .5s cubic-bezier(.2,.8,.2,1)!important}
+html.skin-fade :is(.n3,.mapcam,.m3d__cv){transition:none!important}
 
 .lnpass{margin-left:2px;padding:0 5px;border-radius:5px;font-size:10.5px;font-weight:700;line-height:1.6}
 .lnpass--ok{background:var(--ok-bg);color:var(--ok-fg)}
@@ -627,10 +686,12 @@ html.anim .reveal.pending{opacity:0;transform:translateY(18px)}
   .spot__body,.acc__body{display:grid!important}
   .reveal{opacity:1!important;transform:none!important}
   a{text-decoration:none}
+  html.map3d *{box-shadow:none!important;text-shadow:none!important}
 }
 </style>
 <script>
 document.documentElement.lang='ko';
+try{if(JSON.parse(localStorage.getItem('tokyoquest:mapmode'))==='3d'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('map3d');}catch(e){}
 (function(){var m=null;try{m=JSON.parse(localStorage.getItem('tokyoquest:theme'));}catch(e){}
 if(m!=='light'&&m!=='dark'&&m!=='system'){try{var t=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date()).split(':');var mm=(+t[0])*60+(+t[1]);m=(mm>=345&&mm<1050)?'light':'dark';}catch(e){m=null;}}
 if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m);})();
@@ -680,7 +741,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
           <p class="guidechip" id="guideChip" hidden></p>
           <div class="maptools">
             <button class="gbtn gbtn--sm" id="follow3d" type="button" hidden aria-label="아바타 따라가기로 돌아가기">🎯 따라가기</button>
-            <div class="mapmode" role="group" aria-label="지도 보기 방식"><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 지도로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 지도로 보기">3D</button></div>
+            <div class="mapmode" role="group" aria-label="화면 스타일"><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 도트 화면으로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 입체 화면으로 보기">3D</button></div>
             <button class="gbtn gbtn--icon" id="zoomBtn" type="button" aria-pressed="false" aria-label="지도 전체 보기"></button>
           </div>
           <div class="maplegend" aria-hidden="true"><span><i style="background:var(--a-hat)">A</i>아빠 A</span><span><i style="background:var(--b-hat);color:var(--on-red)">B</i>아빠 B</span></div>
@@ -1648,7 +1709,7 @@ function activate(j, opts){
   if (j === act || !cards[j]) return;
   const prev = act; act = j;
   const day = D.days[cur], it = day.items[j];
-  cards.forEach((c, k) => c.classList.toggle('is-active', k === j));
+  cards.forEach((c, k) => { c.classList.toggle('is-active', k === j); c.dataset.side = k < j ? 'l' : (k > j ? 'r' : ''); });
   $('#qcount').textContent = `${j + 1}/${day.items.length}`;
   const path = [];
   if (prev >= 0 && opts.walk !== false){
@@ -1789,6 +1850,7 @@ function placePlane(t, rev){
 }
 function showSky(kind, animate){
   if (!skyEl.firstChild) buildSky();
+  m3dFlight(kind, animate);
   skyOn = true; skyEl.classList.add('is-on');
   if (heroesEl) heroesEl.style.visibility = 'hidden';
   cancelAnimationFrame(skyRaf);
@@ -1810,6 +1872,7 @@ function showSky(kind, animate){
 function hideSky(){
   if (!skyOn) return;
   skyOn = false; cancelAnimationFrame(skyRaf); skyEl.classList.remove('is-on');
+  m3dFlight(null);
   if (heroesEl) heroesEl.style.visibility = '';
   kick3d();
 }
@@ -2362,7 +2425,7 @@ async function setMapMode(on, opts){
     if (!opts.silent) toast(reduce ? '움직임 줄이기 설정이 켜져 있어서 2D 지도로 보여줘요' : '이 기기에서는 3D 지도를 쓸 수 없어서 2D로 보여줘요');
     return leave3d();
   }
-  if (!opts.silent) store.set('mapmode', on ? '3d' : '2d');
+  if (!opts.silent){ store.set('mapmode', on ? '3d' : '2d'); skinFade(); toast(on ? '🧊 3D 모드 · 지도와 화면이 입체로 바뀌어요' : '🟦 2D 도트 모드로 돌아왔어요'); }
   if (!on) return leave3d();
   is3d = true; paintModeBtns(); root.classList.add('map3d'); frame.scrollTop = 0;
   if (!G){
@@ -2380,7 +2443,7 @@ async function setMapMode(on, opts){
   }
   G.enter(); kick3d();
 }
-const run3d = () => is3d && !!G && g3Seen && !document.hidden && view === 'map' && !skyOn;
+const run3d = () => is3d && !!G && g3Seen && !document.hidden && view === 'map';
 function kick3d(){ if (!g3Raf && run3d()){ G.wake(); g3Raf = requestAnimationFrame(loop3d); } }
 function stop3d(){ if (g3Raf){ cancelAnimationFrame(g3Raf); g3Raf = 0; } }
 function loop3d(ts){ g3Raf = 0; if (!run3d()) return; g3Raf = requestAnimationFrame(loop3d); G.frame(ts); }
@@ -2390,6 +2453,10 @@ function m3dStatus(){ if (G) G.status(); }
 function m3dBags(){ if (G) G.bags(); }
 function m3dTheme(){ if (G) G.theme(); }
 function m3dHero(x, y){ if (G) G.hero(x, y); }
+let m3dSky = null;
+function m3dFlight(kind, animate){ m3dSky = kind || null; if (G) G.flight(kind, animate); }
+let skinT = 0;
+function skinFade(){ root.classList.add('skin-fade'); clearTimeout(skinT); skinT = setTimeout(() => root.classList.remove('skin-fade'), 650); }
 
 /* 2D 그림과 같은 곡선 (legD의 2차 곡선 · smooth()의 Q 곡선)을 점으로 */
 function legCtl(a, b, fly){
@@ -2559,7 +2626,7 @@ function build3d(T){
   function paintTexts(){
     texts.forEach(t => {
       t.g.clearRect(0, 0, 512, 128); t.g.fillStyle = hex('--muted'); t.g.globalAlpha = 0.9;
-      t.g.font = '600 84px "Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif';
+      t.g.font = t.font || '600 84px "Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif';
       t.g.textAlign = 'center'; t.g.textBaseline = 'middle'; t.g.fillText(t.str, 256, 66); t.t.needsUpdate = true;
     });
   }
@@ -2767,7 +2834,7 @@ function build3d(T){
   /* 아사히 맥주 본사 (황금 불꽃 + 거품 얹은 맥주잔 빌딩) */
   const ah = grp(256, 88);
   add(box(7, 7, 7), lam('--hud'), -2.5, 3.5, 2, ah);
-  const fl = new T.ConeGeometry(2.1, 9, 7); fl.rotateZ(Math.PI / 2.25); add(fl, mGold, -1.2, 9.4, 2, ah);
+  const flame = new T.ConeGeometry(2.1, 9, 7); flame.rotateZ(Math.PI / 2.25); add(flame, mGold, -1.2, 9.4, 2, ah);
   add(box(6, 18, 6), mGold, 5, 9, -2.5, ah);
   add(box(6.3, 2.2, 6.3), mStone, 5, 19.1, -2.5, ah);
   /* 긴자 와코 시계탑 */
@@ -2824,7 +2891,7 @@ function build3d(T){
     nodes3.push({ id, n, g, sign, face, ct, halo, ring, lbl, wx: X(n.x), wz: Z(n.y), ph: (n.x * 13 + n.y * 7) % 6.28, here: false, dim: false, lx: NaN, ly: NaN, off: null, pop: 0 });
   });
   function paintFaces(){
-    nodes3.forEach(o => {
+    nodes3.concat(fPins).forEach(o => {
       const g = o.ct.g; g.clearRect(0, 0, 128, 128);
       g.fillStyle = hex(o.n.base ? '--gold-tint' : '--surface'); g.beginPath(); g.arc(64, 64, 63, 0, Math.PI * 2); g.fill();
       g.font = '74px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
@@ -2965,6 +3032,133 @@ function build3d(T){
   /* 실시간 위치: 아바타 → 목표 노드까지 금색 점선 호 + 표적 고리 */
   const GD = 44, GR = 18, iGuide = new T.InstancedMesh(box(1, 1, 1), basic('--gold'), GD + GR);
   iGuide.frustumCulled = false; iGuide.visible = false; world.add(iGuide);
+
+  /* ---- 비행 장면 (3D): 한반도·일본 열도 디오라마 위로 비행기가 비행운을 남기며 날아가요 ----
+     2D 하늘 장면과 같은 투영(skX·skY)을 쓰고, 도시에서 멀리 떨어진 곳에 따로 지어 두었다가 카메라만 옮겨요 */
+  const FX = 1500, LT = 3.8, fw = new T.Group(); fw.position.x = FX; fw.visible = false; scene.add(fw);
+  const SX = lo => skX(lo) - WW / 2, SZ = la => skY(la) - WH / 2;
+  const seaTex = wave.clone(); seaTex.repeat.set(28, 22); seaTex.needsUpdate = true;
+  const mSea = lam('--water', { flatShading: false, emissive: 0xffffff, emissiveIntensity: 0.14, emissiveMap: seaTex });
+  add(new T.PlaneGeometry(1200, 960).rotateX(-Math.PI / 2), mSea, 0, 0, 0, fw, false);
+  const mLandTop = lam('--land', { flatShading: false }), mLandSide = lam('--soil'), mMtn = lam('--leaf-2');
+  const extr = pts => {
+    const g = new T.ExtrudeGeometry(new T.Shape(pts.map(q => new T.Vector2(q[0], -q[1]))), { depth: 3, bevelEnabled: true, bevelThickness: 0.8, bevelSize: 0.8, bevelSegments: 1, curveSegments: 10 });
+    g.rotateX(-Math.PI / 2); return g;
+  };
+  SKY_LAND.forEach(poly => add(extr(poly.map(([lo, la]) => [SX(lo), SZ(la)])), [mLandTop, mLandSide], 0, 0, 0, fw));
+  add(extr(Array.from({ length: 16 }, (_, i) => [SX(126.55) + Math.cos(i / 16 * 6.283) * 8, SZ(33.38) + Math.sin(i / 16 * 6.283) * 3.8])), [mLandTop, mLandSide], 0, 0, 0, fw);
+  [[138.73, 35.36, 7, 9.5, 1], [137.6, 36.3, 6, 6.5, 1], [128.45, 38.1, 5, 5, 0], [127.73, 35.33, 5, 4.4, 0], [131.1, 32.9, 4.2, 4, 0], [141.2, 39.6, 5, 5, 0]].forEach(([lo, la, r, h, snow]) => {
+    add(new T.ConeGeometry(r, h, 6), snow ? mKawara : mMtn, SX(lo), LT - 0.2 + h / 2, SZ(la), fw);
+    if (snow) add(new T.ConeGeometry(r * 0.42, h * 0.42, 6), mStone, SX(lo), LT - 0.2 + h - h * 0.21 + 0.05, SZ(la), fw);
+  });
+  const iCity = new T.InstancedMesh(gUnit, lam('--block'), 28), RCt = rng(31);
+  [[127.0, 37.56], [139.72, 35.69]].forEach(([lo, la], c) => {
+    for (let i = 0; i < 14; i++){
+      const a = RCt() * 6.283, r = 1.5 + RCt() * 5;
+      dummy.position.set(SX(lo) + Math.cos(a) * r, LT - 0.1, SZ(la) + Math.sin(a) * r * 0.8); dummy.rotation.set(0, RCt(), 0);
+      dummy.scale.set(1.4 + RCt() * 1.6, 1.5 + RCt() * (c ? 6 : 5), 1.4 + RCt() * 1.6); dummy.updateMatrix(); iCity.setMatrixAt(c * 14 + i, dummy.matrix);
+    }
+  });
+  iCity.castShadow = iCity.receiveShadow = true; fw.add(iCity);
+  function flightText(str, lo, la, size){
+    const ct = canvasTex(512, 128);
+    const m = new T.Mesh(new T.PlaneGeometry(size * 4, size).rotateX(-Math.PI / 2), new T.MeshBasicMaterial({ map: ct.t, transparent: true, depthWrite: false }));
+    m.position.set(SX(lo), LT + 0.25, SZ(la)); m.renderOrder = 1; fw.add(m);
+    texts.push(Object.assign(ct, { str, font: '400 80px "Jua","Noto Sans KR",sans-serif' }));
+  }
+  flightText('대한민국', 128.0, 35.9, 9); flightText('일 본', 137.3, 36.0, 10);
+  /* 공항 표지 · 주차 자리 · 비행 곡선 (2D와 같은 북쪽으로 휜 2차 곡선 + 높이) */
+  const pinA = new T.Vector3(SKY_ICN[0] - WW / 2, 0, SKY_ICN[1] - WH / 2), pinB = new T.Vector3(SKY_NRT[0] - WW / 2, 0, SKY_NRT[1] - WH / 2);
+  const pA = pinA.clone().add(new T.Vector3(10, 0, 6)), pB = pinB.clone().add(new T.Vector3(-10, 0, 6));
+  const fCtl = [(pA.x + pB.x) / 2, Math.min(pA.z, pB.z) - 80];
+  const arcAt = (t, o) => { const u = 1 - t; return o.set(u*u*pA.x + 2*u*t*fCtl[0] + t*t*pB.x, LT + 1.6 + Math.sin(Math.PI * t) * 46, u*u*pA.z + 2*u*t*fCtl[1] + t*t*pB.z); };
+  const fPins = [[pinA, '🛫'], [pinB, '🛬']].map(([pin, e], i) => {
+    const g = new T.Group(); g.position.set(pin.x, LT, pin.z); fw.add(g);
+    add(gPlinth, mPlinth, 0, 0.35, 0, g, false); add(gPlat, mEdge, 0, 1.65, 0, g); add(gTop, mTopBase, 0, PLAT, 0, g, false); add(gPole, mEdge, 0, PLAT + 12.5, -7.6, g);
+    const sign = new T.Group(); sign.position.set(0, PLAT + 27.4, -7.6); sign.rotation.order = 'YXZ'; g.add(sign);
+    add(gDisk, mEdge, 0, 0, 0, sign);
+    const ct = canvasTex(128, 128), face = new T.Mesh(gFace, new T.MeshBasicMaterial({ map: ct.t, transparent: true }));
+    face.position.z = 0.67; sign.add(face);
+    return { sign, ct, n: { e, base: true }, ph: i * 2.1 };
+  });
+  const FD = 70, iArc = new T.InstancedMesh(box(1, 1, 1), basic('--blue'), FD); iArc.frustumCulled = false; fw.add(iArc);
+  /* 비행기 (로우폴리) */
+  const plane = new T.Group(); fw.add(plane);
+  const mPl = lam('--tt-w'), mPs = lam('--blue'), mPe = lam('--block-edge');
+  const pc = (geo, m, x, y, z, rx) => { const o = add(geo, m, x, y, z, plane); if (rx) o.rotation.x = rx; return o; };
+  pc(cyl(1.5, 1.5, 12, 10), mPl, 0, 0, 0, Math.PI / 2);
+  pc(new T.ConeGeometry(1.5, 3.4, 10), mPl, 0, 0, 7.7, Math.PI / 2);
+  pc(new T.ConeGeometry(1.5, 4.2, 10), mPl, 0, 0.25, -8.1, -Math.PI / 2);
+  pc(box(19, 0.45, 3.4), mPl, 0, -0.35, 0.8);
+  pc(box(7.4, 0.35, 1.9), mPl, 0, 0.5, -8.6);
+  pc(box(0.42, 3.8, 2.6), mPs, 0, 2.3, -8.7);
+  pc(box(3.1, 0.5, 9.4), mPs, 0, 0.35, 0.6);
+  for (const sx of [-4.4, 4.4]) pc(cyl(0.62, 0.62, 2.6, 8), mPe, sx, -1.05, 1.6, Math.PI / 2);
+  plane.scale.setScalar(1.6);
+  /* 비행운 · 공항에서 기다리는 두 사람 */
+  const PUFF = 46, iPuff = new T.InstancedMesh(new T.IcosahedronGeometry(1, 0), lam('--tt-w'), PUFF); iPuff.frustumCulled = false; fw.add(iPuff);
+  const puffs = Array.from({ length: PUFF }, () => ({ x: 0, y: 0, z: 0, a: 9 }));
+  const fCrew = crew.clone(), lamps = [];
+  fCrew.traverse(o => { if (o.isLight) lamps.push(o); }); lamps.forEach(l => l.parent.remove(l)); fw.add(fCrew);
+  const fTags = document.createElement('div'); fTags.className = 'm3d__tags'; fTags.hidden = true; m3dEl.appendChild(fTags);
+  const ftag = (txt, cls, pos) => { const el = document.createElement('span'); el.className = 'n3 n3--static' + (cls ? ' ' + cls : ''); el.textContent = txt; el.setAttribute('aria-hidden', 'true'); fTags.appendChild(el); return { lbl: el, pos, lx: NaN, ly: NaN, off: null }; };
+  const fLbls = [
+    ftag('인천 ICN', '', new T.Vector3(FX + pinA.x, LT + 0.4, pinA.z + 12.4)),
+    ftag('나리타 NRT', '', new T.Vector3(FX + pinB.x, LT + 0.4, pinB.z + 12.4)),
+    ftag('직선 약 1,260km · 2시간 30분', 'n3--chip', arcAt(0.5, new T.Vector3()).add(new T.Vector3(FX, 10, 0)))
+  ];
+  let fl = null, snapCam = false, puffI = 0, puffAcc = 0, fFactor = 1;
+  const fGoal = new T.Vector3(), fv = new T.Vector3(), fv2 = new T.Vector3(), fv3 = new T.Vector3();
+  function flight(kind, animate){
+    if (kind && fl && fl.kind === kind && !animate) return;
+    if (!kind && !fl) return;
+    fl = kind ? { kind, t0: clock, anim: !!animate && kind !== 'icn', hop: -9 } : null;
+    const on = !!fl;
+    fw.visible = on; world.visible = stat.visible = !on; fTags.hidden = !on; m3dTags.hidden = on;
+    ctl.free = false; ctl.vaz = ctl.vpol = 0; settled = false; snapCam = true;
+    puffs.forEach(pf => { pf.a = 9; });
+    cv.classList.remove('is-cut'); void cv.offsetWidth; cv.classList.add('is-cut');
+  }
+  function updFlight(t, dt){
+    const k = fl.kind, back = k === 'back', dir = back ? -1 : 1;
+    const pr = fl.anim ? clamp((t - fl.t0) / 5.4, 0, 1) : 1, e = pr < .5 ? 2*pr*pr : 1 - Math.pow(-2*pr + 2, 2) / 2;
+    const flying = fl.anim && pr < 1, tt = k === 'icn' ? 0 : (back ? 1 - e : e);
+    arcAt(tt, fv); arcAt(Math.max(0, tt - 0.01), fv2); arcAt(Math.min(1, tt + 0.01), fv3);
+    const dx = (fv3.x - fv2.x) * dir, dy = flying ? (fv3.y - fv2.y) * dir : 0, dz = (fv3.z - fv2.z) * dir;
+    plane.position.set(fv.x, fv.y + (flying ? Math.sin(t * 3) * 0.25 : 0), fv.z);
+    plane.lookAt(FX + fv.x + dx, plane.position.y + dy, fv.z + dz);
+    if (flying) plane.rotateZ(Math.sin(Math.PI * e) * 0.32 * (back ? 1 : -1));
+    if (flying){
+      puffAcc += dt;
+      while (puffAcc > 0.045){
+        puffAcc -= 0.045; plane.updateMatrixWorld(); fv3.set(0, 0.3, -10).applyMatrix4(plane.matrixWorld);
+        const pf = puffs[puffI++ % PUFF]; pf.x = fv3.x - FX; pf.y = fv3.y; pf.z = fv3.z; pf.a = 0;
+      }
+    }
+    puffs.forEach((pf, i) => {
+      pf.a += dt; const sz = pf.a < 2.2 ? Math.sin(Math.min(pf.a / 2.2, 1) * Math.PI) * (0.5 + pf.a * 1.1) : 0;
+      dummy.position.set(pf.x, pf.y + pf.a * 0.5, pf.z); dummy.rotation.set(pf.a, pf.a * 1.7, 0); dummy.scale.setScalar(Math.max(0.001, sz)); dummy.updateMatrix(); iPuff.setMatrixAt(i, dummy.matrix);
+    });
+    iPuff.instanceMatrix.needsUpdate = true;
+    for (let i = 0; i < FD; i++){
+      const u = 0.03 + 0.94 * ((i + (t * 0.7) % 1) / FD);
+      arcAt(u, fv2); arcAt(Math.min(1, u + 0.01), fv3);
+      dummy.position.copy(fv2); dummy.updateMatrixWorld(); dummy.lookAt(fv3); dummy.scale.set(0.85, 0.85, 2.3); dummy.updateMatrix(); iArc.setMatrixAt(i, dummy.matrix);
+    }
+    iArc.instanceMatrix.needsUpdate = true;
+    const tilt = (Math.PI / 2 - ctl.pol) * 0.55;
+    fPins.forEach(o => { o.sign.rotation.set(-tilt, ctl.az, Math.sin(t * 1.3 + o.ph) * 0.05); o.sign.position.y = PLAT + 27.4 + Math.sin(t * 1.6 + o.ph) * 0.45; });
+    const at = k === 'icn' ? pinA : (pr >= 1 ? (back ? pinA : pinB) : null);
+    fCrew.visible = !!at;
+    if (at){
+      if (fl.anim && fl.hop < 0) fl.hop = t;
+      const hj = t - fl.hop < 0.6 ? Math.sin((t - fl.hop) / 0.6 * Math.PI) * 6 : 0;
+      fCrew.position.set(at.x, LT + PLAT + hj + Math.abs(Math.sin(t * 2.2)) * 0.15, at.z);
+      fCrew.rotation.y = angLerp(fCrew.rotation.y, ctl.az, 1 - Math.exp(-dt * 3));
+    }
+    if (flying){ arcAt(0.5, fv2); fGoal.set(FX + fv2.x * 0.35 + fv.x * 0.65, LT + 4 + (fv.y - LT) * 0.7, fv2.z * 0.35 + fv.z * 0.65); fFactor = 1.6; }
+    else { const pin = at || (back ? pinA : pinB); fGoal.set(FX + (pin.x + plane.position.x) / 2, LT + 8, (pin.z + plane.position.z) / 2); fFactor = 0.8; }
+  }
 
   /* ---- 카메라: 한 손가락 회전(각도 제한) · 두 손가락 핀치 줌·이동 · 휠 줌 · 키보드 ---- */
   const AZ0 = 0.36, POL0 = 0.94, AZL = 1.25, PMIN = 0.42, PMAX = 1.22, ZMIN = 0.35, ZMAX = 3.2;
@@ -3122,6 +3316,7 @@ function build3d(T){
   const litOn = lits.map(() => true), winC = new T.Color(), sunDir = new T.Vector3(0.4, 1, 0.5).normalize();
   function updAmbient(t, dt){
     wave.offset.x = (t * 0.012) % 1; wave2.offset.set((t * 0.006) % 1, (t * 0.004) % 1);
+    seaTex.offset.set((t * 0.004) % 1, (t * 0.003) % 1);
     clouds.forEach(c => { c.position.x += c.userData.v * dt; if (c.position.x > 300) c.position.x = -300; });
     trains.forEach(tr => {
       const L = tr.path.len, span = L - 2, u = (tr.s0 + t * tr.speed) % (span * 2), dir = u < span ? 1 : -1, s = (u < span ? u : span * 2 - u) + 1;
@@ -3170,8 +3365,12 @@ function build3d(T){
     if (!ctl.drag && (Math.abs(ctl.vaz) > 0.01 || Math.abs(ctl.vpol) > 0.01)){
       ctl.gaz += ctl.vaz * dt; ctl.gpol += ctl.vpol * dt; const f = Math.exp(-dt * 4.2); ctl.vaz *= f; ctl.vpol *= f; clampAng();
     }
-    if (!ctl.free){ if (zoomAll) ctl.gt.set(0, 0, 8); else ctl.gt.set(crew.position.x + lead.x, crew.position.y * 0.6 + 6, crew.position.z + lead.z); }
-    const gd = clamp((zoomAll ? overDist() : baseDist()) * ctl.zoom, 110, 1300);
+    if (!ctl.free){
+      if (fl) ctl.gt.copy(zoomAll ? fv.set(FX, LT, 0) : fGoal);
+      else if (zoomAll) ctl.gt.set(0, 0, 8); else ctl.gt.set(crew.position.x + lead.x, crew.position.y * 0.6 + 6, crew.position.z + lead.z);
+    }
+    const gd = clamp((zoomAll ? overDist() : baseDist() * (fl ? fFactor : 1)) * ctl.zoom, 110, 1300);
+    if (snapCam){ snapCam = false; ctl.t.copy(ctl.gt); ctl.dist = gd; ctl.az = ctl.gaz; ctl.pol = ctl.gpol; }
     const kt = 1 - Math.exp(-dt * (ctl.drag ? 16 : intro ? 2 : 4.2)), ka = 1 - Math.exp(-dt * (ctl.drag ? 20 : intro ? 1.6 : 5)), kd = 1 - Math.exp(-dt * (intro ? 1.5 : 6));
     ctl.t.lerp(ctl.gt, kt); ctl.az += (ctl.gaz - ctl.az) * ka; ctl.pol += (ctl.gpol - ctl.pol) * ka; ctl.dist += (gd - ctl.dist) * kd;
     if (intro && Math.abs(ctl.dist - gd) < 4) intro = false;
@@ -3188,6 +3387,16 @@ function build3d(T){
     sun.position.copy(sun.target.position).addScaledVector(sunDir, 450);
   }
   const pv = new T.Vector3();
+  function updFlightLabels(){
+    for (const o of fLbls){
+      pv.copy(o.pos).project(camera);
+      const off = pv.z > 1 || pv.x < -1.15 || pv.x > 1.15 || pv.y < -1.2 || pv.y > 1.15;
+      if (off !== o.off){ o.off = off; o.lbl.classList.toggle('is-off', off); }
+      if (off) continue;
+      const x = Math.round((pv.x * 0.5 + 0.5) * W * 2) / 2, y = Math.round((0.5 - pv.y * 0.5) * FH * 2) / 2;
+      if (x !== o.lx || y !== o.ly){ o.lx = x; o.ly = y; o.lbl.style.transform = `translate(${x}px,${y}px) translate(-50%,0)`; }
+    }
+  }
   function updLabels(){
     for (const o of nodes3){
       pv.set(o.wx, 0.4, o.wz + 12.4).project(camera);
@@ -3232,7 +3441,7 @@ function build3d(T){
     mTTW.emissive.copy(winC).multiplyScalar(dark ? 0.3 : 0);
     mGold.emissive.copy(au).multiplyScalar(dark ? 0.35 : 0);
     iDot.material.emissive.copy(col('--route')).multiplyScalar(dark ? 0.7 : 0.3);
-    [mWater, mWaterB].forEach(m => { m.emissive.copy(dark ? winC : new T.Color(0xffffff)); m.emissiveIntensity = dark ? 0.22 : 0.16; });
+    [mWater, mWaterB, mSea].forEach(m => { m.emissive.copy(dark ? winC : new T.Color(0xffffff)); m.emissiveIntensity = dark ? 0.22 : 0.16; });
     mTrail.color.set(hex('--route')); mTrail.opacity = dark ? 0.32 : 0.22;
     nodes3.forEach(o => o.halo.material.color.set(hex('--gold')));
     setSun(dusk); sunT = clock;
@@ -3272,18 +3481,24 @@ function build3d(T){
   let clock = 0, last = 0, skip = 0;
   function tick(ts){
     const now = ts / 1000;
-    const busy = ctl.drag || !settled || intro || amp > 0.02 || live || clock - routeT0 < 1.8 || clock - poofT < 0.8 || clock - jumpT < 1.2;
+    const busy = ctl.drag || !settled || intro || amp > 0.02 || live || clock - routeT0 < 1.8 || clock - poofT < 0.8 || clock - jumpT < 1.2 || (fl && fl.anim && clock - fl.t0 < 8);
     if (!busy && (++skip & 1)) return;            /* 가만히 있을 땐 30fps로 */
     const dt = last ? clamp(now - last, 0.001, 0.05) : 1 / 60; last = now; clock += dt;
     const t = clock;
-    updCrew(dt, t); updCam(dt); updNodes(t, dt); animDots(t); updAmbient(t, dt); updGuide(t);
+    updCrew(dt, t);
+    if (fl) updFlight(t, dt);
+    updCam(dt);
+    if (!fl){ updNodes(t, dt); animDots(t); updGuide(t); }
+    updAmbient(t, dt);
     if (!dark && t - sunT > 60){ sunT = t; setSun(root.classList.contains('dusk')); }
     renderer.render(scene, camera);
-    updLabels(); updFollowUI();
+    if (fl) updFlightLabels(); else updLabels();
+    updFollowUI();
   }
   function enter(){
     resize();
     if (cur >= 0) route(cur);
+    if (m3dSky) flight(m3dSky, false); else flight(null);
     here(m3dHereId); status(); bags(); theme();
     hero(heroPos.x, heroPos.y); hpx = NaN;
     if (first){ first = false; ctl.t.set(hx, 0, hz); ctl.gt.copy(ctl.t); }
@@ -3292,7 +3507,7 @@ function build3d(T){
   function dispose(){
     ac.abort(); ro.disconnect(); io.disconnect();
     scene.traverse(o => { if (o.geometry) o.geometry.dispose(); });
-    renderer.dispose(); cv.remove(); m3dTags.innerHTML = '';
+    renderer.dispose(); cv.remove(); m3dTags.innerHTML = ''; fTags.remove();
   }
 
   /* 움직이지 않는 지형·랜드마크·노드 받침은 재질별로 한 덩어리로 합쳐요 (휴대폰에서 그리기 호출 줄이기) */
@@ -3320,7 +3535,7 @@ function build3d(T){
       const mesh = new T.Mesh(mg, b.mat); mesh.castShadow = b.cast; mesh.receiveShadow = true; stat.add(mesh);
     });
   })();
-  G = { route, here, status, bags, theme, hero, enter, dispose, frame: tick, wake(){ last = 0; settled = false; } };
+  G = { route, here, status, bags, theme, hero, enter, dispose, flight, frame: tick, wake(){ last = 0; settled = false; } };
 }
 
 function init(){
