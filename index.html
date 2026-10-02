@@ -265,6 +265,7 @@ html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
 .qcard__how{display:flex;align-items:center;gap:6px;min-width:0;font-size:13px;color:var(--muted)}
 .qcard__how .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .qcard__how b{flex-shrink:0;color:var(--ink);font-size:12px}
+.qcard__how b.how__go{color:var(--blue);font-size:12.5px;font-weight:900}
 .qcard__btns{display:flex;gap:7px}
 .qcard__btns .gbtn{flex:1 1 0;min-width:0;padding:0 8px;font-size:14px}
 .k-baby{--kb:var(--k-baby);--kf:var(--k-baby-ink)}
@@ -2107,9 +2108,10 @@ function updateBags(){
    ================================================================ */
 let cur = -1, act = -1, cards = [], qio = null, lock = false, lockT = 0, userMoved = false, playT = 0;
 const qwrap = $('#quests');
-function howHTML(it){
-  const m = it.move && it.move[0], p = plc(it);
-  if (m) return `${lineChip(m.line, true)}<span class="t">${rich(m.text)}</span>${m.dur ? `<b>${rich(m.dur)}</b>` : ''}`;
+function howHTML(it, di, k){
+  const m = it.move && it.move[0], p = plc(it), tr = di != null ? planOf(di, k) : null;
+  const when = tr ? (tr.board ? `→ ${fmtMin(tr.arrive)} 도착` : tr.tight ? `끝나면 이동` : `${fmtMin(tr.leave)} 출발`) : '';
+  if (m) return `${lineChip(m.line, true)}<span class="t">${rich(m.text)}</span>${when ? `<b class="how__go">${when}</b>` : (m.dur ? `<b>${rich(m.dur)}</b>` : '')}`;
   if (p && p.hours) return `<span aria-hidden="true">🕘</span><span class="t">${rich(p.hours)}</span>`;
   return `<span class="t">${rich(it.memo || '')}</span>`;
 }
@@ -2119,7 +2121,7 @@ function cardHTML(it, di, k){
   return `<article class="qcard k-${kind}" data-k="${k}" id="q-${di}-${k}" aria-label="${esc(it.t)} ${esc(itName(it))}">
     <div class="qcard__top"><span class="qcard__time">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span><span class="qcard__kind">${kindLbl}</span></div>
     <div class="qcard__main"><span class="qcard__emo" aria-hidden="true">${itEmo(it)}</span><div class="qcard__ttl"><h3>${esc(name)}</h3>${ja ? `<span class="ja" lang="ja">${esc(ja)}</span>` : ''}</div><span class="qcard__wx" data-wx="${k}"></span></div>
-    <p class="qcard__how">${howHTML(it)}</p>
+    <p class="qcard__how">${howHTML(it, di, k)}</p>
     <div class="qcard__btns">${lp && lp.q ? `<a class="gbtn gbtn--go" href="${esc(mapsUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 구글 지도 열기 (새 탭)">${ICON.pin}지도</a><a class="gbtn" href="${esc(dirUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 대중교통 길찾기 (새 탭)">${ICON.route}길</a>` : ''}<button class="gbtn" type="button" data-open="${k}" aria-label="${esc(itName(it))} 자세히 보기">자세히</button></div>
   </article>`;
 }
