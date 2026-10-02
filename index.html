@@ -1655,6 +1655,7 @@ const reduce = reduceMQ.matches;
 const anim = !reduce && 'IntersectionObserver' in window;
 if (anim) root.classList.add('anim');
 const wideMQ = matchMedia('(min-width: 900px)');
+const mqOn = (mq, fn) => { try { if (mq.addEventListener) mq.addEventListener('change', fn); else if (mq.addListener) mq.addListener(fn); } catch(e){} };
 
 const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
@@ -1769,21 +1770,22 @@ function dayStatus(di){
 const todayIdx = () => D.days.findIndex(d => d.date === jst().date);
 
 /* ---------- 이동 시간 · 몇 시에 나서야 하나 ---------- */
-function durMin(s){
+function durRange(s){
   s = String(s || '').replace(/\{\?\}/g, '');
-  let m = 0; const h = /(\d+)\s*시간/.exec(s); if (h) m += +h[1] * 60;
-  const x = /(\d+)(?:\s*~\s*(\d+))?\s*분/.exec(s); if (x) m += +(x[2] || x[1]);
-  return m;
+  let lo = 0, hi = 0; const h = /(\d+)\s*시간/.exec(s); if (h){ lo += +h[1] * 60; hi += +h[1] * 60; }
+  const x = /(\d+)(?:\s*~\s*(\d+))?\s*분/.exec(s); if (x){ lo += +x[1]; hi += +(x[2] || x[1]); }
+  return [lo, hi];
 }
+const durMin = s => durRange(s)[1];
 const fmtMin = m => { m = ((Math.round(m) % 1440) + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
 const LEAVE_PAD = 5;   /* 역까지 걷기·환승 여유 */
 /* 공항 열차처럼 시각이 곧 탑승 시각이면 도착 시각을, 아니면 그 시각에 닿으려면 언제 나서야 하는지 */
 function tripOf(it){
   const legs = (it.move || []).filter(m => m.line !== 'air');
-  const mins = legs.reduce((t, m) => t + durMin(m.dur), 0);
+  const mins = legs.reduce((t, m) => t + durMin(m.dur), 0), lo = legs.reduce((t, m) => t + durRange(m.dur)[0], 0);
   if (!legs.length || !mins) return null;
-  const t = toMin(it.t);
-  return legs.some(m => m.line === 'keisei') ? { board:true, mins, arrive: t + mins } : { board:false, mins, leave: t - mins - LEAVE_PAD };
+  const t = toMin(it.t), mt = lo === mins ? String(mins) : `${lo}~${mins}`;
+  return legs.some(m => m.line === 'keisei') ? { board:true, mins, mt, arrive: t + lo } : { board:false, mins, mt, leave: t - mins - LEAVE_PAD };
 }
 /* 지금 영업 중인지 (여행 날에만): { s:'on'|'soon'|'pre'|'done'|'off', t:문구 } */
 const DAYK = ['sat', 'sun', 'mon'];
@@ -1814,8 +1816,9 @@ function paintOpen(){
 function planOf(di, k){
   const items = D.days[di].items, it = items[k], tr = tripOf(it);
   if (!tr || tr.board || !items[k - 1]) return tr;
-  const pv = items[k - 1], pe = toMin(pv.end || pv.t);
-  return tr.leave < pe ? Object.assign({}, tr, { leave: pe, tight: true, arrive: pe + tr.mins }) : tr;
+  const pv = items[k - 1];
+  if (pv.end){ const pe = toMin(pv.end); return tr.leave < pe ? Object.assign({}, tr, { leave: pe, tight: true, arrive: pe + tr.mins }) : tr; }
+  return tr.leave < toMin(pv.t) ? Object.assign({}, tr, { rush: true }) : tr;
 }
 function mainLine(it){
   const ms = (it.move || []).filter(m => m.line !== 'air');
@@ -1862,9 +1865,10 @@ async function loadWx(force){
   wxBusy = true;
   try {
     const ac = new AbortController(), to = setTimeout(() => ac.abort(), 9000);
-    const r = await fetch(WX_URL, { signal: ac.signal }); clearTimeout(to);
-    if (!r.ok) throw new Error('wx ' + r.status);
-    const j = await r.json(); if (!j.daily || !j.hourly) throw new Error('wx');
+    let j;
+    try { const r = await fetch(WX_URL, { signal: ac.signal }); if (!r.ok) throw new Error('wx ' + r.status); j = await r.json(); }
+    finally { clearTimeout(to); }
+    if (!j.daily || !j.hourly) throw new Error('wx');
     const o = { v:1, at: Date.now(), d:{}, h:{} }, num = v => (typeof v === 'number' ? v : null);
     j.daily.time.forEach((t, i) => { o.d[t] = { c: j.daily.weather_code[i], hi: num(j.daily.temperature_2m_max[i]), lo: num(j.daily.temperature_2m_min[i]), pp: num(j.daily.precipitation_probability_max[i]), ps: num(j.daily.precipitation_sum[i]) }; });
     j.hourly.time.forEach((t, i) => { o.h[t.slice(0, 13)] = { t: num(j.hourly.temperature_2m[i]), p: num(j.hourly.precipitation_probability[i]), c: j.hourly.weather_code[i] }; });
@@ -2129,9 +2133,9 @@ function detailHTML(it, di, k, opts){
   if (opts.buy && p && di === todayIdx()){ const os = openState(p, di, jst().min); if (os) facts.unshift(['지금', ({ on:'🟢 ', soon:'🟠 ', pre:'🔵 ' }[os.s] || '🔴 ') + os.t]); }
   if (it.memo) h += `<div class="say"><span class="say__who say__who--${k % 2 ? 'b' : 'a'}" aria-hidden="true">${k % 2 ? 'B' : 'A'}</span><p><span class="sr">아빠 ${k % 2 ? 'B' : 'A'}: </span>${rich(it.memo, w)}</p></div>`;
   if (it.move){
-    const lb = tr ? (tr.board ? `<p class="leaveby">🚆 <b>${esc(it.t)}</b> 탑승 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(약 ${tr.mins}분)</span></p>`
+    const lb = tr ? (tr.board ? `<p class="leaveby">🚆 <b>${esc(it.t)}</b> 탑승 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(약 ${tr.mt}분)</span></p>`
                               : tr.tight ? `<p class="leaveby">⏱ 앞 일정이 끝나는 <b>${fmtMin(tr.leave)}</b>에 바로 이동 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(이동 약 ${tr.mins}분)</span></p>`
-                              : `<p class="leaveby">⏱ ${esc(it.t)}에 닿으려면 <b>${fmtMin(tr.leave)}</b>쯤 출발 <span>(이동 약 ${tr.mins}분 + 여유 ${LEAVE_PAD}분)</span></p>`) : '';
+                              : `<p class="leaveby">⏱ ${esc(it.t)}에 닿으려면 <b>${fmtMin(tr.leave)}</b>쯤 출발 <span>(이동 약 ${tr.mins}분 + 여유 ${LEAVE_PAD}분${tr.rush ? ' · 빠듯해요, 앞 일정 끝나면 바로' : ''})</span></p>`) : '';
     h += `<section class="sec"><h3>🧭 이동</h3>${moveHTML(it.move, w)}${lb}</section>`;
   }
   if (facts.length || (p && p.open)) h += `<section class="sec"><h3>📋 정보</h3>${factsHTML(facts, w)}${p && p.open ? openDays(p.open) : ''}</section>`;
@@ -2184,7 +2188,7 @@ function renderTimeline(di){
   tlEl.innerHTML = day.items.map((it, k) => {
     const tr = planOf(di, k), p = plc(it), plain = s => esc(String(s || '').replace(/\s*\{\?\}/g, ''));
     const hint = p && !it.noFacts ? (p.loc ? p.loc.split(' · ')[0] : (p.hours || '')) : '';
-    const sub = tr ? (tr.board ? `🚆 → ${fmtMin(tr.arrive)} 도착 · ${tr.mins}분` : tr.tight ? `🚶 끝나면 바로 · ${tr.mins}분 → ${fmtMin(tr.arrive)}` : `🚶 <b>${fmtMin(tr.leave)}</b> 출발 · ${tr.mins}분`)
+    const sub = tr ? (tr.board ? `🚆 → ${fmtMin(tr.arrive)} 도착 · ${tr.mt}분` : tr.tight ? `🚶 끝나면 바로 · ${tr.mins}분 → ${fmtMin(tr.arrive)}` : `🚶 <b>${fmtMin(tr.leave)}</b> 출발 · ${tr.rush ? '빠듯' : tr.mins + '분'}`)
       : it.sky ? plain(it.move && it.move[0] && it.move[0].text) : hint ? plain(hint) : it.memo ? plain(it.memo.split(/[.!?]\s/)[0]) : it.save ? '💾 세이브 포인트' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
     return `<li data-k="${k}"><button class="tl__row" type="button" data-tl="${k}" aria-label="${esc(it.t)} ${esc(itName(it))}. 누르면 자세히"><span class="tl__t">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}${it.end ? `<small>→${esc(it.end)}</small>` : ''}</span><span class="tl__e" aria-hidden="true">${itEmo(it)}</span><span class="tl__n"><b>${esc(itShort(it))}</b><small>${sub}</small></span><span class="tl__s"></span><span class="tl__w qcard__wx" data-wx="${k}"></span></button></li>`;
   }).join('');
@@ -2319,9 +2323,16 @@ function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); bt
 const sheet = $('#sheet'), sheetPanel = $('#sheetPanel'), sheetBody = $('#sheetBody');
 let sheetFrom = null, sheetBack = null, sheetReopen = null, sheetCloseT = 0, sheetIsOpen = false;
 /* 휴대폰 '뒤로' 버튼·제스처는 열린 시트·큰 화면부터 닫아요 (페이지를 벗어나지 않게) */
-let ovlDepth = 0, popSkip = 0;
-function ovlPush(){ try { history.pushState({ tq:'ovl' }, ''); ovlDepth++; } catch(e){} }
-function ovlPop(){ if (ovlDepth > 0){ ovlDepth--; popSkip++; try { history.back(); } catch(e){ popSkip--; } } }
+let ovlDepth = 0, popSkip = 0, pushOwed = 0;
+function ovlPush(){
+  if (popSkip > 0){ pushOwed++; ovlDepth++; return; }   /* 앞의 history.back()이 끝난 뒤에 넣어요 */
+  try { history.pushState({ tq:'ovl' }, ''); ovlDepth++; } catch(e){}
+}
+function ovlPop(){
+  if (pushOwed > 0){ pushOwed--; ovlDepth--; return; }
+  if (ovlDepth > 0){ ovlDepth--; popSkip++; try { history.back(); } catch(e){ popSkip--; } }
+}
+function ovlSettle(){ while (popSkip === 0 && pushOwed > 0){ pushOwed--; try { history.pushState({ tq:'ovl' }, ''); } catch(e){ ovlDepth--; } } }
 function openSheet(html, back){
   sheetBack = back || null;
   sheetBody.innerHTML = (sheetBack ? '<button class="gbtn gbtn--sm sheet__back" type="button" data-back>← 뒤로</button>' : '') + html;
@@ -2512,7 +2523,7 @@ function updateGuide(){
 function arrive(id){
   const n = N[id];
   toast(`📍 ${n.name} 도착!`);
-  if (!sheet.hidden && $('#nearMark', sheetBody)) openNearby(id, `📡 GPS 기준 · ${n.name}에 도착했어요`);
+  if (sheetIsOpen && $('#nearMark', sheetBody)) openNearby(id, `📡 GPS 기준 · ${n.name}에 도착했어요`);
   else if (sheet.hidden && view === 'map') openNearby(id, `📡 GPS 기준 · ${n.name}에 도착했어요`);
 }
 function bucket(){ const m = jst().min % 1440; return m >= 300 && m < 660 ? 'morning' : (m >= 660 && m < 1020 ? 'day' : 'night'); }
@@ -2529,7 +2540,7 @@ function openNearby(id, src){
   sheetReopen = () => openNearby(nearCtx.id, nearCtx.src);
   openSheet(nearbyHTML(nearCtx.id, nearCtx.src));
 }
-function refreshNearbyIfOpen(){ if (!sheet.hidden && $('#nearMark', sheetBody)){ nearCtx = currentArea(); openSheet(nearbyHTML(nearCtx.id, nearCtx.src)); } }
+function refreshNearbyIfOpen(){ if (sheetIsOpen && $('#nearMark', sheetBody)){ nearCtx = currentArea(); openSheet(nearbyHTML(nearCtx.id, nearCtx.src)); } }
 function itemRowHTML(kid, x){
   const on = !!got[x.key];
   return `<div class="irow"><button class="nrow" type="button" data-item="${esc(x.key)}"><span class="nrow__e" aria-hidden="true">${x.e}</span><span class="nrow__t"><b>${esc(x.t)}</b><small>${esc(kid.name)} · ${esc(x.size || '')} · ${esc(shopName(x.shop))}</small></span><span class="nrow__go" aria-hidden="true">›</span></button><button class="irow__ck" type="button" data-got="${esc(x.key)}" aria-pressed="${on}" aria-label="${esc(x.t)} 획득 표시">${ICON.check}</button></div>`;
@@ -2896,9 +2907,9 @@ async function loadRate(user){
   for (const [u, pick] of SRC){
     try {
       const ac = new AbortController(), to = setTimeout(() => ac.abort(), 8000);
-      const r = await fetch(u, { signal: ac.signal }); clearTimeout(to);
-      if (!r.ok) continue;
-      const v = pick(await r.json());
+      let v;
+      try { const r = await fetch(u, { signal: ac.signal }); if (!r.ok) continue; v = pick(await r.json()); }
+      finally { clearTimeout(to); }
       if (v > 2 && v < 30){ fxApply(Math.round(v * 1000) / 10, { host: new URL(u).hostname, at: Date.now() }); ok = true; break; }
     } catch(e){}
   }
@@ -2993,6 +3004,7 @@ function splitText(){
 }
 function paintSplit(){
   const res = $('#splitRes'), ul = $('#splitList'); if (!res) return;
+  splitArm = null;
   const sum = { a: 0, b: 0 }; split.forEach(x => { sum[x.w === 'b' ? 'b' : 'a'] += x.y; });
   const tot = sum.a + sum.b, diff = sum.a - tot / 2;
   const won = v => `≈ ${fmtNum(v * fxRate / 100)}원`;
@@ -3047,8 +3059,15 @@ function updateTicker0(){
       tickAction = () => { showView('map'); if (cur !== di) selectChapter(di, { index:pick }); else goTo(pick); };
       return;
     }
-    t.innerHTML = `<span class="ticker__k ticker__k--gold">CLEAR</span><span class="ticker__t">챕터 ${di + 1} 완료! 푹 쉬어요</span>`;
-    t.setAttribute('aria-label', `챕터 ${di + 1} 완료`); tickAction = () => showView('map');
+    const nd = D.days[di + 1], f0 = nd && nd.items[0], f0p = nd ? planOf(di + 1, 0) : null;
+    if (f0){
+      t.innerHTML = `<span class="ticker__k ticker__k--gold">CLEAR</span><span class="ticker__t">내일 <b>${esc(f0.t)}</b>${esc(itShort(f0))}</span>${f0p && !f0p.board ? `<span class="ticker__last">🚶 ${fmtMin(f0p.leave)} 출발</span>` : ''}`;
+      t.setAttribute('aria-label', `챕터 ${di + 1} 완료. 내일 첫 퀘스트 ${f0.t} ${itName(f0)}. 눌러서 보기`);
+      tickAction = () => { showView('map'); selectChapter(di + 1, { index:0 }); };
+    } else {
+      t.innerHTML = `<span class="ticker__k ticker__k--gold">CLEAR</span><span class="ticker__t">챕터 ${di + 1} 완료! 푹 쉬어요</span>`;
+      t.setAttribute('aria-label', `챕터 ${di + 1} 완료`); tickAction = () => showView('map');
+    }
     return;
   }
   if (toStart > 0){
@@ -3074,7 +3093,7 @@ function showView(v, opts){
   $$('#dock button').forEach(b => { if (b.dataset.view === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
   const sec = $('#v-' + v);
   if (changed && anim){ sec.classList.remove('enter'); void sec.offsetWidth; sec.classList.add('enter'); }
-  try { history.replaceState(null, '', v === 'map' ? location.pathname + location.search : '#' + v); } catch(e){}
+  try { history.replaceState(history.state, '', v === 'map' ? location.pathname + location.search : '#' + v); } catch(e){}
   if (changed && !opts.keepScroll) scrollTo({ top:0 });
   if (v === 'map') requestAnimationFrame(() => { cam(heroPos.y, false); if (act >= 0) scrollToCard(act, false); });
   watchReveal(sec);
@@ -4337,7 +4356,7 @@ function init(){
   updateTicker(); setHudH();
   autoFollow(true);
   setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); paintOpen(); }, 30000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); } });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); paintOpen(); } });
   paintWx(); loadWx();
   addEventListener('online', () => { toast('📶 인터넷 다시 연결됐어요'); updateTicker(); loadWx(true); if (view === 'fx') autoRate(); });
   addEventListener('offline', () => { toast('📴 오프라인 · 저장해 둔 화면으로 보여요'); updateTicker(); });
@@ -4354,7 +4373,7 @@ function init(){
     updateTicker();
   });
   if ('ResizeObserver' in window){ new ResizeObserver(setHudH).observe($('#hud')); new ResizeObserver(() => cam(heroPos.y, false)).observe(frame); }
-  wideMQ.addEventListener('change', () => { observeCards(); scrollToCard(act, false); cam(heroPos.y, false); });
+  mqOn(wideMQ, () => { observeCards(); scrollToCard(act, false); cam(heroPos.y, false); });
 
   ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(ev => document.addEventListener(ev, () => { userMoved = true; }, { passive:true, once:true }));
   ['pointerdown', 'touchstart', 'wheel'].forEach(ev => qwrap.addEventListener(ev, () => { if (playT) stopPlay(); }, { passive:true }));
@@ -4412,14 +4431,14 @@ function init(){
   $('#meBtn').addEventListener('click', e => { e.preventDefault(); showView('map'); scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); });
   $('#ticker').addEventListener('click', () => { userMoved = true; if (tickAction) tickAction(); });
   $('#themeBtn').addEventListener('click', () => { mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length]; store.set('theme', mode); applyTheme(); toast(mode === 'time' ? '🕒 도쿄 시간에 맞춰 낮·밤 자동' : mode === 'dark' ? '🌙 밤 모드' : mode === 'light' ? '☀️ 낮 모드' : '🖥️ 시스템 설정 따라가기'); });
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (mode === 'system') applyTheme(); });
+  mqOn(matchMedia('(prefers-color-scheme: dark)'), () => { if (mode === 'system') applyTheme(); });
 
   const taxi = $('#taxi'); let taxiFrom = null;
   const openBig = (from, o) => { fillBig(o); taxiFrom = from; if (taxi.hidden) ovlPush(); taxi.hidden = false; $('#taxiClose').focus(); };
   const closeTaxi = fromPop => { if (taxi.hidden) return; taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); if (fromPop !== true) ovlPop(); };
-  const syncUrl = () => { try { history.replaceState(null, '', view === 'map' ? location.pathname + location.search : '#' + view); } catch(e){} };
+  const syncUrl = () => { try { history.replaceState(history.state, '', view === 'map' ? location.pathname + location.search : '#' + view); } catch(e){} };
   addEventListener('popstate', () => {
-    if (popSkip > 0){ popSkip--; syncUrl(); return; }
+    if (popSkip > 0){ popSkip--; syncUrl(); ovlSettle(); return; }
     if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else closeSheet(true); }
     syncUrl();
   });

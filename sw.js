@@ -2,7 +2,7 @@
    - 페이지(index.html): 인터넷이 되면 항상 새 버전, 안 되거나 4초 넘게 걸리면 저장해 둔 버전
    - 아이콘·글꼴·three.js: 한 번 받으면 저장해 두고 씀 (뒤에서 조용히 새로 받기)
    - 날씨·환율 API, 구글 지도: 가로채지 않음 (페이지가 따로 저장해 둬요) */
-const V = 'tq-v3';
+const V = 'tq-v3';   /* 바꾸면 저장해 둔 글꼴·three.js도 새로 받아요 */
 const CORE = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const PAGE = new URL('./', self.registration.scope).href;
 
@@ -17,7 +17,7 @@ self.addEventListener('activate', e => {
 
 function pageFirst(){
   return caches.open(V).then(c => {
-    const net = fetch(PAGE, { cache: 'no-cache' }).then(r => { if (r.ok) c.put(PAGE, r.clone()); return r; });
+    const net = fetch(PAGE, { cache: 'no-cache' }).then(r => { if (r.ok){ c.put(PAGE, r.clone()); return r; } return c.match(PAGE).then(h => h || r); });
     const late = new Promise(res => setTimeout(res, 4000)).then(() => c.match(PAGE));
     return Promise.race([net, late.then(r => r || net)]).catch(() => c.match(PAGE)).then(r => r || net);
   });
