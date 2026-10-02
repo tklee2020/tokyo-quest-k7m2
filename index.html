@@ -728,6 +728,8 @@ html.map3d .hello{border-color:transparent;background-image:linear-gradient(180d
 .questcol.is-list .quests{display:none}
 .tl{display:none;list-style:none;margin:8px 0 6px;padding:0}
 .questcol.is-list .tl{display:grid;gap:0}
+.tlshare{display:none;margin:2px 0 12px}
+.questcol.is-list .tlshare{display:block}
 .tl li{position:relative;padding-left:16px}
 .tl li::before{content:"";position:absolute;left:5px;top:0;bottom:0;border-left:3px dotted var(--line)}
 .tl li:first-child::before{top:26px}
@@ -750,7 +752,7 @@ html.map3d .hello{border-color:transparent;background-image:linear-gradient(180d
 .tl__w{flex-shrink:0;font-size:12px;color:var(--muted);text-align:center;line-height:1.1}
 .leaveby{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:8px 11px;border-radius:12px;background:var(--surface-2);font-size:13.5px}
 .leaveby b{font-size:15.5px;font-weight:900;color:var(--blue);font-variant-numeric:tabular-nums}
-@media (min-width:900px){ .qnav__list{display:none} .qnav__list + .qnav__play{margin-left:auto} .questcol.is-list .quests{display:flex} .questcol.is-list .tl{display:none} }
+@media (min-width:900px){ .questcol.is-list .tlshare{display:none} .qnav__list{display:none} .qnav__list + .qnav__play{margin-left:auto} .questcol.is-list .quests{display:flex} .questcol.is-list .tl{display:none} }
 
 /* ---------- checklists ---------- */
 .checkbar{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0 10px;padding:10px 12px;border:2px solid var(--edge);border-radius:16px;background:var(--gold-tint);color:var(--ink);box-shadow:0 3px 0 var(--drop);text-align:left;cursor:pointer;font-family:var(--f-game);font-size:16px}
@@ -927,6 +929,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
         </div>
         <div class="quests" id="quests" aria-label="이번 챕터 퀘스트 목록. 옆으로 넘기면 아바타가 따라 걸어요"></div>
         <ol class="tl" id="tl" aria-label="이번 챕터 일정 한눈에 보기"></ol>
+        <p class="tlshare"><button class="gbtn gbtn--sm" type="button" id="shareDay">📤 이 날 일정 텍스트로 보내기</button></p>
         <button class="checkbar" id="checkbar" type="button" hidden></button>
         <ul class="events" id="events" aria-label="이번 챕터 알림"></ul>
         <div class="minibase" id="minibase"></div>
@@ -2182,6 +2185,18 @@ function paintTimeline(){
     $('.tl__s', li).innerHTML = k === st.now ? '<span class="nb nb--now">NOW</span>' : (k === st.next ? '<span class="nb nb--next">NEXT</span>' : '');
   });
 }
+function dayText(di){
+  const d = D.days[di], plain = s => String(s || '').replace(/\s*\{\?\}/g, '');
+  const lines = [`🗼 도쿄 ${d.md}(${d.dowKo}) · ${d.title}`];
+  d.items.forEach(it => {
+    const tr = tripOf(it);
+    lines.push(`${it.approx ? '약 ' : ''}${it.t}${it.end ? '–' + it.end : ''} ${itEmo(it)} ${itShort(it)}${tr && !tr.board ? ` (${fmtMin(tr.leave)} 출발)` : ''}`);
+  });
+  const w = wxDay(d.date);
+  if (w){ const x = wxInfo(w.c); lines.push('', `날씨 ${x.e} ${x.t} ${w.hi != null ? Math.round(w.hi) : '?'}°/${w.lo != null ? Math.round(w.lo) : '?'}°${w.pp != null ? ` · 비 ${w.pp}%` : ''}`); }
+  lines.push('', `숙소: ${P[D.hotel.place].name}`, plain(D.hotel.addressCopy));
+  return lines.join('\n');
+}
 function setListMode(on){
   listMode = on; store.set('listmode', on);
   qcol.classList.toggle('is-list', on);
@@ -2944,7 +2959,7 @@ function splitText(){
   const f = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
   const settle = Math.abs(diff) < 1 ? '딱 반반' : diff > 0 ? `B → A ¥${fmtNum(diff)} (≈${won(diff)})` : `A → B ¥${fmtNum(-diff)} (≈${won(-diff)})`;
   return [`🧾 도쿄 같이 쓴 돈 (100엔=${fxRate}원)`, `합계 ¥${fmtNum(tot)} (≈${won(tot)}) · A ¥${fmtNum(sum.a)} · B ¥${fmtNum(sum.b)}`, `정산: ${settle}`, '']
-    .concat(split.slice().reverse().map(x => `· ${f.format(new Date(x.t))} ${x.m || '기록'} ¥${fmtNum(x.y)} (${x.w === 'b' ? 'B' : 'A'})`)).join('\n');
+    .concat(split.slice().sort((x, y) => x.t - y.t).map(x => `· ${f.format(new Date(x.t))} ${x.m || '기록'} ¥${fmtNum(x.y)} (${x.w === 'b' ? 'B' : 'A'})`)).join('\n');
 }
 function paintSplit(){
   const res = $('#splitRes'), ul = $('#splitList'); if (!res) return;
@@ -4321,6 +4336,11 @@ function init(){
   $('#nextQ').addEventListener('click', () => { stopPlay(); userMoved = true; goTo(act + 1); });
   $('#playQ').addEventListener('click', play);
   $('#listQ').addEventListener('click', () => setListMode(!listMode));
+  $('#shareDay').addEventListener('click', () => {
+    const txt = dayText(cur);
+    if (navigator.share) navigator.share({ title: `도쿄 ${D.days[cur].md} 일정`, text: txt }).catch(() => {});
+    else copyText(txt);
+  });
   setListMode(listMode);
   tlEl.addEventListener('click', e => {
     const b = e.target.closest('[data-tl]'); if (!b) return;
