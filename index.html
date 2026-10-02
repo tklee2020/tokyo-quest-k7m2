@@ -1,0 +1,2363 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>도쿄 가을 2박 3일</title>
+<meta name="description" content="TOKYO QUEST — 아빠 둘의 도쿄 2박 3일 (2026.10.03–10.05)">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1D2232" id="metaTheme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+KR:wght@400;500;700;900&family=Silkscreen:wght@400;700&display=swap">
+<style>
+/* Layout: phone = sticky game HUD + world map where two avatars walk + swipeable quest cards + fixed dock; ≥900px = map sticky left, quest list right */
+:root{
+  --bg:#E8EFF2; --surface:#FFFFFF; --surface-2:#EFF3F5; --ink:#1D2232; --muted:#566074; --line:#D2DAE1;
+  --edge:#1D2232; --drop:#1D2232; --scrim:#0A0E1A99;
+  --hud:#1D2232; --hud-2:#2E3650; --hud-line:#3E4760; --on-hud:#F4F7FB; --hud-muted:#B4BDD0;
+  --gold:#F5B820; --gold-ink:#7A5300; --on-gold:#1D2232; --gold-tint:#FFF3CC;
+  --red:#C93A26; --on-red:#FFFFFF;
+  --blue:#2D6AD0; --on-blue:#FFFFFF;
+  --land:#E3ECD8; --block:#FBFCF7; --block-edge:#D0D9C4; --park:#B5D795; --water:#93C8E8; --water-edge:#6EAAD5; --window:#FFD86B; --window-op:0; --tower:#8394AC;
+  --route:#C93A26; --route-glow:#C93A2633;
+  --k-baby:#F9D6E3; --k-baby-ink:#86305A;
+  --k-gu:#D7E4FA;   --k-gu-ink:#1F4C9A;
+  --k-food:#FCE2C9; --k-food-ink:#844210;
+  --k-drink:#FBE8A8; --k-drink-ink:#6A4B00;
+  --k-move:#D4EEE4; --k-move-ink:#1C5C45;
+  --check-bg:#FFF0C7; --check-fg:#6B4A00; --check-line:#C9971C;
+  --ok-bg:#D7F0DF; --ok-fg:#1C5A34; --no-bg:#F8DCD6; --no-fg:#8A2A1F;
+  --sign-bg:#FFFFFF; --sign-fg:#141414; --eye:#1D2232;
+  --skin:#F5CCA4; --a-hat:#F5B820; --a-body:#2D6AD0; --b-hat:#C93A26; --b-body:#2E8C5F; --legs:#2A3142;
+  --bag1:#F5B820; --bag2:#E86A9A; --bag3:#4DA3E0;
+  --line-asakusa:#E85298; --line-shinjuku:#6CBB5A; --line-sobu:#0067C0; --line-hibiya:#9CAEB7;
+  --line-keisei:#005AAA; --line-ginza:#F39700; --line-jr:#80C241; --line-hanzomon:#8F76D6;
+  --f-game:"Jua","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-ja:"Noto Sans JP","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-px:"Silkscreen",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --dusk-a:#FF8A3D30; --dusk-b:#8A4FD026;
+  --gutter:16px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1020; --surface:#151C30; --surface-2:#1E2741; --ink:#EEF2FA; --muted:#A8B2C8; --line:#2C3756;
+    --edge:#4B5C88; --drop:#02050C; --scrim:#000000B3;
+    --hud:#060A16; --hud-2:#1A2240; --hud-line:#283152; --on-hud:#F4F7FB; --hud-muted:#A3AECA;
+    --gold:#FFC93D; --gold-ink:#FFD466; --on-gold:#1D2232; --gold-tint:#3A3114;
+    --red:#FF7B63; --on-red:#2A0B05; --blue:#86ABFF; --on-blue:#0B1530;
+    --land:#121A30; --block:#1D2742; --block-edge:#2A3658; --park:#163A31; --water:#0C2A4A; --water-edge:#1A4876; --window:#FFD86B; --window-op:1; --tower:#9FD0FF;
+    --route:#FF8A73; --route-glow:#FF8A7340;
+    --k-baby:#43223A; --k-baby-ink:#F7B6D2; --k-gu:#1E2C47; --k-gu-ink:#AECBFF; --k-food:#41291A; --k-food-ink:#FFC08F;
+    --k-drink:#3D3112; --k-drink-ink:#FFD978; --k-move:#173A30; --k-move-ink:#9EE0C6;
+    --check-bg:#3A2F10; --check-fg:#F5D27A; --check-line:#9C7A22;
+    --ok-bg:#173322; --ok-fg:#9AD9B0; --no-bg:#3C1F1B; --no-fg:#F4A99D;
+    --skin:#F0C39A; --legs:#0E1322;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1020; --surface:#151C30; --surface-2:#1E2741; --ink:#EEF2FA; --muted:#A8B2C8; --line:#2C3756;
+  --edge:#4B5C88; --drop:#02050C; --scrim:#000000B3;
+  --hud:#060A16; --hud-2:#1A2240; --hud-line:#283152; --on-hud:#F4F7FB; --hud-muted:#A3AECA;
+  --gold:#FFC93D; --gold-ink:#FFD466; --on-gold:#1D2232; --gold-tint:#3A3114;
+  --red:#FF7B63; --on-red:#2A0B05; --blue:#86ABFF; --on-blue:#0B1530;
+  --land:#121A30; --block:#1D2742; --block-edge:#2A3658; --park:#163A31; --water:#0C2A4A; --water-edge:#1A4876; --window:#FFD86B; --window-op:1; --tower:#9FD0FF;
+  --route:#FF8A73; --route-glow:#FF8A7340;
+  --k-baby:#43223A; --k-baby-ink:#F7B6D2; --k-gu:#1E2C47; --k-gu-ink:#AECBFF; --k-food:#41291A; --k-food-ink:#FFC08F;
+  --k-drink:#3D3112; --k-drink-ink:#FFD978; --k-move:#173A30; --k-move-ink:#9EE0C6;
+  --check-bg:#3A2F10; --check-fg:#F5D27A; --check-line:#9C7A22;
+  --ok-bg:#173322; --ok-fg:#9AD9B0; --no-bg:#3C1F1B; --no-fg:#F4A99D;
+  --skin:#F0C39A; --legs:#0E1322;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--hud-h,110px) + 10px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;overflow-x:clip;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3,h4{margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+a{color:var(--blue)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[lang="ja"]{font-family:var(--f-ja)}
+.ja{font-family:var(--f-ja);font-weight:400;font-size:.76em;color:var(--muted)}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.wrap{width:100%;max-width:1180px;margin-inline:auto;padding-inline:var(--gutter)}
+.skip{position:absolute;left:12px;top:-80px;z-index:100;background:var(--gold);color:var(--on-gold);padding:10px 14px;border-radius:10px}
+.skip:focus{top:12px}
+
+/* ---------- game buttons ---------- */
+.gbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);color:var(--ink);box-shadow:0 3px 0 var(--drop);font-family:var(--f-game);font-size:15px;line-height:1;text-decoration:none;white-space:nowrap;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation;transition:transform .12s cubic-bezier(.3,.7,.3,1)}
+.gbtn:active{transform:translateY(2px) scale(.98)}
+.gbtn svg{width:17px;height:17px;flex-shrink:0}
+.gbtn--go{background:var(--blue);color:var(--on-blue)}
+.gbtn--gold{background:var(--gold);color:var(--on-gold)}
+.gbtn--sm{padding:0 11px;font-size:14px}
+.gbtn--icon{width:44px;padding:0}
+@media (hover:hover){.gbtn:hover{filter:brightness(1.04)}}
+
+/* ---------- HUD ---------- */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--hud);color:var(--on-hud);box-shadow:0 3px 0 var(--drop)}
+.hud__row{display:flex;align-items:center;gap:8px;max-width:1180px;margin-inline:auto;padding:8px var(--gutter) 6px}
+.hud__me{display:inline-grid;place-items:center;flex-shrink:0;width:48px;height:44px;border-radius:12px;color:var(--on-hud)}
+.hud__me svg{width:44px;height:34px}
+.chs{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;max-width:420px;margin-inline:auto}
+.ch{position:relative;display:grid;place-items:center;gap:1px;min-height:46px;padding:3px 2px;border:2px solid var(--hud-line);border-radius:12px;background:transparent;color:var(--hud-muted);cursor:pointer;line-height:1.1;transition:transform .15s,background-color .2s,color .2s}
+.ch:active{transform:scale(.95)}
+.ch__n{font-family:var(--f-px);font-size:11px;font-weight:700}
+.ch__d{font-family:var(--f-game);font-size:13px}
+.ch[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:var(--on-gold)}
+.ch.is-today::after{content:"";position:absolute;top:-4px;right:-4px;width:11px;height:11px;border-radius:50%;background:var(--red);border:2px solid var(--hud)}
+.hudbtn{display:inline-grid;place-items:center;flex-shrink:0;width:44px;height:44px;border:2px solid var(--hud-line);border-radius:12px;background:transparent;color:var(--on-hud);cursor:pointer;transition:transform .12s}
+.hudbtn:active{transform:scale(.9)}
+.hudbtn svg{width:20px;height:20px}
+.ticker{display:flex;align-items:center;gap:8px;width:100%;max-width:1180px;min-height:40px;margin-inline:auto;padding:4px var(--gutter) 8px;border:0;background:none;color:var(--on-hud);text-align:left;cursor:pointer;font-size:13.5px}
+.ticker__k{flex-shrink:0;padding:2px 8px;border-radius:6px;font-family:var(--f-px);font-size:11px;font-weight:700;background:var(--hud-2);color:var(--on-hud)}
+.ticker__k--now{background:var(--red);color:var(--on-red)}
+.ticker__k--gold{background:var(--gold);color:var(--on-gold)}
+.ticker__t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ticker__t b{font-family:var(--f-px);margin-right:5px}
+.ticker__last{flex-shrink:0;padding:2px 8px;border-radius:6px;background:var(--hud-2);font-size:12px;white-space:nowrap}
+.pulse{position:relative;flex-shrink:0;width:9px;height:9px;border-radius:50%;background:var(--red)}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--red);animation:ping 1.8s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{75%,100%{transform:scale(2.6);opacity:0}}
+
+/* ---------- views ---------- */
+.view{padding-block:14px 28px}
+html.anim .view.enter{animation:viewIn .34s cubic-bezier(.2,.8,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.vhead{display:grid;gap:4px;margin-bottom:16px}
+.vhead h2{font-family:var(--f-game);font-size:clamp(26px,7vw,34px);font-weight:400;letter-spacing:-.01em}
+.vhead__sub{color:var(--muted);font-size:14px;max-width:40em}
+.eyebrow{font-family:var(--f-px);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold-ink)}
+
+/* ---------- map view ---------- */
+.titlebar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-bottom:12px}
+.logo{font-family:var(--f-px);font-weight:700;font-size:20px;letter-spacing:.02em;line-height:1}
+.logo span{color:var(--gold-ink)}
+.titlebar__sub{font-family:var(--f-game);font-size:15px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:2px 10px;border:2px solid var(--edge);border-radius:999px;background:var(--surface);font-family:var(--f-px);font-size:12px;font-weight:700;box-shadow:0 2px 0 var(--drop);color:var(--ink);text-decoration:none}
+.pill--gold{background:var(--gold);color:var(--on-gold)}
+.titlebar__pills{display:flex;gap:8px;margin-left:auto}
+.mapgrid{display:grid;gap:14px}
+.mapcol,.questcol{min-width:0}
+.mapframe{position:relative;height:clamp(280px,44vh,560px);border:2px solid var(--edge);border-radius:22px;overflow:hidden;background:var(--water);box-shadow:0 4px 0 var(--drop);touch-action:pan-y}
+.mapcam{position:absolute;left:0;top:0;width:100%;aspect-ratio:360/460;transform-origin:0 0;will-change:transform}
+.mapcam img,.mapcam svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mapcam img{-webkit-user-drag:none;user-select:none}
+.maptools{position:absolute;right:10px;bottom:10px;display:grid;gap:8px;z-index:3}
+.maplegend{position:absolute;left:10px;bottom:10px;z-index:3;display:flex;gap:6px}
+.maplegend span{display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 4px;border-radius:999px;background:var(--hud);color:var(--on-hud);font-family:var(--f-game);font-size:12.5px}
+.maplegend i{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;font-style:normal;font-family:var(--f-px);font-size:10px;font-weight:700;color:var(--on-gold)}
+.stage{position:absolute;left:50%;top:62px;z-index:4;max-width:calc(100% - 80px);padding:8px 16px;border:2px solid var(--gold);border-radius:14px;background:var(--hud);color:var(--on-hud);box-shadow:0 4px 0 var(--drop);text-align:center;pointer-events:none;opacity:0;transform:translate(-50%,-12px)}
+.stage.show{animation:stage 2.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stage{0%{opacity:0;transform:translate(-50%,-14px) scale(.94)}12%{opacity:1;transform:translate(-50%,0) scale(1)}78%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-8px)}}
+.stage__n{font-family:var(--f-px);font-size:12px;font-weight:700;color:var(--gold)}
+.stage__t{font-family:var(--f-game);font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* svg map */
+.leg-trail{fill:none;stroke:var(--route-glow);stroke-width:10;stroke-linecap:round}
+.leg-dots{fill:none;stroke:var(--route);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:.1 7}
+.leg-dots.leg--fly{stroke:var(--blue);stroke-dasharray:5 6;stroke-width:2.4}
+html.anim .route .leg-trail{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1)}
+html.anim .route.drawn .leg-trail{stroke-dashoffset:0}
+html.anim .route .leg-dots{opacity:0;transition:opacity .4s}
+html.anim .route.drawn .leg-dots{opacity:1}
+.node{cursor:pointer;outline:none}
+.node__shadow{fill:var(--drop)}
+.node__disk{fill:var(--surface);stroke:var(--edge);stroke-width:2.5}
+.node.is-base .node__disk{fill:var(--gold-tint)}
+.node__emo{font-size:15px;text-anchor:middle;dominant-baseline:central}
+.node__halo{fill:var(--gold);opacity:0;transform-box:fill-box;transform-origin:center}
+.node.is-here .node__halo{animation:halo 1.8s ease-out infinite}
+@keyframes halo{0%{opacity:.55;transform:scale(.85)}100%{opacity:0;transform:scale(1.7)}}
+.node__lbl rect{fill:var(--hud)}
+.node__lbl text{fill:var(--on-hud);font-family:var(--f-game);font-size:11px;text-anchor:middle;dominant-baseline:central}
+.node__ok{opacity:0}
+.node__ok circle{fill:var(--gold);stroke:var(--edge);stroke-width:1.5}
+.node__ok path{fill:none;stroke:var(--on-gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.node.is-clear .node__ok{opacity:1}
+.node.is-dim{opacity:.55}
+.node:focus-visible .node__disk{stroke:var(--gold);stroke-width:4}
+.heroes .h-shadow{fill:var(--drop);opacity:.28}
+.heroes .skin{fill:var(--skin)}
+.heroes .eye{fill:var(--eye)}
+.heroes .smile{fill:none;stroke:var(--eye);stroke-width:.9;stroke-linecap:round}
+.heroes .hat-a{fill:var(--a-hat)} .heroes .body-a{fill:var(--a-body)}
+.heroes .hat-b{fill:var(--b-hat)} .heroes .body-b{fill:var(--b-body)}
+.heroes .leg{fill:var(--legs)}
+.heroes .crew,.heroes .plane,.heroes .mug,.heroes .bag,.heroes .h-tags{transition:opacity .25s}
+.heroes .plane{opacity:0;font-size:20px}
+.heroes.flying .plane{opacity:1}
+.heroes.flying .crew,.heroes.flying .h-tags{opacity:0}
+.heroes .mug{opacity:0}
+.heroes .mug rect{fill:var(--gold);stroke:var(--edge);stroke-width:.6}
+.heroes .mug .foam{fill:var(--surface)}
+.heroes.cheers .mug{opacity:1}
+.heroes .bag{opacity:0;stroke:var(--edge);stroke-width:.6}
+.heroes .bag.on{opacity:1}
+.heroes .bag-0{fill:var(--bag1)} .heroes .bag-1{fill:var(--bag2)} .heroes .bag-2{fill:var(--bag3)}
+.heroes .h-tags text{font-family:var(--f-px);font-size:8px;font-weight:700;text-anchor:middle;fill:var(--on-gold);stroke:var(--edge);stroke-width:2.4;paint-order:stroke}
+.heroes.walking .legl{animation:step .26s ease-in-out infinite alternate}
+.heroes.walking .legr{animation:step .26s ease-in-out infinite alternate-reverse}
+.heroes.walking .bobber{animation:bob .26s ease-in-out infinite alternate}
+.heroes:not(.walking) .bobber{animation:idle 2.6s ease-in-out infinite}
+.heroes.cheers:not(.walking) .bobber{animation:cheers 1.2s ease-in-out infinite}
+.heroes .h-flip{transition:transform .15s}
+.heroes.blink .h-flip{animation:blink .4s ease-out}
+@keyframes step{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-1.6px)}}
+@keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes cheers{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-2px) rotate(-3deg)}60%{transform:translateY(0) rotate(2deg)}}
+@keyframes blink{0%{opacity:0}100%{opacity:1}}
+
+/* quests */
+.qnav{display:flex;align-items:center;gap:8px;margin:10px 0 2px}
+.qnav__count{font-family:var(--f-px);font-size:13px;font-weight:700;min-width:58px;text-align:center}
+.qnav__play{margin-left:auto}
+.quests{display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--gutter));padding:8px 10% 14px;scrollbar-width:none}
+.quests::-webkit-scrollbar{display:none}
+html.anim .quests.slide-r{animation:slideR .42s cubic-bezier(.2,.75,.2,1)}
+html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
+@keyframes slideR{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes slideL{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+.qcard{position:relative;flex:0 0 80%;max-width:360px;scroll-snap-align:center;display:grid;gap:9px;align-content:start;padding:12px 13px;border:2px solid var(--edge);border-radius:20px;background:var(--surface);box-shadow:0 4px 0 var(--drop);transform:scale(.95);opacity:.86;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s;cursor:pointer}
+.qcard.is-active{transform:none;opacity:1}
+.qcard__top{display:flex;align-items:center;gap:7px;min-width:0}
+.qcard__time{font-family:var(--f-px);font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.qcard__end{font-family:var(--f-px);font-size:11px;color:var(--muted)}
+.qcard__kind{margin-left:auto;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700;background:var(--kb);color:var(--kf);white-space:nowrap}
+.qcard__badge{display:none;padding:2px 7px;border-radius:6px;font-family:var(--f-px);font-size:11px;font-weight:700}
+.qcard.is-now .qcard__badge{display:inline-block;background:var(--red);color:var(--on-red)}
+.qcard.is-past .qcard__badge{display:inline-block;background:var(--gold);color:var(--on-gold)}
+.qcard.is-now{border-color:var(--red);box-shadow:0 4px 0 var(--red)}
+.qcard__main{display:flex;align-items:center;gap:12px;min-width:0}
+.qcard__emo{display:grid;place-items:center;flex-shrink:0;width:52px;height:52px;border-radius:16px;background:var(--kb);border:2px solid var(--edge);font-size:27px;line-height:1}
+.qcard__ttl{min-width:0}
+.qcard__ttl h3{font-family:var(--f-game);font-size:20px;font-weight:400;line-height:1.2}
+.qcard__ttl .ja{display:block;font-size:12px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qcard__how{display:flex;align-items:center;gap:6px;min-width:0;font-size:13px;color:var(--muted)}
+.qcard__how .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qcard__how b{flex-shrink:0;color:var(--ink);font-size:12px}
+.qcard__btns{display:flex;gap:7px}
+.qcard__btns .gbtn{flex:1 1 0;min-width:0;padding:0 8px;font-size:14px}
+.k-baby{--kb:var(--k-baby);--kf:var(--k-baby-ink)}
+.k-gu{--kb:var(--k-gu);--kf:var(--k-gu-ink)}
+.k-food{--kb:var(--k-food);--kf:var(--k-food-ink)}
+.k-drink{--kb:var(--k-drink);--kf:var(--k-drink-ink)}
+.k-move{--kb:var(--k-move);--kf:var(--k-move-ink)}
+.k-save{--kb:var(--gold-tint);--kf:var(--gold-ink)}
+.events{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.events li{display:flex;align-items:center;gap:7px;padding:6px 11px;border:2px dashed var(--line);border-radius:12px;background:var(--surface);font-size:13px;line-height:1.4}
+.minibase{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px;border:2px solid var(--edge);border-radius:18px;background:var(--hud);color:var(--on-hud);box-shadow:0 4px 0 var(--drop)}
+.minibase__e{font-size:28px}
+.minibase__t{flex:1;min-width:0;display:grid;font-size:12.5px;color:var(--hud-muted);line-height:1.4}
+.minibase__t b{font-family:var(--f-game);font-weight:400;font-size:16px;color:var(--on-hud)}
+@media (min-width:900px){
+  .mapgrid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+  .mapcol{position:sticky;top:calc(var(--hud-h,110px) + 14px)}
+  .mapframe{height:calc(100vh - var(--hud-h,110px) - 190px);min-height:420px;max-height:760px}
+  .qnav{margin-top:0}
+  .quests{flex-direction:column;overflow:visible;margin:0;padding:6px 0 36vh;scroll-snap-type:none}
+  .qcard{flex:none;max-width:none;transform:none;opacity:1}
+  .qcard.is-active{outline:3px solid var(--gold);outline-offset:3px}
+}
+
+/* ---------- sheet ---------- */
+.sheet{position:fixed;inset:0;z-index:80}
+.sheet__scrim{position:absolute;inset:0;background:var(--scrim);opacity:0;transition:opacity .25s}
+.sheet__panel{position:absolute;left:0;right:0;bottom:0;max-width:640px;max-height:88vh;margin-inline:auto;overflow:auto;overscroll-behavior:contain;padding:8px var(--gutter) calc(24px + env(safe-area-inset-bottom,0px));border:2px solid var(--edge);border-bottom:0;border-radius:24px 24px 0 0;background:var(--surface);transform:translateY(105%);transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+.sheet.open .sheet__scrim{opacity:1}
+.sheet.open .sheet__panel{transform:none}
+.sheet__grab{width:44px;height:5px;margin:4px auto 10px;border-radius:9px;background:var(--line)}
+.sheet__x{position:sticky;top:0;float:right;z-index:2}
+.sheet__body{display:grid;gap:14px}
+.sh-head{display:flex;align-items:center;gap:12px;padding-right:50px}
+.sh-head .qcard__emo{width:58px;height:58px;font-size:30px}
+.sh-head h2,.sh-head h4{font-family:var(--f-game);font-size:23px;font-weight:400}
+.sh-head .ja{display:block;font-size:12.5px}
+.sh-time{font-size:12px;font-weight:700;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:12.5px;font-weight:700;background:var(--kb);color:var(--kf);white-space:nowrap}
+.say{display:flex;align-items:flex-start;gap:10px}
+.say__who{display:grid;place-items:center;flex-shrink:0;width:34px;height:34px;border:2px solid var(--edge);border-radius:50%;font-family:var(--f-px);font-weight:700;font-size:13px;color:var(--on-gold)}
+.say__who--a{background:var(--a-hat)} .say__who--b{background:var(--b-hat);color:var(--on-red)}
+.say p{position:relative;flex:1;padding:10px 13px;border:2px solid var(--edge);border-radius:4px 16px 16px 16px;background:var(--surface-2);font-size:14.5px}
+.sec h3{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-family:var(--f-game);font-size:16px;font-weight:400}
+.move{display:grid;gap:7px}
+.move__leg{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:13.5px;color:var(--muted);line-height:1.45}
+.move__dur{padding:1px 7px;border-radius:6px;background:var(--surface-2);font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap}
+.ln{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.ln__sym{display:inline-grid;place-items:center;min-width:23px;height:23px;padding-inline:2px;border:3px solid var(--c);border-radius:50%;background:var(--sign-bg);color:var(--sign-fg);font-family:var(--f-body);font-size:9.5px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.ln__sym--sq{border-radius:6px;padding-inline:3px}
+.ln__emo{font-size:15px;line-height:1}
+.facts{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:0;font-size:13.5px;line-height:1.55}
+.facts dt{color:var(--muted);font-weight:500;white-space:nowrap}
+.facts dd{margin:0;min-width:0}
+.broute{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border:2px dashed var(--blue);border-radius:14px;font-size:13.5px}
+.broute__k{flex-shrink:0;display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--blue);color:var(--on-blue);font-family:var(--f-px);font-weight:700;font-size:13px}
+.broute a{font-weight:700;white-space:nowrap}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links .gbtn{flex:1 1 0;min-width:0;padding:0 8px}
+.lastline{padding:9px 12px;border-radius:12px;background:var(--hud);color:var(--on-hud);font-size:13.5px}
+.need{display:inline-flex;align-items:center;margin-inline:2px;padding:0 6px;border:1px dashed var(--check-line);border-radius:6px;background:var(--check-bg);color:var(--check-fg);font-family:var(--f-body);font-size:11px;font-weight:700;line-height:1.6;white-space:nowrap;vertical-align:1px}
+.buylist{display:grid;gap:8px}
+.buy{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:6px 10px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);box-shadow:0 2px 0 var(--drop);cursor:pointer;text-align:left;transition:transform .12s}
+.buy:active{transform:translateY(2px)}
+.buy__e{font-size:22px}
+.buy__t{flex:1;min-width:0;font-size:14px;line-height:1.35}
+.buy__t small{display:block;color:var(--muted);font-size:12px}
+.buy__ck{display:grid;place-items:center;flex-shrink:0;width:26px;height:26px;border:2px solid var(--edge);border-radius:8px}
+.buy__ck svg{width:15px;height:15px;opacity:0}
+.buy[aria-pressed="true"]{background:var(--gold-tint)}
+.buy[aria-pressed="true"] .buy__ck{background:var(--gold)}
+.buy[aria-pressed="true"] .buy__ck svg{opacity:1;color:var(--on-gold)}
+
+/* ---------- bag ---------- */
+.kids{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kid{display:grid;gap:7px;align-content:start;min-width:0;padding:12px;border:2px solid var(--edge);border-radius:18px;background:var(--surface);box-shadow:0 4px 0 var(--drop);text-align:left;cursor:pointer;transition:transform .15s}
+.kid:active{transform:translateY(2px)}
+.kid[aria-selected="true"]{background:var(--k-baby);color:var(--k-baby-ink)}
+.kid__top{display:flex;align-items:center;gap:8px}
+.kid__face{display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);font-size:24px}
+.kid__name{display:block;font-family:var(--f-game);font-size:17px;line-height:1.2}
+.kid__dad{display:block;font-size:11.5px;opacity:.9}
+.kid__stats{display:flex;flex-wrap:wrap;gap:4px}
+.stat{padding:1px 7px;border-radius:6px;background:var(--surface);color:var(--ink);font-size:11.5px;font-weight:700}
+.xp{position:relative;height:10px;border:2px solid var(--edge);border-radius:7px;background:var(--surface);overflow:hidden}
+.xp span{display:block;height:100%;background:var(--gold);transform-origin:left center;transform:scaleX(var(--p,0));transition:transform .5s cubic-bezier(.3,.7,.2,1)}
+.kid__xp{display:flex;align-items:center;gap:6px;font-family:var(--f-px);font-size:11px;font-weight:700}
+.kid__xp .xp{flex:1}
+.sizecard{display:grid;gap:8px;margin-bottom:12px;padding:12px 14px;border:2px solid var(--edge);border-radius:16px;background:var(--hud);color:var(--on-hud)}
+.sizecard h3{font-family:var(--f-game);font-weight:400;font-size:16px}
+.sizecard ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.sizecard li{padding:3px 9px;border-radius:8px;background:var(--hud-2);font-size:13px}
+.sizecard li b{color:var(--gold)}
+.sizecard p{font-size:13px;color:var(--hud-muted)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:0 13px;border:2px solid var(--edge);border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--f-game);font-size:14.5px;cursor:pointer;transition:transform .12s}
+.chip:active{transform:scale(.94)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.chip small{font-family:var(--f-px);font-size:11px;opacity:.8}
+.tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px}
+@media (min-width:600px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:900px){.tiles{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.tiles li{position:relative;min-width:0}
+.tile{position:relative;width:100%;height:100%;min-height:138px;display:grid;align-content:start;justify-items:center;gap:5px;padding:12px 6px 10px;border:2px solid var(--edge);border-radius:16px;background:var(--surface);box-shadow:0 3px 0 var(--drop);text-align:center;cursor:pointer;transition:transform .12s}
+.tile:active{transform:translateY(2px)}
+.tile__e{font-size:30px;line-height:1.15}
+.tile__t{font-size:12.5px;font-weight:700;line-height:1.35}
+.tile__s{padding:1px 6px;border-radius:6px;background:var(--surface-2);font-size:11px;line-height:1.5}
+.tile__shop{font-size:11px;color:var(--muted)}
+.tile[aria-pressed="true"]{background:var(--gold-tint);border-color:var(--gold-ink)}
+.tile[aria-pressed="true"]::after{content:"GET!";position:absolute;top:-8px;right:-6px;padding:2px 6px;border:2px solid var(--edge);border-radius:7px;background:var(--red);color:var(--on-red);font-family:var(--f-px);font-size:11px;font-weight:700;transform:rotate(9deg)}
+html.anim .tile.pop{animation:pop .38s cubic-bezier(.3,1.7,.5,1)}
+@keyframes pop{0%{transform:scale(.86)}100%{transform:none}}
+.tile__x{position:absolute;left:-6px;top:-8px;z-index:2;display:grid;place-items:center;width:26px;height:26px;padding:0;border:2px solid var(--edge);border-radius:50%;background:var(--surface);color:var(--ink);font-size:15px;line-height:1;cursor:pointer}
+.tile__x::after{content:"";position:absolute;inset:-9px}
+.addrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.addrow .field{flex:1 1 160px;min-width:0}
+.field{min-height:44px;padding:8px 12px;border:2px solid var(--edge);border-radius:12px;background:var(--surface);color:var(--ink);font-size:16px;line-height:1.2}
+.field::placeholder{color:var(--muted);opacity:1}
+.field:focus{outline:3px solid var(--gold);outline-offset:1px}
+select.field{flex:0 0 auto}
+.budget{display:flex;align-items:center;gap:10px;margin-top:12px;font-family:var(--f-game);font-size:15px}
+.budget .field{flex:1;min-width:0}
+.whereto{display:grid;gap:8px;margin-top:22px}
+.whereto h3{font-family:var(--f-game);font-weight:400;font-size:19px}
+.shoprow{display:flex;align-items:center;gap:10px;padding:10px 12px;border:2px solid var(--edge);border-radius:14px;background:var(--surface)}
+.shoprow__t{flex:1;min-width:0;display:grid;font-size:12.5px;color:var(--muted);line-height:1.4}
+.shoprow__t b{font-family:var(--f-game);font-weight:400;font-size:16px;color:var(--ink)}
+.shoprow__n{font-family:var(--f-game);font-size:14px;white-space:nowrap}
+.bagtools{display:flex;justify-content:flex-end;margin-top:16px}
+
+/* ---------- bars ---------- */
+.areas{display:grid;gap:18px}
+@media (min-width:760px){.areas{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+@media (min-width:1080px){.areas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.area{display:grid;gap:14px;align-content:start;min-width:0;padding:16px 14px;border:2px solid var(--edge);border-radius:20px;background:var(--surface);box-shadow:0 4px 0 var(--drop)}
+.area__head{display:flex;align-items:center;gap:12px}
+.area__e{display:grid;place-items:center;flex-shrink:0;width:50px;height:50px;border:2px solid var(--edge);border-radius:15px;background:var(--k-drink);font-size:26px}
+.area__name{font-family:var(--f-game);font-weight:400;font-size:22px;line-height:1.15}
+.area__name .ja{font-size:13px;margin-left:4px}
+.area__tonight{display:inline-block;margin-top:3px;padding:1px 8px;border-radius:6px;background:var(--red);color:var(--on-red);font-size:11.5px;font-weight:700}
+.stages{list-style:none;margin:0;padding:12px 6px 8px;display:flex;align-items:flex-start;border-radius:16px;background:var(--surface-2)}
+.stages li{position:relative;flex:1;min-width:0;display:grid;justify-items:center;gap:4px;text-align:center}
+.stages li+li::before{content:"";position:absolute;top:22px;right:calc(50% + 26px);width:calc(100% - 52px);border-top:3px dotted var(--route)}
+.stg{display:grid;place-items:center;width:46px;height:46px;border:2px solid var(--edge);border-radius:50%;background:var(--surface);box-shadow:0 3px 0 var(--drop);font-size:22px}
+.stg__n{font-family:var(--f-game);font-size:12.5px;color:var(--gold-ink)}
+.stg__t{font-size:12.5px;font-weight:700;line-height:1.3}
+.stg__note{font-size:11.5px;color:var(--muted);line-height:1.35}
+.spots{display:grid;gap:8px}
+.spot{border:2px solid var(--line);border-radius:14px;background:var(--surface)}
+.spot summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 10px;list-style:none;cursor:pointer}
+.spot summary::-webkit-details-marker{display:none}
+.spot__e{font-size:22px}
+.spot__n{flex:1;min-width:0;display:grid;line-height:1.3}
+.spot__n b{font-size:15px}
+.spot__n .ja{font-size:11.5px}
+.spot summary>svg{flex-shrink:0;width:18px;height:18px;color:var(--muted);transition:transform .25s}
+.spot[open] summary>svg{transform:rotate(180deg)}
+.spot__body{display:grid;gap:10px;padding:2px 12px 14px}
+html.anim .spot[open] .spot__body{animation:fadeUp .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.d3s{display:flex;flex-wrap:wrap;gap:4px}
+.d3{display:inline-flex;align-items:center;gap:3px;padding:1px 6px;border-radius:7px;font-size:11.5px;font-weight:700;line-height:1.5}
+.d3--o{background:var(--ok-bg);color:var(--ok-fg)}
+.d3--x{background:var(--no-bg);color:var(--no-fg)}
+.d3--q{background:var(--check-bg);color:var(--check-fg);outline:1px dashed var(--check-line);outline-offset:-1px}
+.area__foot{display:grid;gap:6px;padding:10px 12px;border-radius:14px;background:var(--hud);color:var(--on-hud);font-size:13px}
+
+/* ---------- guide ---------- */
+.tickets{display:grid;gap:12px;margin-bottom:14px}
+@media (min-width:600px){.tickets{grid-template-columns:1fr 1fr}}
+.pass{position:relative;overflow:hidden;display:grid;gap:10px;padding:14px 16px 12px;border:2px solid var(--edge);border-radius:18px;background:var(--surface);box-shadow:0 4px 0 var(--drop)}
+.pass__head{display:flex;justify-content:space-between;gap:8px;font-family:var(--f-game);font-size:14px;color:var(--muted)}
+.pass__head b{font-family:var(--f-px);color:var(--ink)}
+.pass__route{display:grid;grid-template-columns:auto minmax(20px,1fr) auto;align-items:center;gap:10px}
+.pass__code{display:block;font-family:var(--f-px);font-size:28px;font-weight:700;line-height:1}
+.pass__city{display:block;margin-top:5px;font-size:12px;color:var(--muted);line-height:1.3}
+.pass__time{display:block;margin-top:2px;font-family:var(--f-px);font-size:16px;font-weight:700}
+.pass__to{text-align:right}
+.pass__mid{display:flex;align-items:center;gap:5px;font-size:18px}
+.pass__dash{flex:1;border-top:2px dashed var(--line)}
+.pass__foot{position:relative;display:flex;align-items:center;gap:10px;padding-top:10px;border-top:2px dashed var(--line);font-size:12.5px;color:var(--muted)}
+.pass__foot::before,.pass__foot::after{content:"";position:absolute;top:-11px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--edge)}
+.pass__foot::before{left:-27px}.pass__foot::after{right:-27px}
+.pass__no{flex-shrink:0;font-family:var(--f-px);font-size:15px;font-weight:700;color:var(--ink)}
+.base{display:grid;gap:12px;margin-bottom:14px;padding:16px;border:2px solid var(--edge);border-radius:18px;background:var(--hud);color:var(--on-hud);box-shadow:0 4px 0 var(--drop)}
+.base h3{font-family:var(--f-game);font-weight:400;font-size:20px}
+.base .ja,.base .facts dt{color:var(--hud-muted)}
+.base .eyebrow{color:var(--gold)}
+.base a{color:inherit}
+.base .links .gbtn{background:var(--hud-2);color:var(--on-hud);border-color:var(--hud-line)}
+.base .links .gbtn--go{background:var(--on-hud);color:var(--hud)}
+.base .ln{color:var(--on-hud)}
+.stations{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:13.5px}
+.stations li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.stations__walk{margin-left:auto;font-size:12.5px;color:var(--hud-muted)}
+.base__note{display:block;font-size:12px;color:var(--hud-muted)}
+.copy{position:relative;display:inline-grid;place-items:center;width:28px;height:28px;margin-left:2px;padding:0;border:0;border-radius:8px;background:none;color:inherit;opacity:.85;cursor:pointer;vertical-align:middle}
+.copy::after{content:"";position:absolute;inset:-8px}
+.copy svg{width:16px;height:16px}
+.acc{margin-bottom:10px;border:2px solid var(--edge);border-radius:16px;background:var(--surface);box-shadow:0 3px 0 var(--drop)}
+.acc summary{display:flex;align-items:center;gap:12px;min-height:58px;padding:8px 12px;list-style:none;cursor:pointer;font-family:var(--f-game);font-size:17px}
+.acc summary::-webkit-details-marker{display:none}
+.acc__e{display:grid;place-items:center;flex-shrink:0;width:34px;height:34px;border-radius:10px;background:var(--surface-2);font-size:18px}
+.acc__t{flex:1;min-width:0}
+.acc__c{font-family:var(--f-px);font-size:12px;padding:1px 7px;border-radius:6px;background:var(--check-bg);color:var(--check-fg)}
+.acc summary>svg{flex-shrink:0;width:20px;height:20px;color:var(--muted);transition:transform .25s}
+.acc[open] summary>svg{transform:rotate(180deg)}
+.acc__body{display:grid;gap:10px;padding:0 14px 16px;font-size:14.5px}
+html.anim .acc[open] .acc__body{animation:fadeUp .3s cubic-bezier(.2,.7,.2,1)}
+.acc__body ul{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.contact{display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;border-radius:12px;background:var(--surface-2)}
+.contact__who{flex:1;min-width:0;display:grid;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.contact__who b{font-size:14.5px;color:var(--ink)}
+.contact__num{display:inline-flex;align-items:center;min-height:44px;font-weight:700;font-size:14px;color:var(--blue);text-decoration:none;white-space:nowrap}
+.needlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.needlist li{display:grid;font-size:13.5px;line-height:1.5}
+.needlist small{font-size:12px;color:var(--muted)}
+.foot{display:grid;gap:4px;margin-top:20px;font-size:12.5px;color:var(--muted)}
+
+/* ---------- fx ---------- */
+.fx{display:grid;gap:14px;max-width:560px;padding:16px;border:2px solid var(--edge);border-radius:20px;background:var(--surface);box-shadow:0 4px 0 var(--drop)}
+.fx__rate{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--f-game);font-size:16px}
+.fx__rate .field{width:110px;text-align:right;font-family:var(--f-px)}
+.fx__pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;gap:8px}
+.fx__pair label{display:grid;gap:4px;font-family:var(--f-game);font-size:14px;color:var(--muted)}
+.fx__pair label{min-width:0}
+.fx__pair .field{width:100%;min-width:0;font-family:var(--f-px);font-size:20px;font-weight:700;text-align:right}
+.fx__eq{display:grid;place-items:center;width:30px;height:44px;font-size:20px}
+.fx__quick{display:flex;flex-wrap:wrap;gap:8px}
+.fx__quick .chip{font-family:var(--f-px);font-size:13px}
+.fx__table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.fx__table td{padding:8px 0;border-top:2px dotted var(--line)}
+.fx__table td:last-child{text-align:right;font-weight:700}
+.fx__hint{font-size:13px;color:var(--muted)}
+
+/* ---------- dock, floating ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--hud);box-shadow:0 -3px 0 var(--drop)}
+.dock__in{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;max-width:560px;margin-inline:auto}
+.dock button{position:relative;display:grid;place-items:center;gap:1px;min-height:58px;padding:4px 2px;border:0;border-radius:14px;background:transparent;color:var(--hud-muted);font-family:var(--f-game);font-size:12.5px;cursor:pointer}
+.dock .ico{font-size:22px;line-height:1;transition:transform .22s cubic-bezier(.3,1.6,.5,1)}
+.dock button[aria-current="page"]{background:var(--hud-2);color:var(--on-hud)}
+.dock button[aria-current="page"] .ico{transform:translateY(-2px) scale(1.14)}
+.dock button:active .ico{transform:scale(.85)}
+.dock__n{position:absolute;top:3px;right:calc(50% - 26px);min-width:18px;padding:0 4px;border-radius:9px;background:var(--gold);color:var(--on-gold);font-family:var(--f-px);font-size:10px;font-weight:700;line-height:16px}
+.dock__n:empty{display:none}
+.totop{position:fixed;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:55;display:grid;place-items:center;width:48px;height:48px;border:2px solid var(--edge);border-radius:50%;background:var(--surface);color:var(--ink);box-shadow:0 3px 0 var(--drop);cursor:pointer;opacity:0;transform:translateY(12px) scale(.9);pointer-events:none;transition:opacity .25s,transform .25s cubic-bezier(.3,.7,.2,1)}
+.totop.is-on{opacity:1;transform:none;pointer-events:auto}
+.totop svg{width:22px;height:22px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:90;max-width:calc(100% - 32px);padding:10px 16px;border:2px solid var(--gold);border-radius:12px;background:var(--hud);color:var(--on-hud);font-family:var(--f-game);font-size:15px;opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+.taxi{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;background:var(--scrim)}
+.taxi__card{width:100%;max-width:560px;display:grid;gap:14px;padding:24px 20px;border-radius:20px;background:var(--sign-bg);color:var(--sign-fg);text-align:center}
+.taxi__lead{font-size:18px}
+.taxi__name{font-size:clamp(24px,7vw,34px);font-weight:500;line-height:1.35}
+.taxi__addr{font-size:clamp(20px,5.8vw,28px);line-height:1.45}
+.taxi__tel{font-size:20px}
+.taxi__card .gbtn{background:var(--sign-fg);color:var(--sign-bg);border-color:var(--sign-fg);box-shadow:none}
+.printonly{display:none}
+.pplan__day{margin-bottom:22px}
+.pplan__day h3{font-family:var(--f-game);font-weight:400;font-size:22px;margin-bottom:10px}
+.pplan__item{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+
+html.dusk .mapframe::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,var(--dusk-a),var(--dusk-b))}
+
+/* ---------- sky scene (flights) ---------- */
+.sky{position:absolute;inset:0;z-index:2;width:100%;height:100%;display:block;background:var(--water);opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s}
+.sky.is-on{opacity:1;visibility:visible;transition:opacity .45s}
+.sky__sea{fill:var(--water)}
+.sky__grid{fill:none;stroke:var(--water-edge);stroke-width:.8;stroke-dasharray:2 6;opacity:.7}
+.sky__land{fill:var(--land);stroke:var(--block-edge);stroke-width:1.2;stroke-linejoin:round}
+.sky__lbl{font-family:var(--f-game);font-size:14px;fill:var(--muted);text-anchor:middle}
+.sky__arc{fill:none;stroke:var(--blue);stroke-width:2.6;stroke-dasharray:6 6;stroke-linecap:round}
+.sky__pin circle{fill:var(--gold);stroke:var(--edge);stroke-width:2}
+.sky__pin rect{fill:var(--hud)}
+.sky__pin text{fill:var(--on-hud);font-family:var(--f-game);font-size:12px;text-anchor:middle;dominant-baseline:central}
+.sky__dist rect{fill:var(--surface);stroke:var(--edge);stroke-width:1.5}
+.sky__dist text{fill:var(--ink);font-family:var(--f-game);font-size:12.5px;text-anchor:middle;dominant-baseline:central}
+.sky__plane path{fill:var(--surface);stroke:var(--edge);stroke-width:1.4;stroke-linejoin:round}
+.sky__crew{transition:opacity .3s}
+.sky__crew.off{opacity:0}
+
+.lnpass{margin-left:2px;padding:0 5px;border-radius:5px;font-size:10.5px;font-weight:700;line-height:1.6}
+.lnpass--ok{background:var(--ok-bg);color:var(--ok-fg)}
+.lnpass--no{background:var(--no-bg);color:var(--no-fg)}
+.passbox{display:grid;gap:8px;padding:12px;border:2px dashed var(--edge);border-radius:14px;background:var(--surface-2)}
+.passbox__t{font-family:var(--f-game);font-size:16px}
+.passbox__s{font-size:13px;color:var(--muted)}
+.passbox .gbtn{justify-self:start}
+
+/* ---------- nearby & live ---------- */
+.nearbtn{position:absolute;left:10px;top:10px;z-index:3}
+html.is-live .nearbtn::after{content:"";position:absolute;top:-5px;right:-5px;width:13px;height:13px;border-radius:50%;background:var(--red);border:2px solid var(--surface)}
+.guidechip{position:absolute;right:10px;top:10px;z-index:3;max-width:58%;padding:5px 10px;border:2px solid var(--gold);border-radius:12px;background:var(--hud);color:var(--on-hud);font-family:var(--f-game);font-size:13px;line-height:1.35}
+.guide line{stroke:var(--gold);stroke-width:2.8;stroke-dasharray:4 5;stroke-linecap:round}
+.guide circle{fill:none;stroke:var(--gold);stroke-width:3;stroke-dasharray:6 4}
+.ticker__k--live{background:var(--blue);color:var(--on-blue)}
+.nearbar{display:flex;flex-wrap:wrap;gap:8px}
+.chips--scroll{flex-wrap:nowrap;overflow-x:auto;margin:0 calc(-1 * var(--gutter));padding:2px var(--gutter) 6px;scrollbar-width:none}
+.chips--scroll::-webkit-scrollbar{display:none}
+.chip--sm{flex-shrink:0;padding:0 11px;font-size:13.5px}
+.nlist{display:grid;gap:8px}
+.nrow{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:7px 10px;border:2px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:0 2px 0 var(--drop);color:var(--ink);text-align:left;cursor:pointer;transition:transform .12s}
+.nrow:active{transform:translateY(2px)}
+.nrow__e{flex-shrink:0;font-size:24px}
+.nrow__t{flex:1;min-width:0;display:grid;line-height:1.35}
+.nrow__t b{font-size:14.5px}
+.nrow__t small{overflow:hidden;font-size:12px;color:var(--muted);text-overflow:ellipsis;white-space:nowrap}
+.nrow__go{flex-shrink:0;font-size:20px;color:var(--muted)}
+.nb{flex-shrink:0;padding:1px 7px;border-radius:6px;background:var(--surface-2);font-size:11.5px;font-weight:700;white-space:nowrap}
+.nb--now{background:var(--red);color:var(--on-red)}
+.nb--next{background:var(--blue);color:var(--on-blue)}
+.nb--fit{background:var(--gold);color:var(--on-gold)}
+.nb--off{background:var(--no-bg);color:var(--no-fg)}
+.irow{display:flex;align-items:stretch;gap:8px}
+.irow .nrow{flex:1;min-width:0}
+.irow__ck{display:grid;place-items:center;flex-shrink:0;width:52px;min-height:52px;border:2px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:0 2px 0 var(--drop);cursor:pointer;transition:transform .12s}
+.irow__ck:active{transform:translateY(2px)}
+.irow__ck svg{width:20px;height:20px;opacity:.18}
+.irow__ck[aria-pressed="true"]{background:var(--gold)}
+.irow__ck[aria-pressed="true"] svg{opacity:1;color:var(--on-gold)}
+.todo{margin:0;padding-left:1.1em;display:grid;gap:5px;font-size:14px}
+.sec__sub{margin:-4px 0 8px;font-size:12.5px;color:var(--muted)}
+.sec h3 small{font-family:var(--f-body);font-size:12px;color:var(--muted)}
+.getbtn{width:100%;min-height:54px;font-size:17px}
+.sheet__back{justify-self:start}
+
+/* ---------- reveal ---------- */
+html.anim .reveal{transition:opacity .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1)}
+html.anim .reveal.pending{opacity:0;transform:translateY(18px)}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+@media print{
+  .hud,.dock,.totop,.toast,.sheet,.taxi,.skip,.mapcol,.nearbtn,.guidechip,.qnav,.quests,.events,.minibase,.chips,.addrow,.budget,.tile__x,.bagtools,.links,.copy,.gbtn,#v-fx{display:none!important}
+  body{background:#FFFFFF;padding:0}
+  .view[hidden]{display:block!important}
+  .printonly{display:block}
+  .view + .view{break-before:page}
+  .mapgrid{display:block}
+  .pplan__day + .pplan__day{break-before:page}
+  .pplan__item,.area,.acc,.pass,.base,.tile,.spot,.shoprow{break-inside:avoid}
+  .spot__body,.acc__body{display:grid!important}
+  .reveal{opacity:1!important;transform:none!important}
+  a{text-decoration:none}
+}
+</style>
+<script>
+document.documentElement.lang='ko';
+(function(){var m=null;try{m=JSON.parse(localStorage.getItem('tokyoquest:theme'));}catch(e){}
+if(m!=='light'&&m!=='dark'&&m!=='system'){try{var t=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Tokyo',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date()).split(':');var mm=(+t[0])*60+(+t[1]);m=(mm>=345&&mm<1050)?'light':'dark';}catch(e){m=null;}}
+if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m);})();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="hud" id="hud">
+  <div class="hud__row">
+    <a class="hud__me" href="#top" id="meBtn" aria-label="맨 위로, 지도 화면으로 이동">
+      <svg viewBox="0 0 44 34" aria-hidden="true">
+        <circle cx="14" cy="19" r="9" fill="var(--skin)"/><path d="M5 18a9 9 0 0 1 18 0z" fill="var(--a-hat)"/><circle cx="14" cy="8.6" r="2.3" fill="var(--a-hat)"/>
+        <circle cx="11" cy="20" r="1.2" fill="var(--eye)"/><circle cx="17" cy="20" r="1.2" fill="var(--eye)"/><path d="M12 23.3q2 1.6 4 0" fill="none" stroke="var(--eye)" stroke-width="1.1" stroke-linecap="round"/>
+        <circle cx="31" cy="20" r="9" fill="var(--skin)"/><path d="M22 19a9 9 0 0 1 18 0h4.5v2H22z" fill="var(--b-hat)"/>
+        <circle cx="28" cy="21" r="1.2" fill="var(--eye)"/><circle cx="34" cy="21" r="1.2" fill="var(--eye)"/><path d="M29 24.3q2 1.6 4 0" fill="none" stroke="var(--eye)" stroke-width="1.1" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <div class="chs" role="tablist" aria-label="챕터(날짜) 선택" id="chs"></div>
+    <button class="hudbtn" id="themeBtn" type="button" aria-label="화면 테마 전환"></button>
+  </div>
+  <button class="ticker" id="ticker" type="button"></button>
+</header>
+
+<main id="main">
+  <!-- ============ MAP ============ -->
+  <section class="view wrap" id="v-map" data-view="map" aria-labelledby="mapT">
+    <div class="titlebar" id="top">
+      <h1 class="logo" id="mapT">TOKYO <span>QUEST</span></h1>
+      <span class="titlebar__sub">아빠 둘의 도쿄 2박 3일</span>
+      <span class="titlebar__pills"><span class="pill pill--gold" id="ddayPill">D-?</span><a class="pill" href="#bag" id="bagPill" aria-label="가방 화면으로">🎒 0/0</a></span>
+    </div>
+    <div class="mapgrid">
+      <div class="mapcol">
+        <div class="mapframe" id="mapframe">
+          <div class="mapcam" id="mapcam">
+            <img id="mapbg" alt="" aria-hidden="true">
+            <svg id="mapfg" viewBox="0 0 360 460" role="group" aria-label="도쿄 퀘스트 지도. 장소를 누르면 그 퀘스트로 이동"></svg>
+          </div>
+          <svg class="sky" id="sky" viewBox="0 0 360 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="인천에서 나리타까지 비행 경로"></svg>
+          <div class="stage" id="stage" aria-hidden="true"></div>
+          <button class="gbtn gbtn--gold gbtn--sm nearbtn" id="nearBtn" type="button" aria-label="지금 주변에서 할 것·살 것·추천 보기">📍 주변</button>
+          <p class="guidechip" id="guideChip" hidden></p>
+          <div class="maptools">
+            <button class="gbtn gbtn--icon" id="zoomBtn" type="button" aria-pressed="false" aria-label="지도 전체 보기"></button>
+          </div>
+          <div class="maplegend" aria-hidden="true"><span><i style="background:var(--a-hat)">A</i>아빠 A</span><span><i style="background:var(--b-hat);color:var(--on-red)">B</i>아빠 B</span></div>
+        </div>
+      </div>
+      <div class="questcol">
+        <div class="qnav">
+          <button class="gbtn gbtn--icon" id="prevQ" type="button" aria-label="이전 퀘스트"></button>
+          <span class="qnav__count" id="qcount" aria-live="polite">1/1</span>
+          <button class="gbtn gbtn--icon" id="nextQ" type="button" aria-label="다음 퀘스트"></button>
+          <button class="gbtn gbtn--gold gbtn--sm qnav__play" id="playQ" type="button" aria-pressed="false">▶ 경로 재생</button>
+        </div>
+        <div class="quests" id="quests" aria-label="이번 챕터 퀘스트 목록. 옆으로 넘기면 아바타가 따라 걸어요"></div>
+        <ul class="events" id="events" aria-label="이번 챕터 알림"></ul>
+        <div class="minibase" id="minibase"></div>
+      </div>
+    </div>
+    <div class="printonly pplan" id="pplan"></div>
+  </section>
+
+  <!-- ============ BAG ============ -->
+  <section class="view wrap" id="v-bag" data-view="bag" hidden aria-labelledby="bagT">
+    <header class="vhead"><p class="eyebrow">INVENTORY</p><h2 id="bagT">가방 · 아들 둘 쇼핑 퀘스트</h2>
+      <p class="vhead__sub">아이템을 누르면 GET! 아바타 손에 쇼핑백이 늘어나요. 이 휴대폰에 저장돼서 새로고침해도 남아요.</p></header>
+    <div class="kids" role="tablist" aria-label="누구 쇼핑?" id="kids"></div>
+    <div id="kidPanel" role="tabpanel"></div>
+    <div class="whereto" id="whereto"></div>
+    <div class="bagtools"><button class="gbtn gbtn--sm" id="resetBag" type="button" aria-label="획득 표시 모두 지우기">획득 초기화</button></div>
+  </section>
+
+  <!-- ============ BARS ============ -->
+  <section class="view wrap" id="v-bars" data-view="bars" hidden aria-labelledby="barsT">
+    <header class="vhead"><p class="eyebrow">IZAKAYA DUNGEONS</p><h2 id="barsT">주점 던전</h2>
+      <p class="vhead__sub">지역마다 1차 → 2차 → 3차 스테이지. 가게를 누르면 정보가 펼쳐져요. 막차와 택시비는 카드 맨 아래.</p></header>
+    <div class="chips" id="areafilter" role="group" aria-label="지역 고르기"></div>
+    <div class="areas" id="areas"></div>
+  </section>
+
+  <!-- ============ GUIDE ============ -->
+  <section class="view wrap" id="v-guide" data-view="guide" hidden aria-labelledby="guideT">
+    <header class="vhead"><p class="eyebrow">GUIDE BOOK</p><h2 id="guideT">공략집</h2></header>
+    <div class="tickets" id="tickets"></div>
+    <article class="base reveal" id="base" aria-label="숙소 정보"></article>
+    <div id="tipsList"></div>
+    <div class="foot" id="foot"></div>
+  </section>
+
+  <!-- ============ FX ============ -->
+  <section class="view wrap" id="v-fx" data-view="fx" hidden aria-labelledby="fxT">
+    <header class="vhead"><p class="eyebrow">EXCHANGE</p><h2 id="fxT">환전소 · 엔 ↔ 원</h2></header>
+    <form class="fx" id="fxForm" autocomplete="off">
+      <div class="fx__rate"><label for="fxRate">💴 100엔 =</label><input class="field" id="fxRate" inputmode="decimal"><span>원</span></div>
+      <div class="fx__pair">
+        <label for="fxJpy">엔 (¥)<input class="field" id="fxJpy" inputmode="numeric" placeholder="0"></label>
+        <span class="fx__eq" aria-hidden="true">⇄</span>
+        <label for="fxKrw">원 (₩)<input class="field" id="fxKrw" inputmode="numeric" placeholder="0"></label>
+      </div>
+      <div class="fx__quick" id="fxQuick" role="group" aria-label="자주 쓰는 금액"></div>
+      <table class="fx__table" id="fxTable" aria-label="자주 보는 금액 환산표"></table>
+      <p class="fx__hint" id="fxHint"></p>
+    </form>
+  </section>
+</main>
+
+<nav class="dock" aria-label="메뉴">
+  <div class="dock__in" id="dock">
+    <button type="button" data-view="map" aria-current="page"><span class="ico" aria-hidden="true">🗺️</span>지도</button>
+    <button type="button" data-view="bag"><span class="ico" aria-hidden="true">🎒</span>가방<span class="dock__n" id="dockBag" aria-hidden="true"></span></button>
+    <button type="button" data-view="bars"><span class="ico" aria-hidden="true">🍺</span>주점</button>
+    <button type="button" data-view="guide"><span class="ico" aria-hidden="true">📜</span>공략집</button>
+    <button type="button" data-view="fx"><span class="ico" aria-hidden="true">💴</span>환전소</button>
+  </div>
+</nav>
+
+<button class="totop" id="totop" type="button" aria-label="맨 위로 가기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet__scrim" data-close></div>
+  <section class="sheet__panel" id="sheetPanel" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet__grab" aria-hidden="true"></div>
+    <button class="gbtn gbtn--icon sheet__x" type="button" data-close aria-label="닫기">✕</button>
+    <div class="sheet__body" id="sheetBody"></div>
+  </section>
+</div>
+
+<div class="taxi" id="taxi" hidden role="dialog" aria-modal="true" aria-labelledby="taxiName">
+  <div class="taxi__card" lang="ja">
+    <p class="taxi__lead">ここへ行ってください</p>
+    <p class="taxi__name" id="taxiName"></p>
+    <p class="taxi__addr" id="taxiAddr"></p>
+    <p class="taxi__tel" id="taxiTel"></p>
+    <button class="gbtn" id="taxiClose" type="button" lang="ko" aria-label="택시용 주소 화면 닫기">닫기</button>
+  </div>
+</div>
+<noscript><p class="wrap">이 페이지는 자바스크립트를 켜야 보여요.</p></noscript>
+
+<script>
+/* ================================================================
+   TRIP — 여기만 고치면 페이지 전체가 바뀝니다.
+   - 문자열 안의 {?} 는 "확인 필요" 배지가 되고, 공략집 맨 아래 목록에 자동으로 모입니다.
+   - node 는 지도 위 위치(nodes), place 는 장소 정보(places)를 가리킵니다.
+   ================================================================ */
+const TRIP = {
+  start: '2026-10-03', end: '2026-10-05',
+  departISO: '2026-10-03T08:10:00+09:00',
+
+  crew: {
+    a: { name: '아빠 A', role: '12개월 아들 아빠' },
+    b: { name: '아빠 B', role: '곧 아빠 · 출산 예정' }
+  },
+
+  flights: [
+    { key: 'out', kind: '가는 편', no: 'RS705', airline: '에어서울', date: '10.03 SAT',
+      from: { code: 'ICN', name: '인천 제2터미널', time: '08:10' },
+      to:   { code: 'NRT', name: '나리타 제1터미널 남쪽', time: '10:40' },
+      note: '나리타 제1터미널 = 나리타공항역(종점). 게이세이선 승강장은 지하.' },
+    { key: 'back', kind: '오는 편', no: 'RS702', airline: '에어서울', date: '10.05 MON',
+      from: { code: 'NRT', name: '나리타 제1터미널 남쪽', time: '12:50' },
+      to:   { code: 'ICN', name: '인천 제2터미널', time: '15:30' },
+      note: '히가시니혼바시 08:26발 액세스 특급 → 나리타공항역 09:40 도착 {?}' }
+  ],
+
+  /* 아들 둘 — 쇼핑 퀘스트 */
+  kids: [
+    { id: 'a', crew: 'a', name: 'A네 아들', face: '👶', stats: ['12개월', '80cm', '11kg', '남아'],
+      guide: [['옷', '80 지금 · 90 내년 봄'], ['기저귀', 'L 9–14kg'], ['신발', '발 길이 + 0.5~1cm']],
+      tip: '80cm면 일본 옷 80이 지금 딱 맞고, 90은 내년 봄용이에요. 걷기 시작할 때라 첫걸음 신발이 1순위. 아이가 같이 안 가니까 출발 전에 발 길이를 재서 아래 메모에 적어 두세요.',
+      items: [
+        { e: '🧷', t: '기저귀 L (팬티형)', size: 'L 9–14kg', shop: 'akachan' },
+        { e: '🧻', t: '엉덩이 물티슈 리필', size: 'おしりふき', shop: 'akachan' },
+        { e: '👟', t: '첫걸음 신발', size: '발+0.5~1cm', shop: 'miki' },
+        { e: '🩲', t: '겨울 내복·바디', size: '80', shop: 'uq' },
+        { e: '👖', t: '레깅스 10부', size: '80', shop: 'uq' },
+        { e: '🧥', t: '경량 패딩·플리스', size: '90', shop: 'uq' },
+        { e: '👕', t: '긴팔 티·맨투맨', size: '80–90', shop: 'gu' },
+        { e: '🌸', t: '내년 봄옷 1~2벌', size: '90', shop: 'gu' },
+        { e: '🥤', t: '빨대컵', size: 'ストローマグ', shop: 'akachan' },
+        { e: '🥄', t: '유아 수저·식기', size: '1세~', shop: 'akachan' },
+        { e: '🧦', t: '미끄럼 방지 양말', size: '발 길이에 맞춰', shop: 'akachan' },
+        { e: '🪥', t: '첫 칫솔·치약', size: '1세~', shop: 'drug' },
+        { e: '🎀', t: '패밀리아 턱받이', size: '선물용', shop: 'familiar' }
+      ] },
+    { id: 'b', crew: 'b', name: 'B네 아들', face: '🐣', stats: ['곧 출생', '신생아', '남아'],
+      guide: [['옷', '50–60 · 외출복 60–70'], ['기저귀', '신생아·S 4–8kg'], ['젖꼭지', 'SS (0개월~)']],
+      tip: '아직 태어나기 전이라 사이즈는 넉넉하게. 가을·겨울 출생이라 50–60 내의는 여러 벌, 외출복은 60–70으로. 신생아용 기저귀는 금방 작아져서 S를 넉넉히 사는 집이 많아요.',
+      items: [
+        { e: '👶', t: '短肌着·コンビ肌着 세트', size: '50–60', shop: 'akachan' },
+        { e: '🧸', t: '투웨이올 (2WAY 우주복)', size: '50–70', shop: 'akachan' },
+        { e: '🧷', t: '기저귀 S (테이프형)', size: 'S 4–8kg', shop: 'akachan' },
+        { e: '🍼', t: '젖병 + 젖꼭지 SS', size: '피죤 母乳実感', shop: 'akachan' },
+        { e: '🧼', t: '거즈 손수건 10장', size: 'ガーゼ', shop: 'akachan' },
+        { e: '✂️', t: '신생아 손톱가위', size: '0개월~', shop: 'akachan' },
+        { e: '🌀', t: '속싸개 (おくるみ)', size: '신생아', shop: 'akachan' },
+        { e: '🧥', t: '겨울 외출 점프슈트', size: '60–70', shop: 'akachan' },
+        { e: '🩲', t: '바디슈트 (크루넥 보디)', size: '60', shop: 'uq' },
+        { e: '🧴', t: '아기 보습 로션', size: '액체 → 위탁', shop: 'drug' },
+        { e: '🎁', t: '패밀리아 출산 선물 세트', size: '턱받이·거즈', shop: 'familiar' },
+        { e: '🎁', t: '미키하우스 출산 선물', size: '포장 요청', shop: 'miki' }
+      ] }
+  ],
+
+  shops: {
+    akachan:  { name: '아카짱혼포', e: '🍼', where: 'Day 1 · 긴시초 아르카킷 5층 · 면세 가능', place: 'akachan' },
+    uq:       { name: '유니클로', e: '👕', where: 'Day 1 긴시초 4층 · Day 2 긴자점 7층 · UNIQLO TOKYO', place: 'uq_ginza' },
+    gu:       { name: 'GU', e: '👕', where: 'Day 1 긴시초 6층 · Day 2 긴자점 · 마로니에게이트 5층', place: 'gu_ginza' },
+    familiar: { name: '패밀리아', e: '🎀', where: 'Day 2 · 긴자 미쓰코시 신관 10층 · 마쓰야 긴자 6층', place: 'gmitsukoshi' },
+    miki:     { name: '미키하우스', e: '👟', where: 'Day 2 · 니혼바시 미쓰코시 7층 · 긴자 미쓰코시 신관 10층', place: 'nmitsukoshi' },
+    drug:     { name: '드럭스토어', e: '💊', where: '어디서나 · 아카짱혼포에도 있어요', place: null }
+  },
+
+  /* 노선 표시 (역 번호판 모양) */
+  lines: {
+    asakusa:  { name: '도에이 아사쿠사선', sym: 'A', color: 'var(--line-asakusa)', pass: true },
+    shinjuku: { name: '도에이 신주쿠선', sym: 'S', color: 'var(--line-shinjuku)', pass: true },
+    hibiya:   { name: '히비야선', sym: 'H', color: 'var(--line-hibiya)', pass: true },
+    ginza:    { name: '긴자선', sym: 'G', color: 'var(--line-ginza)', pass: true },
+    hanzomon: { name: '한조몬선', sym: 'Z', color: 'var(--line-hanzomon)', pass: true },
+    sobu:     { name: 'JR 소부선 쾌속', sym: 'JO', color: 'var(--line-sobu)', sq: true, pass: false },
+    keisei:   { name: '게이세이 액세스 특급', sym: 'KS', color: 'var(--line-keisei)', sq: true, pass: false },
+    walk:     { name: '도보', emo: '🚶' },
+    taxi:     { name: '택시', emo: '🚕' },
+    air:      { name: '에어서울', emo: '✈️' }
+  },
+
+  /* 지도 위 위치 (가로 360 × 세로 460 그림 좌표) */
+  nodes: {
+    icn:        { x: 318, y: 46,  e: '🛫', name: '인천', ja: 'ICN', sky: true },
+    nrt:        { x: 334, y: 214, e: '🛬', name: '나리타', ja: '成田', label: '나리타 · 60km' },
+    hotel:      { x: 176, y: 186, e: '🏨', name: '숙소', ja: '東日本橋', base: true },
+    kinshicho:  { x: 296, y: 150, e: '🛍️', name: '긴시초', ja: '錦糸町', bars: 'kinshicho' },
+    asakusa:    { x: 222, y: 76,  e: '🏮', name: '아사쿠사', ja: '浅草', bars: 'asakusa' },
+    ueno:       { x: 124, y: 76,  e: '🍢', name: '우에노', ja: '上野', bars: 'ueno' },
+    nihonbashi: { x: 128, y: 230, e: '🏬', name: '니혼바시', ja: '日本橋' },
+    ningyocho:  { x: 174, y: 240, e: '🍶', name: '닌교초', ja: '人形町', bars: 'ningyocho' },
+    ginza:      { x: 94,  y: 312, e: '🕰️', name: '긴자', ja: '銀座', bars: 'ginza' },
+    tsukiji:    { x: 130, y: 368, e: '🍣', name: '츠키지', ja: '築地' },
+    shinjuku:   { x: 26,  y: 132, e: '🌃', name: '신주쿠', ja: '新宿', bars: 'shinjuku', label: '신주쿠 · 20분' }
+  },
+
+  hotel: {
+    place: 'hotel',
+    address: '〒103-0004 東京都中央区東日本橋3丁目12-14',
+    addressCopy: '東京都中央区東日本橋3丁目12-14',
+    phone: '0570-040-811', tel: '0570040811',
+    phoneNote: '0570 내비다이얼이라 한국 휴대폰 로밍으로는 안 걸릴 수 있어요 {?}',
+    inout: '체크인 15:00 · 체크아웃 10:00 {?}',
+    luggage: '체크인 전 프런트 보관 가능 · 체크아웃 후 당일 보관 {?} (귀중품·깨지는 물건 제외)',
+    stations: [
+      { line: 'asakusa',  name: '히가시니혼바시', ja: '東日本橋', walk: 'B4 출구 1분' },
+      { line: 'shinjuku', name: '바쿠로요코야마', ja: '馬喰横山', walk: '도보 3분' },
+      { line: 'sobu',     name: '바쿠로초',       ja: '馬喰町',   walk: '도보 3분' },
+      { line: 'hibiya',   name: '고덴마초',       ja: '小伝馬町', walk: '도보 10분 {?}' }
+    ]
+  },
+
+  /* 장소 — q 는 구글 지도 검색어(일본어 상호명 + 지역) */
+  places: {
+    hotel:  { name: 'APA 호텔 히가시니혼바시 에키마에', short: '숙소', e: '🏨', ja: 'アパホテル〈東日本橋駅前〉', q: 'アパホテル〈東日本橋駅前〉', url: 'https://www.apahotel.com/hotel/syutoken/tokyo/higashi-nihombashi-ekimae/' },
+    nrt:    { name: '나리타 국제공항 제1터미널', short: '나리타공항', e: '🛬', ja: '成田国際空港 第1ターミナル', q: '成田国際空港 第1ターミナル', url: 'https://www.narita-airport.jp/ko/' },
+    icn:    { name: '인천공항 제2여객터미널', short: '인천공항 T2', e: '🛫', ja: '', q: '인천국제공항 제2여객터미널' },
+    sensoji:{ name: '센소지', short: '센소지 밤 산책', e: '🏮', ja: '浅草寺', q: '浅草寺' },
+
+    arcakit_food: { name: '아르카킷 10층 식당가', short: '아르카킷 10F 식당가', e: '🍱', ja: 'アルカキット錦糸町 10F', q: 'アルカキット錦糸町', url: 'https://mitsui-shopping-park.com/arcakit/',
+      hours: '10층 식당가 11:00–22:30 · 1~9층 매장 10:00–21:00', loc: 'JR 긴시초역 북쪽 출구 도보 1분' },
+    akachan: { name: '아카짱혼포 아르카킷 긴시초점', short: '아카짱혼포', e: '🍼', shops: ['akachan', 'drug'], ja: 'アカチャンホンポ アルカキット錦糸町店', q: 'アカチャンホンポ アルカキット錦糸町店', url: 'https://stores.akachan.jp/35',
+      hours: '10:00–21:00 (10월 무휴)', loc: '아르카킷 5층 · JR 긴시초역 북쪽 출구 도보 1분', pay: '면세 가능 (여권 실물)' },
+    uq_arcakit: { name: '유니클로·GU 아르카킷 긴시초', short: '유니클로 · GU', e: '👕', shops: ['uq', 'gu'], ja: 'ユニクロ／ジーユー アルカキット錦糸町店', q: 'ユニクロ アルカキット錦糸町店', url: 'https://map.uniqlo.com/jp/ja/detail/10101265',
+      hours: '10:00–21:00', loc: '유니클로 4층 (키즈·베이비, 9/25 리뉴얼) · GU 6층 (키즈)' },
+    nishimatsuya: { name: '니시마쓰야 긴시초 파르코점', short: '니시마쓰야', e: '🧸', ja: '西松屋 錦糸町パルコ店', q: '西松屋 錦糸町パルコ店', url: 'https://www.24028.jp/tenpo/detail.php?cid=13&doc=1081',
+      hours: '10:30–21:00 {?}', loc: '긴시초 파르코 본관 3층 · JR 긴시초역 남쪽 출구 도보 1분' },
+    nmitsukoshi: { name: '니혼바시 미쓰코시 본점', short: '니혼바시 미쓰코시', e: '🏬', shops: ['miki'], ja: '日本橋三越本店', q: '日本橋三越本店', url: 'https://www.mistore.jp/store/nihombashi/shops.html',
+      hours: '10:00–19:00', loc: '본관 7층 베이비·아동복 · 미키하우스' },
+    takashimaya: { name: '니혼바시 다카시마야 S.C.', short: '다카시마야', e: '🏬', ja: '日本橋髙島屋S.C. 本館', q: '日本橋髙島屋S.C. 本館', url: 'https://www.takashimaya.co.jp/nihombashi/departmentstore/businesshours/',
+      hours: '10:30–19:30', loc: '본관 5층 키즈 · 미키하우스 {?} · 니혼바시역 직결' },
+    uq_ginza: { name: '유니클로 긴자점', short: '유니클로 긴자', e: '👕', shops: ['uq', 'gu'], ja: 'ユニクロ 銀座店', q: 'ユニクロ 銀座店', url: 'https://map.uniqlo.com/jp/ja/detail/10101397',
+      hours: '11:00–21:00', loc: '긴자 6-9-5 · 키즈·베이비 7층 {?} · 긴자역 A2 출구 도보 4분' },
+    gu_ginza: { name: 'GU 긴자점', short: 'GU 긴자', e: '👕', shops: ['gu'], ja: 'ジーユー 銀座店', q: 'ジーユー 銀座店 銀座5-7-7', url: 'https://map.gu-global.com/jp/ja/detail/10100195',
+      hours: '11:00–21:00', loc: '긴자 5-7-7 · 키즈는 3층, 일부 상품만 · 긴자역 A2 출구 도보 1분' },
+    gmitsukoshi: { name: '긴자 미쓰코시', short: '긴자 미쓰코시', e: '🎁', shops: ['familiar', 'miki'], ja: '銀座三越', q: '銀座三越', url: 'https://www.mistore.jp/store/ginza/shops.html',
+      hours: '10:00–20:00', loc: '신관 10층: 베이비용품·아동복·패밀리아·미키하우스 · 긴자역 직결' },
+    matsuya: { name: '마쓰야 긴자', short: '마쓰야 긴자', e: '🎁', shops: ['familiar', 'miki'], ja: '松屋銀座', q: '松屋銀座', url: 'https://www.matsuyaginza.com/jp/ginza/floor/',
+      hours: '11:00–20:00 · 일요일은 19:30까지', loc: '6층 키즈: 패밀리아·미키하우스' },
+    uq_tokyo: { name: 'UNIQLO TOKYO · GU 마로니에게이트', short: 'UNIQLO TOKYO', e: '👕', shops: ['uq', 'gu'], ja: 'マロニエゲート銀座2', q: 'UNIQLO TOKYO マロニエゲート銀座2', url: 'https://map.uniqlo.com/jp/ja/detail/10101701',
+      hours: '11:00–21:00', loc: 'UNIQLO TOKYO 1~4층 (키즈·베이비 4층 {?}) · GU 5층 (키즈) · 긴자잇초메역 4번 출구 도보 2분' },
+    gu_marronnier: { name: 'GU 마로니에게이트 긴자점', short: 'GU 마로니에', e: '👕', ja: 'ジーユー マロニエゲート銀座店', q: 'ジーユー マロニエゲート銀座店', url: 'https://map.gu-global.com/jp/ja/detail/10101300',
+      hours: '11:00–21:00', loc: '마로니에게이트 긴자2 5층 · 키즈' },
+
+    tsukiji: { name: '츠키지 장외시장', short: '츠키지 아침', e: '🍣', ja: '築地場外市場', q: '築地場外市場', url: 'https://www.tsukiji.or.jp/',
+      hours: '가게마다 다름 · 06:00–09:00은 업자 우선, 09:00–14:00 일반 손님', closed: '일요일·공휴일·일부 수요일 (10월: 일요일, 10/7·12·21·28)' },
+    zanmai: { name: '스시잔마이 별관', e: '🍣', ja: 'すしざんまい 別館', q: 'すしざんまい 別館 築地', hours: '24시간', closed: '없음' },
+    monju: { name: '몬주 바쿠로요코야마점', e: '🍜', ja: '文殊 馬喰横山店', q: '文殊 馬喰横山', hours: '월–토 06:30–23:00 {?}', loc: '바쿠로요코야마역 구내 서서 먹는 소바' },
+
+    kamiya: { name: '가미야 바', short: '가미야 바', e: '🥃', ja: '神谷バー', q: '神谷バー 浅草', url: 'http://www.kamiya-bar.com/', tags: ['drink'],
+      desc: '1880년 창업, 전기브랜(デンキブラン) 원조. 1층은 식권을 먼저 사는 방식.',
+      hours: '11:00–20:00 (L.O. 19:30)', closed: '화요일 + 월 2회 월요일 (10/5·10/6 휴무)', price: '1인 3,000~4,000엔 · 전기브랜 400엔', pay: '1층 카드 불가',
+      open: { sat: 1, sun: 1, mon: 0 } },
+    okamoto: { name: '아사쿠사 사카바 오카모토', short: '오카모토', e: '🍢', ja: '浅草酒場 岡本 ホッピー通り店', q: '浅草酒場 岡本 ホッピー通り店', url: 'https://www.hotpepper.jp/strJ000999090/', tags: ['drink', 'food'],
+      desc: '호피도리 원조 소힘줄 모츠니코미(牛すじもつ煮込み)와 호피.',
+      hours: '11:00–23:00 (일 ~22:30)', closed: '없음', price: '2,000~3,000엔', open: { sat: 1, sun: 1, mon: 1 } },
+    shochan: { name: '쇼짱', short: '쇼짱', e: '🍲', ja: '正ちゃん', q: '正ちゃん 浅草 ホッピー通り', url: 'https://www.hotpepper.jp/strJ000126682/', tags: ['drink', 'food'],
+      desc: '1951년부터. 소 니코미와 규메시(牛めし). 니코미가 다 팔리면 끝.',
+      hours: '12:00–21:00', closed: '화요일 또는 수요일 {?}', price: '2,000~4,000엔', pay: '현금만', open: { sat: 1, sun: 1, mon: 1 } },
+
+    bunraku: { name: '야키토리 분라쿠', short: '분라쿠', e: '🍢', ja: 'やきとり 文楽', q: 'やきとり 文楽 上野 アメ横', url: 'https://www.hotpepper.jp/strJ000812522/', tags: ['drink', 'food'],
+      desc: '1958년부터 아메요코 고가 밑. 야키토리에 생맥주.',
+      hours: '토 12:00–22:00 · 일 11:00–22:00 (일요일 음식 주문 19:00까지)', price: '1,500~2,000엔', pay: '현금만', open: { sat: 1, sun: 1, mon: null } },
+    ohyama: { name: '니쿠노 오야마 우에노점', short: '니쿠노 오야마', e: '🥩', ja: '肉の大山 上野店', q: '肉の大山 上野店', url: 'https://www.ohyama.com/ueno', tags: ['drink', 'food'],
+      desc: '1932년 창업 정육점. 가게 앞에서 멘치카츠·고로케를 서서 먹고, 안쪽 식당에서 고기 안주.',
+      hours: '식당 토 14:00–23:00 · 일 14:00–22:00 (음식 L.O. 21:00) · 가게 앞 스탠딩은 연중무휴', closed: '월요일 (식당)', price: '2,000~3,500엔', open: { sat: 1, sun: 1, mon: 0 } },
+    daitoryo: { name: '모츠야키 다이토료 본점', short: '다이토료', e: '🍻', ja: 'もつ焼 大統領 本店', q: 'もつ焼 大統領 本店 上野6-10-14', url: 'https://www.hotpepper.jp/strJ000724017/', tags: ['drink'],
+      desc: '싼 모츠야키 꼬치와 모츠니코미. 아침 10시부터 마시는 집.',
+      hours: '10:00–23:30', closed: '없음', price: '2,000~3,000엔', pay: '현금만', open: { sat: 1, sun: 1, mon: 1 } },
+    uokusa: { name: '우오쿠사', e: '🐟', ja: '魚草', q: '魚草 アメ横', url: 'https://www.ameyoko.net/shop/192', tags: ['drink'],
+      desc: '생선가게 겸 서서 마시는 바. 일찍 닫아요.', hours: '12:00–19:30', closed: '둘째 수요일', open: { sat: 1, sun: 1, mon: 1 } },
+
+    nonki: { name: '모츠야키 논키', e: '🍢', ja: 'もつ焼 のんき', q: 'もつ焼 のんき 錦糸町', url: 'https://b953611.gorp.jp/', tags: ['drink'],
+      desc: '1950년대부터 이어 온 모츠야키 집. 대표 메뉴는 시로타레(しろたれ). 1층 스탠딩, 2층 테이블.',
+      hours: '토·일 13:00–23:00 · 평일 15:00–23:30', closed: '없음', price: '2,500~3,500엔', pay: '카드·PayPay 가능', open: { sat: 1, sun: 1, mon: 1 } },
+    bariki: { name: '바리키 긴시초 남쪽 출구 본점', e: '🍺', ja: '馬力 錦糸町南口本店', q: '馬力 錦糸町南口本店', url: 'https://www.bariki.co.jp/location', tags: ['drink'],
+      desc: '쇼와 시대 분위기로 꾸민 대중주점 (2005년 개업). 값싸고 시끌벅적.',
+      hours: '12:00–23:30', closed: '없음', price: '2,000~3,000엔', open: { sat: 1, sun: 1, mon: 1 } },
+
+    sasashin: { name: '사사신', e: '🍶', ja: '酒の店 笹新', q: '笹新 人形町', url: 'https://www.hotpepper.jp/strJ000118580/', tags: ['drink', 'food'],
+      desc: '닌교초 노포 이자카야. 네기마와 생선 안주.',
+      hours: '월–토 16:00–22:00 {?}', closed: '일요일·공휴일·셋째 토요일', price: '3,000~4,000엔', pay: '현금만', open: { sat: 1, sun: 0, mon: 1 } },
+    daiana: { name: '사카바 다이아나 닌교초점', e: '🍣', ja: '酒場 大穴 人形町店', q: '酒場 大穴 人形町店', url: 'https://sakabadaiana-ningyochoten.com/', tags: ['drink', 'food'],
+      desc: '붕장어(아나고) 꼬치·초밥·소힘줄 조림. 체인이라 편하게 들어가요.',
+      hours: '토·일 15:00–23:00 · 평일 16:00–', price: '2,000~3,000엔', open: { sat: 1, sun: 1, mon: 1 } },
+    tamahide: { name: '다마히데', e: '🍳', ja: '玉ひで', q: '玉ひで 人形町', url: 'https://www.hotpepper.jp/strJ000103098/', tags: ['food'],
+      desc: '1760년 창업, 오야코동의 원조. 2025년 10월 재오픈. 이자카야가 아니라 식사 자리.',
+      hours: '점심 11:30–13:30 · 저녁 17:00–21:30', closed: '공식 정보 없음 {?}', price: '저녁 5,000엔~ {?}', open: { sat: null, sun: null, mon: null } },
+
+    lion: { name: '비어홀 라이온 긴자 7초메점', short: '비어홀 라이온', e: '🍺', ja: 'ビヤホールライオン 銀座七丁目店', q: 'ビヤホールライオン 銀座七丁目店 銀座7-9-20', url: 'https://www.ginzalion.jp/shop/brand/lion/shop1.html', tags: ['drink', 'food'],
+      desc: '1934년 지은 건물 그대로인 비어홀. 로스트비프·소시지에 생맥주.',
+      hours: '토 11:30–22:30 · 일 11:30–22:00', closed: '없음', price: '3,000~4,500엔', pay: '카드 가능 · 1층은 예약 불가', open: { sat: 1, sun: 1, mon: 1 } },
+    tonton: { name: '모츠야키 돈톤', short: '돈톤', e: '🍢', ja: 'もつやき 登運とん', q: '登運とん 有楽町', url: 'https://www.hotpepper.jp/strJ000246490/', tags: ['drink'],
+      desc: '1953년부터 유라쿠초 고가 밑(ガード下). 20석 남짓.',
+      hours: '토 12:00–22:30 · 일 12:00–21:30', closed: '없음', price: '3,000~4,000엔', pay: '카드 가능', open: { sat: 1, sun: 1, mon: 1 } },
+    bairin: { name: '긴자 바이린 본점', short: '바이린 돈카츠', e: '🍱', ja: '銀座梅林 本店', q: '銀座梅林 本店', url: 'http://www.ginzabairin.com/shop/index.php', tags: ['food'],
+      desc: '1927년 창업 돈카츠 노포. 예약을 받지 않아요.',
+      hours: '11:30–20:00 (L.O.)', closed: '없음', price: '2,000~3,000엔 {?}', open: { sat: 1, sun: 1, mon: 1 } },
+    kagari: { name: '긴자 가가리 본점', e: '🍜', ja: '銀座 篝 本店', q: '銀座 篝 本店 銀座6-4-12', tags: ['food'],
+      desc: '닭백탕(토리파이탄) 라멘. 긴자 4초메 지점은 일요일 휴무라 꼭 본점(긴자 6-4-12)으로.',
+      hours: '11:00–21:30 {?}', price: '1,000~2,000엔', open: { sat: 1, sun: 1, mon: 1 } },
+    komatsuan: { name: '고마쓰안 소혼케 긴자', e: '🥢', ja: '小松庵総本家 銀座', q: '小松庵総本家 銀座', url: 'https://www.hotpepper.jp/strJ003624002/', tags: ['food', 'drink'],
+      desc: '1922년 창업 소바집. 소바 안주에 니혼슈 한 잔.', hours: '토·일 11:00–22:00', closed: '부정기', open: { sat: 1, sun: 1, mon: null } },
+
+    ucchan: { name: '모츠야키 웃짱', short: '웃짱', e: '🍢', ja: 'もつ焼 ウッチャン 思い出横丁', q: 'もつ焼 ウッチャン 新宿 思い出横丁', url: 'https://shinjuku-omoide.com/shop/ucchan', tags: ['drink'],
+      desc: '오모이데 요코초의 모츠야키. 인기 부위는 일찍 품절돼요.',
+      hours: '16:00–23:00 (L.O. 22:00)', closed: '없음', price: '3,000~4,000엔', pay: '현금만', open: { sat: 1, sun: 1, mon: 1 } },
+    horaiya: { name: '다이니 호라이야', short: '호라이야', e: '🍶', ja: '第二宝来家', q: '第二宝来家 新宿 思い出横丁', url: 'https://shinjuku-omoide.com/shop/horaiya2', tags: ['drink'],
+      desc: '1947년부터. 코부쿠로 사시미(子袋刺し) 같은 모츠 요리.',
+      hours: '토 14:30–23:00 · 일 13:00–22:00', closed: '부정기', price: '2,000~3,000엔', open: { sat: 1, sun: 1, mon: null } },
+    tsukini: { name: '쓰키니 호에루', short: '쓰키니 호에루', e: '🌙', ja: 'プチ文壇バー 月に吠える', q: '月に吠える ゴールデン街', url: 'http://bar.moonbark.net/about', tags: ['drink'],
+      desc: '골든가이에서 처음 가기 좋은 작은 바.',
+      hours: '토 14:00–05:00 · 일 14:00–24:00', price: '자릿세 800엔 + 음료 800엔~', pay: '현금·카드·PayPay', open: { sat: 1, sun: 1, mon: null } }
+  },
+
+  /* ===================== 챕터(날짜)별 퀘스트 ===================== */
+  days: [
+    { date: '2026-10-03', md: '10.3', dow: '土', dowKo: '토', start: 'nrt', title: '도착 · 긴시초 쇼핑 · 아사쿠사 밤',
+      events: [
+        { e: '🛍️', t: '아카짱혼포 5층·유니클로 4층·GU 6층이 한 건물 (아르카킷)' },
+        { e: '🥃', t: '가미야 바는 20:00 마감 → 아사쿠사 1차로' },
+        { e: '🐟', t: '츠키지는 Day 3 월요일 아침에' }
+      ],
+      items: [
+        { t: '06:00', node: 'nrt', sky: 'icn', place: 'icn', title: '인천공항 제2터미널 도착', tags: ['move'], noFacts: true,
+          move: [{ line: 'air', text: '출발 2시간 전 · 체크인 → 수하물 → 출국심사' }],
+          memo: '여권 실물, Visit Japan Web QR 캡처, 엔화·트래블카드 챙겼는지 확인!',
+          alt: { text: '모바일 체크인을 미리 해 두면 카운터에서는 수하물만 맡기면 돼요.' } },
+        { t: '08:10', end: '10:40', node: 'nrt', sky: 'out', title: 'RS705 인천 → 나리타', short: 'RS705 출발!', e: '✈️', tags: ['move'],
+          move: [{ line: 'air', text: 'ICN 제2터미널 → NRT 제1터미널 남쪽', dur: '2시간 30분' }],
+          memo: '에어서울 RS705. 나리타는 제1터미널 남쪽 윙으로 도착해요.',
+          alt: { text: '지연되면 점심은 아르카킷 10층에서 늦게. 쇼핑은 21:00까지 가능해요.' } },
+        { t: '10:40', node: 'nrt', place: 'nrt', title: '나리타 도착 · 입국', short: '나리타 도착', tags: ['move'], noFacts: true,
+          memo: 'Visit Japan Web QR로 입국심사·세관 → 지하 게이세이선 「나리타공항역」 승강장으로.',
+          alt: { text: '입국 줄이 길면 액세스 특급 다음 열차(약 40분 간격)를 타요.' } },
+        { t: '11:49', approx: true, node: 'hotel', title: '게이세이 액세스 특급으로 숙소까지', short: '액세스 특급 탑승', e: '🚆', ja: '京成 アクセス特急', tags: ['move'], q: 'アパホテル〈東日本橋駅前〉',
+          move: [{ line: 'keisei', text: '나리타공항 → 히가시니혼바시 직통', dur: '약 76~80분' }],
+          facts: [['요금', '1,380엔 (IC 1,372엔) · 특급권 필요 없음'], ['토·일 출발', '나리타공항(T1) 11:09 · 11:49 · 12:29 … 약 40분 간격 {?}']],
+          memo: '행선지가 아사쿠사선 직통인지 확인하고 타기. 「アクセス特急」 표시면 OK.',
+          alt: { text: 'JR 소부선 쾌속 — 나리타공항 → 바쿠로초 직통, 약 90분 · 1,410엔. 매시 58~59분 출발 {?}' } },
+        { t: '13:05', approx: true, node: 'hotel', place: 'hotel', title: '숙소에 짐 맡기기', short: '세이브 · 짐 맡기기', save: true, tags: ['move'],
+          memo: '체크인 전이라도 프런트에 캐리어를 맡기고 바로 출발. 히가시니혼바시역 B4 출구에서 1분.',
+          alt: { text: '프런트가 붐비면 짐만 맡기고 체크인은 17:10에 한 번에.' } },
+        { t: '13:30', node: 'kinshicho', place: 'arcakit_food', title: '점심 · 아르카킷 10층 식당가', tags: ['food'],
+          move: [{ line: 'shinjuku', text: '바쿠로요코야마 → 스미요시 (4정거장)', dur: '약 8분' }, { line: 'hanzomon', text: '스미요시 환승 → 긴시초 (1정거장)', dur: '약 2분' }],
+          memo: '48시간권 첫 개찰이 여기! 공략집에서 「패스 개시」를 눌러 두면 남은 시간이 상단에 떠요. 급하면 JR 바쿠로초 → 긴시초 1정거장(3~4분, 패스 안 됨 · 요금 별도)도 있어요.',
+          alt: { text: '모츠야키 낮술이 당기면 남쪽 출구 「논키」(토 13:00~).', place: 'nonki' } },
+        { t: '14:20', end: '15:50', node: 'kinshicho', place: 'akachan', tags: ['baby'],
+          memo: '오늘의 보스전! A네 기저귀 L·빨대컵, B네 신생아 내의·젖병까지. 부피 큰 소모품은 오늘 사서 숙소에 두기. 면세는 여권 실물.',
+          alt: { text: '계산대 줄이 길면 4층 유니클로·6층 GU 먼저 보고 5층으로 돌아오기.' } },
+        { t: '15:50', end: '16:50', node: 'kinshicho', place: 'uq_arcakit', tags: ['gu'],
+          memo: '4층 유니클로(키즈·베이비) → 6층 GU(키즈). A네 80·90 겨울옷, B네 60 바디슈트.',
+          alt: { text: '더 필요하면 남쪽 출구 긴시초 파르코 3층 니시마쓰야 (저렴한 아기 옷·소모품).', place: 'nishimatsuya' } },
+        { t: '17:10', node: 'hotel', place: 'hotel', title: '체크인 · 짐 두기', short: '세이브 · 체크인', save: true, tags: ['move'],
+          move: [{ line: 'hanzomon', text: '긴시초 → 스미요시', dur: '약 2분' }, { line: 'shinjuku', text: '스미요시 환승 → 바쿠로요코야마', dur: '약 8분' }],
+          memo: '쇼핑백 정리하고 샤워 한 번. 위탁은 1인 15kg 1개라 오늘 산 기저귀는 비닐째 캐리어에 맞춰 미리 정리해 두기.',
+          alt: { text: '짐이 너무 많으면 긴시초역에서 택시 (낮 약 1,800~2,300엔 {?}).' } },
+        { t: '18:00', end: '19:30', node: 'asakusa', place: 'kamiya', tags: ['drink'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 (3정거장)', dur: '6분' }],
+          memo: '1층에서 식권 먼저 사고 자리 잡기. 전기브랜 + 생맥주 체이서가 정석.',
+          alt: { text: '자리가 없으면 호피도리 「오카모토」(23:00까지)부터.', place: 'okamoto' } },
+        { t: '19:30', end: '21:00', node: 'asakusa', place: 'shochan', title: '2차 · 호피도리 쇼짱', tags: ['drink', 'food'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'walk', text: '가미야 바 → 호피도리', dur: '약 8분 {?}' }],
+          memo: '소 니코미가 다 팔리면 끝이라 서둘러요. 호피(ホッピー)는 소주에 타 마시는 맥주맛 음료.',
+          alt: { text: '꽉 찼으면 바로 옆 「오카모토」(무휴, 23:00까지).', place: 'okamoto' } },
+        { t: '21:10', node: 'asakusa', place: 'sensoji', tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          memo: '밤엔 사람이 적고 본당·오층탑 조명이 예뻐요. 조명 시간 {?}',
+          alt: { text: '비가 오면 건너뛰고 바로 귀가.' } },
+        { t: '22:00', node: 'hotel', place: 'hotel', title: '숙소 귀가', short: '세이브 · 귀가', save: true, tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'asakusa', text: '아사쿠사 → 히가시니혼바시', dur: '6분' }],
+          facts: [['막차', '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) {?}']],
+          alt: { text: '택시 낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' } }
+      ] },
+
+    { date: '2026-10-04', md: '10.4', dow: '日', dowKo: '일', start: 'hotel', title: '니혼바시·긴자 쇼핑 · 우에노 밤',
+      events: [
+        { e: '🚶', t: '긴자 보행자 천국 토·일 12:00–17:00' },
+        { e: '⛔', t: '일요일: 츠키지 휴시 · 사사신·렌가테이 휴무' },
+        { e: '🎀', t: '패밀리아 긴자 본점은 폐점 → 긴자 미쓰코시 신관 10층' },
+        { e: '🕢', t: '마쓰야 긴자는 일요일 19:30 마감' }
+      ],
+      items: [
+        { t: '10:00', end: '11:00', node: 'nihonbashi', place: 'nmitsukoshi', tags: ['baby'],
+          move: [{ line: 'asakusa', text: '히가시니혼바시 → 니혼바시 (2정거장)', dur: '4분' }, { line: 'walk', text: '니혼바시역 → 미쓰코시 본점 (니혼바시 다리 건너)', dur: '약 7분 {?}' }],
+          memo: '본관 7층 베이비·아동복과 미키하우스. A네 첫걸음 신발은 여기서 사이즈 상담!',
+          alt: { text: '다카시마야 S.C.(10:30 개점, 니혼바시역 직결) 본관 5층 키즈.', place: 'takashimaya' } },
+        { t: '11:10', end: '12:20', node: 'ginza', place: 'uq_ginza', tags: ['gu'],
+          move: [{ line: 'ginza', text: '미쓰코시마에 → 긴자 (3정거장)', dur: '5분' }],
+          facts: [['GU', 'GU 긴자점(긴자 5-7-7) 3층 키즈 일부 · 걸어서 5분 이내']],
+          memo: '7층 키즈·베이비. 바로 근처 GU 긴자점도 같이.',
+          alt: { text: 'GU 긴자점부터 보고 유니클로로.', place: 'gu_ginza' } },
+        { t: '12:30', end: '13:30', node: 'ginza', place: 'bairin', tags: ['food'],
+          move: [{ line: 'walk', text: '유니클로 긴자점 → 바이린 (긴자 7-8-1 지하)', dur: '약 5분 {?}' }],
+          memo: '점심은 돈카츠. 예약을 안 받아서 12시대는 줄 각오.',
+          alt: { text: '줄이 길면 닭백탕 라멘 「가가리 본점」(긴자 6-4-12).', place: 'kagari' } },
+        { t: '13:40', end: '15:00', node: 'ginza', place: 'gmitsukoshi', tags: ['baby'],
+          move: [{ line: 'walk', text: '보행자 천국 주오도리 → 긴자 4초메', dur: '5분' }],
+          memo: '신관 10층에 베이비용품·아동복·패밀리아·미키하우스가 한 층에. B네 출산 선물은 여기서 포장 요청!',
+          alt: { text: '붐비면 길 건너 마쓰야 긴자 6층(패밀리아·미키하우스, 일요일 19:30까지).', place: 'matsuya' } },
+        { t: '15:10', end: '16:20', node: 'ginza', place: 'uq_tokyo', tags: ['gu'],
+          move: [{ line: 'walk', text: '긴자 4초메 → 마로니에게이트 긴자2 (긴자 3-2-1)', dur: '약 8분 {?}' }],
+          memo: 'UNIQLO TOKYO 키즈·베이비 보고 5층 GU로. 긴자에서 못 산 것 마무리.',
+          alt: { text: '시간이 없으면 GU 마로니에게이트점 5층만.', place: 'gu_marronnier' } },
+        { t: '16:30', node: 'hotel', place: 'hotel', title: '숙소에 짐 두기', short: '세이브 · 짐 두기', save: true, tags: ['move'],
+          move: [{ line: 'walk', text: '마로니에게이트 → 다카라초역', dur: '약 10분 {?}' }, { line: 'asakusa', text: '다카라초 → 히가시니혼바시 (3정거장)', dur: '6분' }],
+          memo: '쇼핑백 내려놓고 30분 충전.',
+          alt: { text: '짐이 많으면 긴자에서 택시 (낮 약 1,400~2,000엔 {?}).' } },
+        { t: '17:15', end: '18:45', node: 'ueno', place: 'bunraku', tags: ['drink'], last: { t: '00:01', txt: '우에노 → 고덴마초' },
+          move: [{ line: 'walk', text: '숙소 → 고덴마초역', dur: '약 10분 {?}' }, { line: 'hibiya', text: '고덴마초 → 우에노 (3정거장)', dur: '6분' }],
+          memo: '아메요코 고가 밑 1958년 노포. 일요일은 음식 주문이 19:00까지라 1차로.',
+          alt: { text: '만석이면 서서 마시는 생선가게 「우오쿠사」(19:30까지).', place: 'uokusa' } },
+        { t: '18:50', end: '20:30', node: 'ueno', place: 'ohyama', tags: ['drink', 'food'], last: { t: '00:01', txt: '우에노 → 고덴마초' },
+          memo: '가게 앞 스탠딩에서 멘치카츠 한 입 → 안쪽 식당에서 고기 안주. 일요일 음식 L.O. 21:00.',
+          alt: { text: '만석이면 「다이토료 본점」으로 바로.', place: 'daitoryo' } },
+        { t: '20:40', end: '21:50', node: 'ueno', place: 'daitoryo', title: '3차 · 다이토료 본점', tags: ['drink'], last: { t: '00:01', txt: '우에노 → 고덴마초' },
+          memo: '마무리 꼬치 몇 개. 내일 06:25 출발이라 22시 전후 귀가 추천.',
+          alt: { text: '많이 마셨으면 3차는 건너뛰고 바로 숙소로.' } },
+        { t: '22:00', node: 'hotel', place: 'hotel', title: '숙소 귀가', short: '세이브 · 귀가', save: true, tags: ['move'], last: { t: '00:01', txt: '우에노 → 고덴마초' },
+          move: [{ line: 'hibiya', text: '우에노 → 고덴마초', dur: '6분' }],
+          facts: [['막차', '우에노 00:01 → 고덴마초 00:06 (토·일), 숙소까지 도보 약 10분 {?}']],
+          alt: { text: '택시 낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' } }
+      ] },
+
+    { date: '2026-10-05', md: '10.5', dow: '月', dowKo: '월', start: 'hotel', title: '츠키지 아침 → 귀국',
+      events: [
+        { e: '🚆', t: '공항 열차는 히가시니혼바시 08:26발 하나 (09:16발은 늦어요)' },
+        { e: '🧳', t: '체크아웃 먼저 → 짐 맡기고 몸만 츠키지' },
+        { e: '⛔', t: '가미야 바는 10/5(월) 휴무' }
+      ],
+      items: [
+        { t: '06:25', node: 'hotel', place: 'hotel', title: '체크아웃 · 짐 맡기기', short: '세이브 · 체크아웃', save: true, tags: ['move'],
+          memo: '체크아웃 먼저, 캐리어는 프런트에 맡기고 몸만 츠키지로.',
+          alt: { text: '짐 보관이 안 되면 방에 두고 나갔다가 07:55에 돌아와 체크아웃 (체크아웃 10:00 {?}).' } },
+        { t: '06:40', end: '07:40', node: 'tsukiji', place: 'tsukiji', tags: ['food'],
+          move: [{ line: 'asakusa', text: '히가시니혼바시 → 히가시긴자 (4정거장)', dur: '7분' }, { line: 'walk', text: '히가시긴자 → 장외시장', dur: '5분' }],
+          memo: '「기쓰네야」 호르몬동(06:30~) → 「야마초」 계란말이 꼬치(06:00~) → 초밥은 「스시잔마이 별관」(24시간). 07:40엔 꼭 일어서기!',
+          alt: { text: '기쓰네야 줄이 길면 「스시잔마이 별관」 초밥으로. 숙취가 심하면 츠키지는 건너뛰고 07:47발 열차로.', place: 'zanmai' } },
+        { t: '07:55', node: 'hotel', place: 'hotel', title: '숙소에서 짐 찾기', short: '세이브 · 짐 찾기', save: true, tags: ['move'],
+          move: [{ line: 'asakusa', text: '히가시긴자 → 히가시니혼바시', dur: '7분' }],
+          memo: '짐 최종 정리: 위탁은 1인 15kg 1개. 로션·세제 같은 액체류는 위탁 캐리어에, 무게는 둘이 나눠 맞추기.',
+          alt: { text: '츠키지를 건너뛰었다면 바쿠로요코야마역 서서 먹는 소바 「몬주」로 아침 (월–토).', place: 'monju' } },
+        { t: '08:26', node: 'nrt', title: '게이세이 액세스 특급으로 나리타', short: '08:26 공항 열차', e: '🚆', ja: '京成 アクセス特急', tags: ['move'], q: '成田国際空港 第1ターミナル',
+          move: [{ line: 'keisei', text: '히가시니혼바시 08:26 → 나리타공항역(제1터미널) 09:40', dur: '약 74분 {?}' }],
+          memo: '「普通 印旛日本医大」행이나 아오토·다카사고·사쿠라행은 공항에 안 가요. 「アクセス特急 成田空港」 확인! 에어서울은 제1터미널이라 종점까지 타요.',
+          alt: { text: '놓치면 09:16발(10:32 도착, 출발 2시간 18분 전) — 모바일 체크인 필수. 여유 있게 가려면 07:47발(08:59 도착).' } },
+        { t: '09:40', node: 'nrt', place: 'nrt', title: '나리타 제1터미널 · 체크인 · 출국', short: '공항 체크인', tags: ['move'], noFacts: true,
+          memo: '에어서울 카운터는 제1터미널 남쪽 윙. 면세 소모품 봉투는 일본을 떠날 때까지 뜯지 않기. 남은 엔화는 면세점에서.',
+          alt: { text: '15kg이 넘으면 카운터 가기 전에 두 사람 캐리어끼리 무게 나누기. 그래도 넘으면 가벼운 옷을 기내 가방으로 (기내 반입 무게 규정 {?}).' } },
+        { t: '12:50', end: '15:30', node: 'nrt', sky: 'back', title: 'RS702 나리타 → 인천', short: '귀국 · QUEST CLEAR', e: '🏆', tags: ['move'],
+          move: [{ line: 'air', text: 'NRT 제1터미널 → ICN 제2터미널', dur: '2시간 40분' }],
+          memo: '에어서울 RS702, 인천 제2터미널 15:30 도착. 수고했어요!',
+          alt: { text: '지연되면 항공사 앱 알림을 확인하고 탑승구 근처에서 대기.' } }
+      ] }
+  ],
+
+  /* ===================== 주점 던전 (지역별) ===================== */
+  bars: [
+    { id: 'asakusa', name: '아사쿠사', ja: '浅草', e: '🏮', tonight: 'Day 1 밤',
+      access: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 직통', dur: '6분' }],
+      course: [{ step: '1차', place: 'kamiya', note: '20:00 마감이라 먼저' }, { step: '2차', place: 'shochan', note: '니코미 품절 전에' }, { step: '3차', place: 'okamoto', note: '23:00까지' }],
+      spots: ['kamiya', 'okamoto', 'shochan'], last: '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) {?}', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+    { id: 'ueno', name: '우에노', ja: '上野', e: '🍢', tonight: 'Day 2 밤',
+      access: [{ line: 'hibiya', text: '고덴마초 → 우에노 직통', dur: '6분' }],
+      course: [{ step: '1차', place: 'bunraku', note: '일요일 음식 19:00까지' }, { step: '2차', place: 'ohyama', note: '일 22:00 마감' }, { step: '3차', place: 'daitoryo', note: '23:30까지' }],
+      spots: ['bunraku', 'ohyama', 'daitoryo', 'uokusa'], last: '우에노 00:01 → 고덴마초 00:06 (토·일), 숙소까지 도보 약 10분 {?}', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+    { id: 'kinshicho', name: '긴시초', ja: '錦糸町', e: '🛍️',
+      access: [{ line: 'shinjuku', text: '바쿠로요코야마 → 스미요시 환승', dur: '약 8분' }, { line: 'hanzomon', text: '스미요시 → 긴시초', dur: '약 2분' }, { line: 'sobu', text: '또는 JR 바쿠로초 → 긴시초 직통', dur: '3~4분' }],
+      course: [{ step: '1차', place: 'nonki', note: '토·일 13:00부터' }, { step: '2차', place: 'bariki', note: '23:30까지' }],
+      spots: ['nonki', 'bariki'], last: '긴시초 00:21 → 바쿠로초 00:24 (소부선 쾌속, 토·일) {?}', taxi: '낮 약 1,800~2,300엔 · 22시 이후 약 2,200~2,800엔 {?}' },
+    { id: 'ningyocho', name: '닌교초', ja: '人形町', e: '🍶',
+      access: [{ line: 'asakusa', text: '히가시니혼바시 → 닌교초 (1정거장)', dur: '2분' }],
+      course: [{ step: '1차', place: 'sasashin', note: '토요일만 · 일요일 휴무' }, { step: '2차', place: 'daiana', note: '일요일도 영업' }],
+      spots: ['sasashin', 'daiana', 'tamahide'], last: '닌교초 00:16 → 히가시니혼바시 00:18 (토·일) {?} · 약 1km라 걸어도 돼요', taxi: '약 500~700엔 · 22시 이후 약 700~900엔 {?}' },
+    { id: 'ginza', name: '긴자·유라쿠초', ja: '銀座', e: '🕰️',
+      access: [{ line: 'asakusa', text: '히가시니혼바시 → 히가시긴자 직통', dur: '7분' }],
+      course: [{ step: '1차', place: 'lion', note: '1934년 비어홀' }, { step: '2차', place: 'tonton', note: '고가 밑 · 일 21:30까지' }],
+      spots: ['lion', 'tonton', 'bairin', 'kagari', 'komatsuan'], last: '히가시긴자 00:11 → 히가시니혼바시 00:18 (토·일) {?}', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+    { id: 'shinjuku', name: '신주쿠', ja: '新宿', e: '🌃',
+      access: [{ line: 'shinjuku', text: '바쿠로요코야마 → 신주쿠 직통', dur: '약 20분' }],
+      course: [{ step: '1차', place: 'ucchan', note: '16:00 오픈' }, { step: '2차', place: 'horaiya', note: '1947년부터' }, { step: '3차', place: 'tsukini', note: '골든가이' }],
+      spots: ['ucchan', 'horaiya', 'tsukini'], last: '신주쿠 00:00 → 바쿠로요코야마 00:15 (토·일) {?}', taxi: '낮 약 4,000~5,000엔 · 22시 이후 약 4,800~6,000엔 {?}' }
+  ],
+
+  /* ===================== 공략집 ===================== */
+  tips: [
+    { icon: '🧾', title: '면세 (이번 여행은 지금 방식 그대로)', body: [ { ul: [
+      '같은 가게에서 하루 합계 **5,000엔 이상**(세금 제외)이면 계산할 때 바로 면세돼요.',
+      '**여권 실물 필수.** 사본·사진은 안 되고, Visit Japan Web의 면세 QR은 쓸 수 있어요.',
+      '기저귀·로션·과자 같은 **소모품은 밀봉 봉투**에 담아 줘요. 일본을 떠날 때까지 뜯으면 안 돼요 (소모품은 하루 5,000~500,000엔).',
+      '**2026-11-01부터** 세금을 먼저 내고 출국할 때 돌려받는 환급 방식으로 바뀌지만, 10/3~5 여행은 **해당 없음**.',
+      '아카짱혼포 아르카킷 긴시초점은 면세 매장이에요.'
+    ] } ] },
+    { icon: '📱', title: 'Visit Japan Web', body: [ { ul: [
+      '입국심사·세관 신고를 미리 등록하면 QR 하나로 통과해요 (2026년에도 운영 중).',
+      'QR 화면은 캡처해 두기. 공항 와이파이가 느릴 때를 대비해요.',
+      '종이 신고서도 아직 쓸 수 있어요.'
+    ] } ] },
+    { icon: '🎫', title: '교통 · 도쿄 서브웨이 티켓 48시간', body: [ { pass: true }, { ul: [
+      '**도쿄메트로 + 도에이 지하철 전 노선 무제한.** 이 일정의 아사쿠사선·신주쿠선·히비야선·긴자선·한조몬선이 모두 포함돼요.',
+      '첫 개찰부터 48시간. Day 1 오후(13:30경) 긴시초 갈 때 개시하면 Day 3 아침 츠키지 왕복까지 들어와요.',
+      '**패스가 안 되는 것:** JR(소부선 쾌속 등)과 공항 열차 게이세이 액세스 특급. 일정 카드에 「별도」로 표시해 뒀어요.',
+      '공항 ↔ 숙소 액세스 특급은 IC카드나 승차권(1,380엔)으로 타는 게 간단해요.',
+      '48시간권 가격 1,200엔 · 나리타공항에서 구입 가능 {?}',
+      'JR·공항 열차용으로 Welcome Suica(나리타공항역 발매기, 28일) 같은 IC카드 하나는 있으면 편해요.'
+    ] } ] },
+    { icon: '🧳', title: '짐 싸기 (위탁 1인 15kg · 1개)', body: [ { ul: [
+      '**위탁 수하물은 1인 15kg · 1개.** 보조가방을 따로 부치면 2개째가 돼서 추가 요금이 붙어요 {?}',
+      '기저귀는 가볍지만 부피가 커요. 큰 캐리어를 가져가거나 두 사람 캐리어에 나눠 담기. 접이식 가방은 캐리어 안에 넣어 가서 현지 정리용으로.',
+      '**액체류(로션·세제·물티슈 리필)는 위탁 캐리어에.** 기내에는 100ml 이하 용기만.',
+      '면세 밀봉 봉투는 뜯지 말고 그대로.',
+      '체크아웃 전에 무게 확인. 휴대용 저울이 있으면 편해요.'
+    ] } ] },
+    { icon: '🌂', title: '10월 도쿄 날씨', body: [
+      '평균 최고 22.0°C · 최저 14.8°C (기상청 평년값). 10월은 비가 가장 많은 달(평년 234.8mm)이고 태풍이 올 수 있어요. 접이식 우산과 얇은 겉옷을 챙기세요.'
+    ] },
+    { icon: '🚕', title: '택시·막차', body: [ { ul: [
+      '도쿄 택시 요금(2026-04-20 개정): 첫 1.0km 500엔, 이후 232m마다 100엔. **22:00~05:00는 20% 할증.**',
+      'GO 앱은 해외 전화번호·해외 카드로 가입할 수 있고, 우버도 일반 택시를 미터 요금으로 불러요.',
+      '막차는 대부분 자정 전후예요. 술자리 중에는 맨 위 상단 바에 막차까지 남은 시간이 떠요.',
+      '숙소 주소를 일본어로 크게 보여주려면 위쪽 숙소 카드의 「택시 기사에게 주소 보여주기」를 누르세요.'
+    ] } ] },
+    { icon: '🆘', title: '비상 연락처', body: [ { contacts: [
+      { name: '숙소 APA 호텔', num: '0570-040-811', tel: '0570040811', note: '내비다이얼이라 한국 휴대폰 로밍으로는 안 걸릴 수 있어요 {?}' },
+      { name: '주일 한국대사관 긴급', num: '+81-70-2153-5454', tel: '+817021535454', note: '사건·사고 · 평일 18시 이후·휴일' },
+      { name: '대사관 영사과', num: '+81-3-3455-2601', tel: '+81334552601', note: '평일 09:00–17:00 (12:00–13:30 점심)' },
+      { name: '외교부 영사콜센터', num: '+82-2-3210-0404', tel: '+82232100404', note: '서울 · 유료' },
+      { name: 'JNTO 방일 외국인 핫라인', num: '050-3816-2787', tel: '05038162787', note: '24시간 · 한국어 가능' },
+      { name: '경찰', num: '110', tel: '110', note: '일본 경찰' },
+      { name: '구급차·소방', num: '119', tel: '119', note: '구급·화재' }
+    ] },
+      '대사관: 東京都港区南麻布1-2-5 · 영사과: 東京都港区南麻布1-7-32'
+    ] }
+  ],
+
+  /* ===================== 실시간 위치 · 주변 추천 ===================== */
+  /* 지역 중심 좌표(위도, 경도)와 그 지역에서 꼭 챙길 것 */
+  areas: {
+    icn:        { ll: [37.4602, 126.4407], todo: ['여권 실물 · Visit Japan Web QR 캡처', '엔화·트래블카드 확인', '보조배터리는 기내 가방으로'] },
+    nrt:        { ll: [35.7720, 140.3929], todo: ['에어서울은 제1터미널 남쪽 윙', '도착하면 지하 「나리타공항역」에서 액세스 특급', '출국 때 면세 봉투는 뜯지 않기 · 남은 엔화는 면세점에서'] },
+    hotel:      { ll: [35.6928, 139.7838], todo: ['짐 맡기기·찾기는 프런트에서', '체크아웃 10:00 {?}', '술 마시고 귀가할 땐 택시 카드 보여주기'] },
+    kinshicho:  { ll: [35.6975, 139.8140], todo: ['아카짱혼포 5층 · 유니클로 4층 · GU 6층 (아르카킷)', '면세는 같은 가게 하루 5,000엔 이상 · 여권 실물', '부피 큰 기저귀·물티슈는 오늘 사서 숙소로'] },
+    asakusa:    { ll: [35.7110, 139.7960], todo: ['가미야 바 20:00 마감 (L.O. 19:30)', '쇼짱 니코미는 품절 전에', '막차 00:08 아사쿠사 → 히가시니혼바시 {?}'] },
+    ueno:       { ll: [35.7100, 139.7745], todo: ['분라쿠는 일요일 음식 주문 19:00까지', '니쿠노 오야마 일요일 음식 L.O. 21:00', '막차 00:01 우에노 → 고덴마초 {?}'] },
+    nihonbashi: { ll: [35.6850, 139.7737], todo: ['미쓰코시 본점 10:00 개점 · 본관 7층 미키하우스', '다카시마야는 10:30 개점'] },
+    ningyocho:  { ll: [35.6862, 139.7826], todo: ['일요일엔 문 닫는 집이 많아요 (사사신 휴무)', '숙소까지 약 1km, 걸어서 귀가 가능'] },
+    ginza:      { ll: [35.6717, 139.7650], todo: ['보행자 천국 토·일 12:00–17:00', '긴자 미쓰코시 신관 10층: 패밀리아·미키하우스', 'B네 출산 선물은 포장 요청', '마쓰야 긴자 일요일 19:30 마감'] },
+    tsukiji:    { ll: [35.6655, 139.7705], todo: ['06:00–09:00은 업자 우선 시간, 통로 비켜 다니기', '07:40엔 일어서기 (08:26 공항 열차)', '일요일·공휴일은 휴시'] },
+    shinjuku:   { ll: [35.6935, 139.7010], todo: ['골든가이 바는 자릿세가 있어요', '막차 00:00 신주쿠 → 바쿠로요코야마 {?}'] }
+  },
+  /* 장소별 지역·좌표(대략, 거리 계산용): [지역, 위도, 경도] */
+  geo: {
+    hotel: ['hotel', 35.6928, 139.7838], monju: ['hotel', 35.6921, 139.7829],
+    arcakit_food: ['kinshicho', 35.6979, 139.8135], akachan: ['kinshicho', 35.6979, 139.8135], uq_arcakit: ['kinshicho', 35.6979, 139.8135],
+    nishimatsuya: ['kinshicho', 35.6960, 139.8160], nonki: ['kinshicho', 35.6984, 139.8163], bariki: ['kinshicho', 35.6950, 139.8142],
+    kamiya: ['asakusa', 35.7110, 139.7975], okamoto: ['asakusa', 35.7136, 139.7934], shochan: ['asakusa', 35.7138, 139.7937], sensoji: ['asakusa', 35.7148, 139.7967],
+    bunraku: ['ueno', 35.7104, 139.7749], ohyama: ['ueno', 35.7088, 139.7741], daitoryo: ['ueno', 35.7097, 139.7745], uokusa: ['ueno', 35.7092, 139.7748],
+    nmitsukoshi: ['nihonbashi', 35.6857, 139.7735], takashimaya: ['nihonbashi', 35.6810, 139.7740],
+    sasashin: ['ningyocho', 35.6866, 139.7838], daiana: ['ningyocho', 35.6852, 139.7820], tamahide: ['ningyocho', 35.6860, 139.7826],
+    uq_ginza: ['ginza', 35.6697, 139.7636], gu_ginza: ['ginza', 35.6711, 139.7649], gmitsukoshi: ['ginza', 35.6714, 139.7660], matsuya: ['ginza', 35.6726, 139.7667],
+    uq_tokyo: ['ginza', 35.6745, 139.7665], gu_marronnier: ['ginza', 35.6745, 139.7665], bairin: ['ginza', 35.6690, 139.7621], kagari: ['ginza', 35.6705, 139.7627],
+    komatsuan: ['ginza', 35.6711, 139.7646], lion: ['ginza', 35.6692, 139.7632], tonton: ['ginza', 35.6745, 139.7613],
+    tsukiji: ['tsukiji', 35.6655, 139.7705], zanmai: ['tsukiji', 35.6655, 139.7710],
+    ucchan: ['shinjuku', 35.6930, 139.6996], horaiya: ['shinjuku', 35.6929, 139.6997], tsukini: ['shinjuku', 35.6941, 139.7045],
+    nrt: ['nrt', 35.7720, 140.3929], icn: ['icn', 37.4602, 126.4407]
+  },
+  /* 미리 저장해 둔 주변 추천 (일정에 없어도 들르기 좋은 곳) */
+  extras: {
+    nakamise:   { name: '나카미세 거리', e: '🏮', ja: '仲見世通り', q: '仲見世通り 浅草', area: 'asakusa', ll: [35.7123, 139.7963], when: ['morning', 'day'], desc: '센소지 앞 참배길 상점가. 닌교야키·센베이 군것질하며 걷기 좋아요.' },
+    ameyoko:    { name: '아메요코 상점가', e: '🛒', ja: 'アメ横商店街', q: 'アメ横商店街', area: 'ueno', ll: [35.7097, 139.7745], when: ['day', 'night'], desc: '고가 밑 시장 거리. 과일 꼬치·해산물·잡화 구경하며 1차로 가는 길.' },
+    wako:       { name: '긴자 와코 시계탑', e: '🕰️', ja: '銀座 和光', q: '銀座 和光', area: 'ginza', ll: [35.6717, 139.7652], when: ['day', 'night'], desc: '긴자 4초메 교차로의 상징. 보행자 천국 기념사진 포인트.' },
+    namiyoke:   { name: '나미요케 신사', e: '⛩️', ja: '波除神社', q: '波除神社 築地', area: 'tsukiji', ll: [35.6646, 139.7712], when: ['morning', 'day'], desc: '장외시장 바로 옆 작은 신사. 아침 산책 겸 잠깐 들르기 좋아요.' },
+    nbbridge:   { name: '니혼바시 다리', e: '🌉', ja: '日本橋', q: '日本橋 橋', area: 'nihonbashi', ll: [35.6840, 139.7745], when: ['morning', 'day', 'night'], desc: '일본 도로의 기점이 되는 다리. 미쓰코시 가는 길에 건너요.' },
+    kinshipark: { name: '긴시 공원', e: '🌳', ja: '錦糸公園', q: '錦糸公園', area: 'kinshicho', ll: [35.6990, 139.8130], when: ['day'], desc: '아르카킷 바로 옆 공원. 쇼핑하다 잠깐 쉬어 가기 좋아요.' }
+  },
+  /* 품목 상세 팝업에 뜨는 팁 */
+  itemTips: {
+    '기저귀 L (팬티형)': '메리즈·무니 팬티 L은 9–14kg이라 11kg이면 딱 맞아요. 곧 빅(12kg~) 사이즈로 넘어가요.',
+    '기저귀 S (테이프형)': '테이프 S는 4–8kg. 신생아용(~5kg)은 금방 작아져서 S를 넉넉히 사는 집이 많아요.',
+    '젖병 + 젖꼭지 SS': '피죤 母乳実感 젖꼭지는 SS가 0개월부터예요. 젖병은 160ml가 신생아용으로 무난해요.',
+    '첫걸음 신발': '아이 발 길이에 0.5~1cm 여유를 둔 사이즈. 아이가 같이 안 가니까 발 길이를 재서 메모해 가세요.',
+    '短肌着·コンビ肌着 세트': '일본식 신생아 내의. 短肌着(짧은 내의) 위에 コンビ肌着(다리 여밈 내의)를 겹쳐 입혀요.',
+    '투웨이올 (2WAY 우주복)': '단추 위치를 바꿔 드레스형↔바지형으로 쓰는 일본 우주복. 50–70 하나로 오래 입어요.',
+    '빨대컵': '리치엘·피죤 빨대컵이 인기. 교체용 빨대도 같이 챙기기.',
+    '아기 보습 로션': '액체라 위탁 가방에. 100ml 넘는 용기는 기내 반입 불가.',
+    '패밀리아 출산 선물 세트': '패밀리아는 일본에서 출산 선물로 많이 사는 브랜드예요. 선물용이라고 하면 포장해 줘요.',
+    '미키하우스 출산 선물': '선물용이라고 하면 포장해 줘요.'
+  },
+
+  fx: { rate: 950, quick: [1000, 3000, 5000, 10000, 30000], table: [500, 1000, 3000, 5000, 10000, 20000, 50000],
+        note: '기본 환율 950원은 예시 값이에요. 그날 환율로 바꿔 쓰세요.' },
+
+  footer: [
+    '2026-10-02 기준으로 공식 사이트·예약 사이트에서 확인한 정보예요. 영업시간과 가격은 바뀔 수 있어요.',
+    '「확인 필요」 배지는 출처끼리 다르거나 끝까지 확인하지 못한 값이에요. 바로 위 목록에 모아 두었어요.'
+  ]
+};
+</script>
+<script>
+(function(){
+'use strict';
+const D = TRIP, P = D.places, L = D.lines, N = D.nodes;
+Object.entries(D.areas || {}).forEach(([id, a]) => { if (N[id]) Object.assign(N[id], a); });
+Object.entries(D.geo || {}).forEach(([id, g]) => { if (P[id]){ P[id].area = g[0]; P[id].ll = [g[1], g[2]]; } });
+Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ sight:true }, x); });
+const root = document.documentElement;
+const NS = 'tokyoquest:';
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(NS + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(NS + k, JSON.stringify(v)); }catch(e){} }
+};
+const reduceMQ = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches:false };
+const reduce = reduceMQ.matches;
+const anim = !reduce && 'IntersectionObserver' in window;
+if (anim) root.classList.add('anim');
+const wideMQ = matchMedia('(min-width: 900px)');
+
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const EXT = 'target="_blank" rel="noopener noreferrer"';
+const mapsUrl = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+const dirUrl = q => 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(q) + '&travelmode=transit';
+
+const S = 'fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+const ICON = {
+  pin:   `<svg viewBox="0 0 24 24" ${S}><path d="M12 21.5s7-6.1 7-11.8a7 7 0 1 0-14 0c0 5.7 7 11.8 7 11.8z"/><circle cx="12" cy="9.7" r="2.4"/></svg>`,
+  route: `<svg viewBox="0 0 24 24" ${S}><circle cx="6" cy="19" r="2.3"/><circle cx="18" cy="5" r="2.3"/><path d="M8.3 19H16a3.5 3.5 0 0 0 0-7H8a3.5 3.5 0 0 1 0-7h7.7"/></svg>`,
+  ext:   `<svg viewBox="0 0 24 24" ${S}><path d="M14 4h6v6M20 4l-8.5 8.5M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>`,
+  copy:  `<svg viewBox="0 0 24 24" ${S}><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>`,
+  sun:   `<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>`,
+  moon:  `<svg viewBox="0 0 24 24" ${S}><path d="M20 14.6A8 8 0 1 1 9.4 4a6.4 6.4 0 0 0 10.6 10.6z"/></svg>`,
+  auto:  `<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></svg>`,
+  chev:  `<svg viewBox="0 0 24 24" ${S}><path d="m6 9 6 6 6-6"/></svg>`,
+  prev:  `<svg viewBox="0 0 24 24" ${S}><path d="m15 5-7 7 7 7"/></svg>`,
+  next:  `<svg viewBox="0 0 24 24" ${S}><path d="m9 5 7 7-7 7"/></svg>`,
+  zoom:  `<svg viewBox="0 0 24 24" ${S}><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>`,
+  follow:`<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>`,
+  clock: `<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>`
+};
+const TAGS = { drink:['🍺','술'], food:['🍜','식사'], baby:['👶','아기 쇼핑'], gu:['👕','GU·유니클로'], move:['🚃','이동'] };
+
+/* ---------- "확인 필요" 수집 ---------- */
+const NEED = '<span class="need">확인 필요</span>';
+const needs = new Map();
+function rich(s, where){
+  if (s == null || s === '') return '';
+  let h = esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  if (h.indexOf('{?}') > -1){
+    const plain = String(s).replace(/\s*\{\?\}/g, '').replace(/\*\*/g, '');
+    if (where){ const n = needs.get(plain); if (n){ if (!n.where.includes(where)) n.where.push(where); } else needs.set(plain, { where:[where], text:plain }); }
+    h = h.replace(/\s*\{\?\}/g, ' ' + NEED);
+  }
+  return h;
+}
+const tagChips = a => (a || []).map(t => `<span class="tag k-${t}"><span aria-hidden="true">${TAGS[t][0]}</span>${TAGS[t][1]}</span>`).join('');
+function lineChip(id, compact){
+  const l = L[id]; if (!l) return '';
+  const sym = l.emo ? `<span class="ln__emo" aria-hidden="true">${l.emo}</span>`
+                    : `<span class="ln__sym${l.sq ? ' ln__sym--sq' : ''}" style="--c:${l.color}" aria-hidden="true">${esc(l.sym)}</span>`;
+  const ps = l.pass === true ? '<span class="lnpass lnpass--ok" title="도쿄 서브웨이 티켓으로 탈 수 있어요">패스</span>' : (l.pass === false ? '<span class="lnpass lnpass--no" title="패스 안 됨 · 요금 별도">별도</span>' : '');
+  return `<span class="ln">${sym}${compact ? `<span class="sr">${esc(l.name)}</span>` : esc(l.name)}${ps}</span>`;
+}
+const moveHTML = (legs, w) => `<div class="move">${legs.map(m => `<p class="move__leg">${lineChip(m.line)}<span>${rich(m.text, w)}</span>${m.dur ? `<span class="move__dur">${rich(m.dur, w)}</span>` : ''}</p>`).join('')}</div>`;
+function linksHTML(p, label){
+  if (!p || !p.q) return '';
+  let h = `<a class="gbtn gbtn--go" href="${esc(mapsUrl(p.q))}" ${EXT} aria-label="${esc(label)} 구글 지도 열기 (새 탭)">${ICON.pin}지도</a>`
+        + `<a class="gbtn" href="${esc(dirUrl(p.q))}" ${EXT} aria-label="${esc(label)} 대중교통 길찾기 (새 탭)">${ICON.route}길찾기</a>`;
+  if (p.url) h += `<a class="gbtn" href="${esc(p.url)}" ${EXT} aria-label="${esc(label)} 공식 사이트 (새 탭)">${ICON.ext}공식</a>`;
+  return `<div class="links">${h}</div>`;
+}
+const factsHTML = (rows, w) => rows.length ? `<dl class="facts">${rows.map(r => `<dt>${r[0]}</dt><dd>${rich(r[1], w)}</dd>`).join('')}</dl>` : '';
+function placeFacts(p){
+  const r = [];
+  if (!p) return r;
+  if (p.hours) r.push(['영업', p.hours]);
+  if (p.closed) r.push(['휴무', p.closed]);
+  if (p.loc) r.push(['위치', p.loc]);
+  if (p.price) r.push(['예산', p.price]);
+  if (p.pay) r.push(['결제', p.pay]);
+  return r;
+}
+const DAYCOLS = [['sat', '10/3', '土'], ['sun', '10/4', '日'], ['mon', '10/5', '月']];
+function openDays(o){
+  if (!o) return '';
+  return `<div class="d3s">${DAYCOLS.map(([k, md, dw]) => {
+    const v = o[k], cls = v === 1 ? 'o' : v === 0 ? 'x' : 'q', t = v === 1 ? '영업' : v === 0 ? '휴무' : '확인 필요';
+    return `<span class="d3 d3--${cls}"><span lang="ja">${dw}</span>${md} ${t}</span>`;
+  }).join('')}</div>`;
+}
+
+/* ---------- 시간 (일본 시간, 새벽 4시 전은 전날 밤으로 계산) ---------- */
+const fmtJST = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Tokyo', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
+function addDay(date, n){ const a = date.split('-').map(Number); return new Date(Date.UTC(a[0], a[1]-1, a[2] + n)).toISOString().slice(0, 10); }
+function jst(){
+  const o = {}; fmtJST.formatToParts(new Date()).forEach(p => { o[p.type] = p.value; });
+  const date = `${o.year}-${o.month}-${o.day}`, min = (+o.hour % 24) * 60 + (+o.minute);
+  return min < 240 ? { date: addDay(date, -1), min: min + 1440 } : { date, min };
+}
+function dayDiff(a, b){ const x = a.split('-').map(Number), y = b.split('-').map(Number); return Math.round((Date.UTC(y[0], y[1]-1, y[2]) - Date.UTC(x[0], x[1]-1, x[2])) / 864e5); }
+const toMin = t => { const a = t.split(':').map(Number); return a[0] * 60 + a[1]; };
+function hm(ms){ if (ms <= 0) return '0분'; const m = Math.floor(ms / 6e4), d = Math.floor(m / 1440); return d >= 2 ? `${d}일 ${Math.floor((m % 1440) / 60)}시간` : `${Math.floor(m / 60)}시간 ${String(m % 60).padStart(2, '0')}분`; }
+
+/* ---------- 아이템 헬퍼 ---------- */
+const plc = it => it.place ? P[it.place] : null;
+const itName = it => it.title || (plc(it) && plc(it).name) || '';
+const itShort = it => it.short || (plc(it) && plc(it).short) || itName(it);
+const itEmo = it => it.e || (plc(it) && plc(it).e) || '📍';
+const itJa = it => it.ja != null ? it.ja : (plc(it) ? plc(it).ja : '');
+const itKind = it => it.save ? 'save' : it.tags[0];
+const itLink = it => plc(it) || (it.q ? { q: it.q, url: it.url } : null);
+function dayStatus(di){
+  const day = D.days[di], n = jst(), items = day.items;
+  const res = { now:-1, next:-1, past:new Set(), today: n.date === day.date };
+  if (n.date > day.date){ items.forEach((_, k) => res.past.add(k)); return res; }
+  if (!res.today) return res;
+  items.forEach((it, k) => {
+    const s = toMin(it.t), e = it.end ? toMin(it.end) : (items[k+1] ? toMin(items[k+1].t) : s + 120);
+    if (n.min >= e) res.past.add(k);
+    if (n.min >= s && n.min < e) res.now = k;
+    if (res.next < 0 && s > n.min) res.next = k;
+  });
+  return res;
+}
+const todayIdx = () => D.days.findIndex(d => d.date === jst().date);
+
+/* ================================================================
+   지도
+   ================================================================ */
+const WW = 360, WH = 460;
+const frame = $('#mapframe'), camEl = $('#mapcam'), bgImg = $('#mapbg'), fg = $('#mapfg');
+const tok = n => getComputedStyle(root).getPropertyValue(n).trim();
+function rng(seed){ return function(){ seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const RIVER = [[252,0],[244,40],[234,80],[224,112],[208,142],[200,172],[199,204],[195,242],[185,280],[169,316],[150,350],[134,388],[121,424],[112,460]];
+const KANDA = [[0,122],[60,118],[118,146],[160,160],[200,168]];
+const BAY = [[0,440],[60,430],[110,437],[150,425],[210,405],[280,386],[360,376]];
+const smooth = pts => { let d = `M${pts[0][0]} ${pts[0][1]}`; for (let i = 1; i < pts.length - 1; i++){ const [x, y] = pts[i], [nx, ny] = pts[i+1]; d += ` Q${x} ${y} ${(x+nx)/2} ${(y+ny)/2}`; } const l = pts[pts.length-1]; return d + ` L${l[0]} ${l[1]}`; };
+function distSeg(px, py, ax, ay, bx, by){ const dx = bx-ax, dy = by-ay, t = clamp(((px-ax)*dx + (py-ay)*dy) / (dx*dx + dy*dy), 0, 1); return Math.hypot(px - ax - t*dx, py - ay - t*dy); }
+const nearLine = (pts, x, y, m) => pts.some((p, i) => i > 0 && distSeg(x, y, pts[i-1][0], pts[i-1][1], p[0], p[1]) < m);
+function bayY(x){ for (let i = 1; i < BAY.length; i++){ if (x <= BAY[i][0]){ const [ax, ay] = BAY[i-1], [bx, by] = BAY[i]; return ay + (by-ay) * (x-ax) / (bx-ax); } } return BAY[BAY.length-1][1]; }
+const PARKS = [{ x:12, y:194, w:64, h:80 }, { cx:92, cy:40, rx:34, ry:22 }, { cx:154, cy:414, rx:22, ry:11 }];
+const inPark = (x, y) => PARKS.some(p => p.w ? (x > p.x - 4 && x < p.x + p.w + 4 && y > p.y - 4 && y < p.y + p.h + 4) : (((x-p.cx)/(p.rx+4))**2 + ((y-p.cy)/(p.ry+4))**2 < 1));
+const RAILS = [
+  ['--line-jr',       [[140,0],[124,76],[122,150],[110,238],[92,300],[80,360],[68,460]]],
+  ['--line-sobu',     [[110,238],[170,184],[230,168],[296,150],[360,140]]],
+  ['--line-asakusa',  [[222,76],[205,140],[178,190],[174,240],[128,234],[116,282],[104,330],[84,380],[70,460]]],
+  ['--line-keisei',   [[222,76],[286,66],[360,98]]],
+  ['--line-hibiya',   [[124,76],[122,150],[152,196],[174,240],[160,272],[146,304],[130,350],[104,330],[94,312]]],
+  ['--line-shinjuku', [[0,140],[60,160],[124,170],[176,186]]]
+];
+function buildBg(){
+  const c = tok, dark = tok('--window-op') === '1', R = rng(20261003);
+  let blocks = '', wins = '';
+  for (let gy = 6; gy < WH; gy += 19) for (let gx = 4; gx < WW; gx += 21){
+    const x = gx + R()*4 - 2, y = gy + R()*4 - 2, w = 12 + R()*6, h = 9 + R()*5, cx = x + w/2, cy = y + h/2;
+    const skip = R() < 0.1;
+    if (skip || nearLine(RIVER, cx, cy, 15) || nearLine(KANDA, cx, cy, 8) || cy > bayY(cx) - 7 || inPark(cx, cy) || Object.values(N).some(n => !n.sky && Math.hypot(n.x - cx, n.y - cy) < 23)) continue;
+    blocks += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="2.6"/>`;
+    if (dark){ const k = 1 + (R()*3 | 0); for (let i = 0; i < k; i++) wins += `<rect x="${(x + 2 + R()*(w-5)).toFixed(1)}" y="${(y + 2 + R()*(h-5)).toFixed(1)}" width="1.9" height="1.9" opacity="${(0.4 + R()*0.6).toFixed(2)}"/>`; }
+  }
+  const rails = RAILS.map(([t, pts]) => `<path d="${smooth(pts)}" stroke="${c(t)}"/>`).join('');
+  const parks = `<rect x="12" y="194" width="64" height="80" rx="14"/><ellipse cx="92" cy="40" rx="34" ry="22"/><ellipse cx="154" cy="414" rx="22" ry="11"/>`;
+  const trees = Array.from({ length: 22 }, (_, i) => { const p = i < 12 ? [20 + (i % 4) * 15 + R()*5, 204 + Math.floor(i / 4) * 22 + R()*6] : [66 + (i % 6) * 9 + R()*4, 26 + Math.floor((i-12) / 6) * 14 + R()*4]; return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${(3 + R()*2).toFixed(1)}"/>`; }).join('');
+  const bridges = [[234,80],[201,168],[199,214],[190,270]].map(([x, y]) => `<rect x="${x-13}" y="${y-2.5}" width="26" height="5" rx="2"/>`).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WW} ${WH}" width="${WW*2}" height="${WH*2}">
+<rect width="${WW}" height="${WH}" fill="${c('--land')}"/>
+<g fill="${c('--park')}">${parks}</g>
+<g fill="${c('--park')}" stroke="${c('--block-edge')}" stroke-width=".6">${trees}</g>
+<path d="${smooth(BAY)} L360 460 L0 460 Z" fill="${c('--water')}" stroke="${c('--water-edge')}" stroke-width="2"/>
+<path d="${smooth(KANDA)}" fill="none" stroke="${c('--water')}" stroke-width="7" stroke-linecap="round"/>
+<path d="${smooth(RIVER)}" fill="none" stroke="${c('--water-edge')}" stroke-width="20" stroke-linecap="round"/>
+<path d="${smooth(RIVER)}" fill="none" stroke="${c('--water')}" stroke-width="16" stroke-linecap="round"/>
+<g fill="${c('--block')}" stroke="${c('--block-edge')}" stroke-width=".8">${blocks}${bridges}</g>
+<g fill="${c('--window')}">${wins}</g>
+<g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" opacity="${dark ? 0.6 : 0.55}">${rails}</g>
+<g stroke="${c('--tower')}" stroke-width="2.4" stroke-linecap="round" fill="${c('--tower')}"><path d="M286 14 L286 66 M281 66 L291 66"/><circle cx="286" cy="30" r="3.2"/><circle cx="286" cy="40" r="2.2"/></g>
+<g font-family="serif" font-size="10" fill="${c('--muted')}"><text x="232" y="128" transform="rotate(-62 232 128)">隅田川</text><text x="30" y="238">皇居</text><text x="282" y="430">東京湾</text><text x="262" y="10" font-size="7">SKYTREE</text></g>
+</svg>`;
+  bgImg.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+/* --- 경로·노드·아바타 --- */
+let legs = [], legOf = [], heroesEl = null, flipEl = null, heroPos = { x:0, y:0 }, walkRaf = 0, zoomAll = false;
+function legD(a, b, fly){
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2, dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+  const k = fly ? 48 : clamp(len * 0.2, 10, 40);
+  return `M${a.x} ${a.y} Q${(mx - dy/len*k).toFixed(1)} ${(my + dx/len*k).toFixed(1)} ${b.x} ${b.y}`;
+}
+function heroSVG(id, dx){
+  const bags = [0,1,2].map(i => `<rect class="bag bag-${i}" data-crew="${id}" x="${id === 'a' ? -12.5 - i*3.6 : 8.2 + i*3.6}" y="${-12.5 + i*0.6}" width="4.6" height="6" rx="1.2"/>`).join('');
+  const hat = id === 'a' ? `<path class="hat-a" d="M-6.5 -22.2a6.5 6.5 0 0 1 13 0z"/><circle class="hat-a" cx="0" cy="-28.9" r="1.9"/>`
+                         : `<path class="hat-b" d="M-6.5 -22.2a6.5 6.5 0 0 1 13 0h3.4v1.7h-16.4z"/>`;
+  const mx = id === 'a' ? 5.6 : -9.8;
+  return `<g transform="translate(${dx},0)"><g class="bobber">${bags}
+    <rect class="leg legl" x="-3.7" y="-7.2" width="3.3" height="7.2" rx="1.5"/><rect class="leg legr" x=".4" y="-7.2" width="3.3" height="7.2" rx="1.5"/>
+    <rect class="body-${id}" x="-6.2" y="-16.6" width="12.4" height="10.6" rx="4.2"/>
+    <circle class="skin" cx="0" cy="-21.6" r="6.3"/>${hat}
+    <circle class="eye" cx="-2.2" cy="-20.6" r=".95"/><circle class="eye" cx="2.2" cy="-20.6" r=".95"/><path class="smile" d="M-1.7 -18.1q1.7 1.4 3.4 0"/>
+    <g class="mug"><rect x="${mx}" y="-14.6" width="4.4" height="5.4" rx=".9"/><rect class="foam" x="${mx}" y="-15.6" width="4.4" height="1.8" rx=".9"/></g>
+  </g></g>`;
+}
+const HEROES = `<g class="guide" id="guide" style="display:none" aria-hidden="true"><line/><circle r="20"/></g><g id="heroes" class="heroes" aria-hidden="true">
+  <ellipse class="h-shadow" cx="0" cy="1.2" rx="17" ry="3.6"/>
+  <g class="h-flip"><g class="crew">${heroSVG('a', -8)}${heroSVG('b', 8)}</g><text class="plane" x="0" y="-6" text-anchor="middle">✈️</text></g>
+  <g class="h-tags"><text x="-8" y="-33">A</text><text x="8" y="-33">B</text></g>
+</g>`;
+function buildFg(di){
+  const day = D.days[di];
+  legs = []; legOf = [];
+  let prev = day.start; const seq = new Set([prev]);
+  day.items.forEach((it, k) => { if (it.node !== prev){ legs.push({ a:prev, b:it.node, fly: prev === 'icn' || it.node === 'icn' }); legOf[k] = legs.length - 1; seq.add(it.node); prev = it.node; } });
+  let h = '<g class="route" id="route">';
+  legs.forEach((l, i) => { const d = legD(N[l.a], N[l.b], l.fly); h += `<path class="leg-trail" pathLength="1" d="${d}" style="transition-delay:${(i*0.16).toFixed(2)}s"/><path class="leg-dots${l.fly ? ' leg--fly' : ''}" id="leg-${i}" d="${d}" style="transition-delay:${(i*0.16 + 0.25).toFixed(2)}s"/>`; });
+  h += '</g><g class="nodes">';
+  Object.entries(N).forEach(([id, n]) => {
+    if (n.sky) return;
+    const lbl = n.label || n.name, inRoute = seq.has(id), w = lbl.length * 10.5 + 14;
+    const lx = clamp(n.x, w/2 + 3, WW - w/2 - 3) - n.x;
+    const cnt = day.items.filter(it => it.node === id).length;
+    const label = `${n.name} ${n.ja}${cnt ? `, 퀘스트 ${cnt}개` : (n.bars ? ', 주점 던전 보기' : '')}`;
+    h += `<g class="node${inRoute ? ' is-route' : ' is-dim'}${n.base ? ' is-base' : ''}" data-node="${id}" transform="translate(${n.x},${n.y})" tabindex="0" role="button" aria-label="${esc(label)}">
+      <circle class="node__halo" r="17"/><circle class="node__shadow" cy="3" r="15"/><circle class="node__disk" r="15"/>
+      <text class="node__emo" y="1">${n.e}</text>
+      <g class="node__ok" transform="translate(11,-11)"><circle r="6"/><path d="M-2.6 0l1.8 1.8 3.4-3.6"/></g>
+      <g class="node__lbl" transform="translate(${lx.toFixed(1)},28)"><rect x="${-w/2}" y="-8.5" width="${w}" height="17" rx="8.5"/><text y=".5">${esc(lbl)}</text></g>
+    </g>`;
+  });
+  h += '</g>' + HEROES;
+  fg.innerHTML = h;
+  legs.forEach((l, i) => { l.el = $('#leg-' + i, fg); l.len = l.el.getTotalLength(); });
+  heroesEl = $('#heroes', fg); flipEl = $('.h-flip', heroesEl);
+  updateBags();
+  const route = $('#route', fg);
+  if (anim) requestAnimationFrame(() => requestAnimationFrame(() => route.classList.add('drawn'))); else route.classList.add('drawn');
+}
+function setHero(x, y){ heroPos = { x, y }; heroesEl.style.transform = `translate(${x.toFixed(2)}px, ${(y - 14).toFixed(2)}px) scale(1.25)`; }
+function face(dx){ if (Math.abs(dx) > 0.25) flipEl.style.transform = dx < 0 ? 'scaleX(-1)' : ''; }
+function cam(y, smoothMove){
+  const fw = frame.clientWidth, fh = frame.clientHeight, wh = fw * WH / WW;
+  let s = 1, tx = 0, ty;
+  if (wh <= fh) ty = (fh - wh) / 2;
+  else if (zoomAll){ s = fh / wh; tx = (fw - fw * s) / 2; ty = 0; }
+  else ty = clamp(fh / 2 - (y - 10) * wh / WH, fh - wh, 0);
+  camEl.style.transition = smoothMove && !reduce ? 'transform .7s cubic-bezier(.3,.7,.2,1)' : 'none';
+  camEl.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s.toFixed(4)})`;
+}
+function walk(list, done){
+  cancelAnimationFrame(walkRaf);
+  const finish = () => { heroesEl.classList.remove('walking', 'flying'); done && done(); };
+  if (!list.length) return finish();
+  if (reduce){ const l = list[list.length-1], n = N[l.rev ? l.leg.a : l.leg.b]; setHero(n.x, n.y); cam(n.y, false); return finish(); }
+  heroesEl.classList.add('walking');
+  const speed = list.length > 1 ? 1.7 : 1;
+  let i = 0, t0 = 0;
+  const step = ts => {
+    if (!t0) t0 = ts;
+    const cur = list[i], dur = clamp(420 + cur.leg.len * 3, 520, 1500) / speed, p = clamp((ts - t0) / dur, 0, 1);
+    const e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+    const pt = cur.leg.el.getPointAtLength((cur.rev ? 1 - e : e) * cur.leg.len);
+    face(pt.x - heroPos.x);
+    heroesEl.classList.toggle('flying', !!cur.leg.fly);
+    setHero(pt.x, pt.y); cam(pt.y, false);
+    if (p >= 1){ i++; t0 = 0; if (i >= list.length) return finish(); }
+    walkRaf = requestAnimationFrame(step);
+  };
+  walkRaf = requestAnimationFrame(step);
+}
+function teleport(nodeId, smoothCam){
+  cancelAnimationFrame(walkRaf);
+  const n = N[nodeId];
+  heroesEl.classList.remove('walking', 'flying', 'blink'); void heroesEl.getBoundingClientRect();
+  if (anim && smoothCam) heroesEl.classList.add('blink');
+  setHero(n.x, n.y); cam(n.y, smoothCam);
+}
+function markHere(nodeId){ $$('.node', fg).forEach(g => g.classList.toggle('is-here', g.dataset.node === nodeId)); }
+function updateBags(){
+  if (!heroesEl) return;
+  const c = invCounts();
+  ['a', 'b'].forEach(id => {
+    const n = c[id].got ? Math.min(3, Math.ceil(c[id].got / 4)) : 0;
+    $$(`.bag[data-crew="${id}"]`, heroesEl).forEach((b, i) => b.classList.toggle('on', i < n));
+  });
+}
+
+/* ================================================================
+   퀘스트 카드
+   ================================================================ */
+let cur = -1, act = -1, cards = [], qio = null, lock = false, lockT = 0, userMoved = false, playT = 0;
+const qwrap = $('#quests');
+function howHTML(it){
+  const m = it.move && it.move[0], p = plc(it);
+  if (m) return `${lineChip(m.line, true)}<span class="t">${rich(m.text)}</span>${m.dur ? `<b>${rich(m.dur)}</b>` : ''}`;
+  if (p && p.hours) return `<span aria-hidden="true">🕘</span><span class="t">${rich(p.hours)}</span>`;
+  return `<span class="t">${rich(it.memo || '')}</span>`;
+}
+function cardHTML(it, di, k){
+  const kind = itKind(it), name = itShort(it), ja = itJa(it), lp = itLink(it);
+  const kindLbl = it.save ? '💾 세이브' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
+  return `<article class="qcard k-${kind}" data-k="${k}" id="q-${di}-${k}" aria-label="${esc(it.t)} ${esc(itName(it))}">
+    <div class="qcard__top"><span class="qcard__time">${it.approx ? '~' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span><span class="qcard__kind">${kindLbl}</span></div>
+    <div class="qcard__main"><span class="qcard__emo" aria-hidden="true">${itEmo(it)}</span><div class="qcard__ttl"><h3>${esc(name)}</h3>${ja ? `<span class="ja" lang="ja">${esc(ja)}</span>` : ''}</div></div>
+    <p class="qcard__how">${howHTML(it)}</p>
+    <div class="qcard__btns">${lp && lp.q ? `<a class="gbtn gbtn--go" href="${esc(mapsUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 구글 지도 열기 (새 탭)">${ICON.pin}지도</a><a class="gbtn" href="${esc(dirUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 대중교통 길찾기 (새 탭)">${ICON.route}길</a>` : ''}<button class="gbtn" type="button" data-open="${k}" aria-label="${esc(itName(it))} 자세히 보기">자세히</button></div>
+  </article>`;
+}
+function detailHTML(it, di, k, opts){
+  opts = opts || {};
+  const p = plc(it), name = itName(it), ja = itJa(it), w = `Day ${di + 1} · ${it.t} ${itShort(it)}`;
+  const facts = (p && !it.noFacts ? placeFacts(p) : []).concat(it.facts || []);
+  let h = '';
+  if (it.memo) h += `<div class="say"><span class="say__who say__who--${k % 2 ? 'b' : 'a'}" aria-hidden="true">${k % 2 ? 'B' : 'A'}</span><p><span class="sr">아빠 ${k % 2 ? 'B' : 'A'}: </span>${rich(it.memo, w)}</p></div>`;
+  if (it.move) h += `<section class="sec"><h3>🧭 이동</h3>${moveHTML(it.move, w)}</section>`;
+  if (facts.length || (p && p.open)) h += `<section class="sec"><h3>📋 정보</h3>${factsHTML(facts, w)}${p && p.open ? openDays(p.open) : ''}</section>`;
+  if (opts.buy && p && p.shops){
+    const rows = [];
+    D.kids.forEach(kid => kidItems(kid).forEach(x => { if (p.shops.includes(x.shop)) rows.push(itemRowHTML(kid, x)); }));
+    if (rows.length) h += `<section class="sec"><h3>🎒 여기서 살 것</h3><p class="sec__sub">누르면 사이즈·팁이 나와요. 오른쪽 칸을 누르면 바로 GET.</p><div class="nlist">${rows.join('')}</div></section>`;
+  }
+  if (it.alt){
+    const ap = it.alt.place ? P[it.alt.place] : null;
+    h += `<div class="broute"><span class="broute__k" aria-hidden="true">B</span><p><b>B루트</b> · ${rich(it.alt.text, w)}${ap ? ` <a href="${esc(mapsUrl(ap.q))}" ${EXT} aria-label="B루트 ${esc(ap.name)} 구글 지도 열기 (새 탭)">지도 ↗</a>` : ''}</p></div>`;
+  }
+  if (it.last) h += `<p class="lastline">🚃 막차 <b>${esc(it.last.t)}</b> · ${esc(it.last.txt)} (토·일) ${NEED}</p>`;
+  h += linksHTML(itLink(it), name);
+  const tag = opts.titleId ? 'h2 id="sheetTitle"' : 'h4';
+  return { head: `<span class="qcard__emo k-${itKind(it)}" aria-hidden="true">${itEmo(it)}</span><div><p class="sh-time">DAY ${di + 1} · ${it.approx ? '약 ' : ''}${esc(it.t)}${it.end ? ' → ' + esc(it.end) : ''}</p><${tag}>${esc(name)}${ja ? ` <span class="ja" lang="ja">${esc(ja)}</span>` : ''}</${tag.split(' ')[0]}><div class="tags">${tagChips(it.tags)}</div></div>`, body: h };
+}
+function renderQuests(di, dir){
+  const day = D.days[di];
+  qwrap.innerHTML = day.items.map((it, k) => cardHTML(it, di, k)).join('');
+  cards = $$('.qcard', qwrap);
+  if (anim && dir){ qwrap.classList.remove('slide-l', 'slide-r'); void qwrap.offsetWidth; qwrap.classList.add(dir > 0 ? 'slide-r' : 'slide-l'); }
+  $('#events').innerHTML = (day.events || []).map(e => `<li><span aria-hidden="true">${e.e}</span><span>${rich(e.t)}</span></li>`).join('');
+  observeCards();
+}
+function observeCards(){
+  if (qio) qio.disconnect();
+  if (!('IntersectionObserver' in window)) return;
+  const vertical = wideMQ.matches;
+  qio = new IntersectionObserver(es => {
+    if (lock || !userMoved) return;
+    let best = null;
+    es.forEach(e => { if (e.isIntersecting) best = e.target; });
+    if (best) activate(+best.dataset.k);
+  }, vertical ? { root:null, rootMargin:'-45% 0px -45% 0px' } : { root:qwrap, rootMargin:'0px -45% 0px -45%' });
+  cards.forEach(c => qio.observe(c));
+}
+function scrollToCard(k, smoothScroll){
+  const c = cards[k]; if (!c) return;
+  lock = true; clearTimeout(lockT);
+  const behavior = smoothScroll && !reduce ? 'smooth' : 'auto';
+  if (wideMQ.matches){ if (smoothScroll) c.scrollIntoView({ block:'center', behavior }); }
+  else qwrap.scrollTo({ left: c.offsetLeft - (qwrap.clientWidth - c.offsetWidth) / 2, behavior });
+  lockT = setTimeout(() => { lock = false; }, smoothScroll ? 750 : 60);
+}
+function activate(j, opts){
+  opts = opts || {};
+  if (j === act || !cards[j]) return;
+  const prev = act; act = j;
+  const day = D.days[cur], it = day.items[j];
+  cards.forEach((c, k) => c.classList.toggle('is-active', k === j));
+  $('#qcount').textContent = `${j + 1}/${day.items.length}`;
+  const path = [];
+  if (prev >= 0 && opts.walk !== false){
+    if (j > prev){ for (let k = prev + 1; k <= j; k++) if (legOf[k] != null) path.push({ leg: legs[legOf[k]], rev:false }); }
+    else { for (let k = prev; k > j; k--) if (legOf[k] != null) path.push({ leg: legs[legOf[k]], rev:true }); }
+  }
+  heroesEl.classList.remove('cheers');
+  const after = () => { heroesEl.classList.toggle('cheers', it.tags.includes('drink')); markHere(it.node); };
+  if (live){ hideSky(); after(); updateGuide(); return; }
+  if (it.sky){ cancelAnimationFrame(walkRaf); setHero(N.nrt.x, N.nrt.y); cam(N.nrt.y, false); markHere(null); showSky(it.sky, prev >= 0 && j > prev && it.sky !== 'icn'); return; }
+  const fromSky = prev >= 0 && !!day.items[prev].sky;
+  hideSky();
+  if (path.length && path.length <= 3 && !fromSky) walk(path, after);
+  else { teleport(it.node, prev >= 0); after(); }
+}
+function goTo(k, smoothScroll){ if (k < 0 || k >= cards.length) return; scrollToCard(k, smoothScroll !== false); activate(k); }
+function initialIndex(di){
+  const st = dayStatus(di);
+  if (st.today) return st.now >= 0 ? st.now : (st.next >= 0 ? st.next : D.days[di].items.length - 1);
+  return 0;
+}
+function selectChapter(di, opts){
+  opts = opts || {};
+  if (di === cur && !opts.force) return;
+  const dir = cur < 0 ? 0 : (di > cur ? 1 : -1);
+  cur = di; act = -1; stopPlay();
+  $$('.ch').forEach((t, k) => { t.setAttribute('aria-selected', String(k === di)); t.tabIndex = k === di ? 0 : -1; });
+  buildFg(di); renderQuests(di, dir);
+  const k = opts.index != null ? opts.index : initialIndex(di);
+  requestAnimationFrame(() => scrollToCard(k, false));
+  activate(k, { walk:false });
+  refreshStatus();
+  showStage(di);
+}
+function showStage(di){
+  const d = D.days[di], st = $('#stage');
+  st.innerHTML = `<p class="stage__n">CHAPTER ${di + 1}</p><p class="stage__t"><span lang="ja">${d.dow}</span> ${d.md} · ${esc(d.title)}</p>`;
+  st.classList.remove('show'); void st.offsetWidth;
+  if (anim){ st.classList.add('show'); st.addEventListener('animationend', () => st.classList.remove('show'), { once:true }); }
+}
+function refreshStatus(){
+  if (cur < 0) return;
+  const st = dayStatus(cur);
+  cards.forEach((c, k) => {
+    c.classList.toggle('is-now', k === st.now);
+    c.classList.toggle('is-past', st.past.has(k) && k !== st.now);
+    $('.qcard__badge', c).textContent = k === st.now ? 'NOW' : (st.past.has(k) ? 'CLEAR' : '');
+  });
+  const items = D.days[cur].items;
+  $$('.node', fg).forEach(g => {
+    const ks = items.map((it, k) => it.node === g.dataset.node ? k : -1).filter(k => k >= 0);
+    g.classList.toggle('is-clear', ks.length > 0 && ks.every(k => st.past.has(k)));
+  });
+}
+function play(){
+  if (playT){ stopPlay(); return; }
+  const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'true'); btn.textContent = '■ 멈춤';
+  userMoved = true;
+  if (act >= cards.length - 1) goTo(0);
+  const tick = () => { if (act >= cards.length - 1){ stopPlay(); return; } playT = setTimeout(() => { goTo(act + 1); tick(); }, 1700); };
+  playT = 1; tick();
+}
+function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'false'); btn.textContent = '▶ 경로 재생'; }
+
+/* ================================================================
+   시트 (상세)
+   ================================================================ */
+const sheet = $('#sheet'), sheetPanel = $('#sheetPanel'), sheetBody = $('#sheetBody');
+let sheetFrom = null, sheetBack = null, sheetReopen = null, sheetCloseT = 0;
+function openSheet(html, back){
+  sheetBack = back || null;
+  sheetBody.innerHTML = (sheetBack ? '<button class="gbtn gbtn--sm sheet__back" type="button" data-back>← 뒤로</button>' : '') + html;
+  sheetPanel.scrollTop = 0;
+  clearTimeout(sheetCloseT);
+  if (!sheet.hidden && sheet.classList.contains('open')) return;
+  sheetFrom = document.activeElement;
+  sheet.hidden = false; sheetPanel.style.transform = '';
+  requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.add('open')));
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => $('.sheet__x', sheet).focus({ preventScroll:true }), 60);
+}
+function closeSheet(){
+  if (sheet.hidden) return;
+  sheet.classList.remove('open'); sheetPanel.style.transform = '';
+  document.body.style.overflow = '';
+  sheetCloseT = setTimeout(() => { sheet.hidden = true; }, reduce ? 0 : 340);
+  if (sheetFrom && sheetFrom.focus) sheetFrom.focus({ preventScroll:true });
+}
+function openQuest(k){
+  const qd = cur, it = D.days[qd].items[k], d = detailHTML(it, qd, k, { buy:true, titleId:true });
+  sheetReopen = () => openQuest(k);
+  openSheet(`<header class="sh-head">${d.head}</header>${d.body}`);
+}
+(function sheetGestures(){
+  let y0 = 0, dy = 0, drag = false;
+  sheetPanel.addEventListener('touchstart', e => { if (sheetPanel.scrollTop > 0) return; drag = true; y0 = e.touches[0].clientY; dy = 0; }, { passive:true });
+  sheetPanel.addEventListener('touchmove', e => { if (!drag) return; dy = Math.max(0, e.touches[0].clientY - y0); if (dy > 0){ sheetPanel.style.transition = 'none'; sheetPanel.style.transform = `translateY(${dy}px)`; } }, { passive:true });
+  sheetPanel.addEventListener('touchend', () => { if (!drag) return; drag = false; sheetPanel.style.transition = ''; if (dy > 90) closeSheet(); else sheetPanel.style.transform = ''; });
+})();
+sheet.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeSheet(); });
+
+
+/* ================================================================
+   하늘 장면 (비행) — 인천은 도쿄 지도 밖이라 따로 그려요
+   ================================================================ */
+const skyEl = $('#sky');
+let skyOn = false, skyRaf = 0;
+const skX = lon => (lon - 123.5) * 20, skY = lat => (42 - lat) * 24.7 + 40;
+const SKY_ICN = [skX(126.44), skY(37.46)], SKY_NRT = [skX(140.39), skY(35.77)];
+const SKY_LAND = [
+  [[123.5,40.3],[124.6,40.0],[126.0,41.4],[128.0,42.0],[130.0,42.0],[130.7,42.8],[123.5,42.8]],
+  [[124.6,40.0],[125.5,39.5],[125.2,38.6],[126.1,37.7],[126.6,37.0],[126.4,36.0],[126.5,35.0],[126.3,34.4],[127.5,34.6],[128.6,34.9],[129.3,35.3],[129.5,36.0],[129.4,37.0],[128.6,38.4],[127.9,39.2],[128.6,40.1],[129.7,40.9],[130.0,42.0],[128.0,42.0],[126.0,41.4]],
+  [[129.7,33.4],[130.4,33.9],[131.0,33.95],[131.9,33.0],[131.4,31.4],[130.7,31.0],[130.2,31.4],[130.2,32.2],[129.8,32.7]],
+  [[132.0,33.9],[133.0,34.2],[134.6,34.2],[134.7,33.8],[134.0,33.3],[133.0,32.8],[132.5,33.3]],
+  [[130.9,34.0],[131.5,34.6],[132.6,35.5],[133.5,35.5],[135.0,35.6],[135.9,35.8],[136.0,36.3],[136.7,37.3],[137.3,36.8],[138.5,37.8],[139.5,38.6],[139.9,40.0],[140.0,40.8],[140.9,41.5],[141.5,40.6],[142.0,39.5],[141.6,38.3],[141.0,37.7],[141.0,36.8],[140.7,35.7],[140.0,35.1],[139.8,35.3],[139.2,35.2],[138.8,34.6],[138.2,34.6],[137.0,34.6],[136.8,34.3],[136.0,33.5],[135.2,33.7],[135.1,34.6],[134.2,34.7],[133.0,34.4],[132.2,34.0],[131.0,33.9]],
+  [[140.0,41.4],[140.5,41.8],[141.2,41.8],[142.5,42.2],[144.5,42.9],[144.5,43.6],[139.8,43.6],[139.8,42.6]]
+];
+function buildSky(){
+  const pt = ([lo, la]) => `${skX(lo).toFixed(1)},${skY(la).toFixed(1)}`;
+  const [ix, iy] = SKY_ICN, [nx, ny] = SKY_NRT, mx = (ix + nx) / 2, top = Math.min(iy, ny);
+  const grid = [34, 36, 38, 40].map(la => `<line x1="0" x2="360" y1="${skY(la)}" y2="${skY(la)}"/>`).join('') + [126, 130, 134, 138].map(lo => `<line y1="0" y2="460" x1="${skX(lo)}" x2="${skX(lo)}"/>`).join('');
+  const pin = (x, y, t, dx) => { const w = t.length * 7 + 14; return `<g class="sky__pin" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="6"/><g transform="translate(${dx},22)"><rect x="${-w / 2}" y="-9" width="${w}" height="18" rx="9"/><text>${t}</text></g></g>`; };
+  skyEl.innerHTML = `<rect class="sky__sea" width="360" height="460"/><g class="sky__grid">${grid}</g>
+    ${SKY_LAND.map(p => `<polygon class="sky__land" points="${p.map(pt).join(' ')}"/>`).join('')}<ellipse class="sky__land" cx="${skX(126.55).toFixed(1)}" cy="${skY(33.38).toFixed(1)}" rx="8" ry="3.8"/>
+    <text class="sky__lbl" x="${skX(128.0)}" y="${skY(35.8)}">대한민국</text><text class="sky__lbl" x="${skX(137.3)}" y="${skY(35.9)}">일본</text>
+    <path id="skyArc" class="sky__arc" d="M${ix.toFixed(1)} ${iy.toFixed(1)} Q${mx.toFixed(1)} ${(top - 80).toFixed(1)} ${nx.toFixed(1)} ${ny.toFixed(1)}"/>
+    <g class="sky__dist" transform="translate(${mx.toFixed(1)},${(top - 46).toFixed(1)})"><rect x="-84" y="-12" width="168" height="24" rx="12"/><text>직선 약 1,260km · 2시간 30분</text></g>
+    ${pin(ix, iy, '인천 ICN', 4)}${pin(nx, ny, '나리타 NRT', -22)}
+    <g class="sky__crew" id="skyCrew"><circle cx="-6" cy="-12" r="6" fill="var(--skin)"/><path d="M-12 -12.6a6 6 0 0 1 12 0z" fill="var(--a-hat)"/><circle cx="7" cy="-12" r="6" fill="var(--skin)"/><path d="M1 -12.6a6 6 0 0 1 12 0h3v1.6H1z" fill="var(--b-hat)"/></g>
+    <g class="sky__plane" id="skyPlane"><path transform="scale(1.35) translate(-12,-12)" d="M21.5 12c0-.8-.7-1.4-1.5-1.4h-4.6L10.7 3H8.6l2.6 7.6H6.3L4.6 8.4H3.1l1 3.6-1 3.6h1.5l1.7-2.2h4.9L8.6 21h2.1l4.7-7.6H20c.8 0 1.5-.6 1.5-1.4z"/></g>`;
+}
+function placePlane(t, rev){
+  const arc = $('#skyArc', skyEl), len = arc.getTotalLength(), a = (rev ? 1 - t : t) * len;
+  const p = arc.getPointAtLength(a), p1 = arc.getPointAtLength(clamp(a - 1, 0, len)), p2 = arc.getPointAtLength(clamp(a + 1, 0, len));
+  let ang = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI; if (rev) ang += 180;
+  $('#skyPlane', skyEl).setAttribute('transform', `translate(${p.x.toFixed(1)},${p.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+}
+function showSky(kind, animate){
+  if (!skyEl.firstChild) buildSky();
+  skyOn = true; skyEl.classList.add('is-on');
+  if (heroesEl) heroesEl.style.visibility = 'hidden';
+  cancelAnimationFrame(skyRaf);
+  const crew = $('#skyCrew', skyEl);
+  const setCrew = (pt, on) => { crew.setAttribute('transform', `translate(${(pt[0] - 18).toFixed(1)},${(pt[1] - 2).toFixed(1)})`); crew.classList.toggle('off', !on); };
+  if (kind === 'icn'){ placePlane(0, false); setCrew(SKY_ICN, true); return; }
+  const rev = kind === 'back';
+  setCrew(rev ? SKY_NRT : SKY_ICN, false);
+  if (!animate || reduce){ placePlane(1, rev); if (rev) setCrew(SKY_ICN, true); return; }
+  let t0 = 0;
+  const step = ts => {
+    if (!t0) t0 = ts;
+    const p = clamp((ts - t0) / 2600, 0, 1), e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+    placePlane(e, rev);
+    if (p < 1) skyRaf = requestAnimationFrame(step); else if (rev) setCrew(SKY_ICN, true);
+  };
+  skyRaf = requestAnimationFrame(step);
+}
+function hideSky(){
+  if (!skyOn) return;
+  skyOn = false; cancelAnimationFrame(skyRaf); skyEl.classList.remove('is-on');
+  if (heroesEl) heroesEl.style.visibility = '';
+}
+
+/* ================================================================
+   실시간 위치 · 주변 탐색
+   ================================================================ */
+const LON0 = 139.7840, LAT0 = 35.6925;
+const proj = (lat, lng) => ({ x: 176 + 4000 * (lng - LON0), y: 186 - 6011 * (lat - LAT0) });
+function hav(a, b){ const R = 6371000, r = d => d * Math.PI / 180, dLa = r(b[0] - a[0]), dLo = r(b[1] - a[1]); const q = Math.sin(dLa / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(q)); }
+const fmtDist = m => m < 950 ? `${Math.round(m / 10) * 10}m` : `${(m / 1000).toFixed(m < 10000 ? 1 : 0)}km`;
+let live = false, watchId = null, fix = null, lastArea = null, nearCtx = null, lastInteract = 0, lastNowKey = null;
+function nearestArea(ll){ let id = null, d = Infinity; Object.entries(N).forEach(([k, n]) => { if (!n.ll) return; const x = hav(ll, n.ll); if (x < d){ d = x; id = k; } }); return { id, d }; }
+function startLive(){
+  if (!navigator.geolocation){ toast('이 화면에서는 위치를 쓸 수 없어요. 시간표 기준으로 보여줄게요'); return; }
+  toast('📡 위치 권한을 확인하는 중…');
+  try { watchId = navigator.geolocation.watchPosition(onFix, onFixErr, { enableHighAccuracy:true, maximumAge:15000, timeout:20000 }); }
+  catch(e){ onFixErr({ code:0 }); }
+}
+function stopLive(msg){
+  if (watchId != null){ try { navigator.geolocation.clearWatch(watchId); } catch(e){} }
+  const was = live;
+  watchId = null; live = false; fix = null; lastArea = null;
+  root.classList.remove('is-live'); updateGuide(); updateTicker();
+  if (was && cur >= 0 && act >= 0){ const k = act; act = -1; activate(k, { walk:false }); }
+  if (msg) toast(msg);
+  refreshNearbyIfOpen();
+}
+function onFix(pos){
+  const first = !live;
+  live = true; root.classList.add('is-live');
+  fix = { ll:[pos.coords.latitude, pos.coords.longitude], acc: pos.coords.accuracy || 0 };
+  const na = nearestArea(fix.ll);
+  if (na.id === 'icn') showSky('icn', false);
+  else {
+    hideSky();
+    let pt = proj(fix.ll[0], fix.ll[1]);
+    if (pt.x < -30 || pt.x > WW + 30 || pt.y < -30 || pt.y > WH + 30) pt = { x: N[na.id].x, y: N[na.id].y };
+    moveHeroTo(clamp(pt.x, 10, WW - 10), clamp(pt.y, 40, WH - 10));
+  }
+  if (first){ toast('📡 실시간 위치 ON · 아바타가 내 위치로 와요'); refreshNearbyIfOpen(); }
+  if (na.d < 800 && na.id !== lastArea){ const firstArea = lastArea === null; lastArea = na.id; if (!firstArea) arrive(na.id); }
+  updateGuide(); updateTicker();
+}
+function onFixErr(err){
+  if (live && err && err.code === 3) return;
+  stopLive(err && err.code === 1 ? '위치 권한이 꺼져 있어요. 시간표 기준으로 보여줄게요' : '위치를 못 찾았어요. 시간표 기준으로 보여줄게요');
+}
+function moveHeroTo(x, y){
+  cancelAnimationFrame(walkRaf);
+  if (!heroesEl) return;
+  const sx = heroPos.x, sy = heroPos.y, dist = Math.hypot(x - sx, y - sy);
+  if (reduce || dist < 0.5){ setHero(x, y); cam(y, false); updateGuide(); return; }
+  heroesEl.classList.add('walking');
+  const dur = clamp(300 + dist * 6, 400, 1400); let t0 = 0;
+  const step = ts => {
+    if (!t0) t0 = ts;
+    const p = clamp((ts - t0) / dur, 0, 1), e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2) / 2;
+    const nx = sx + (x - sx) * e, ny = sy + (y - sy) * e;
+    face(nx - heroPos.x); setHero(nx, ny); cam(ny, false); updateGuide();
+    if (p < 1) walkRaf = requestAnimationFrame(step); else heroesEl.classList.remove('walking');
+  };
+  walkRaf = requestAnimationFrame(step);
+}
+function updateGuide(){
+  const g = $('#guide', fg), chip = $('#guideChip');
+  if (!g) return;
+  if (!live || cur < 0 || act < 0){ g.style.display = 'none'; chip.hidden = true; return; }
+  const it = D.days[cur].items[act], n = N[it.node], ln = $('line', g), c = $('circle', g);
+  ln.setAttribute('x1', heroPos.x.toFixed(1)); ln.setAttribute('y1', (heroPos.y - 6).toFixed(1)); ln.setAttribute('x2', n.x); ln.setAttribute('y2', n.y);
+  c.setAttribute('cx', n.x); c.setAttribute('cy', n.y);
+  g.style.display = '';
+  const p = plc(it), target = (p && p.ll) || n.ll;
+  if (fix && target){ chip.hidden = false; chip.textContent = `🧭 ${itShort(it)}까지 직선 약 ${fmtDist(hav(fix.ll, target))}`; } else chip.hidden = true;
+}
+function arrive(id){
+  const n = N[id];
+  toast(`📍 ${n.name} 도착!`);
+  if (!sheet.hidden && $('#nearMark', sheetBody)) openNearby(id, `📡 GPS 기준 · ${n.name}에 도착했어요`);
+  else if (sheet.hidden && view === 'map') openNearby(id, `📡 GPS 기준 · ${n.name}에 도착했어요`);
+}
+function bucket(){ const m = jst().min % 1440; return m >= 300 && m < 660 ? 'morning' : (m >= 660 && m < 1020 ? 'day' : 'night'); }
+const itArea = it => it.sky === 'icn' ? 'icn' : it.node;
+function currentArea(){
+  if (live && fix){ const na = nearestArea(fix.ll); return { id: na.id, src: `📡 GPS 기준 · ${N[na.id].name} 중심까지 약 ${fmtDist(na.d)}${fix.acc ? ` (오차 ±${Math.round(fix.acc)}m)` : ''}` }; }
+  const di = todayIdx();
+  if (di >= 0){ const st = dayStatus(di), k = st.now >= 0 ? st.now : st.next; if (k >= 0) return { id: itArea(D.days[di].items[k]), src: '⏰ 지금 시간표 기준 위치 · 실시간 위치는 꺼져 있어요' }; }
+  if (cur >= 0 && act >= 0) return { id: itArea(D.days[cur].items[act]), src: '🗺️ 지도에서 보고 있는 퀘스트 기준' };
+  return { id:'hotel', src:'' };
+}
+function openNearby(id, src){
+  nearCtx = id ? { id, src: src || '👆 직접 고른 지역' } : currentArea();
+  sheetReopen = () => openNearby(nearCtx.id, nearCtx.src);
+  openSheet(nearbyHTML(nearCtx.id, nearCtx.src));
+}
+function refreshNearbyIfOpen(){ if (!sheet.hidden && $('#nearMark', sheetBody)){ nearCtx = currentArea(); openSheet(nearbyHTML(nearCtx.id, nearCtx.src)); } }
+function itemRowHTML(kid, x){
+  const on = !!got[x.key];
+  return `<div class="irow"><button class="nrow" type="button" data-item="${esc(x.key)}"><span class="nrow__e" aria-hidden="true">${x.e}</span><span class="nrow__t"><b>${esc(x.t)}</b><small>${esc(kid.name)} · ${esc(x.size || '')} · ${esc(shopName(x.shop))}</small></span><span class="nrow__go" aria-hidden="true">›</span></button><button class="irow__ck" type="button" data-got="${esc(x.key)}" aria-pressed="${on}" aria-label="${esc(x.t)} 획득 표시">${ICON.check}</button></div>`;
+}
+function nearbyHTML(id, src){
+  const n = N[id], tdi = todayIdx(), di = tdi >= 0 ? tdi : Math.max(cur, 0), st = dayStatus(di), day = D.days[di];
+  const b = bucket(), dk = ['sat', 'sun', 'mon'][di];
+  const chips = Object.keys(N).map(k => `<button class="chip chip--sm" type="button" data-near="${k}" aria-pressed="${k === id}">${N[k].e} ${esc(N[k].name)}</button>`).join('');
+  const qh = day.items.map((it, k) => ({ it, k })).filter(x => itArea(x.it) === id).map(({ it, k }) => {
+    const s = k === st.now ? '<span class="nb nb--now">NOW</span>' : (st.past.has(k) ? '<span class="nb">CLEAR</span>' : (k === st.next ? '<span class="nb nb--next">NEXT</span>' : ''));
+    return `<button class="nrow" type="button" data-q="${di}:${k}"><span class="nrow__e" aria-hidden="true">${itEmo(it)}</span><span class="nrow__t"><b>${esc(itShort(it))}</b><small>DAY ${di + 1} · ${esc(it.t)}${it.end ? '–' + esc(it.end) : ''}</small></span>${s}<span class="nrow__go" aria-hidden="true">›</span></button>`;
+  }).join('');
+  const shopSet = new Set();
+  Object.values(P).forEach(p => { if (p.area === id && p.shops) p.shops.forEach(x => shopSet.add(x)); });
+  const rows = [];
+  if (shopSet.size) D.kids.forEach(kid => kidItems(kid).forEach(x => { if (shopSet.has(x.shop)) rows.push({ kid, x }); }));
+  rows.sort((p, q) => (got[p.x.key] ? 1 : 0) - (got[q.x.key] ? 1 : 0));
+  const recs = Object.entries(P).filter(([pid, p]) => p.area === id && (p.desc || p.sight) && pid !== 'hotel').map(([pid, p]) => {
+    const when = p.when || (p.tags && p.tags.includes('drink') ? ['day', 'night'] : ['morning', 'day', 'night']);
+    const o = p.open ? p.open[dk] : null;
+    return { pid, p, fit: when.includes(b) && o !== 0, off: o === 0, d: fix && p.ll ? hav(fix.ll, p.ll) : null };
+  }).sort((x, y) => (y.fit - x.fit) || (x.off - y.off) || ((x.d || 0) - (y.d || 0)));
+  const rh = recs.map(r => `<button class="nrow" type="button" data-place="${r.pid}"><span class="nrow__e" aria-hidden="true">${r.p.e || '📍'}</span><span class="nrow__t"><b>${esc(r.p.name)}</b><small>${esc((r.p.desc || '').split('. ')[0])}</small></span>${r.off ? '<span class="nb nb--off">오늘 휴무</span>' : (r.fit ? '<span class="nb nb--fit">지금 추천</span>' : '')}${r.d != null ? `<span class="nb">${fmtDist(r.d)}</span>` : ''}<span class="nrow__go" aria-hidden="true">›</span></button>`).join('');
+  const liveBtn = `<button class="gbtn gbtn--sm${live ? ' gbtn--go' : ''}" type="button" data-live aria-pressed="${live}">${live ? '📡 실시간 위치 끄기' : '📡 실시간 위치 켜기'}</button>`;
+  return `<span id="nearMark" hidden></span><header class="sh-head"><span class="qcard__emo k-move" aria-hidden="true">📍</span><div><p class="sh-time">${esc(src)}</p><h2 id="sheetTitle">지금 ${esc(n.name)} 근처 <span class="ja" lang="ja">${esc(n.ja)}</span></h2></div></header>
+    <div class="nearbar">${liveBtn}</div>
+    <div class="chips chips--scroll" role="group" aria-label="다른 지역 보기">${chips}</div>
+    ${qh ? `<section class="sec"><h3>🎯 여기서 할 퀘스트</h3><div class="nlist">${qh}</div></section>` : ''}
+    ${n.todo ? `<section class="sec"><h3>✅ 꼭 챙길 것</h3><ul class="todo">${n.todo.map(t => `<li>${rich(t)}</li>`).join('')}</ul></section>` : ''}
+    ${rows.length ? `<section class="sec"><h3>🛍️ 여기서 살 추천 품목</h3><p class="sec__sub">누르면 사이즈·팁이 나와요. 오른쪽 칸을 누르면 바로 GET.</p><div class="nlist">${rows.map(r => itemRowHTML(r.kid, r.x)).join('')}</div></section>` : ''}
+    ${rh ? `<section class="sec"><h3>✨ 근처 추천${fix ? ' <small>가까운 순</small>' : ''}</h3><div class="nlist">${rh}</div></section>` : ''}`;
+}
+function findItem(key){ for (const kid of D.kids){ const x = kidItems(kid).find(i => i.key === key); if (x) return { kid, x }; } return null; }
+function getLabel(on){ return on ? '✓ GET 완료 (누르면 취소)' : '🎒 GET! 가방에 담기'; }
+function itemDetailHTML(key){
+  const f = findItem(key); if (!f) return '';
+  const { kid, x } = f, s = D.shops[x.shop], p = s && s.place ? P[s.place] : null, on = !!got[key], tip = (D.itemTips || {})[x.t];
+  return `<header class="sh-head"><span class="qcard__emo k-baby" aria-hidden="true">${x.e}</span><div><p class="sh-time">${esc(kid.name)} · ${esc(kid.stats.join(' · '))}</p><h2 id="sheetTitle">${esc(x.t)}</h2><div class="tags"><span class="tag k-baby">📏 ${esc(x.size || '사이즈 자유')}</span><span class="tag k-gu">${s ? s.e : '🛒'} ${esc(shopName(x.shop))}</span></div></div></header>
+    ${tip ? `<div class="say"><span class="say__who say__who--${kid.crew}" aria-hidden="true">${kid.crew.toUpperCase()}</span><p>${rich(tip)}</p></div>` : ''}
+    <section class="sec"><h3>📏 ${esc(kid.name)} 사이즈 공략</h3><ul class="todo">${kid.guide.map(g => `<li>${esc(g[0])}: <b>${esc(g[1])}</b></li>`).join('')}${budget[kid.id] ? `<li>메모: ${esc(budget[kid.id])}</li>` : ''}</ul></section>
+    ${s ? `<section class="sec"><h3>🗺️ 어디서 사?</h3><p>${esc(s.where)}</p></section>` : ''}
+    <button class="gbtn${on ? '' : ' gbtn--gold'} getbtn" type="button" data-got="${esc(key)}" aria-pressed="${on}">${getLabel(on)}</button>
+    ${p ? linksHTML(p, s.name) : ''}`;
+}
+function placeDetailHTML(pid){
+  const p = P[pid], k = p.tags ? p.tags[0] : 'move';
+  return `<header class="sh-head"><span class="qcard__emo k-${k}" aria-hidden="true">${p.e || '📍'}</span><div><p class="sh-time">${esc(N[p.area] ? N[p.area].name : '')} 근처 추천</p><h2 id="sheetTitle">${esc(p.name)}${p.ja ? ` <span class="ja" lang="ja">${esc(p.ja)}</span>` : ''}</h2>${p.tags ? `<div class="tags">${tagChips(p.tags)}</div>` : ''}</div></header>
+    ${p.desc ? `<p>${rich(p.desc)}</p>` : ''}
+    ${p.open ? openDays(p.open) : ''}
+    ${factsHTML(placeFacts(p))}
+    ${fix && p.ll ? `<p class="lastline">🧭 지금 위치에서 직선 약 ${fmtDist(hav(fix.ll, p.ll))}</p>` : ''}
+    ${linksHTML(p, p.name)}`;
+}
+function autoFollow(silent){
+  const di = todayIdx(); if (di < 0) return;
+  const st = dayStatus(di), k = st.now >= 0 ? st.now : st.next; if (k < 0) return;
+  const key = di + ':' + st.now;
+  if (!silent && lastNowKey !== null && key !== lastNowKey && st.now >= 0){ const it = D.days[di].items[st.now]; toast(`⏰ ${it.t} 퀘스트 시작 · ${itShort(it)}`); }
+  lastNowKey = key;
+  if (silent || Date.now() - lastInteract < 120000 || view !== 'map' || !sheet.hidden || playT) return;
+  if (cur !== di) selectChapter(di, { index:k }); else if (act !== k) goTo(k);
+}
+sheetBody.addEventListener('click', e => {
+  const t = e.target.closest('[data-near],[data-q],[data-place],[data-item],[data-back],[data-live]'); if (!t) return;
+  if (t.dataset.near){ openNearby(t.dataset.near); return; }
+  if (t.dataset.q){ const [qd, qk] = t.dataset.q.split(':').map(Number); closeSheet(); showView('map'); userMoved = true; if (cur !== qd) selectChapter(qd, { index:qk }); else goTo(qk); setTimeout(() => openQuest(qk), 420); return; }
+  if (t.dataset.place){ openSheet(placeDetailHTML(t.dataset.place), sheetReopen); return; }
+  if (t.dataset.item){ openSheet(itemDetailHTML(t.dataset.item), sheetReopen); return; }
+  if (t.hasAttribute('data-back')){ if (sheetBack) sheetBack(); return; }
+  if (t.hasAttribute('data-live')){ if (live) stopLive('📡 실시간 위치 OFF'); else startLive(); }
+});
+
+/* ================================================================
+   가방 (인벤토리)
+   ================================================================ */
+let got = store.get('got', {}), custom = store.get('custom', {}), budget = store.get('budget', {});
+let kidSel = store.get('kid', 'a'), shopF = store.get('shopf', 'all');
+if (!D.kids.some(k => k.id === kidSel)) kidSel = D.kids[0].id;
+function kidItems(kid){
+  return kid.items.map(x => Object.assign({}, x, { key: kid.id + '::' + x.t, custom:false }))
+    .concat((custom[kid.id] || []).map(x => Object.assign({ e:'🛒', size:'' }, x, { key: kid.id + '::' + x.t, custom:true })));
+}
+function invCounts(){ const r = {}; let g = 0, a = 0; D.kids.forEach(k => { const l = kidItems(k), n = l.filter(x => got[x.key]).length; r[k.id] = { got:n, all:l.length }; g += n; a += l.length; }); r.total = { got:g, all:a }; return r; }
+const shopName = s => D.shops[s] ? D.shops[s].name : '기타';
+function tileHTML(kid, x){
+  const on = !!got[x.key];
+  return `<li>${x.custom ? `<button class="tile__x" type="button" data-del="${esc(x.key)}" aria-label="${esc(x.t)} 아이템 삭제">×</button>` : ''}<button class="tile" type="button" data-got="${esc(x.key)}" aria-pressed="${on}" aria-label="${esc(x.t)}, ${esc(x.size || '')}, ${esc(shopName(x.shop))}">
+    <span class="tile__e" aria-hidden="true">${x.e}</span><span class="tile__t">${esc(x.t)}</span>${x.size ? `<span class="tile__s">${esc(x.size)}</span>` : ''}<span class="tile__shop">${esc(shopName(x.shop))}</span></button></li>`;
+}
+function renderKids(){
+  const c = invCounts();
+  $('#kids').innerHTML = D.kids.map(k => `<button class="kid" type="button" role="tab" data-kid="${k.id}" aria-selected="${k.id === kidSel}" aria-controls="kidPanel" tabindex="${k.id === kidSel ? 0 : -1}">
+    <span class="kid__top"><span class="kid__face" aria-hidden="true">${k.face}</span><span><span class="kid__name">${esc(k.name)}</span><span class="kid__dad">${esc(D.crew[k.crew].name)} · ${esc(D.crew[k.crew].role)}</span></span></span>
+    <span class="kid__stats">${k.stats.map(s => `<span class="stat">${esc(s)}</span>`).join('')}</span>
+    <span class="kid__xp"><span class="xp" aria-hidden="true"><span style="--p:${c[k.id].all ? c[k.id].got / c[k.id].all : 0}"></span></span>${c[k.id].got}/${c[k.id].all}</span>
+  </button>`).join('');
+}
+function renderKidPanel(){
+  const kid = D.kids.find(k => k.id === kidSel), list = kidItems(kid);
+  const shopIds = ['all'].concat(Object.keys(D.shops).filter(s => list.some(x => x.shop === s)));
+  if (!shopIds.includes(shopF)) shopF = 'all';
+  const shown = list.filter(x => shopF === 'all' || x.shop === shopF);
+  $('#kidPanel').innerHTML = `
+    <div class="sizecard"><h3>📏 ${esc(kid.name)} 사이즈 공략</h3><ul>${kid.guide.map(g => `<li>${esc(g[0])} <b>${esc(g[1])}</b></li>`).join('')}</ul><p>${esc(kid.tip)}</p></div>
+    <div class="chips" role="group" aria-label="매장으로 거르기">${shopIds.map(s => { const n = s === 'all' ? list.length : list.filter(x => x.shop === s).length; return `<button class="chip" type="button" data-shop="${s}" aria-pressed="${s === shopF}">${s === 'all' ? '전체' : esc(shopName(s))} <small>${n}</small></button>`; }).join('')}</div>
+    <ul class="tiles">${shown.map(x => tileHTML(kid, x)).join('')}</ul>
+    <form class="addrow" id="addForm"><label class="sr" for="addT">${esc(kid.name)} 아이템 추가</label><input class="field" id="addT" type="text" autocomplete="off" enterkeyhint="done" placeholder="아이템 추가 (예: 80 겨울 바지)">
+      <label class="sr" for="addS">살 곳</label><select class="field" id="addS">${Object.keys(D.shops).map(s => `<option value="${s}">${esc(shopName(s))}</option>`).join('')}</select>
+      <button class="gbtn gbtn--gold" type="submit">추가</button></form>
+    <label class="budget" for="budgetIn">📝 메모<input class="field" id="budgetIn" type="text" inputmode="numeric" autocomplete="off" placeholder="예산 [ ]엔 · 발 길이 [ ]cm" value="${esc(budget[kid.id] || '')}"></label>`;
+}
+function renderWhereto(){
+  const rows = Object.entries(D.shops).map(([id, s]) => {
+    let left = 0, all = 0;
+    D.kids.forEach(k => kidItems(k).forEach(x => { if (x.shop === id){ all++; if (!got[x.key]) left++; } }));
+    if (!all) return '';
+    const p = s.place ? P[s.place] : null;
+    return `<div class="shoprow"><span style="font-size:24px" aria-hidden="true">${s.e}</span><span class="shoprow__t"><b>${esc(s.name)}</b>${esc(s.where)}</span><span class="shoprow__n">${left ? `남은 ${left}` : 'CLEAR'}</span>${p ? `<a class="gbtn gbtn--icon" href="${esc(mapsUrl(p.q))}" ${EXT} aria-label="${esc(s.name)} 구글 지도 열기 (새 탭)">${ICON.pin}</a>` : ''}</div>`;
+  }).join('');
+  $('#whereto').innerHTML = `<h3>🗺️ 어디서 뭘 사?</h3>${rows}`;
+}
+function renderBag(){ renderKids(); renderKidPanel(); renderWhereto(); updateInvBadges(); }
+function updateInvBadges(){
+  const c = invCounts().total;
+  $('#bagPill').textContent = `🎒 ${c.got}/${c.all}`;
+  $('#dockBag').textContent = c.got ? c.got : '';
+  updateBags();
+}
+function toggleGot(key){
+  if (got[key]) delete got[key]; else got[key] = 1;
+  store.set('got', got);
+  const on = !!got[key];
+  $$(`[data-got="${CSS.escape(key)}"]`).forEach(el => {
+    el.setAttribute('aria-pressed', String(on));
+    if (on && anim){ el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+    if (el.classList.contains('getbtn')){ el.textContent = getLabel(on); el.classList.toggle('gbtn--gold', !on); }
+  });
+  renderKids(); renderWhereto(); updateInvBadges();
+  const name = key.split('::')[1];
+  toast(on ? `GET! ${name}` : `가방에서 뺐어요 · ${name}`);
+}
+function initBag(){
+  renderBag();
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-got]'); if (g){ toggleGot(g.dataset.got); return; }
+    const d = e.target.closest('[data-del]');
+    if (d){ const key = d.dataset.del, i = key.indexOf('::'), kid = key.slice(0, i), t = key.slice(i + 2); custom[kid] = (custom[kid] || []).filter(x => x.t !== t); delete got[key]; store.set('custom', custom); store.set('got', got); renderBag(); toast(`삭제했어요 · ${t}`); }
+  });
+  const pickKid = id => { kidSel = id; store.set('kid', kidSel); renderKids(); renderKidPanel(); };
+  $('#kids').addEventListener('click', e => { const b = e.target.closest('[data-kid]'); if (b) pickKid(b.dataset.kid); });
+  $('#kids').addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const i = D.kids.findIndex(k => k.id === kidSel), n = (i + (e.key === 'ArrowRight' ? 1 : -1) + D.kids.length) % D.kids.length;
+    pickKid(D.kids[n].id); $(`[data-kid="${kidSel}"]`).focus();
+  });
+  $('#kidPanel').addEventListener('click', e => { const c = e.target.closest('[data-shop]'); if (!c) return; shopF = c.dataset.shop; store.set('shopf', shopF); renderKidPanel(); });
+  $('#kidPanel').addEventListener('submit', e => {
+    e.preventDefault();
+    const t = $('#addT').value.trim(), s = $('#addS').value; if (!t) return;
+    const kid = D.kids.find(k => k.id === kidSel);
+    if (kidItems(kid).some(x => x.t === t)){ toast('이미 가방 목록에 있어요'); return; }
+    (custom[kidSel] = custom[kidSel] || []).push({ t, shop:s }); store.set('custom', custom);
+    renderBag(); toast(`아이템 추가 · ${t}`); setTimeout(() => { const f = $('#addT'); if (f) f.focus(); }, 0);
+  });
+  $('#kidPanel').addEventListener('input', e => { if (e.target.id !== 'budgetIn') return; budget[kidSel] = e.target.value; store.set('budget', budget); });
+  let armed = 0;
+  $('#resetBag').addEventListener('click', e => {
+    const b = e.currentTarget;
+    if (!armed){ armed = setTimeout(() => { armed = 0; b.textContent = '획득 초기화'; }, 3500); b.textContent = '한 번 더 누르면 초기화'; return; }
+    clearTimeout(armed); armed = 0; got = {}; store.set('got', got); b.textContent = '획득 초기화'; renderBag(); toast('획득 표시를 모두 지웠어요');
+  });
+}
+
+/* ================================================================
+   주점 던전
+   ================================================================ */
+function renderBars(){
+  const sel = store.get('area', 'all');
+  $('#areafilter').innerHTML = `<button class="chip" type="button" data-area="all" aria-pressed="false">전체</button>` +
+    D.bars.map(a => `<button class="chip" type="button" data-area="${a.id}" aria-pressed="false">${a.e} ${esc(a.name)}</button>`).join('');
+  $('#areas').innerHTML = D.bars.map(a => {
+    const w = '주점 · ' + a.name;
+    return `<article class="area reveal" data-area="${a.id}" id="area-${a.id}" aria-labelledby="ar-${a.id}">
+      <header class="area__head"><span class="area__e" aria-hidden="true">${a.e}</span><div><h3 class="area__name" id="ar-${a.id}">${esc(a.name)} <span class="ja" lang="ja">${esc(a.ja)}</span></h3>${a.tonight ? `<span class="area__tonight">⭐ ${esc(a.tonight)} 코스</span>` : ''}</div></header>
+      ${moveHTML(a.access, w)}
+      <ol class="stages" aria-label="${esc(a.name)} 추천 코스">${a.course.map(c => { const p = P[c.place]; return `<li><span class="stg" aria-hidden="true">${p.e}</span><span class="stg__n">${esc(c.step)}</span><span class="stg__t">${esc(p.short || p.name)}</span><span class="stg__note">${rich(c.note, w)}</span></li>`; }).join('')}</ol>
+      <div class="spots">${a.spots.map(id => { const p = P[id], ww = w + ' · ' + p.name; return `<details class="spot"><summary><span class="spot__e" aria-hidden="true">${p.e}</span><span class="spot__n"><b>${esc(p.name)}</b><span class="ja" lang="ja">${esc(p.ja)}</span></span>${ICON.chev}</summary>
+        <div class="spot__body">${openDays(p.open)}${p.desc ? `<p>${rich(p.desc, ww)}</p>` : ''}${factsHTML(placeFacts(p), ww)}${linksHTML(p, p.name)}</div></details>`; }).join('')}</div>
+      <div class="area__foot"><span>🚃 막차 · ${rich(a.last, w)}</span><span>🚕 택시 · ${rich(a.taxi, w)}</span></div>
+    </article>`;
+  }).join('');
+  applyArea(D.bars.some(a => a.id === sel) ? sel : 'all');
+  $('#areafilter').addEventListener('click', e => { const c = e.target.closest('[data-area]'); if (!c) return; applyArea(c.dataset.area); store.set('area', c.dataset.area); watchReveal($('#areas')); });
+}
+function applyArea(id){
+  $$('#areafilter .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.area === id)));
+  $$('#areas .area').forEach(el => { el.hidden = id !== 'all' && el.dataset.area !== id; });
+}
+
+/* ================================================================
+   공략집
+   ================================================================ */
+function blockHTML(b, w){
+  if (typeof b === 'string') return `<p>${rich(b, w)}</p>`;
+  if (b.ul) return `<ul>${b.ul.map(x => `<li>${rich(x, w)}</li>`).join('')}</ul>`;
+  if (b.pass) return `<div class="passbox" id="passBox"></div>`;
+  if (b.contacts) return b.contacts.map(c => `<div class="contact"><div class="contact__who"><b>${esc(c.name)}</b><span>${rich(c.note, w)}</span></div>
+    <a class="contact__num" href="tel:${esc(c.tel)}" aria-label="${esc(c.name)} 전화 걸기 ${esc(c.num)}">${esc(c.num)}</a>
+    <button class="gbtn gbtn--icon" type="button" data-copy="${esc(c.num)}" aria-label="${esc(c.name)} 번호 복사">${ICON.copy}</button></div>`).join('');
+  return '';
+}
+function hotelHTML(){
+  const h = D.hotel, p = P[h.place], w = '숙소';
+  return `<div><p class="eyebrow">BASE CAMP · 2泊</p><h3>${esc(p.name)} <span class="ja" lang="ja">${esc(p.ja)}</span></h3></div>
+    <dl class="facts">
+      <dt>주소</dt><dd><span lang="ja">${rich(h.address, w)}</span><button class="copy" type="button" data-copy="${esc(h.addressCopy)}" aria-label="숙소 주소 복사">${ICON.copy}</button></dd>
+      <dt>전화</dt><dd><a href="tel:${esc(h.tel)}">${esc(h.phone)}</a><button class="copy" type="button" data-copy="${esc(h.phone)}" aria-label="숙소 전화번호 복사">${ICON.copy}</button><small class="base__note">${rich(h.phoneNote, w)}</small></dd>
+      <dt>체크인</dt><dd>${rich(h.inout, w)}</dd>
+      <dt>짐 보관</dt><dd>${rich(h.luggage, w)}</dd>
+    </dl>
+    <ul class="stations">${h.stations.map(s => `<li>${lineChip(s.line)}<span>${esc(s.name)} <span class="ja" lang="ja">${esc(s.ja)}</span></span><span class="stations__walk">${rich(s.walk, w)}</span></li>`).join('')}</ul>
+    ${linksHTML(p, p.name)}
+    <button class="gbtn gbtn--gold" type="button" data-taxi aria-label="택시 기사에게 보여줄 숙소 주소 크게 보기">🚕 택시 기사에게 주소 보여주기</button>`;
+}
+function renderGuide(){
+  $('#tickets').innerHTML = D.flights.map(f => {
+    const w = `항공 · ${f.kind}`;
+    return `<article class="pass reveal" aria-label="${esc(f.kind)} ${esc(f.no)}">
+      <div class="pass__head"><span>${esc(f.kind)} · ${esc(f.airline)}</span><b>${esc(f.date)}</b></div>
+      <div class="pass__route">
+        <div><span class="pass__code">${f.from.code}</span><span class="pass__city">${esc(f.from.name)}</span><span class="pass__time">${esc(f.from.time)}</span></div>
+        <div class="pass__mid" aria-hidden="true"><span class="pass__dash"></span>✈️<span class="pass__dash"></span></div>
+        <div class="pass__to"><span class="pass__code">${f.to.code}</span><span class="pass__city">${esc(f.to.name)}</span><span class="pass__time">${esc(f.to.time)}</span></div>
+      </div>
+      <div class="pass__foot"><span class="pass__no">${esc(f.no)}</span><span>${rich(f.note, w)}</span></div>
+    </article>`;
+  }).join('');
+  $('#base').innerHTML = hotelHTML();
+  const acc = (icon, title, body) => `<details class="acc reveal"><summary><span class="acc__e" aria-hidden="true">${icon}</span><span class="acc__t">${esc(title)}</span>${ICON.chev}</summary><div class="acc__body">${body}</div></details>`;
+  $('#tipsList').innerHTML = D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
+  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('');
+}
+function renderNeeds(){
+  const list = Array.from(needs.values());
+  $('#tipsList').insertAdjacentHTML('beforeend', `<details class="acc reveal" id="needs"><summary><span class="acc__e" aria-hidden="true">❓</span><span class="acc__t">확인 필요 모아보기</span><span class="acc__c">${list.length}</span>${ICON.chev}</summary><div class="acc__body"><p>공식 출처로 끝까지 확인하지 못했거나 바뀔 수 있는 값이에요. 가기 전이나 현장에서 한 번 더 보세요.</p><ul class="needlist">${list.map(x => `<li><small>${esc(x.where.join(' · '))}</small>${esc(x.text)}</li>`).join('')}</ul></div></details>`);
+}
+function renderPrintPlan(){
+  $('#pplan').innerHTML = D.days.map((d, di) => `<section class="pplan__day"><h3>CHAPTER ${di + 1} · ${d.md} (${d.dowKo}) · ${esc(d.title)}</h3>${d.items.map((it, k) => { const x = detailHTML(it, di, k); return `<article class="pplan__item"><header class="sh-head">${x.head}</header>${x.body}</article>`; }).join('')}</section>`).join('');
+}
+function renderMiniBase(){
+  const h = D.hotel, p = P[h.place];
+  $('#minibase').innerHTML = `<span class="minibase__e" aria-hidden="true">🏨</span><span class="minibase__t"><b>베이스캠프 · 숙소</b>히가시니혼바시역 B4 출구 1분</span><button class="gbtn gbtn--gold gbtn--sm" type="button" data-taxi aria-label="택시 기사에게 보여줄 숙소 주소 크게 보기">🚕 택시</button><a class="gbtn gbtn--icon" href="${esc(dirUrl(p.q))}" ${EXT} aria-label="숙소까지 대중교통 길찾기 (새 탭)">${ICON.route}</a>`;
+  $('#taxiName').textContent = p.ja;
+  $('#taxiAddr').textContent = h.addressCopy;
+  $('#taxiTel').textContent = 'TEL ' + h.phone;
+}
+
+/* ================================================================
+   환전소
+   ================================================================ */
+function initFx(){
+  const rateEl = $('#fxRate'), jpy = $('#fxJpy'), krw = $('#fxKrw');
+  let rate = parseFloat(store.get('fxRate', D.fx.rate)) || D.fx.rate;
+  rateEl.value = rate;
+  const clean = v => parseFloat(String(v).replace(/[^\d.]/g, '')) || 0;
+  const fmt = n => n ? Math.round(n).toLocaleString('ko-KR') : '';
+  const table = () => {
+    $('#fxTable').innerHTML = '<tbody>' + D.fx.table.map(y => `<tr><td>¥${y.toLocaleString('ko-KR')}</td><td>${Math.round(y * rate / 100).toLocaleString('ko-KR')}원</td></tr>`).join('') + '</tbody>';
+    $('#fxHint').innerHTML = `면세 기준 5,000엔 ≈ <b>${Math.round(5000 * rate / 100).toLocaleString('ko-KR')}원</b> · ${esc(D.fx.note)}`;
+  };
+  const fromJ = () => { krw.value = fmt(clean(jpy.value) * rate / 100); };
+  const fromK = () => { jpy.value = fmt(clean(krw.value) * 100 / rate); };
+  jpy.addEventListener('input', () => { const c = clean(jpy.value); jpy.value = c ? c.toLocaleString('ko-KR') : ''; fromJ(); });
+  krw.addEventListener('input', () => { const c = clean(krw.value); krw.value = c ? c.toLocaleString('ko-KR') : ''; fromK(); });
+  rateEl.addEventListener('input', () => { const r = clean(rateEl.value); if (r > 0){ rate = r; store.set('fxRate', r); fromJ(); table(); } });
+  $('#fxQuick').innerHTML = D.fx.quick.map(y => `<button class="chip" type="button" data-y="${y}" aria-label="${y.toLocaleString('ko-KR')}엔 환산">¥${y.toLocaleString('ko-KR')}</button>`).join('');
+  $('#fxQuick').addEventListener('click', e => { const c = e.target.closest('[data-y]'); if (!c) return; jpy.value = (+c.dataset.y).toLocaleString('ko-KR'); fromJ(); });
+  $('#fxForm').addEventListener('submit', e => e.preventDefault());
+  jpy.value = (1000).toLocaleString('ko-KR'); fromJ(); table();
+}
+
+/* ================================================================
+   HUD · 티커 · D-day
+   ================================================================ */
+function renderChapters(){
+  $('#chs').innerHTML = D.days.map((d, i) => `<button class="ch" type="button" role="tab" id="ch-${i}" aria-selected="false" tabindex="-1" aria-label="챕터 ${i + 1}, ${d.md} ${d.dowKo}요일, ${esc(d.title)}"><span class="ch__n">CH.${i + 1}</span><span class="ch__d"><span lang="ja">${d.dow}</span> ${d.md}</span></button>`).join('');
+  $$('.ch').forEach((b, i) => b.addEventListener('click', () => { userMoved = true; showView('map'); selectChapter(i); }));
+  $('#chs').addEventListener('keydown', e => {
+    const m = { ArrowRight:1, ArrowLeft:-1 }[e.key]; if (!m) return;
+    e.preventDefault(); const n = (cur + m + D.days.length) % D.days.length; selectChapter(n); $('#ch-' + n).focus();
+  });
+}
+let tickAction = null;
+function updateTicker(){
+  updateTicker0();
+  if (live) $('#ticker').insertAdjacentHTML('afterbegin', '<span class="ticker__k ticker__k--live">📡 LIVE</span>');
+  const left = passLeft();
+  if (left != null && left > 0) $('#ticker').insertAdjacentHTML('beforeend', `<span class="ticker__last">🎫 ${fmtHM(left)}</span>`);
+  renderPassBox();
+}
+function updateTicker0(){
+  const n = jst(), di = todayIdx(), t = $('#ticker');
+  $$('.ch').forEach((b, i) => b.classList.toggle('is-today', D.days[i].date === n.date));
+  const toStart = dayDiff(n.date, D.start), toEnd = dayDiff(n.date, D.end), left = Date.parse(D.departISO) - Date.now();
+  $('#ddayPill').textContent = toStart > 0 ? `D-${toStart}` : (toEnd >= 0 ? `DAY ${1 - toStart}` : 'CLEAR');
+  if (di >= 0){
+    const st = dayStatus(di), items = D.days[di].items, pick = st.now >= 0 ? st.now : st.next;
+    if (pick >= 0){
+      const it = items[pick];
+      let last = '';
+      if (it.last && n.min >= 18 * 60){
+        let lm = toMin(it.last.t); if (lm < 240) lm += 1440;
+        const rem = lm - n.min;
+        last = rem > 0 ? `<span class="ticker__last">🚃 막차 ${esc(it.last.t)} · ${Math.floor(rem / 60)}:${String(rem % 60).padStart(2, '0')} 남음</span>` : `<span class="ticker__last">🚕 막차 끝 · 택시로</span>`;
+      }
+      t.innerHTML = st.now >= 0
+        ? `<span class="pulse" aria-hidden="true"></span><span class="ticker__k ticker__k--now">NOW</span><span class="ticker__t"><b>${esc(it.t)}</b>${esc(itShort(it))}</span>${last}`
+        : `<span class="ticker__k">NEXT</span><span class="ticker__t"><b>${esc(it.t)}</b>${esc(itShort(it))}</span>${last}`;
+      t.setAttribute('aria-label', `${st.now >= 0 ? '지금' : '다음'} 퀘스트 ${it.t} ${itName(it)}. 눌러서 지도에서 보기`);
+      tickAction = () => { showView('map'); if (cur !== di) selectChapter(di, { index:pick }); else goTo(pick); };
+      return;
+    }
+    t.innerHTML = `<span class="ticker__k ticker__k--gold">CLEAR</span><span class="ticker__t">챕터 ${di + 1} 완료! 푹 쉬어요</span>`;
+    t.setAttribute('aria-label', `챕터 ${di + 1} 완료`); tickAction = () => showView('map');
+    return;
+  }
+  if (toStart > 0){
+    t.innerHTML = `<span class="ticker__k ticker__k--gold">D-${toStart}</span><span class="ticker__t">🛫 RS705 인천 T2 08:10 출발까지 ${hm(left)}</span>`;
+    t.setAttribute('aria-label', `출발까지 ${hm(left)}. 눌러서 챕터 1 보기`);
+    tickAction = () => { showView('map'); selectChapter(0); };
+  } else {
+    t.innerHTML = `<span class="ticker__k ticker__k--gold">QUEST CLEAR</span><span class="ticker__t">🏆 도쿄 퀘스트 완료. 가방 기록은 그대로 남아 있어요</span>`;
+    t.setAttribute('aria-label', '도쿄 퀘스트 완료'); tickAction = () => showView('bag');
+  }
+}
+
+/* ================================================================
+   화면 전환 · 테마 · 공통
+   ================================================================ */
+const VIEWS = ['map', 'bag', 'bars', 'guide', 'fx'];
+let view = 'map';
+function showView(v, opts){
+  opts = opts || {};
+  if (!VIEWS.includes(v)) v = 'map';
+  const changed = v !== view; view = v;
+  $$('.view').forEach(s => { s.hidden = s.dataset.view !== v; });
+  $$('#dock button').forEach(b => { if (b.dataset.view === v) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+  const sec = $('#v-' + v);
+  if (changed && anim){ sec.classList.remove('enter'); void sec.offsetWidth; sec.classList.add('enter'); }
+  try { history.replaceState(null, '', v === 'map' ? location.pathname + location.search : '#' + v); } catch(e){}
+  if (changed && !opts.keepScroll) scrollTo({ top:0 });
+  if (v === 'map') requestAnimationFrame(() => { cam(heroPos.y, false); if (act >= 0) scrollToCard(act, false); });
+  watchReveal(sec);
+}
+const MODES = ['time', 'system', 'light', 'dark'], MODE_KO = { time:'도쿄 시간 자동', system:'시스템 설정', light:'낮', dark:'밤' };
+let mode = store.get('theme', 'time'); if (!MODES.includes(mode)) mode = 'time';
+const isDayJST = () => { const m = jst().min % 1440; return m >= 345 && m < 1050; };
+const isDuskJST = () => { const m = jst().min % 1440; return m >= 1005 && m < 1050; };
+let themeKey = '';
+function applyTheme(){
+  if (mode === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', mode === 'time' ? (isDayJST() ? 'light' : 'dark') : mode);
+  root.classList.toggle('dusk', mode === 'time' && isDuskJST());
+  themeKey = mode + (mode === 'time' ? (isDayJST() ? 'D' : 'N') : '');
+  const b = $('#themeBtn'), next = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+  b.innerHTML = ICON[mode === 'time' ? 'clock' : mode === 'system' ? 'auto' : mode === 'light' ? 'sun' : 'moon'];
+  b.setAttribute('aria-label', `화면 테마: ${MODE_KO[mode]}. 누르면 ${MODE_KO[next]}(으)로 바뀜`);
+  b.title = `테마: ${MODE_KO[mode]}`;
+  requestAnimationFrame(() => { $('#metaTheme').setAttribute('content', tok('--hud') || '#1D2232'); buildBg(); });
+}
+let passStart = store.get('passStart', null), passArm = 0;
+const passLeft = () => passStart ? passStart + 48 * 3600e3 - Date.now() : null;
+const fmtHM = ms => `${Math.floor(ms / 3600e3)}:${String(Math.floor(ms % 3600e3 / 6e4)).padStart(2, '0')}`;
+function renderPassBox(){
+  const box = $('#passBox'); if (!box) return;
+  const left = passLeft();
+  if (!passStart){ box.innerHTML = `<p class="passbox__t">🎫 48시간권 타이머</p><p class="passbox__s">처음 개찰구를 통과할 때 눌러 두면 남은 시간이 상단 바에 떠요.</p><button class="gbtn gbtn--gold gbtn--sm" type="button" data-pass="start">지금 첫 개찰했어요 · 48시간 시작</button>`; return; }
+  const st = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' }).format(new Date(passStart));
+  box.innerHTML = `<p class="passbox__t">🎫 ${left > 0 ? `남은 시간 ${fmtHM(left)}` : '48시간권 끝났어요'}</p><p class="passbox__s">개시 ${st} (도쿄 시간)</p><button class="gbtn gbtn--sm" type="button" data-pass="reset">${passArm ? '한 번 더 누르면 지워져요' : '기록 지우기'}</button>`;
+}
+function tickTheme(){
+  if (mode !== 'time') return;
+  root.classList.toggle('dusk', isDuskJST());
+  if ('time' + (isDayJST() ? 'D' : 'N') !== themeKey){ applyTheme(); toast(isDayJST() ? '☀️ 아침이에요 · 낮 지도' : '🌙 해가 졌어요 · 밤 지도'); }
+}
+let toastT = 0;
+function toast(t){ const el = $('#toast'); el.textContent = t; el.classList.add('is-on'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('is-on'), 1800); }
+function copyText(t){
+  const done = () => toast('복사했어요 · ' + t);
+  const fallback = () => {
+    const ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+    ta.remove(); ok ? done() : toast('길게 눌러 직접 복사해 주세요');
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback); else fallback();
+}
+let rio = null;
+function watchReveal(scope){
+  if (!anim) return;
+  if (!rio) rio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.remove('pending'); rio.unobserve(e.target); } }), { rootMargin:'0px 0px -6% 0px', threshold:0.04 });
+  const vh = innerHeight;
+  $$('.reveal', scope).forEach(el => {
+    if (el.dataset.rv) return;
+    const r = el.getBoundingClientRect(); if (!r.height) return;
+    el.dataset.rv = 1;
+    if (r.top > vh * 0.94){ el.classList.add('pending'); rio.observe(el); }
+  });
+}
+function setHudH(){ root.style.setProperty('--hud-h', $('#hud').offsetHeight + 'px'); }
+let prevTheme = null;
+
+function init(){
+  renderPrintPlan(); renderBars(); renderGuide(); renderMiniBase(); initBag(); renderNeeds(); initFx();
+  renderChapters();
+  applyTheme();
+  const h = (location.hash || '').slice(1);
+  const dm = /^day([1-9])$/.exec(h);
+  const di = dm ? clamp(+dm[1] - 1, 0, D.days.length - 1) : (() => { const t = todayIdx(); return t >= 0 ? t : (jst().date < D.start ? 0 : D.days.length - 1); })();
+  selectChapter(di);
+  showView(VIEWS.includes(h) ? h : 'map', { keepScroll:true });
+  updateTicker(); setHudH();
+  autoFollow(true);
+  setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); } });
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => document.addEventListener(ev, () => { lastInteract = Date.now(); }, { passive:true }));
+  $('#nearBtn').addEventListener('click', () => { userMoved = true; openNearby(); });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-pass]'); if (!b) return;
+    if (b.dataset.pass === 'start'){ passStart = Date.now(); store.set('passStart', passStart); toast('🎫 48시간권 개시! 남은 시간이 상단에 떠요'); }
+    else if (!passArm){ passArm = setTimeout(() => { passArm = 0; renderPassBox(); }, 3500); }
+    else { clearTimeout(passArm); passArm = 0; passStart = null; store.set('passStart', null); toast('패스 기록을 지웠어요'); }
+    updateTicker();
+  });
+  if ('ResizeObserver' in window){ new ResizeObserver(setHudH).observe($('#hud')); new ResizeObserver(() => cam(heroPos.y, false)).observe(frame); }
+  wideMQ.addEventListener('change', () => { observeCards(); scrollToCard(act, false); cam(heroPos.y, false); });
+
+  ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(ev => document.addEventListener(ev, () => { userMoved = true; }, { passive:true, once:true }));
+  ['pointerdown', 'touchstart', 'wheel'].forEach(ev => qwrap.addEventListener(ev, () => { if (playT) stopPlay(); }, { passive:true }));
+  qwrap.addEventListener('click', e => {
+    const o = e.target.closest('[data-open]'); if (o){ openQuest(+o.dataset.open); return; }
+    if (e.target.closest('a,button')) return;
+    const c = e.target.closest('.qcard'); if (!c) return;
+    const k = +c.dataset.k; if (k !== act) goTo(k); else openQuest(k);
+  });
+  $('#prevQ').innerHTML = ICON.prev; $('#nextQ').innerHTML = ICON.next;
+  $('#prevQ').addEventListener('click', () => { stopPlay(); userMoved = true; goTo(act - 1); });
+  $('#nextQ').addEventListener('click', () => { stopPlay(); userMoved = true; goTo(act + 1); });
+  $('#playQ').addEventListener('click', play);
+  const zb = $('#zoomBtn'); zb.innerHTML = ICON.zoom;
+  zb.addEventListener('click', () => { zoomAll = !zoomAll; zb.setAttribute('aria-pressed', String(zoomAll)); zb.innerHTML = zoomAll ? ICON.follow : ICON.zoom; zb.setAttribute('aria-label', zoomAll ? '아바타 따라가기' : '지도 전체 보기'); cam(heroPos.y, true); });
+  const nodeGo = g => {
+    const id = g.dataset.node, items = D.days[cur].items;
+    const ks = items.map((it, k) => it.node === id ? k : -1).filter(k => k >= 0);
+    userMoved = true; stopPlay();
+    if (ks.length){ const nx = ks.find(k => k > act); goTo(ks.includes(act) && nx != null ? nx : ks[0]); return; }
+    if (N[id].bars){ showView('bars'); applyArea(N[id].bars); store.set('area', N[id].bars); return; }
+    toast(`${N[id].name}: 이번 챕터 퀘스트 없음`);
+  };
+  fg.addEventListener('click', e => { const g = e.target.closest('.node'); if (g) nodeGo(g); });
+  fg.addEventListener('keydown', e => { if (e.key !== 'Enter' && e.key !== ' ') return; const g = e.target.closest('.node'); if (g){ e.preventDefault(); nodeGo(g); } });
+
+  $('#dock').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) showView(b.dataset.view); });
+  $('#bagPill').addEventListener('click', e => { e.preventDefault(); showView('bag'); });
+  $('#meBtn').addEventListener('click', e => { e.preventDefault(); showView('map'); scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }); });
+  $('#ticker').addEventListener('click', () => { userMoved = true; if (tickAction) tickAction(); });
+  $('#themeBtn').addEventListener('click', () => { mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length]; store.set('theme', mode); applyTheme(); toast(mode === 'time' ? '🕒 도쿄 시간에 맞춰 낮·밤 자동' : mode === 'dark' ? '🌙 밤 모드' : mode === 'light' ? '☀️ 낮 모드' : '🖥️ 시스템 설정 따라가기'); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (mode === 'system') applyTheme(); });
+
+  const taxi = $('#taxi'); let taxiFrom = null;
+  const openTaxi = from => { taxiFrom = from; taxi.hidden = false; $('#taxiClose').focus(); };
+  const closeTaxi = () => { taxi.hidden = true; if (taxiFrom) taxiFrom.focus(); };
+  document.addEventListener('click', e => {
+    const c = e.target.closest('[data-copy]'); if (c){ copyText(c.dataset.copy); return; }
+    const tx = e.target.closest('[data-taxi]'); if (tx) openTaxi(tx);
+  });
+  $('#taxiClose').addEventListener('click', closeTaxi);
+  taxi.addEventListener('click', e => { if (e.target === taxi) closeTaxi(); });
+  document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!taxi.hidden) closeTaxi(); else closeSheet(); });
+
+  const top = $('#totop'); let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => { top.classList.toggle('is-on', scrollY > 600); ticking = false; });
+  }, { passive:true });
+  top.addEventListener('click', () => scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' }));
+
+  addEventListener('beforeprint', () => {
+    prevTheme = root.getAttribute('data-theme'); root.setAttribute('data-theme', 'light');
+    $$('details').forEach(d => { if (!d.open){ d.open = true; d.dataset.pc = '1'; } });
+    $$('.area').forEach(a => { a.dataset.ph = a.hidden ? '1' : ''; a.hidden = false; });
+  });
+  addEventListener('afterprint', () => {
+    if (prevTheme) root.setAttribute('data-theme', prevTheme); else root.removeAttribute('data-theme');
+    $$('details[data-pc]').forEach(d => { d.open = false; delete d.dataset.pc; });
+    $$('.area').forEach(a => { a.hidden = a.dataset.ph === '1'; });
+  });
+}
+init();
+})();
+</script>
+</body>
+</html>
