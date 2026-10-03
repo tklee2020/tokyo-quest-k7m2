@@ -101,7 +101,12 @@ p{margin:0}
 a{color:var(--blue)}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-[lang="ja"]{font-family:var(--f-ja)}
+[lang="ja"]{font-family:var(--f-ja);word-break:normal;line-break:strict}
+[lang="ko"]{word-break:keep-all}
+/* 길게 눌러도 글자가 선택되지 않게 — 입력칸과 주소·번호처럼 복사해 쓰는 글자만 예외 */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,select,[contenteditable="true"],.sel{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+img,svg{-webkit-user-drag:none}
 .ja{font-family:var(--f-ja);font-weight:400;font-size:.76em;color:var(--muted)}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .wrap{width:100%;max-width:1180px;margin-inline:auto;padding-inline:var(--gutter)}
@@ -345,6 +350,40 @@ html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
 .kid{display:grid;gap:7px;align-content:start;min-width:0;padding:12px;border:2px solid var(--edge);border-radius:18px;background:var(--surface);box-shadow:0 4px 0 var(--drop);text-align:left;cursor:pointer;transition:transform .15s}
 .kid:active{transform:translateY(2px)}
 .kid[aria-selected="true"]{background:var(--k-baby);color:var(--k-baby-ink)}
+.kids--one{grid-template-columns:minmax(0,1fr)}
+.kids--one .kid{cursor:default}
+.say__who,.maplegend i,.split__list .who{font-family:var(--f-game);font-weight:400}
+.heroes .h-tags text{font-family:var(--f-game);font-weight:400;font-size:8.5px}
+
+/* ---------- 사용자 고르기 ---------- */
+.who{position:fixed;inset:0;z-index:97;display:grid;grid-template-columns:minmax(0,1fr);place-items:center;padding:16px;background:var(--scrim);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.who__card{width:100%;max-width:440px;min-width:0;max-height:calc(100dvh - 32px);overflow-y:auto;display:grid;gap:12px;padding:22px 18px 18px;border:2px solid var(--edge);border-radius:22px;background:var(--surface);color:var(--ink);box-shadow:0 6px 0 var(--drop);text-align:center}
+.who__card h2{font-family:var(--f-game);font-weight:400;font-size:clamp(25px,7vw,30px)}
+.who__sub{font-size:13.5px;color:var(--muted);line-height:1.5}
+.who__opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:4px}
+.who__opt--s{grid-column:1/-1;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;justify-items:start;align-items:center;column-gap:12px;row-gap:0;padding:10px 14px;text-align:left;position:relative;background:repeating-linear-gradient(-45deg,var(--surface-2) 0 10px,var(--surface) 10px 20px)}
+.who__opt--s svg{grid-row:1/3;width:54px;height:54px;filter:saturate(.8)}
+.who__opt--s b{font-size:19px;align-self:end}
+.who__opt--s small{align-self:start}
+.who__stamp{position:absolute;top:8px;right:10px;padding:2px 9px;border:2px solid var(--red);border-radius:8px;color:var(--red);font-family:var(--f-game);font-size:14px;line-height:1.3;transform:rotate(8deg);background:var(--surface);opacity:.92}
+.who__tease{padding:10px 12px;border-radius:14px;background:var(--gold-tint);color:var(--ink);font-size:14px;line-height:1.5}
+.who__tease b{font-family:var(--f-game);font-weight:400;font-size:17px}
+.who__tease .gbtn{margin-top:8px}
+.who__opt--s.is-shake{animation:whoShake .5s}
+@keyframes whoShake{0%,100%{transform:none}20%{transform:translateX(-6px) rotate(-1.5deg)}40%{transform:translateX(6px) rotate(1.5deg)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.spectate{display:flex;align-items:center;gap:8px;margin:-2px 0 12px;padding:9px 12px;border:2px dashed var(--gold-ink);border-radius:14px;background:var(--gold-tint);font-size:13.5px;line-height:1.45}
+.spectate b{font-family:var(--f-game);font-weight:400}
+.who__opt{display:grid;justify-items:center;gap:4px;min-width:0;padding:14px 8px 12px;border:2px solid var(--edge);border-radius:18px;background:var(--surface-2);color:var(--ink);box-shadow:0 4px 0 var(--drop);cursor:pointer;font:inherit;transition:transform .12s}
+.who__opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--drop)}
+.who__opt svg{width:72px;height:72px}
+.who__opt b{font-family:var(--f-game);font-weight:400;font-size:22px;line-height:1.2}
+.who__opt small{font-size:12px;color:var(--muted);line-height:1.35}
+.who__opt[aria-pressed="true"]{background:var(--gold-tint);border-color:var(--gold-ink)}
+.who__opt[data-me="a"] .who__dot{background:var(--a-hat)} .who__opt[data-me="b"] .who__dot{background:var(--b-hat)}
+.who__dot{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50%;vertical-align:middle}
+.mepill{cursor:pointer;font-family:var(--f-game);font-weight:400;font-size:13px}
+html.map3d .who__card{border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 120px);box-shadow:0 7px 0 var(--side),0 18px 30px -10px var(--amb)}
+html.map3d .who__opt{border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 5px 0 var(--side),0 12px 16px -6px var(--amb)}
 .kid__top{display:flex;align-items:center;gap:8px}
 .kid__face{display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border:2px solid var(--edge);border-radius:13px;background:var(--surface);font-size:24px}
 .kid__name{display:block;font-family:var(--f-game);font-size:17px;line-height:1.2}
@@ -518,8 +557,8 @@ html.anim .acc[open] .acc__body{animation:fadeUp .3s cubic-bezier(.2,.7,.2,1)}
 .totop svg{width:22px;height:22px}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:90;max-width:calc(100% - 32px);padding:10px 16px;border:2px solid var(--gold);border-radius:12px;background:var(--hud);color:var(--on-hud);font-family:var(--f-game);font-size:15px;opacity:0;transform:translate(-50%,12px);pointer-events:none;transition:opacity .2s,transform .2s}
 .toast.is-on{opacity:1;transform:translate(-50%,0)}
-.taxi{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;background:var(--scrim)}
-.taxi__card{width:100%;max-width:560px;display:grid;gap:14px;padding:24px 20px;border-radius:20px;background:var(--sign-bg);color:var(--sign-fg);text-align:center}
+.taxi{position:fixed;inset:0;z-index:95;display:grid;grid-template-columns:minmax(0,1fr);place-items:center;padding:16px;background:var(--scrim)}
+.taxi__card{width:100%;max-width:560px;min-width:0;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain;display:grid;gap:14px;padding:24px 20px;border-radius:20px;background:var(--sign-bg);color:var(--sign-fg);text-align:center;overflow-wrap:anywhere}
 .taxi__lead{font-size:18px}
 .taxi__name{font-size:clamp(24px,7vw,34px);font-weight:500;line-height:1.35}
 .taxi__addr{font-size:clamp(20px,5.8vw,28px);line-height:1.45}
@@ -584,6 +623,8 @@ html.map3d{--f-px:"Fredoka","Jua",ui-rounded,system-ui,sans-serif;--side:var(--s
 html.map3d body{background:linear-gradient(180deg,var(--sky3-a),var(--bg) 560px) no-repeat,var(--bg)}
 html.map3d :is(.gbtn,.pill,.qcard,.chip,.tile,.kid,.area,.pass,.acc,.fx,.nrow,.irow__ck,.shoprow,.totop,.mapmode,.buy,.spot,.say p,.contact,.events li){border-color:transparent;border-style:solid;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 var(--dz,5px) 0 var(--side),0 calc(var(--dz,5px) + 7px) 16px -6px var(--amb)}
 html.map3d :is(.qcard,.area,.pass,.kid,.fx){--dz:7px}
+/* 3D 스킨은 카드 테두리가 없어서, 탑승권 절취 홈도 테두리 대신 오목하게 파인 그림자로 */
+html.map3d .pass__foot::before,html.map3d .pass__foot::after{border-color:transparent;background:var(--surface-2);box-shadow:inset 0 2px 4px var(--lo),inset 0 0 0 1px var(--lo)}
 html.map3d :is(.chip,.pill,.irow__ck,.spot,.contact,.say p,.events li){--dz:3px}
 html.map3d :is(.gbtn--gold,.pill--gold,.irow__ck[aria-pressed="true"],.buy[aria-pressed="true"]){--side:var(--side-gold)}
 html.map3d .gbtn--go{--side:var(--side-blue)}
@@ -893,8 +934,9 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
     <div class="titlebar" id="top">
       <h1 class="logo" id="mapT">TOKYO <span>QUEST</span></h1>
       <span class="titlebar__sub">아빠 둘의 도쿄 2박 3일</span>
-      <span class="titlebar__pills"><span class="pill pill--gold" id="ddayPill">D-?</span><a class="pill" href="#bag" id="bagPill" aria-label="가방 화면으로">🎒 0/0</a></span>
+      <span class="titlebar__pills"><button class="pill mepill" type="button" id="mePill" data-who-open aria-label="사용자 바꾸기">👤</button><span class="pill pill--gold" id="ddayPill">D-?</span><a class="pill" href="#bag" id="bagPill" aria-label="가방 화면으로">🎒 0/0</a></span>
     </div>
+    <p class="spectate" id="spectate" hidden></p>
     <aside class="hello" id="hello" hidden aria-labelledby="helloT">
       <p class="hello__t" id="helloT">👋 처음이면 이것만 보세요</p>
       <ul class="hello__l">
@@ -923,10 +965,10 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
           <p class="guidechip" id="guideChip" hidden></p>
           <div class="maptools">
             <button class="gbtn gbtn--icon follow3d" id="follow3d" type="button" hidden aria-label="아바타 위치 · 기본 배율로 돌아가기" title="기본 보기"></button>
-            <div class="mapmode" role="group" aria-label="화면 스타일"><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 도트 화면으로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 입체 화면으로 보기">3D</button></div>
+            <div class="mapmode" role="group" aria-label="화면 스타일" hidden><button type="button" id="mode2d" aria-pressed="true" aria-label="2D 도트 화면으로 보기">2D</button><button type="button" id="mode3d" aria-pressed="false" aria-label="3D 입체 화면으로 보기">3D</button></div>
             <button class="gbtn gbtn--icon" id="zoomBtn" type="button" aria-pressed="false" aria-label="지도 전체 보기"></button>
           </div>
-          <div class="maplegend" aria-hidden="true"><span><i style="background:var(--a-hat)">A</i>아빠 A</span><span><i style="background:var(--b-hat);color:var(--on-red)">B</i>아빠 B</span></div>
+          <div class="maplegend" aria-hidden="true"><span><i style="background:var(--a-hat)">태</i>태균</span><span><i style="background:var(--b-hat);color:var(--on-red)">현</i>현재</span></div>
         </div>
       </div>
       <div class="questcol">
@@ -949,12 +991,12 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
 
   <!-- ============ BAG ============ -->
   <section class="view wrap" id="v-bag" data-view="bag" hidden aria-labelledby="bagT">
-    <header class="vhead"><p class="eyebrow">INVENTORY</p><h2 id="bagT">가방 · 아들 둘 쇼핑 퀘스트</h2>
+    <header class="vhead"><p class="eyebrow">INVENTORY</p><h2 id="bagT">가방 · 아들 쇼핑 퀘스트</h2>
       <p class="vhead__sub">아이템을 누르면 GET! 아바타 손에 쇼핑백이 늘어나요. 이 휴대폰에 저장돼서 새로고침해도 남아요.</p></header>
     <div class="kids" role="tablist" aria-label="누구 쇼핑?" id="kids"></div>
     <div id="kidPanel" role="tabpanel"></div>
     <div class="whereto" id="whereto"></div>
-    <div class="bagtools"><button class="gbtn gbtn--sm" id="resetBag" type="button" aria-label="획득 표시 모두 지우기">획득 초기화</button></div>
+    <div class="bagtools"><button class="gbtn gbtn--sm" type="button" data-who-open aria-label="사용자 바꾸기">👤 사용자 바꾸기</button><button class="gbtn gbtn--sm" id="resetBag" type="button" aria-label="획득 표시 모두 지우기">획득 초기화</button></div>
   </section>
 
   <!-- ============ BARS ============ -->
@@ -1016,6 +1058,20 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
   </section>
 </div>
 
+<div class="who" id="who" hidden role="dialog" aria-modal="true" aria-labelledby="whoT">
+  <div class="who__card">
+    <p class="eyebrow">PLAYER SELECT</p>
+    <h2 id="whoT">누가 쓰나요?</h2>
+    <p class="who__sub">고른 사람의 쇼핑 목록·메모만 보여요.<br>다음부터는 자동으로 골라져요 (지도 위 👤 버튼으로 바꿀 수 있어요).</p>
+    <div class="who__opts">
+      <button class="who__opt" type="button" data-me="a" aria-pressed="false"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="22" r="13" fill="var(--skin)"/><path d="M7 21a13 13 0 0 1 26 0z" fill="var(--a-hat)"/><circle cx="20" cy="6.6" r="3.2" fill="var(--a-hat)"/><circle cx="15.5" cy="23.5" r="1.7" fill="var(--eye)"/><circle cx="24.5" cy="23.5" r="1.7" fill="var(--eye)"/><path d="M17 28q3 2.4 6 0" fill="none" stroke="var(--eye)" stroke-width="1.5" stroke-linecap="round"/></svg><b>태균</b><small>12개월 아들 아빠</small></button>
+      <button class="who__opt" type="button" data-me="b" aria-pressed="false"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="22" r="13" fill="var(--skin)"/><path d="M7 21a13 13 0 0 1 26 0h6.5v3H7z" fill="var(--b-hat)"/><circle cx="15.5" cy="24.5" r="1.7" fill="var(--eye)"/><circle cx="24.5" cy="24.5" r="1.7" fill="var(--eye)"/><path d="M17 29q3 2.4 6 0" fill="none" stroke="var(--eye)" stroke-width="1.5" stroke-linecap="round"/></svg><b>현재</b><small>곧 아빠 · 출산 예정</small></button>
+      <button class="who__opt who__opt--s" type="button" data-me="s" aria-pressed="false"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="22" r="13" fill="var(--skin)"/><path d="M7.5 19.5a13 12 0 0 1 25 0q-4-4.5-12.5-4.5t-12.5 4.5z" fill="var(--legs)"/><path d="M14 23.5q1.6-1.6 3.2 0M22.8 23.5q1.6-1.6 3.2 0" fill="none" stroke="var(--eye)" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="13.4" cy="26.8" rx="2.4" ry="1.4" fill="#F29C9C" opacity=".55"/><ellipse cx="26.6" cy="26.8" rx="2.4" ry="1.4" fill="#F29C9C" opacity=".55"/><path d="M17.5 29.5q2.5-1.4 5 0" fill="none" stroke="var(--eye)" stroke-width="1.5" stroke-linecap="round"/><g transform="translate(29 27) rotate(18)"><rect x="-3" y="-2" width="6" height="10" rx="2.6" fill="#FFFFFF" stroke="var(--edge)" stroke-width="1.3"/><rect x="-1.6" y="-5.4" width="3.2" height="3.8" rx="1.4" fill="#F5B820" stroke="var(--edge)" stroke-width="1.2"/><path d="M-3 3.2h6" stroke="#8FC1E8" stroke-width="2.2"/></g></svg><span class="who__stamp" aria-hidden="true">육아 당첨!</span><b>세형</b><small>🍼 이번 판은 집에서 기저귀 퀘스트 · 다음 기회에…</small></button>
+    </div>
+    <p class="who__tease" id="whoTease" role="status" hidden></p>
+    <button class="gbtn gbtn--sm" id="whoX" type="button" hidden>그대로 두기</button>
+  </div>
+</div>
 <div class="taxi" id="taxi" hidden role="dialog" aria-modal="true" aria-labelledby="taxiName">
   <div class="taxi__card" lang="ja">
     <p class="taxi__lead" id="taxiLead">ここへ行ってください</p>
@@ -1040,8 +1096,8 @@ const TRIP = {
   departISO: '2026-10-03T08:10:00+09:00',
 
   crew: {
-    a: { name: '아빠 A', role: '12개월 아들 아빠' },
-    b: { name: '아빠 B', role: '곧 아빠 · 출산 예정' }
+    a: { name: '태균', tag: '태', role: '12개월 아들 아빠', who: '태균이네' },
+    b: { name: '현재', tag: '현', role: '곧 아빠 · 출산 예정', who: '현재네' }
   },
 
   flights: [
@@ -1057,7 +1113,7 @@ const TRIP = {
 
   /* 아들 둘 — 쇼핑 퀘스트 */
   kids: [
-    { id: 'a', crew: 'a', name: 'A네 아들', face: '👶', stats: ['12개월', '80cm', '11kg', '남아'],
+    { id: 'a', crew: 'a', name: '태균이네 아들', face: '👶', stats: ['12개월', '80cm', '11kg', '남아'],
       guide: [['옷', '80 지금 · 90 내년 봄'], ['기저귀', 'L 9–14kg'], ['신발', '발 길이 + 0.5~1cm']],
       tip: '80cm면 일본 옷 80이 지금 딱 맞고, 90은 내년 봄용이에요. 걷기 시작할 때라 첫걸음 신발이 1순위. 아이가 같이 안 가니까 출발 전에 발 길이를 재서 아래 메모에 적어 두세요.',
       items: [
@@ -1075,7 +1131,7 @@ const TRIP = {
         { e: '🪥', t: '첫 칫솔·치약', size: '1세~', shop: 'drug' },
         { e: '🎀', t: '패밀리아 턱받이', size: '선물용', shop: 'familiar' }
       ] },
-    { id: 'b', crew: 'b', name: 'B네 아들', face: '🐣', stats: ['곧 출생', '신생아', '남아'],
+    { id: 'b', crew: 'b', name: '현재네 아들', face: '🐣', stats: ['곧 출생', '신생아', '남아'],
       guide: [['옷', '50–60 · 외출복 60–70'], ['기저귀', '신생아·S 4–8kg'], ['젖꼭지', 'SS (0개월~)']],
       tip: '아직 태어나기 전이라 사이즈는 넉넉하게. 가을·겨울 출생이라 50–60 내의는 여러 벌, 외출복은 60–70으로. 신생아용 기저귀는 금방 작아져서 S를 넉넉히 사는 집이 많아요.',
       items: [
@@ -1286,10 +1342,10 @@ const TRIP = {
           memo: '48시간권 첫 개찰이 여기! 공략집에서 「패스 개시」를 눌러 두면 남은 시간이 상단에 떠요. 급하면 JR 바쿠로초 → 긴시초 1정거장(3~4분, 패스 안 됨 · 요금 별도)도 있어요.',
           alt: { text: '모츠야키 낮술이 당기면 남쪽 출구 「논키」(토 13:00~).', place: 'nonki' } },
         { t: '14:20', end: '15:50', node: 'kinshicho', place: 'akachan', tags: ['baby'],
-          memo: '오늘의 보스전! A네 기저귀 L·빨대컵, B네 신생아 내의·젖병까지. 부피 큰 소모품은 오늘 사서 숙소에 두기. 면세는 여권 실물.',
+          memo: { a: '오늘의 보스전! 기저귀 L·빨대컵·엉덩이 물티슈 리필부터. 부피 큰 소모품은 오늘 사서 숙소에 두기. 면세는 여권 실물.', b: '오늘의 보스전! 신생아 내의·투웨이올·젖병·기저귀 S까지. 부피 큰 소모품은 오늘 사서 숙소에 두기. 면세는 여권 실물.' },
           alt: { text: '계산대 줄이 길면 4층 유니클로·6층 GU 먼저 보고 5층으로 돌아오기.' } },
         { t: '15:50', end: '16:50', node: 'kinshicho', place: 'uq_arcakit', tags: ['gu'],
-          memo: '4층 유니클로(키즈·베이비) → 6층 GU(키즈). A네 80·90 겨울옷, B네 60 바디슈트.',
+          memo: { a: '유니클로·GU는 여기 한 번만! 4층 유니클로(키즈·베이비) 80 내복·레깅스·90 경량 패딩 → 6층 GU(키즈) 긴팔·봄옷.', b: '유니클로·GU는 여기 한 번만! 4층 유니클로(키즈·베이비) 60 바디슈트 → 6층 GU(키즈)도 한 바퀴.' },
           alt: { text: '더 필요하면 남쪽 출구 긴시초 파르코 3층 니시마쓰야 (저렴한 아기 옷·소모품).', place: 'nishimatsuya' } },
         { t: '17:10', node: 'hotel', place: 'hotel', title: '체크인 · 짐 두기', short: '세이브 · 체크인', save: true, tags: ['move'],
           move: [{ line: 'hanzomon', text: '긴시초 → 스미요시', dur: '약 2분' }, { line: 'shinjuku', text: '스미요시 환승 → 바쿠로요코야마', dur: '약 8분' }],
@@ -1323,7 +1379,7 @@ const TRIP = {
       items: [
         { t: '10:00', end: '11:00', node: 'nihonbashi', place: 'nmitsukoshi', tags: ['baby'],
           move: [{ line: 'asakusa', text: '히가시니혼바시 → 니혼바시 (2정거장)', dur: '4분' }, { line: 'walk', text: '니혼바시역 → 미쓰코시 본점 (니혼바시 다리 건너)', dur: '약 7분 {?}' }],
-          memo: '본관 7층 베이비·아동복과 미키하우스. A네 첫걸음 신발은 여기서 사이즈 상담!',
+          memo: { a: '본관 7층 베이비·아동복과 미키하우스. 첫걸음 신발은 여기서 사이즈 상담! (가방 메모의 발 길이 확인)', b: '본관 7층 베이비·아동복과 미키하우스. 출산 선물 후보를 여기서 먼저 보고 긴자 미쓰코시에서 포장.' },
           alt: { text: '다카시마야 S.C.(10:30 개점, 니혼바시역 직결) 본관 5층 키즈.', place: 'takashimaya' } },
         { t: '11:10', end: '12:20', node: 'ginza', place: 'uq_ginza', tags: ['gu'],
           move: [{ line: 'ginza', text: '미쓰코시마에 → 긴자 (3정거장)', dur: '5분' }],
@@ -1336,7 +1392,7 @@ const TRIP = {
           alt: { text: '줄이 길면 닭백탕 라멘 「가가리 본점」(긴자 6-4-12).', place: 'kagari' } },
         { t: '13:40', end: '15:00', node: 'ginza', place: 'gmitsukoshi', tags: ['baby'],
           move: [{ line: 'walk', text: '보행자 천국 주오도리 → 긴자 4초메', dur: '5분' }],
-          memo: '신관 10층에 베이비용품·아동복·패밀리아·미키하우스가 한 층에. B네 출산 선물은 여기서 포장 요청!',
+          memo: { a: '신관 10층에 베이비용품·아동복·패밀리아·미키하우스가 한 층에. 패밀리아 턱받이는 여기서!', b: '신관 10층에 베이비용품·아동복·패밀리아·미키하우스가 한 층에. 출산 선물은 여기서 포장 요청!' },
           alt: { text: '붐비면 길 건너 마쓰야 긴자 6층(패밀리아·미키하우스, 일요일 19:30까지).', place: 'matsuya' } },
         { t: '15:10', end: '16:20', node: 'ginza', place: 'uq_tokyo', tags: ['gu'],
           move: [{ line: 'walk', text: '긴자 4초메 → 마로니에게이트 긴자2 (긴자 3-2-1)', dur: '약 8분 {?}' }],
@@ -1490,7 +1546,7 @@ const TRIP = {
     ueno:       { ll: [35.7100, 139.7745], todo: ['분라쿠는 일요일 음식 주문 19:00까지', '니쿠노 오야마 일요일 음식 L.O. 21:00', '막차 00:01 우에노 → 고덴마초'] },
     nihonbashi: { ll: [35.6850, 139.7737], todo: ['미쓰코시 본점 10:00 개점 · 본관 7층 미키하우스', '다카시마야는 10:30 개점'] },
     ningyocho:  { ll: [35.6862, 139.7826], todo: ['일요일엔 문 닫는 집이 많아요 (사사신 휴무)', '숙소까지 약 1km, 걸어서 귀가 가능'] },
-    ginza:      { ll: [35.6717, 139.7650], todo: ['보행자 천국 토·일 12:00–17:00', '긴자 미쓰코시 신관 10층: 패밀리아·미키하우스', 'B네 출산 선물은 포장 요청', '마쓰야 긴자 일요일 19:30 마감'] },
+    ginza:      { ll: [35.6717, 139.7650], todo: ['보행자 천국 토·일 12:00–17:00', '긴자 미쓰코시 신관 10층: 패밀리아·미키하우스', '@b 출산 선물은 포장 요청', '마쓰야 긴자 일요일 19:30 마감'] },
     tsukiji:    { ll: [35.6655, 139.7705], todo: ['06:00–09:00은 업자 우선 시간, 통로 비켜 다니기', '07:40엔 일어서기 (08:26 공항 열차)', '일요일·공휴일은 휴시'] },
     shinjuku:   { ll: [35.6935, 139.7010], todo: ['골든가이 바는 자릿세가 있어요', '막차 00:00 신주쿠 → 바쿠로요코야마 {?}'] }
   },
@@ -1579,7 +1635,7 @@ const TRIP = {
       ['🔌', '돼지코 어댑터 (일본 콘센트는 11자 · 100V)', '휴대폰 충전기는 대부분 그대로 꽂아 써도 돼요'],
       ['🔋', '충전기 · 보조배터리', '보조배터리는 위탁 말고 기내 가방에'],
       ['🌂', '접이식 우산 · 얇은 겉옷', '10월은 도쿄에서 비가 가장 많은 달'],
-      ['👣', 'A네 아들 발 길이 재서 가방 메모에 적기', '첫걸음 신발 사이즈 고를 때 써요'],
+      ['👣', '아들 발 길이 재서 가방 메모에 적기', '첫걸음 신발 사이즈 고를 때 써요', 'a'],
       ['👜', '접이식 쇼핑백 (캐리어 안에)', '현지에서 기저귀·옷 정리용'],
       ['⚖️', '휴대용 저울', '위탁 1인 15kg · 1개'],
       ['💊', '숙취해소제 · 상비약', ''],
@@ -1643,6 +1699,29 @@ const TRIP = {
 (function(){
 'use strict';
 const D = TRIP, P = D.places, L = D.lines, N = D.nodes;
+/* ---- 누가 보는 화면? (a = 태균, b = 현재) — 고른 사람 몫만 남겨요 ----
+   데이터 표기: { a: '…', b: '…' } → 그 사람 문장 · 배열 안 '@a …' 문자열 → 그 사람에게만 · 체크리스트 [e, t, sub, 'a'] → 그 사람에게만 */
+const WHO = (() => { try { const v = JSON.parse(localStorage.getItem('tokyoquest:me')); return v === 'a' || v === 'b' || v === 's' ? v : null; } catch(e){ return null; } })();
+const ME = WHO === 's' ? null : WHO;   /* 's' = 세형 관전 모드: 둘 다 보여요 */
+(function resolveMe(){
+  const isAB = v => v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 2 && 'a' in v && 'b' in v && typeof v.a === 'string' && typeof v.b === 'string';
+  const pick = v => ME ? v[ME] : (D.crew ? `${D.crew.a.name}: ${v.a} / ${D.crew.b.name}: ${v.b}` : v.a + ' / ' + v.b);
+  const walk = x => {
+    if (Array.isArray(x)){
+      for (let i = x.length - 1; i >= 0; i--){
+        const v = x[i];
+        if (typeof v === 'string' && /^@[ab] /.test(v)){ if (ME && v[1] !== ME) x.splice(i, 1); else x[i] = v.slice(3); continue; }
+        if (Array.isArray(v) && (v[3] === 'a' || v[3] === 'b') && ME && v[3] !== ME){ x.splice(i, 1); continue; }
+        if (isAB(v)) x[i] = pick(v); else walk(v);
+      }
+    } else if (x && typeof x === 'object'){
+      Object.keys(x).forEach(k => { const v = x[k]; if (isAB(v)) x[k] = pick(v); else walk(v); });
+    }
+  };
+  walk(D);
+})();
+const KIDS = () => ME ? D.kids.filter(k => k.crew === ME) : D.kids;
+const CREW = id => D.crew[id === 'b' ? 'b' : 'a'];
 Object.entries(D.areas || {}).forEach(([id, a]) => { if (N[id]) Object.assign(N[id], a); });
 Object.entries(D.geo || {}).forEach(([id, g]) => { if (P[id]){ P[id].area = g[0]; P[id].ll = [g[1], g[2]]; } });
 Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ sight:true }, x); });
@@ -1995,7 +2074,7 @@ function heroSVG(id, dx){
 const HEROES = `<g class="guide" id="guide" style="display:none" aria-hidden="true"><line/><circle r="20"/></g><g id="heroes" class="heroes" aria-hidden="true">
   <ellipse class="h-shadow" cx="0" cy="1.2" rx="17" ry="3.6"/>
   <g class="h-flip"><g class="crew">${heroSVG('a', -8)}${heroSVG('b', 8)}</g><text class="plane" x="0" y="-6" text-anchor="middle">✈️</text></g>
-  <g class="h-tags"><text x="-8" y="-33">A</text><text x="8" y="-33">B</text></g>
+  <g class="h-tags"><text x="-8" y="-33">${esc(D.crew.a.tag)}</text><text x="8" y="-33">${esc(D.crew.b.tag)}</text></g>
 </g>`;
 function buildFg(di){
   const day = D.days[di];
@@ -2135,7 +2214,7 @@ function detailHTML(it, di, k, opts){
   const wxNow = opts.buy ? itWx(it, di) : null, tr = planOf(di, k);
   if (wxNow && wxNow.t != null){ const x = wxInfo(wxNow.c, wxNow.night); facts.push(['날씨', `${x.e} ${x.t} · ${Math.round(wxNow.t)}°${wxNow.p != null ? ` · 비 ${wxNow.p}%` : ''} (예보)`]); }
   if (opts.buy && p && di === todayIdx()){ const os = openState(p, di, jst().min); if (os) facts.unshift(['지금', ({ on:'🟢 ', soon:'🟠 ', pre:'🔵 ' }[os.s] || '🔴 ') + os.t]); }
-  if (it.memo) h += `<div class="say"><span class="say__who say__who--${k % 2 ? 'b' : 'a'}" aria-hidden="true">${k % 2 ? 'B' : 'A'}</span><p><span class="sr">아빠 ${k % 2 ? 'B' : 'A'}: </span>${rich(it.memo, w)}</p></div>`;
+  if (it.memo){ const sp = ME || (k % 2 ? 'b' : 'a'); h += `<div class="say"><span class="say__who say__who--${sp}" aria-hidden="true">${esc(CREW(sp).tag)}</span><p><span class="sr">${esc(CREW(sp).name)}: </span>${rich(it.memo, w)}</p></div>`; }
   if (it.move){
     const lb = tr ? (tr.board ? `<p class="leaveby">🚆 <b>${esc(it.t)}</b> 탑승 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(약 ${tr.mt}분)</span></p>`
                               : tr.tight ? `<p class="leaveby">⏱ 앞 일정이 끝나는 <b>${fmtMin(tr.leave)}</b>에 바로 이동 → <b>${fmtMin(tr.arrive)}</b>쯤 도착 <span>(이동 약 ${tr.mins}분)</span></p>`
@@ -2146,7 +2225,7 @@ function detailHTML(it, di, k, opts){
   if (wxNow && wxNow.p != null && wxNow.p >= 50) h += `<p class="raintip"><span aria-hidden="true">☔</span><span>이 시간 비 올 확률 ${wxNow.p}% · 우산 챙기고${it.alt ? ' 아래 B루트도 확인!' : ''}</span></p>`;
   if (opts.buy && p && p.shops){
     const rows = [];
-    D.kids.forEach(kid => kidItems(kid).forEach(x => { if (p.shops.includes(x.shop)) rows.push(itemRowHTML(kid, x)); }));
+    KIDS().forEach(kid => kidItems(kid).forEach(x => { if (p.shops.includes(x.shop)) rows.push(itemRowHTML(kid, x)); }));
     if (rows.length) h += `<section class="sec"><h3>🎒 여기서 살 것</h3><p class="sec__sub">누르면 사이즈·팁이 나와요. 오른쪽 칸을 누르면 바로 GET.</p><div class="nlist">${rows.join('')}</div></section>`;
   }
   if (it.alt){
@@ -2560,7 +2639,7 @@ function nearbyHTML(id, src){
   const shopSet = new Set();
   Object.values(P).forEach(p => { if (p.area === id && p.shops) p.shops.forEach(x => shopSet.add(x)); });
   const rows = [];
-  if (shopSet.size) D.kids.forEach(kid => kidItems(kid).forEach(x => { if (shopSet.has(x.shop)) rows.push({ kid, x }); }));
+  if (shopSet.size) KIDS().forEach(kid => kidItems(kid).forEach(x => { if (shopSet.has(x.shop)) rows.push({ kid, x }); }));
   rows.sort((p, q) => (got[p.x.key] ? 1 : 0) - (got[q.x.key] ? 1 : 0));
   const recs = Object.entries(P).filter(([pid, p]) => p.area === id && (p.desc || p.sight) && pid !== 'hotel').map(([pid, p]) => {
     const when = p.when || (p.tags && p.tags.includes('drink') ? ['day', 'night'] : ['morning', 'day', 'night']);
@@ -2585,7 +2664,7 @@ function itemDetailHTML(key){
   const f = findItem(key); if (!f) return '';
   const { kid, x } = f, s = D.shops[x.shop], p = s && s.place ? P[s.place] : null, on = !!got[key], tip = (D.itemTips || {})[x.t];
   return `<header class="sh-head"><span class="qcard__emo k-baby" aria-hidden="true">${x.e}</span><div><p class="sh-time">${esc(kid.name)} · ${esc(kid.stats.join(' · '))}</p><h2 id="sheetTitle">${esc(x.t)}</h2><div class="tags"><span class="tag k-baby">📏 ${esc(x.size || '사이즈 자유')}</span><span class="tag k-gu">${s ? s.e : '🛒'} ${esc(shopName(x.shop))}</span></div></div></header>
-    ${tip ? `<div class="say"><span class="say__who say__who--${kid.crew}" aria-hidden="true">${kid.crew.toUpperCase()}</span><p>${rich(tip)}</p></div>` : ''}
+    ${tip ? `<div class="say"><span class="say__who say__who--${kid.crew}" aria-hidden="true">${esc(CREW(kid.crew).tag)}</span><p>${rich(tip)}</p></div>` : ''}
     <section class="sec"><h3>📏 ${esc(kid.name)} 사이즈 공략</h3><ul class="todo">${kid.guide.map(g => `<li>${esc(g[0])}: <b>${esc(g[1])}</b></li>`).join('')}${budget[kid.id] ? `<li>메모: ${esc(budget[kid.id])}</li>` : ''}</ul></section>
     ${s ? `<section class="sec"><h3>🗺️ 어디서 사?</h3><p>${esc(s.where)}</p></section>` : ''}
     <button class="gbtn${on ? '' : ' gbtn--gold'} getbtn" type="button" data-got="${esc(key)}" aria-pressed="${on}">${getLabel(on)}</button>
@@ -2627,12 +2706,12 @@ sheetBody.addEventListener('click', e => {
    ================================================================ */
 let got = store.get('got', {}), custom = store.get('custom', {}), budget = store.get('budget', {});
 let kidSel = store.get('kid', 'a'), shopF = store.get('shopf', 'all');
-if (!D.kids.some(k => k.id === kidSel)) kidSel = D.kids[0].id;
+if (!KIDS().some(k => k.id === kidSel)) kidSel = KIDS()[0].id;
 function kidItems(kid){
   return kid.items.map(x => Object.assign({}, x, { key: kid.id + '::' + x.t, custom:false }))
     .concat((custom[kid.id] || []).map(x => Object.assign({ e:'🛒', size:'' }, x, { key: kid.id + '::' + x.t, custom:true })));
 }
-function invCounts(){ const r = {}; let g = 0, a = 0; D.kids.forEach(k => { const l = kidItems(k), n = l.filter(x => got[x.key]).length; r[k.id] = { got:n, all:l.length }; g += n; a += l.length; }); r.total = { got:g, all:a }; return r; }
+function invCounts(){ const r = {}; let g = 0, a = 0; D.kids.forEach(k => { r[k.id] = { got:0, all:0 }; }); KIDS().forEach(k => { const l = kidItems(k), n = l.filter(x => got[x.key]).length; r[k.id] = { got:n, all:l.length }; g += n; a += l.length; }); r.total = { got:g, all:a }; return r; }
 const shopName = s => D.shops[s] ? D.shops[s].name : '기타';
 function tileHTML(kid, x){
   const on = !!got[x.key];
@@ -2641,8 +2720,9 @@ function tileHTML(kid, x){
 }
 function renderKids(){
   const c = invCounts();
-  $('#kids').innerHTML = D.kids.map(k => `<button class="kid" type="button" role="tab" data-kid="${k.id}" aria-selected="${k.id === kidSel}" aria-controls="kidPanel" tabindex="${k.id === kidSel ? 0 : -1}">
-    <span class="kid__top"><span class="kid__face" aria-hidden="true">${k.face}</span><span><span class="kid__name">${esc(k.name)}</span><span class="kid__dad">${esc(D.crew[k.crew].name)} · ${esc(D.crew[k.crew].role)}</span></span></span>
+  $('#kids').classList.toggle('kids--one', KIDS().length === 1);
+  $('#kids').innerHTML = KIDS().map(k => `<button class="kid" type="button" role="tab" data-kid="${k.id}" aria-selected="${k.id === kidSel}" aria-controls="kidPanel" tabindex="${k.id === kidSel ? 0 : -1}">
+    <span class="kid__top"><span class="kid__face" aria-hidden="true">${k.face}</span><span><span class="kid__name">${esc(k.name)}</span><span class="kid__dad">${esc(CREW(k.crew).name)} · ${esc(CREW(k.crew).role)}</span></span></span>
     <span class="kid__stats">${k.stats.map(s => `<span class="stat">${esc(s)}</span>`).join('')}</span>
     <span class="kid__xp"><span class="xp" aria-hidden="true"><span style="--p:${c[k.id].all ? c[k.id].got / c[k.id].all : 0}"></span></span>${c[k.id].got}/${c[k.id].all}</span>
   </button>`).join('');
@@ -2664,7 +2744,7 @@ function renderKidPanel(){
 function renderWhereto(){
   const rows = Object.entries(D.shops).map(([id, s]) => {
     let left = 0, all = 0;
-    D.kids.forEach(k => kidItems(k).forEach(x => { if (x.shop === id){ all++; if (!got[x.key]) left++; } }));
+    KIDS().forEach(k => kidItems(k).forEach(x => { if (x.shop === id){ all++; if (!got[x.key]) left++; } }));
     if (!all) return '';
     const p = s.place ? P[s.place] : null;
     return `<div class="shoprow"><span style="font-size:24px" aria-hidden="true">${s.e}</span><span class="shoprow__t"><b>${esc(s.name)}</b>${esc(s.where)}</span><span class="shoprow__n">${left ? `남은 ${left}` : 'CLEAR'}</span>${p ? `<a class="gbtn gbtn--icon" href="${esc(mapsUrl(p.q))}" ${EXT} aria-label="${esc(s.name)} 구글 지도 열기 (새 탭)">${ICON.pin}</a>` : ''}</div>`;
@@ -2703,8 +2783,8 @@ function initBag(){
   $('#kids').addEventListener('keydown', e => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
-    const i = D.kids.findIndex(k => k.id === kidSel), n = (i + (e.key === 'ArrowRight' ? 1 : -1) + D.kids.length) % D.kids.length;
-    pickKid(D.kids[n].id); $(`[data-kid="${kidSel}"]`).focus();
+    const ks = KIDS(), i = ks.findIndex(k => k.id === kidSel), n = (i + (e.key === 'ArrowRight' ? 1 : -1) + ks.length) % ks.length;
+    pickKid(ks[n].id); $(`[data-kid="${kidSel}"]`).focus();
   });
   $('#kidPanel').addEventListener('click', e => { const c = e.target.closest('[data-shop]'); if (!c) return; shopF = c.dataset.shop; store.set('shopf', shopF); renderKidPanel(); });
   $('#kidPanel').addEventListener('submit', e => {
@@ -2761,7 +2841,7 @@ function blockHTML(b, w){
   if (b.wx) return `<div class="wxbox" id="wxBox"></div><p class="wxnote" id="wxNote"></p>`;
   if (b.install) return `<div class="installbox" id="installBox"></div>`;
   if (b.contacts) return b.contacts.map(c => `<div class="contact"><div class="contact__who"><b>${esc(c.name)}</b><span>${rich(c.note, w)}</span></div>
-    <a class="contact__num" href="tel:${esc(c.tel)}" aria-label="${esc(c.name)} 전화 걸기 ${esc(c.num)}">${esc(c.num)}</a>
+    <a class="contact__num sel" href="tel:${esc(c.tel)}" aria-label="${esc(c.name)} 전화 걸기 ${esc(c.num)}">${esc(c.num)}</a>
     <button class="gbtn gbtn--icon" type="button" data-copy="${esc(c.num)}" aria-label="${esc(c.name)} 번호 복사">${ICON.copy}</button></div>`).join('');
   return '';
 }
@@ -2769,8 +2849,8 @@ function hotelHTML(){
   const h = D.hotel, p = P[h.place], w = '숙소';
   return `<div><p class="eyebrow">BASE CAMP · 2泊</p><h3>${esc(p.name)} <span class="ja" lang="ja">${esc(p.ja)}</span></h3></div>
     <dl class="facts">
-      <dt>주소</dt><dd><span lang="ja">${rich(h.address, w)}</span><button class="copy" type="button" data-copy="${esc(h.addressCopy)}" aria-label="숙소 주소 복사">${ICON.copy}</button></dd>
-      <dt>전화</dt><dd><a href="tel:${esc(h.tel)}">${esc(h.phone)}</a><button class="copy" type="button" data-copy="${esc(h.phone)}" aria-label="숙소 전화번호 복사">${ICON.copy}</button><small class="base__note">${rich(h.phoneNote, w)}</small></dd>
+      <dt>주소</dt><dd><span class="sel" lang="ja">${rich(h.address, w)}</span><button class="copy" type="button" data-copy="${esc(h.addressCopy)}" aria-label="숙소 주소 복사">${ICON.copy}</button></dd>
+      <dt>전화</dt><dd><a class="sel" href="tel:${esc(h.tel)}">${esc(h.phone)}</a><button class="copy" type="button" data-copy="${esc(h.phone)}" aria-label="숙소 전화번호 복사">${ICON.copy}</button><small class="base__note">${rich(h.phoneNote, w)}</small></dd>
       <dt>체크인</dt><dd>${rich(h.inout, w)}</dd>
       <dt>짐 보관</dt><dd>${rich(h.luggage, w)}</dd>
     </dl>
@@ -2941,14 +3021,14 @@ document.addEventListener('click', async e => {
 });
 
 /* ---------- 같이 쓴 돈 · 반반 정산 ---------- */
-let split = store.get('split', []), splitWho = store.get('splitWho', 'a'), splitArm = null;
+let split = store.get('split', []), splitWho = store.get('splitWho', ME || 'a'), splitArm = null;
 if (!Array.isArray(split)) split = [];
 function initSplit(){
   $('#split').innerHTML = `<h3 id="splitT">🧾 같이 쓴 돈 · 반반 정산</h3>
     <p class="split__sub">술값·택시·밥처럼 둘이 같이 쓴 돈만 적어요. 누가 누구에게 얼마 주면 되는지 바로 계산해요.</p>
     <form class="split__form" id="splitForm" autocomplete="off">
       <label class="sr" for="splitY">금액 (엔)</label><input class="field split__amt" id="splitY" inputmode="numeric" placeholder="¥ 금액" enterkeyhint="next">
-      <div class="split__who" role="group" aria-label="낸 사람"><button type="button" data-who="a" aria-pressed="${splitWho === 'a'}">A가 냄</button><button type="button" data-who="b" aria-pressed="${splitWho === 'b'}">B가 냄</button></div>
+      <div class="split__who" role="group" aria-label="낸 사람"><button type="button" data-who="a" aria-pressed="${splitWho === 'a'}">${esc(D.crew.a.name)}가 냄</button><button type="button" data-who="b" aria-pressed="${splitWho === 'b'}">${esc(D.crew.b.name)}가 냄</button></div>
       <label class="sr" for="splitM">메모</label><input class="field split__memo" id="splitM" type="text" placeholder="메모 (비우면 지금 퀘스트 이름)" enterkeyhint="done">
       <button class="gbtn gbtn--gold split__add" type="submit">+ 기록하기</button>
     </form>
@@ -2978,7 +3058,7 @@ function initSplit(){
     split.unshift({ id: Date.now(), y: Math.round(amt), w: splitWho, m: memo, t: Date.now() });
     store.set('split', split);
     y.value = ''; $('#splitM').value = '';
-    paintSplit(); toast(`🧾 ${splitWho.toUpperCase()}가 낸 ¥${fmtNum(amt)} 기록`);
+    paintSplit(); toast(`🧾 ${CREW(splitWho).name}가 낸 ¥${fmtNum(amt)} 기록`);
   });
   $('#splitShare').addEventListener('click', () => {
     if (!split.length){ toast('아직 기록이 없어요'); return; }
@@ -3002,9 +3082,10 @@ function splitSums(){
 function splitText(){
   const { sum, tot, diff } = splitSums(), won = v => `${fmtNum(v * fxRate / 100)}원`;
   const f = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
-  const settle = Math.abs(diff) < 1 ? '딱 반반' : diff > 0 ? `B → A ¥${fmtNum(diff)} (≈${won(diff)})` : `A → B ¥${fmtNum(-diff)} (≈${won(-diff)})`;
-  return [`🧾 도쿄 같이 쓴 돈 (100엔=${fxRate}원)`, `합계 ¥${fmtNum(tot)} (≈${won(tot)}) · A ¥${fmtNum(sum.a)} · B ¥${fmtNum(sum.b)}`, `정산: ${settle}`, '']
-    .concat(split.slice().sort((x, y) => x.t - y.t).map(x => `· ${f.format(new Date(x.t))} ${x.m || '기록'} ¥${fmtNum(x.y)} (${x.w === 'b' ? 'B' : 'A'})`)).join('\n');
+  const A = D.crew.a.name, B = D.crew.b.name;
+  const settle = Math.abs(diff) < 1 ? '딱 반반' : diff > 0 ? `${B} → ${A} ¥${fmtNum(diff)} (≈${won(diff)})` : `${A} → ${B} ¥${fmtNum(-diff)} (≈${won(-diff)})`;
+  return [`🧾 도쿄 같이 쓴 돈 (100엔=${fxRate}원)`, `합계 ¥${fmtNum(tot)} (≈${won(tot)}) · ${A} ¥${fmtNum(sum.a)} · ${B} ¥${fmtNum(sum.b)}`, `정산: ${settle}`, '']
+    .concat(split.slice().sort((x, y) => x.t - y.t).map(x => `· ${f.format(new Date(x.t))} ${x.m || '기록'} ¥${fmtNum(x.y)} (${CREW(x.w).name})`)).join('\n');
 }
 function paintSplit(){
   const res = $('#splitRes'), ul = $('#splitList'); if (!res) return;
@@ -3012,10 +3093,11 @@ function paintSplit(){
   const sum = { a: 0, b: 0 }; split.forEach(x => { sum[x.w === 'b' ? 'b' : 'a'] += x.y; });
   const tot = sum.a + sum.b, diff = sum.a - tot / 2;
   const won = v => `≈ ${fmtNum(v * fxRate / 100)}원`;
-  const settle = !tot ? '아직 기록이 없어요' : Math.abs(diff) < 1 ? '딱 반반! 줄 돈 없음 🍻' : diff > 0 ? `B → A <b>¥${fmtNum(diff)}</b> <small>${won(diff)}</small>` : `A → B <b>¥${fmtNum(-diff)}</b> <small>${won(-diff)}</small>`;
-  res.innerHTML = `<span>합계 ¥${fmtNum(tot)} <small>${won(tot)}</small> · A ¥${fmtNum(sum.a)} · B ¥${fmtNum(sum.b)}</span><span>정산: ${settle}</span>`;
+  const A = esc(D.crew.a.name), B = esc(D.crew.b.name);
+  const settle = !tot ? '아직 기록이 없어요' : Math.abs(diff) < 1 ? '딱 반반! 줄 돈 없음 🍻' : diff > 0 ? `${B} → ${A} <b>¥${fmtNum(diff)}</b> <small>${won(diff)}</small>` : `${A} → ${B} <b>¥${fmtNum(-diff)}</b> <small>${won(-diff)}</small>`;
+  res.innerHTML = `<span>합계 ¥${fmtNum(tot)} <small>${won(tot)}</small> · ${A} ¥${fmtNum(sum.a)} · ${B} ¥${fmtNum(sum.b)}</span><span>정산: ${settle}</span>`;
   const f = new Intl.DateTimeFormat('ko-KR', { timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
-  ul.innerHTML = split.map(x => `<li><span class="who${x.w === 'b' ? ' who--b' : ''}" aria-label="${x.w === 'b' ? 'B' : 'A'}가 냄">${x.w === 'b' ? 'B' : 'A'}</span><span class="m">${esc(x.m || '기록')} <small>${f.format(new Date(x.t))}</small></span><span class="y">¥${fmtNum(x.y)}</span><button class="x" type="button" data-sdel="${x.id}" aria-label="${esc(x.m || '기록')} ¥${fmtNum(x.y)} 지우기">×</button></li>`).join('');
+  ul.innerHTML = split.map(x => `<li><span class="who${x.w === 'b' ? ' who--b' : ''}" aria-label="${esc(CREW(x.w).name)}가 냄">${esc(CREW(x.w).tag)}</span><span class="m">${esc(x.m || '기록')} <small>${f.format(new Date(x.t))}</small></span><span class="y">¥${fmtNum(x.y)}</span><button class="x" type="button" data-sdel="${x.id}" aria-label="${esc(x.m || '기록')} ¥${fmtNum(x.y)} 지우기">×</button></li>`).join('');
 }
 
 /* ================================================================
@@ -3200,8 +3282,8 @@ function leave3d(msg){
 }
 async function setMapMode(on, opts){
   opts = opts || {};
-  if (on && (reduce || !hasGL())){
-    if (!opts.silent) toast(reduce ? '움직임 줄이기 설정이 켜져 있어서 2D 지도로 보여줘요' : '이 기기에서는 3D 지도를 쓸 수 없어서 2D로 보여줘요');
+  if (on && !hasGL()){
+    if (!opts.silent) toast('이 기기에서는 3D 지도를 쓸 수 없어서 평면 지도로 보여줘요');
     return leave3d();
   }
   if (!opts.silent){ store.set('mapmode', on ? '3d' : '2d'); skinFade(); toast(on ? '🧊 3D 모드 · 지도와 화면이 입체로 바뀌어요' : '🟦 2D 도트 모드로 돌아왔어요'); }
@@ -3213,11 +3295,11 @@ async function setMapMode(on, opts){
     let T = null;
     try { T = await loadThree(); } catch(e){ T = null; }
     m3dLoad.hidden = true; b.removeAttribute('aria-busy');
-    if (!T){ store.set('mapmode', '2d'); return leave3d('3D 지도를 불러오지 못했어요 · 인터넷 연결을 확인해 주세요'); }
+    if (!T){ return leave3d('3D 지도를 불러오지 못했어요 · 인터넷이 연결되면 다시 그려요'); }
     if (!is3d) return;
     if (!G){
       try { build3d(T); }
-      catch(e){ console.warn('3D map', e); $$('canvas', m3dEl).forEach(c => c.remove()); m3dTags.innerHTML = ''; G = null; return leave3d('3D 지도를 만들지 못했어요 · 2D로 보여줄게요'); }
+      catch(e){ console.warn('3D map', e); $$('canvas', m3dEl).forEach(c => c.remove()); m3dTags.innerHTML = ''; G = null; return leave3d('3D 지도를 만들지 못했어요 · 평면 지도로 보여줄게요'); }
     }
   }
   G.enter(); kick3d();
@@ -3782,7 +3864,7 @@ function build3d(T){
     mk(cyl(0.62, 0.62, 1.35, 8), HM.mug, 0, 0, 0, mug); mk(cyl(0.66, 0.66, 0.42, 8), HM.foam, 0, 0.84, 0, mug); mug.visible = false;
     const blob = new T.Mesh(new T.CircleGeometry(2.7, 20).rotateX(-Math.PI / 2), HM.blob); blob.renderOrder = 1; r3.add(blob);
     const tc = canvasTex(64, 64), tag = new T.Sprite(new T.SpriteMaterial({ map: tc.t, transparent: true }));
-    tag.scale.setScalar(2.5); tag.position.y = 15.4; r3.add(tag); tags.push({ tc, tok: tk[1], ch: A ? 'A' : 'B', ink: A ? '--on-gold' : '--on-red' });
+    tag.scale.setScalar(2.5); tag.position.y = 15.4; r3.add(tag); tags.push({ tc, tok: tk[1], ch: A ? D.crew.a.tag : D.crew.b.tag, ink: A ? '--on-gold' : '--on-red' });
     return { r3, pel, legL, legR, torso, arms, head, eyes, bags, mug, blob, tag, outer, inner, so, ph: A ? 0 : 0.7, blinkAt: 1 + Math.random() * 3, look: 0 };
   }
   function paintTags(){
@@ -3790,7 +3872,7 @@ function build3d(T){
       const g = t.tc.g; g.clearRect(0, 0, 64, 64);
       g.fillStyle = hex('--edge'); g.beginPath(); g.arc(32, 32, 30, 0, Math.PI * 2); g.fill();
       g.fillStyle = hex(t.tok); g.beginPath(); g.arc(32, 32, 25, 0, Math.PI * 2); g.fill();
-      g.fillStyle = hex(t.ink); g.font = '700 30px "Silkscreen",ui-monospace,monospace'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillStyle = hex(t.ink); g.font = '30px "Jua","Noto Sans KR",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
       g.fillText(t.ch, 32, 34); t.tc.t.needsUpdate = true;
     });
   }
@@ -4362,7 +4444,42 @@ function build3d(T){
   G = { route, here, status, bags, theme, hero, enter, dispose, flight, frame: tick, wake(){ last = 0; settled = false; } };
 }
 
+/* ---- 사용자 고르기: 처음 한 번 묻고 기억해요. 바꾸면 그 사람 화면으로 다시 열어요 ---- */
+function initWho(){
+  const who = $('#who'), x = $('#whoX');
+  const tease = $('#whoTease');
+  const mp = $('#mePill'); if (mp) mp.textContent = WHO === 's' ? '👀 세형 관전' : ME ? `👤 ${CREW(ME).name}` : '👤 선택';
+  if (WHO === 's'){ const sp = $('#spectate'); sp.hidden = false; sp.innerHTML = '<span aria-hidden="true">🍼</span><span><b>세형 관전 모드</b> · 육아 당첨 축하해요! 둘이 뭐 하는지 실시간으로 구경만 하세요. 다음 판은 꼭 같이 🍻</span>'; }
+  const open = first => {
+    $$('.who__opt', who).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.me === WHO)));
+    x.hidden = !!first; who.hidden = false; tease.hidden = true;
+    const f = $(`.who__opt[data-me="${WHO || 'a'}"]`, who); if (f) f.focus({ preventScroll:true });
+  };
+  who.addEventListener('click', e => {
+    const b = e.target.closest('[data-me]');
+    if (b){
+      const id = b.dataset.me;
+      if (id === 's' && WHO !== 's' && tease.hidden){
+        b.classList.remove('is-shake'); void b.offsetWidth; b.classList.add('is-shake');
+        const lines = ['육아 당첨! 🎉 이번 판은 집에서 기저귀 퀘스트예요.', '세형 님은 이번에 분유 담당 · 다음 기회에… 🍼', '아쉽지만 이번 여행 좌석은 매진! 다음 기회에 😎'];
+        tease.innerHTML = `<b>${lines[Math.floor(Math.random() * lines.length)]}</b><br>그래도 둘이 뭐 하는지 구경은 할 수 있어요.<br><button class="gbtn gbtn--sm gbtn--gold" type="button" data-me="s">👀 구경만 할게요 (관전 모드)</button>`;
+        tease.hidden = false; return;
+      }
+      if (id === WHO){ who.hidden = true; toast(id === 's' ? '👀 계속 구경해요' : `👤 ${CREW(id).name} 그대로 써요`); return; }
+      store.set('me', id); if (id !== 's'){ store.set('kid', id); store.set('splitWho', id); }
+      try { sessionStorage.setItem('tq-me-toast', id); } catch(err){}
+      who.hidden = true; location.reload(); return;
+    }
+    if (e.target === x || (e.target === who && WHO)){ who.hidden = true; }
+  });
+  document.addEventListener('click', e => { if (e.target.closest('[data-who-open]')) open(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !who.hidden && WHO) who.hidden = true; });
+  if (!WHO) open(true);
+  let t = null; try { t = sessionStorage.getItem('tq-me-toast'); sessionStorage.removeItem('tq-me-toast'); } catch(err){}
+  if (t && WHO) setTimeout(() => toast(WHO === 's' ? '🍼 육아 당첨 축하! 관전 모드예요' : `👤 ${CREW(ME).name} 님 화면이에요`), 400);
+}
 function init(){
+  initWho();
   renderPrintPlan(); renderBars(); renderGuide(); renderMiniBase(); initBag(); renderNeeds(); initFx();
   renderChapters();
   applyTheme();
@@ -4376,7 +4493,7 @@ function init(){
   setInterval(() => { updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); paintOpen(); }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden){ updateTicker(); refreshStatus(); tickTheme(); autoFollow(); renderCheckbar(); loadWx(); paintOpen(); } });
   paintWx(); loadWx();
-  addEventListener('online', () => { toast('📶 인터넷 다시 연결됐어요'); updateTicker(); loadWx(true); if (view === 'fx') autoRate(); });
+  addEventListener('online', () => { toast('📶 인터넷 다시 연결됐어요'); updateTicker(); loadWx(true); if (view === 'fx') autoRate(); if (!is3d && hasGL()) setMapMode(true, { silent:true }); });
   addEventListener('offline', () => { toast('📴 오프라인 · 저장해 둔 화면으로 보여요'); updateTicker(); });
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && /(^|\.)github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)){
     addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
@@ -4442,7 +4559,7 @@ function init(){
   nodeGo3 = nodeGo;
   $('#mode2d').addEventListener('click', () => { if (is3d) setMapMode(false); });
   $('#mode3d').addEventListener('click', () => { if (!is3d) setMapMode(true); });
-  if (store.get('mapmode', '2d') === '3d') setMapMode(true, { silent:true });
+  if (WHO) setMapMode(true, { silent:true });   /* 3D 고정 — 2D는 3D를 못 그리는 기기에서만 대신 떠요 · 처음 고르기 창이 떠 있을 땐 고른 뒤 다시 열면서 그려요 */
 
   $('#dock').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) showView(b.dataset.view); });
   $('#bagPill').addEventListener('click', e => { e.preventDefault(); showView('bag'); });

@@ -6,7 +6,7 @@ const themes = ['light', 'dark'];
 const sc = [];
 sizes.forEach(([w, h, dpr]) => themes.forEach(t => sc.push({
   name: `${w}-${t}`, now: '2026-10-03T18:30:00+09:00', w, h, dpr,
-  ls: { 'tokyoquest:hello': 'true', 'tokyoquest:theme': JSON.stringify(t), 'tokyoquest:mapmode': '"2d"' },
+  ls: { 'tokyoquest:hello': 'true', 'tokyoquest:me': '"a"', 'tokyoquest:theme': JSON.stringify(t), 'tokyoquest:mapmode': '"2d"' },
   steps: [{ wait: 1200 }].concat(...views.map(v => [
     { eval: `document.querySelector('#dock [data-view=${v}]').click()` },   /* [data-view=…] 만 쓰면 <section>이 먼저 잡혀요 */
     { wait: 500, eval: `'${v} overflow=' + (document.documentElement.scrollWidth - innerWidth)` },

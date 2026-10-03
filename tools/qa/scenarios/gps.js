@@ -5,7 +5,7 @@ const st = `({ live: document.documentElement.classList.contains('is-live'), btn
   ticker: document.querySelector('#ticker').innerText.replace(/\\s+/g, ' '), chip: document.querySelector('#guideChip').hidden ? '-' : document.querySelector('#guideChip').textContent,
   overflow: document.documentElement.scrollWidth - innerWidth })`;
 module.exports = { scenarios: [
-  { name: 'gps-asakusa-360', now: '2026-10-03T19:10:00+09:00', w: 360, h: 780, ls: { 'tokyoquest:hello': 'true', 'tokyoquest:mapmode': '"2d"' }, steps: [
+  { name: 'gps-asakusa-360', now: '2026-10-03T19:10:00+09:00', w: 360, h: 780, ls: { 'tokyoquest:hello': 'true', 'tokyoquest:me': '"a"', 'tokyoquest:mapmode': '"2d"' }, steps: [
     { wait: 1200, eval: stub },
     { eval: "document.querySelector('#nearBtn').click()", wait: 500 },
     { eval: "document.querySelector('[data-live]').click()", wait: 300 },
@@ -14,7 +14,7 @@ module.exports = { scenarios: [
     { eval: "window.__err({ code: 3 }); window.__err({ code: 2 })", wait: 300 }, { eval: st }, /* 켜진 뒤 일시 오류: 꺼지면 안 됨 */
     { eval: "document.querySelector('.sheet [data-close]').click()", wait: 700, shot: 'gps-asakusa-360.png' }
   ] },
-  { name: 'gps-incheon', now: '2026-10-03T06:30:00+09:00', w: 390, h: 844, ls: { 'tokyoquest:hello': 'true' }, steps: [
+  { name: 'gps-incheon', now: '2026-10-03T06:30:00+09:00', w: 390, h: 844, ls: { 'tokyoquest:hello': 'true', 'tokyoquest:me': '"a"' }, steps: [
     { wait: 1200, eval: stub },
     { eval: "document.querySelector('#nearBtn').click(); document.querySelector('[data-live]').click()", wait: 300 },
     { eval: "window.__ok({ coords: { latitude: 37.4602, longitude: 126.4407, accuracy: 30 } })", wait: 900 },

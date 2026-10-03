@@ -33,6 +33,6 @@ const times = [
   ['after-trip',     '2026-10-06T10:00:00+09:00']
 ];
 module.exports = { parallel: 1, scenarios: times.map(([n, now]) => ({
-  name: n, now, w: 390, h: 844, ls: { 'tokyoquest:hello': 'true', 'tokyoquest:mapmode': '"2d"' },
+  name: n, now, w: 390, h: 844, ls: { 'tokyoquest:hello': 'true', 'tokyoquest:me': '"a"', 'tokyoquest:mapmode': '"2d"' },
   steps: [{ wait: 1500 }, { eval: probe }, { shot: 'moment-' + n + '.png' }]
 })) };
