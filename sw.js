@@ -1,7 +1,8 @@
 /* TOKYO QUEST 오프라인 지원
    - 페이지(index.html): 인터넷이 되면 항상 새 버전, 안 되거나 4초 넘게 걸리면 저장해 둔 버전
    - 아이콘·글꼴·three.js: 한 번 받으면 저장해 두고 씀 (뒤에서 조용히 새로 받기)
-   - 날씨·환율 API, 구글 지도: 가로채지 않음 (페이지가 따로 저장해 둬요) */
+   - 날씨·환율 API, 구글 지도: 가로채지 않음 (페이지가 따로 저장해 둬요)
+   - 실제 지도(OpenFreeMap) 타일·글꼴·아이콘: 한 번 본 곳은 저장해 두고 씀 (최근 1,500장까지) */
 const V = 'tq-v3';   /* 바꾸면 저장해 둔 글꼴·three.js도 새로 받아요 */
 const CORE = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const PAGE = new URL('./', self.registration.scope).href;
@@ -30,6 +31,17 @@ function keep(req){
   }));
 }
 const KEEP_HOSTS = /(^|\.)(fonts\.googleapis\.com|fonts\.gstatic\.com|cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|unpkg\.com)$/;
+const TILES = 'tqmap-tiles', TILE_MAX = 1500;   /* 'tq-'로 시작하지 않아서 V를 올려도 안 지워져요 */
+let tilePuts = 0;
+function trimTiles(c){ c.keys().then(ks => { if (ks.length > TILE_MAX) return Promise.all(ks.slice(0, ks.length - TILE_MAX).map(k => c.delete(k))); }).catch(() => {}); }
+/* 타일(.pbf·.png)·글꼴·스프라이트는 주소에 버전이 박혀 있어서 저장본 우선, 스타일·TileJSON은 저장본 주고 뒤에서 새로 받기 */
+function keepTile(req, revalidate){
+  return caches.open(TILES).then(c => c.match(req).then(hit => {
+    const net = fetch(req).then(r => { if (r.ok){ c.put(req, r.clone()); if (++tilePuts % 60 === 0) trimTiles(c); } return r; });
+    if (hit){ if (revalidate) net.catch(() => {}); return hit; }
+    return net;
+  }));
+}
 
 self.addEventListener('fetch', e => {
   const r = e.request;
@@ -37,5 +49,6 @@ self.addEventListener('fetch', e => {
   const u = new URL(r.url);
   if (r.mode === 'navigate' && u.origin === location.origin){ e.respondWith(pageFirst()); return; }
   if (u.origin === location.origin){ if (!u.pathname.endsWith('/sw.js')) e.respondWith(keep(r)); return; }
-  if (KEEP_HOSTS.test(u.hostname)) e.respondWith(keep(r));
+  if (KEEP_HOSTS.test(u.hostname)){ e.respondWith(keep(r)); return; }
+  if (u.hostname === 'tiles.openfreemap.org') e.respondWith(keepTile(r, /\/styles\/|\/planet\/?$/.test(u.pathname)));
 });
