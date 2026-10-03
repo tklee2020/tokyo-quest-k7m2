@@ -1,0 +1,2 @@
+module.exports = { parallel: 1, scenarios: [{ name: 'whoquick', w: 390, h: 844, dpr: 2, ls: { 'tokyoquest:hello': 'true' },
+  steps: [ { wait: 2500, eval: `(() => { const w = document.querySelector('#who'), r = w.getBoundingClientRect(), cs = getComputedStyle(w); return 'picker hidden=' + w.hidden + ' pos=' + cs.position + ' rect=' + Math.round(r.width) + 'x' + Math.round(r.height) + ' z=' + cs.zIndex; })()` }, { shot: 'whoquick.png' } ] }] };
