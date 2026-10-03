@@ -898,6 +898,9 @@ html.anim .route.drawn .leg-lbl{opacity:1}
 .appi__t b{font-family:var(--f-game);font-weight:400;font-size:16px}
 .appi__t small{font-size:12.5px;color:var(--muted);line-height:1.45}
 .appi svg{flex-shrink:0;width:16px;height:16px;color:var(--muted)}
+.apptest{margin-top:10px;padding:10px 12px;border:2px dashed var(--line);border-radius:14px}
+.apptest summary{cursor:pointer;font-family:var(--f-game);font-size:15px}
+.apptest__l{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 html.map3d :is(.app,.appi){border-color:transparent;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 4px 0 var(--side),0 9px 12px -6px var(--amb)}
 
 /* ---------- 서로 위치 보기 ---------- */
@@ -2104,7 +2107,7 @@ Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ si
 Object.entries(D.openHours || {}).forEach(([id, o]) => { if (P[id]) P[id].oh = o; });
 const root = document.documentElement;
 const NS = 'tokyoquest:';
-const BUILD = '10/3 13:50';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
+const BUILD = '10/3 14:20';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
 const store = {
   get(k, d){ try{ const v = localStorage.getItem(NS + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(NS + k, JSON.stringify(v)); }catch(e){} }
@@ -5233,20 +5236,20 @@ const APPS = [
   { id: 'papago', e: '🦜', n: '파파고', s: '파파고', d: '한국어 ↔ 일본어 대화·사진 번역. 메뉴판은 「이미지」로 찍으면 통째로 번역돼요.', top: 1,
     web: 'https://papago.naver.com/', android: launchUrl('com.naver.labs.translator'), ios: iosStore(1147874819) },
   { id: 'translate', e: '🈯', n: '구글 번역', s: '번역', d: '일본어 → 한국어 카메라 번역·대화 모드. 오프라인 일본어 팩을 받아 두면 지하철에서도 돼요.', top: 1,
-    web: 'https://translate.google.com/?sl=ja&tl=ko', android: launchUrl('com.google.android.apps.translate'), ios: { scheme: 'googletranslate://', store: iosStore(414706506) } },
+    web: 'https://translate.google.com/?sl=ja&tl=ko', android: intentUrl('translate.google.com/?sl=ja&tl=ko', 'https', 'com.google.android.apps.translate', playUrl('com.google.android.apps.translate')), ios: { scheme: 'googletranslate://', store: iosStore(414706506) } },
   { id: 'claude', e: '🤖', n: 'Claude', s: 'Claude', d: '사진 찍어 「이거 뭐야?」, 일정 바뀌면 동선 다시 짜기, 메뉴 추천까지.', top: 1,
-    web: 'https://claude.ai/new', android: launchUrl('com.anthropic.claude') },
+    web: 'https://claude.ai/new', android: intentUrl('claude.ai/new', 'https', 'com.anthropic.claude', playUrl('com.anthropic.claude')) },
   { id: 'gemini', e: '✨', n: 'Gemini', s: 'Gemini', d: '구글 지도·검색과 연결된 AI. 「근처 지금 여는 이자카야」 같은 질문에.', top: 1,
-    web: 'https://gemini.google.com/app/download/mobile', android: launchUrl('com.google.android.apps.bard') },
-  { id: 'chatgpt', e: '💬', n: 'ChatGPT', s: 'ChatGPT', d: '사진 번역·질문용 AI 하나 더.', web: 'https://chatgpt.com/open-app', android: launchUrl('com.openai.chatgpt') },
+    web: 'https://gemini.google.com/app/download/mobile', android: intentUrl('gemini.google.com/app', 'https', 'com.google.android.googlequicksearchbox', 'https://gemini.google.com/app') },   /* 이 폰은 구글 앱이 제미나이 링크를 받아요 (assetlinks) */
+  { id: 'chatgpt', e: '💬', n: 'ChatGPT', s: 'ChatGPT', d: '사진 번역·질문용 AI 하나 더.', web: 'https://chatgpt.com/open-app', android: intentUrl('chatgpt.com/', 'https', 'com.openai.chatgpt', 'https://chatgpt.com/') },
   { id: 'go', e: '🚕', n: 'GO 택시', s: 'GO 택시', d: '일본 1위 택시 호출 앱. 한국어 화면, 해외 카드 등록 가능. 술 마신 뒤 귀가할 때.', top: 1,
     web: 'https://un2f.adj.st?adj_t=22w8ux1e&adj_deep_link=mot-go%3A%2F%2F' },
   { id: 'kakaot', e: '🟡', n: '카카오T', s: '카카오T', d: '한국 카카오T로 일본 택시 호출 (한국어·한국 카드 결제).', top: 1,
-    web: playUrl('com.kakao.taxi'), android: launchUrl('com.kakao.taxi'), ios: iosStore(981110422) },
+    web: playUrl('com.kakao.taxi'), android: intentUrl('taxi', 'kakaot', 'com.kakao.taxi', playUrl('com.kakao.taxi')),   /* 카카오 공식 실행 페이지가 쓰는 주소 */ ios: iosStore(981110422) },
   { id: 'uber', e: '⚫', n: '우버', s: '우버', d: '도쿄 우버는 일반 택시를 미터 요금으로 불러요.',
-    web: 'https://m.uber.com/ul/', android: launchUrl('com.ubercab', 'https://m.uber.com/ul/') },
+    web: 'https://m.uber.com/ul/' },
   { id: 'tabelog', e: '🍽️', n: '타베로그', s: '타베로그', d: '일본 맛집 평점 (3.5 넘으면 맛집). 한국어 웹으로 열려요.', top: 1,
-    web: 'https://tabelog.com/kr/', android: launchUrl('com.kakaku.tabelog.tourists', 'https://tabelog.com/kr/') },
+    web: 'https://tabelog.com/kr/' },
   { id: 'airseoul', e: '✈️', n: '에어서울', s: '에어서울', d: '귀국편 RS702 모바일 체크인·탑승권.',
     web: 'https://flyairseoul.com/', android: launchUrl('com.asianaidt.airseoul', 'https://flyairseoul.com/'), ios: iosStore(1140026677) },
   { id: 'safety', e: '🆘', n: 'Safety tips', s: '재난 알림', d: '일본 관광청 감수 지진·쓰나미·기상 경보 앱 (한국어 알림).',
@@ -5255,6 +5258,23 @@ const APPS = [
     web: playUrl('com.mobiletoong.travelwallet'), android: launchUrl('com.mobiletoong.travelwallet'), ios: iosStore(1460769945) },
   { id: 'hanamoney', e: '💳', n: '하나머니 (트래블로그)', s: '트래블로그', d: '트래블로그 카드 엔화 충전·환전.',
     web: playUrl('kr.co.hanamembers.hmscustomer'), android: launchUrl('kr.co.hanamembers.hmscustomer'), ios: iosStore(1038288833) }
+];
+/* 폰에서 직접 눌러 보는 후보 주소 — 안 열리면 이 페이지로 돌아와 "실패"가 떠요. 열린 후보를 기본으로 바꾸면 돼요 */
+const appBack = id => location.href.split('#')[0] + '#apptest=' + id;
+let checkAppTest = () => {};   /* initApps가 채워요 · popstate가 먼저 불러요 */
+const APP_TESTS = [
+  ['lens-A', '렌즈 A · 구글 앱 lens', () => intentUrl('lens', 'googleapp', 'com.google.android.googlequicksearchbox', appBack('lens-A'))],
+  ['lens-B', '렌즈 B · 구글 앱 lens.google.com', () => intentUrl('lens.google.com/', 'https', 'com.google.android.googlequicksearchbox', appBack('lens-B'))],
+  ['lens-C', '렌즈 C · 렌즈 앱 lens.google', () => intentUrl('lens.google/', 'https', 'com.google.ar.lens', appBack('lens-C'))],
+  ['papago-A', '파파고 A · papago://', () => intentUrl('main', 'papago', 'com.naver.labs.translator', appBack('papago-A'))],
+  ['papago-B', '파파고 B · papago.naver.com', () => intentUrl('papago.naver.com/', 'https', 'com.naver.labs.translator', appBack('papago-B'))],
+  ['kakaot-A', '카카오T A · kakaot://taxi', () => intentUrl('taxi', 'kakaot', 'com.kakao.taxi', appBack('kakaot-A'))],
+  ['kakaot-B', '카카오T B · t.kakao.com', () => intentUrl('t.kakao.com/launch?type=taxi', 'https', 'com.kakao.taxi', appBack('kakaot-B'))],
+  ['gemini-A', '제미나이 A · 구글 앱', () => intentUrl('gemini.google.com/app', 'https', 'com.google.android.googlequicksearchbox', appBack('gemini-A'))],
+  ['gemini-B', '제미나이 B · 제미나이 앱', () => intentUrl('gemini.google.com/app/download/mobile', 'https', 'com.google.android.apps.bard', appBack('gemini-B'))],
+  ['claude-A', '클로드 A · claude.ai/new', () => intentUrl('claude.ai/new', 'https', 'com.anthropic.claude', appBack('claude-A'))],
+  ['claude-B', '클로드 B · claude.ai', () => intentUrl('claude.ai/', 'https', 'com.anthropic.claude', appBack('claude-B'))],
+  ['translate-A', '번역 A · translate.google.com', () => intentUrl('translate.google.com/?sl=ja&tl=ko', 'https', 'com.google.android.apps.translate', appBack('translate-A'))]
 ];
 function appLink(a){
   if (IS_AND && a.android) return { href: a.android, tab: !/^intent:/.test(a.android) };
@@ -5269,11 +5289,24 @@ function renderApps(){
   const row = $('#appsRow');
   if (row) row.innerHTML = `<span class="apps__k" aria-hidden="true">📱</span>` + APPS.filter(a => a.top).map(a => appA(a, 'app', `<span class="app__e" aria-hidden="true">${a.e}</span>${esc(a.s)}`)).join('');
   const box = $('#appsBox');
-  if (box) box.innerHTML = APPS.map(a => appA(a, 'appi', `<span class="appi__e" aria-hidden="true">${a.e}</span><span class="appi__t"><b>${esc(a.n)}</b><small>${esc(a.d)}</small></span>${ICON.ext}`)).join('');
+  if (box) box.innerHTML = APPS.map(a => appA(a, 'appi', `<span class="appi__e" aria-hidden="true">${a.e}</span><span class="appi__t"><b>${esc(a.n)}</b><small>${esc(a.d)}</small></span>${ICON.ext}`)).join('')
+    + (IS_AND ? `<details class="apptest" id="appTest"><summary>🔧 앱 열기 시험 (안 열리는 앱 고치기용)</summary><p class="sec__sub">하나씩 눌러 보세요. 앱이 열리면 성공, 이 화면으로 돌아와 「❌ 실패」가 뜨면 그 주소는 안 돼요. 열린 것만 알려 주세요.</p><div class="apptest__l">${APP_TESTS.map(t => `<a class="gbtn gbtn--sm" href="${esc(t[2]())}">${esc(t[1])}</a>`).join('')}</div></details>` : '');
 }
 /* 아이폰에서 앱 주소(scheme)로 열어 보고, 2초 뒤에도 이 화면이 그대로면 앱스토어로 */
 function initApps(){
   renderApps();
+  /* 시험 주소가 안 열리면 크롬이 이 페이지의 #apptest=… 로 돌아와요 (같은 문서라 다시 안 열리고 hashchange만 와요) */
+  checkAppTest = () => {
+    const m = /[#&]apptest=([\w-]+)/.exec(location.hash || ''); if (!m) return;
+    try { history.replaceState(history.state, '', location.pathname + location.search + '#guide'); } catch(e){}
+    setTimeout(() => {
+      showView('guide');
+      const acc = $$('#tipsList details').find(d => /앱 바로가기/.test(d.textContent)); if (acc) acc.open = true;
+      const t = $('#appTest'); if (t){ t.open = true; t.scrollIntoView({ block: 'center' }); }
+      toast(`❌ ${m[1]} 실패 · 그 주소로는 앱이 안 열려요`);
+    }, 400);
+  };
+  checkAppTest(); addEventListener('hashchange', checkAppTest);
   document.addEventListener('click', e => {
     const a = e.target.closest('a[data-scheme]'); if (!a) return;
     e.preventDefault();
@@ -5594,9 +5627,31 @@ function init(){
     if (ovlDepth > 0 || popSkip > 0 || pushOwed > 0) return;
     while (guards < 2){ try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){ break; } }
   };
-  ['click', 'keydown'].forEach(ev => document.addEventListener(ev, topUpGuards, { capture:true, passive:true }));
-  if (navigator.webdriver) window.__hist = () => ({ guards, ovlDepth, popSkip, pushOwed, sheetIsOpen, xmOpen });   /* QA 하네스용 */
+  /* 화면을 만지기 전에는 기록 보호막을 크롬이 무시해요 → 안드로이드 뒤로 가기 전용 CloseWatcher가 첫 한 번을 받아요 */
+  let cw = null, cwT = 0;
+  const coarse = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+  const dropFree = () => { clearTimeout(cwT); if (cw){ try { cw.destroy(); } catch(e){} cw = null; } };
+  const armFree = () => {
+    clearTimeout(cwT);
+    if (!coarse || !('CloseWatcher' in window) || cw || guards > 0) return;
+    try { cw = new CloseWatcher(); cw.onclose = () => { cw = null; freeBack(); }; } catch(e){ cw = null; }
+  };
+  const freeBack = () => {
+    if (guards > 0) return;
+    if (!taxi.hidden){ closeTaxi(); cwT = setTimeout(armFree, 300); return; }
+    if (xmOpen){ closeXmap(); cwT = setTimeout(armFree, 300); return; }
+    if (sheetIsOpen){ closeSheet(); cwT = setTimeout(armFree, 300); return; }
+    if (!$('#who').hidden && WHO){ $('#who').hidden = true; cwT = setTimeout(armFree, 300); return; }
+    if (view !== 'map'){ showView('map'); cwT = setTimeout(armFree, 300); return; }
+    exitArm = Date.now(); toast('↩️ 뒤로 한 번 더 누르면 나가요');
+    cwT = setTimeout(armFree, 2200);   /* 2초 안에 한 번 더 누르면 지킬 게 없어서 그대로 나가요 */
+  };
+  const topUp = () => { topUpGuards(); if (guards > 0) dropFree(); };
+  ['click', 'keydown'].forEach(ev => document.addEventListener(ev, topUp, { capture:true, passive:true }));
+  armFree();
+  if (navigator.webdriver) window.__hist = () => ({ guards, ovlDepth, popSkip, pushOwed, sheetIsOpen, xmOpen, cw: !!cw, coarse, hasCW: 'CloseWatcher' in window });   /* QA 하네스용 */
   addEventListener('popstate', () => {
+    if (/[#&]apptest=/.test(location.hash)){ checkAppTest(); return; }   /* 앱 열기 시험 실패로 돌아온 것 — 뒤로 가기가 아니에요 */
     if (popSkip > 0){ popSkip--; syncUrl(); ovlSettle(); return; }
     if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else if (xmOpen) closeXmap(true); else closeSheet(true); syncUrl(); return; }
     if (guards > 0){
@@ -5605,7 +5660,10 @@ function init(){
       if (view !== 'map'){ showView('map'); return; }
       if (Date.now() - exitArm < 2200){ const n = guards + 1; guards = 0; try { history.go(-n); } catch(e){} return; }
       exitArm = Date.now(); toast('↩️ 뒤로 한 번 더 누르면 나가요');
-      if (!guards) try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){}
+      if (!guards){
+        if (coarse && 'CloseWatcher' in window) cwT = setTimeout(armFree, 2200);   /* 손길 없이 넣는 기록은 크롬이 건너뛰어서 CloseWatcher로 */
+        else try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){}
+      }
       return;
     }
     syncUrl();
