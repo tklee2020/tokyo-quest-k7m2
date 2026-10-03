@@ -904,7 +904,8 @@ html.map3d :is(.app,.appi){border-color:transparent;background-image:linear-grad
 .peerchip{position:absolute;left:10px;top:114px;z-index:3;display:grid;gap:6px;justify-items:start;max-width:calc(100% - 80px)}
 .peerchip__b{display:inline-flex;align-items:center;gap:6px;max-width:100%;min-height:34px;padding:2px 10px 2px 3px;border:2px solid var(--edge);border-radius:999px;background:var(--surface);color:var(--ink);font-family:var(--f-game);font-size:13px;line-height:1.2;box-shadow:0 2px 0 var(--drop);cursor:pointer;white-space:nowrap}
 .peerchip__b small{overflow:hidden;font-family:var(--f-body);font-size:11px;color:var(--muted);text-overflow:ellipsis}
-.peerchip__b.is-stale{opacity:.6}
+.peerchip__b.is-stale{color:var(--muted)}   /* 반투명으로 하면 뒤 지도 선이 비쳐서 취소선처럼 보여요 */
+.peerchip__b.is-stale .peerchip__a{filter:grayscale(.7)}
 .peerchip__a{display:inline-grid;place-items:center;flex-shrink:0;width:26px;height:26px;border:2px solid #FFFFFF;border-radius:50%;background:var(--a-hat);color:#1D2232;font-family:var(--f-game);font-size:13px;box-shadow:0 1px 3px #0004}
 .peerchip__a--b{background:var(--b-hat);color:#FFFFFF} .peerchip__a--s{background:#8A7FD8;color:#FFFFFF}
 .nrow .peerchip__a{width:34px;height:34px;font-size:16px}
@@ -2103,7 +2104,7 @@ Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ si
 Object.entries(D.openHours || {}).forEach(([id, o]) => { if (P[id]) P[id].oh = o; });
 const root = document.documentElement;
 const NS = 'tokyoquest:';
-const BUILD = '10/3 13:40';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
+const BUILD = '10/3 13:50';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
 const store = {
   get(k, d){ try{ const v = localStorage.getItem(NS + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(NS + k, JSON.stringify(v)); }catch(e){} }
