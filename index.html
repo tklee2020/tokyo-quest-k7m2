@@ -898,6 +898,7 @@ html.anim .route.drawn .leg-lbl{opacity:1}
 .appi__t b{font-family:var(--f-game);font-weight:400;font-size:16px}
 .appi__t small{font-size:12.5px;color:var(--muted);line-height:1.45}
 .appi svg{flex-shrink:0;width:16px;height:16px;color:var(--muted)}
+.backdiag{font-size:11.5px;color:var(--muted)}
 .apptest{margin-top:10px;padding:10px 12px;border:2px dashed var(--line);border-radius:14px}
 .apptest summary{cursor:pointer;font-family:var(--f-game);font-size:15px}
 .apptest__l{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
@@ -2107,7 +2108,7 @@ Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ si
 Object.entries(D.openHours || {}).forEach(([id, o]) => { if (P[id]) P[id].oh = o; });
 const root = document.documentElement;
 const NS = 'tokyoquest:';
-const BUILD = '10/3 14:20';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
+const BUILD = '10/3 14:45';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
 const store = {
   get(k, d){ try{ const v = localStorage.getItem(NS + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(NS + k, JSON.stringify(v)); }catch(e){} }
@@ -3264,7 +3265,7 @@ function renderGuide(){
   const phr = `<details class="acc reveal" id="phrAcc"><summary><span class="acc__e" aria-hidden="true">🗣️</span><span class="acc__t">보여주는 일본어</span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">누르면 화면 가득 크게 떠요. 점원에게 그대로 보여주세요.</p><div class="phr">${(D.phrases || []).map(g => `<p class="phr__g">${esc(g.g)}</p>${g.list.map(phraseRow).join('')}`).join('')}</div></div></details>`;
   $('#tipsList').innerHTML = (D.checklists || []).map(ckAcc).join('') + phr + D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
   paintChecks(); renderInstall();
-  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('') + `<p>🔖 앱 버전 ${esc(BUILD)}${isStandalone() ? ' · 홈 화면 앱' : ' · 브라우저'}</p>` + '<p><button class="gbtn gbtn--sm" type="button" data-sharelink>📤 이 페이지 링크 보내기</button></p>';
+  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('') + `<p>🔖 앱 버전 ${esc(BUILD)}${isStandalone() ? ' · 홈 화면 앱' : ' · 브라우저'}</p><p class="backdiag" id="backDiag"></p>` + '<p><button class="gbtn gbtn--sm" type="button" data-sharelink>📤 이 페이지 링크 보내기</button></p>';
 }
 /* ---------- 체크리스트 ---------- */
 let checks = store.get('checks', {});
@@ -3571,6 +3572,7 @@ function showView(v, opts){
   if (v === 'map') requestAnimationFrame(() => { cam(heroPos.y, false); if (act >= 0) scrollToCard(act, false); });
   watchReveal(sec);
   if (v === 'fx') autoRate();
+  if (v === 'guide'){ const d = $('#backDiag'); if (d) d.textContent = '↩️ 뒤로 가기 ' + backDiag(); }
   kick3d();
 }
 const MODES = ['time', 'system', 'light', 'dark'], MODE_KO = { time:'도쿄 시간 자동', system:'시스템 설정', light:'낮', dark:'밤' };
@@ -5231,9 +5233,9 @@ const launchUrl = (pkg, fb) => intentUrl('launch?id=' + pkg, 'market', 'com.andr
 const APPS = [
   { id: 'maps', e: '🗺️', n: '구글 지도', s: '지도', d: '길찾기·지하철 환승·가게 리뷰. 일정 카드의 「지도」「길」 버튼도 이 앱으로 열려요.', top: 1,
     web: 'https://www.google.com/maps', android: intentUrl('www.google.com/maps', 'https', 'com.google.android.apps.maps', 'https://www.google.com/maps') },
-  { id: 'lens', e: '🔍', n: '구글 렌즈', s: '렌즈', d: '간판·메뉴판·약 상자를 카메라로 비추면 바로 번역·검색. 아이폰은 구글 앱의 카메라 아이콘.', top: 1,
+  { id: 'lens', e: '🔍', n: '구글 렌즈', s: '렌즈', d: '간판·메뉴판을 카메라로 비추면 번역·검색. 안드로이드는 스토어의 「열기」를 한 번 거쳐요 (바로 열리는 구글 번역 → 카메라도 같은 기능).', top: 1,
     web: 'https://lens.google/', android: launchUrl('com.google.ar.lens'), ios: { scheme: 'google://', store: iosStore(284815942) } },
-  { id: 'papago', e: '🦜', n: '파파고', s: '파파고', d: '한국어 ↔ 일본어 대화·사진 번역. 메뉴판은 「이미지」로 찍으면 통째로 번역돼요.', top: 1,
+  { id: 'papago', e: '🦜', n: '파파고', s: '파파고', d: '한국어 ↔ 일본어 대화·사진 번역. 안드로이드는 스토어의 「열기」를 한 번 거쳐요 (웹에서 바로 여는 걸 앱이 막아 둠).', top: 1,
     web: 'https://papago.naver.com/', android: launchUrl('com.naver.labs.translator'), ios: iosStore(1147874819) },
   { id: 'translate', e: '🈯', n: '구글 번역', s: '번역', d: '일본어 → 한국어 카메라 번역·대화 모드. 오프라인 일본어 팩을 받아 두면 지하철에서도 돼요.', top: 1,
     web: 'https://translate.google.com/?sl=ja&tl=ko', android: intentUrl('translate.google.com/?sl=ja&tl=ko', 'https', 'com.google.android.apps.translate', playUrl('com.google.android.apps.translate')), ios: { scheme: 'googletranslate://', store: iosStore(414706506) } },
@@ -5261,7 +5263,8 @@ const APPS = [
 ];
 /* 폰에서 직접 눌러 보는 후보 주소 — 안 열리면 이 페이지로 돌아와 "실패"가 떠요. 열린 후보를 기본으로 바꾸면 돼요 */
 const appBack = id => location.href.split('#')[0] + '#apptest=' + id;
-let checkAppTest = () => {};   /* initApps가 채워요 · popstate가 먼저 불러요 */
+let checkAppTest = () => {};
+let backDiag = () => '';   /* 뒤로 가기 보호 상태 (공략집 맨 아래에 보여줘요) */   /* initApps가 채워요 · popstate가 먼저 불러요 */
 const APP_TESTS = [
   ['lens-A', '렌즈 A · 구글 앱 lens', () => intentUrl('lens', 'googleapp', 'com.google.android.googlequicksearchbox', appBack('lens-A'))],
   ['lens-B', '렌즈 B · 구글 앱 lens.google.com', () => intentUrl('lens.google.com/', 'https', 'com.google.android.googlequicksearchbox', appBack('lens-B'))],
@@ -5628,13 +5631,13 @@ function init(){
     while (guards < 2){ try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){ break; } }
   };
   /* 화면을 만지기 전에는 기록 보호막을 크롬이 무시해요 → 안드로이드 뒤로 가기 전용 CloseWatcher가 첫 한 번을 받아요 */
-  let cw = null, cwT = 0;
+  let cw = null, cwT = 0, cwMade = 0, cwHits = 0, cwErr = '';
   const coarse = !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
   const dropFree = () => { clearTimeout(cwT); if (cw){ try { cw.destroy(); } catch(e){} cw = null; } };
   const armFree = () => {
     clearTimeout(cwT);
     if (!coarse || !('CloseWatcher' in window) || cw || guards > 0) return;
-    try { cw = new CloseWatcher(); cw.onclose = () => { cw = null; freeBack(); }; } catch(e){ cw = null; }
+    try { cw = new CloseWatcher(); cw.onclose = () => { cw = null; cwHits++; freeBack(); }; cwMade++; } catch(e){ cw = null; cwErr = String(e && e.message || e).slice(0, 60); }
   };
   const freeBack = () => {
     if (guards > 0) return;
@@ -5648,7 +5651,9 @@ function init(){
   };
   const topUp = () => { topUpGuards(); if (guards > 0) dropFree(); };
   ['click', 'keydown'].forEach(ev => document.addEventListener(ev, topUp, { capture:true, passive:true }));
-  armFree();
+  armFree(); setTimeout(armFree, 900);   /* 홈 화면 앱이 막 뜰 때 놓치지 않게 한 번 더 */
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && !guards) setTimeout(armFree, 300); });
+  backDiag = () => `${'CloseWatcher' in window ? '보호 장치 지원' : '보호 장치 미지원'} · ${coarse ? '터치' : '마우스'} · 준비 ${cw ? 'O' : 'X'} (만듦 ${cwMade}·받음 ${cwHits}${cwErr ? ' · ' + cwErr : ''}) · 기록 보호 ${guards}`;
   if (navigator.webdriver) window.__hist = () => ({ guards, ovlDepth, popSkip, pushOwed, sheetIsOpen, xmOpen, cw: !!cw, coarse, hasCW: 'CloseWatcher' in window });   /* QA 하네스용 */
   addEventListener('popstate', () => {
     if (/[#&]apptest=/.test(location.hash)){ checkAppTest(); return; }   /* 앱 열기 시험 실패로 돌아온 것 — 뒤로 가기가 아니에요 */
