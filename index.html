@@ -440,7 +440,7 @@ select.field{flex:0 0 auto}
 .shoprow__t{flex:1;min-width:0;display:grid;font-size:12.5px;color:var(--muted);line-height:1.4}
 .shoprow__t b{font-family:var(--f-game);font-weight:400;font-size:16px;color:var(--ink)}
 .shoprow__n{font-family:var(--f-game);font-size:14px;white-space:nowrap}
-.bagtools{display:flex;justify-content:flex-start;margin-top:16px;padding-right:64px}
+.bagtools{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;margin-top:16px;padding-right:64px}
 
 /* ---------- bars ---------- */
 .areas{display:grid;gap:18px}
@@ -629,7 +629,7 @@ html.map3d body{background:linear-gradient(180deg,var(--sky3-a),var(--bg) 560px)
 html.map3d :is(.gbtn,.pill,.qcard,.chip,.tile,.kid,.area,.pass,.acc,.fx,.nrow,.irow__ck,.shoprow,.totop,.mapmode,.buy,.spot,.say p,.contact,.events li){border-color:transparent;border-style:solid;background-image:linear-gradient(180deg,var(--hi),transparent 58%);box-shadow:inset 0 1px 0 var(--hi),inset 0 -2px 0 var(--lo),0 var(--dz,5px) 0 var(--side),0 calc(var(--dz,5px) + 7px) 16px -6px var(--amb)}
 html.map3d :is(.qcard,.area,.pass,.kid,.fx){--dz:7px}
 /* 3D 스킨은 카드 테두리가 없어서, 탑승권 절취 홈도 테두리 대신 오목하게 파인 그림자로 */
-html.map3d .pass__foot::before,html.map3d .pass__foot::after{border-color:transparent;background:var(--surface-2);box-shadow:inset 0 2px 4px var(--lo),inset 0 0 0 1px var(--lo)}
+html.map3d .pass__foot::before,html.map3d .pass__foot::after{display:none}
 html.map3d :is(.chip,.pill,.irow__ck,.spot,.contact,.say p,.events li){--dz:3px}
 html.map3d :is(.gbtn--gold,.pill--gold,.irow__ck[aria-pressed="true"],.buy[aria-pressed="true"]){--side:var(--side-gold)}
 html.map3d .gbtn--go{--side:var(--side-blue)}
@@ -1180,6 +1180,7 @@ if(m==='light'||m==='dark')document.documentElement.setAttribute('data-theme',m)
   <div class="xmap__side">
     <button class="gbtn gbtn--icon" id="xmapMe" type="button" aria-label="내 위치로 이동" title="내 위치">📍</button>
     <button class="gbtn gbtn--icon" id="xmapHome" type="button" aria-label="그날 일정 전체 보기" title="일정 전체">🏠</button>
+    <button class="gbtn gbtn--icon" id="xmapNrt" type="button" aria-label="나리타 공항 제1터미널로 이동" title="나리타 공항">✈️</button>
     <button class="gbtn gbtn--icon" id="xmap3d" type="button" aria-pressed="true">3D</button>
   </div>
   <div class="xmap__card" id="xmapCard" hidden></div>
@@ -1338,7 +1339,7 @@ const TRIP = {
   /* 장소 — q 는 구글 지도 검색어(일본어 상호명 + 지역) */
   places: {
     hotel:  { name: 'APA 호텔 히가시니혼바시 에키마에', short: '숙소', e: '🏨', ja: 'アパホテル〈東日本橋駅前〉', q: 'アパホテル〈東日本橋駅前〉', url: 'https://www.apahotel.com/hotel/syutoken/tokyo/higashi-nihombashi-ekimae/' },
-    nrt:    { name: '나리타 국제공항 제1터미널', short: '나리타공항', e: '🛬', ja: '成田国際空港 第1ターミナル', q: '成田国際空港 第1ターミナル', url: 'https://www.narita-airport.jp/ko/' },
+    nrt:    { name: '나리타 국제공항 제1터미널', short: '나리타공항', e: '🛬', ja: '成田国際空港 第1ターミナル', q: '成田国際空港 第1ターミナル', desc: '에어서울은 제1터미널 남쪽 윙. 공항 열차(게이세이 액세스 특급)는 지하 1층 「나리타공항역」(종점)에서 타요.', loc: '숙소에서 약 60km · 액세스 특급 약 76~80분', url: 'https://www.narita-airport.jp/ko/' },
     icn:    { name: '인천공항 제2여객터미널', short: '인천공항 T2', e: '🛫', ja: '', q: '인천국제공항 제2여객터미널' },
     sensoji:{ name: '센소지', short: '센소지 밤 산책', e: '🏯', ja: '浅草寺', q: '浅草寺', url: 'https://www.senso-ji.jp/info/lightup.html',
       hours: '경내 24시간 · 조명 해 질 녘~23:00쯤 · 본당 안 06:30–17:00(10~3월)' },
@@ -2472,6 +2473,7 @@ function cam(y, smoothMove){
   camEl.style.transition = smoothMove && !reduce ? 'transform .7s cubic-bezier(.3,.7,.2,1)' : 'none';
   camEl.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${s.toFixed(4)})`;
 }
+let animEnd = 0;   /* 지금 장면 애니메이션이 끝나는 시각 — 재생 버튼이 이걸 기다렸다가 1초 쉬고 넘겨요 */
 function walk(list, done){
   cancelAnimationFrame(walkRaf);
   const finish = () => { heroesEl.classList.remove('walking', 'flying'); done && done(); };
@@ -2479,6 +2481,7 @@ function walk(list, done){
   if (reduce){ const l = list[list.length-1], n = N[l.rev ? l.leg.a : l.leg.b]; setHero(n.x, n.y); cam(n.y, false); return finish(); }
   heroesEl.classList.add('walking');
   const speed = list.length > 1 ? 1.7 : 1;
+  animEnd = performance.now() + list.reduce((t, x) => t + clamp(420 + x.leg.len * 3, 520, 1500) / speed * (is3d ? W3SLOW : 1), 0);
   let i = 0, t0 = 0;
   const step = ts => {
     if (!t0) t0 = ts;
@@ -2669,8 +2672,9 @@ function activate(j, opts){
   }
   heroesEl.classList.remove('cheers');
   const after = () => { heroesEl.classList.toggle('cheers', it.tags.includes('drink')); markHere(it.node); };
+  animEnd = performance.now() + 700;
   if (live){ if (fix && nearestArea(fix.ll).id === 'icn') showSky('icn', false); else hideSky(); after(); updateGuide(); return; }
-  if (it.sky){ cancelAnimationFrame(walkRaf); setHero(N.nrt.x, N.nrt.y); cam(N.nrt.y, false); markHere(null); showSky(it.sky, prev >= 0 && j > prev && it.sky !== 'icn'); return; }
+  if (it.sky){ const fly = prev >= 0 && j > prev && it.sky !== 'icn' && !reduce; if (fly) animEnd = performance.now() + (is3d ? 5400 : 2600); cancelAnimationFrame(walkRaf); setHero(N.nrt.x, N.nrt.y); cam(N.nrt.y, false); markHere(null); showSky(it.sky, prev >= 0 && j > prev && it.sky !== 'icn'); return; }
   const fromSky = prev >= 0 && !!day.items[prev].sky;
   hideSky();
   if (path.length && path.length <= 3 && !fromSky) walk(path, after);
@@ -2722,7 +2726,7 @@ function play(){
   const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'true'); btn.textContent = '■ 멈춤'; btn.setAttribute('aria-label', '경로 재생 멈춤');
   userMoved = true;
   if (act >= cards.length - 1) goTo(0);
-  const tick = () => { if (act >= cards.length - 1){ stopPlay(); return; } playT = setTimeout(() => { goTo(act + 1); tick(); }, 1700); };
+  const tick = () => { if (act >= cards.length - 1){ stopPlay(); return; } playT = setTimeout(() => { goTo(act + 1); tick(); }, Math.min(7000, Math.max(0, animEnd - performance.now()) + 1000)); };
   playT = 1; tick();
 }
 function stopPlay(){ clearTimeout(playT); playT = 0; const btn = $('#playQ'); btn.setAttribute('aria-pressed', 'false'); btn.textContent = '▶ 재생'; btn.setAttribute('aria-label', '경로 재생'); }
@@ -2860,13 +2864,14 @@ function startLive(){
   if (watchId != null) return;
   fixErrs = 0;
   toast('📡 위치 권한을 확인하는 중…');
+  store.set('live', true);
   try { watchId = navigator.geolocation.watchPosition(onFix, onFixErr, { enableHighAccuracy:true, maximumAge:15000, timeout:20000 }); }
   catch(e){ onFixErr({ code:0 }); }
 }
 function stopLive(msg){
   if (watchId != null){ try { navigator.geolocation.clearWatch(watchId); } catch(e){} }
   const was = live;
-  watchId = null; live = false; fix = null; lastArea = null;
+  watchId = null; live = false; fix = null; lastArea = null; store.set('live', false);
   root.classList.remove('is-live'); updateGuide(); updateTicker();
   if (was && cur >= 0 && act >= 0){ const k = act; act = -1; activate(k, { walk:false }); }
   if (msg) toast(msg);
@@ -4390,11 +4395,15 @@ function build3d(T){
   const overDist = () => Math.max(380 / (0.536 * Math.max(W / FH, 0.45)), 470 * Math.cos(0.72) / 0.536) * 1.02;
   const clampAng = () => { ctl.gaz = clamp(ctl.gaz, AZ0 - AZL, AZ0 + AZL); ctl.gpol = clamp(ctl.gpol, PMIN, PMAX); };
   const ac = new AbortController(), on = (el, ev, fn, o) => el.addEventListener(ev, fn, Object.assign({ signal: ac.signal }, o || {}));
+  /* 이동 한계: 멀리 볼수록 판 가운데 쪽으로 좁혀요 (가장자리로 가면 화면이 판 밖 빈 하늘만 보여요) */
+  const panLim = () => { const m = clamp(ctl.dist * 0.28, 24, 150); return [WW / 2 - m, WH / 2 - m]; };
+  function clampGt(){ const [lx, lz] = panLim(); ctl.gt.x = clamp(ctl.gt.x, -lx, lx); ctl.gt.z = clamp(ctl.gt.z, -lz, lz); }
   function panBy(dx, dy){
-    const k = ctl.dist * 0.536 / FH, kv = k / Math.max(0.35, Math.cos(ctl.pol)), ca = Math.cos(ctl.az), sa = Math.sin(ctl.az);
-    ctl.gt.x = clamp(ctl.gt.x - dx * k * ca - dy * kv * sa, -WW / 2, WW / 2);
-    ctl.gt.z = clamp(ctl.gt.z + dx * k * sa - dy * kv * ca, -WH / 2, WH / 2);
-    ctl.free = true;
+    if (!(FH > 0) || !isFinite(dx) || !isFinite(dy)) return;
+    const k = ctl.dist * 0.536 / FH, kv = k / Math.max(0.62, Math.cos(ctl.pol)), ca = Math.cos(ctl.az), sa = Math.sin(ctl.az);
+    ctl.gt.x -= dx * k * ca + dy * kv * sa;
+    ctl.gt.z += dx * k * sa - dy * kv * ca;
+    clampGt(); ctl.free = true;
   }
   const DMIN = 110, DMAX = 1300;
   const zBase = () => zoomAll ? overDist() : baseDist() * (fl ? fFactor : 1);
@@ -4604,6 +4613,8 @@ function build3d(T){
       else if (zoomAll) ctl.gt.set(0, 0, 8); else ctl.gt.set(crew.position.x + lead.x, crew.position.y * 0.6 + 6, crew.position.z + lead.z);
     }
     const gd = clamp(zBase() * ctl.zoom, DMIN, DMAX);
+    if (ctl.free) clampGt();   /* 확대한 채 가장자리로 옮겨 두고 축소하면 다시 가운데 쪽으로 */
+    if (!isFinite(ctl.dist) || !isFinite(ctl.t.x) || !isFinite(ctl.t.z) || !isFinite(ctl.az) || !isFinite(ctl.pol)){ ctl.t.copy(ctl.gt); ctl.dist = gd; ctl.az = ctl.gaz; ctl.pol = ctl.gpol; }   /* 혹시라도 숫자가 깨지면 바로 복구 */
     if (snapCam){ snapCam = false; ctl.t.copy(ctl.gt); ctl.dist = gd; ctl.az = ctl.gaz; ctl.pol = ctl.gpol; }
     const kt = 1 - Math.exp(-dt * (ctl.drag ? 16 : intro ? 2 : 4.2)), ka = 1 - Math.exp(-dt * (ctl.drag ? 20 : intro ? 1.6 : 5)), kd = 1 - Math.exp(-dt * (ctl.drag ? 22 : intro ? 1.5 : 6));
     ctl.t.lerp(ctl.gt, kt); ctl.az += (ctl.gaz - ctl.az) * ka; ctl.pol += (ctl.gpol - ctl.pol) * ka; ctl.dist += (gd - ctl.dist) * kd;
@@ -4794,7 +4805,8 @@ const XM_VER = '5.24.0';
 const XM_JS = `https://cdn.jsdelivr.net/npm/maplibre-gl@${XM_VER}/dist/maplibre-gl.js`;
 const XM_CSS = `https://cdn.jsdelivr.net/npm/maplibre-gl@${XM_VER}/dist/maplibre-gl.css`;
 const XM_STYLE = { light: 'https://tiles.openfreemap.org/styles/liberty', dark: 'https://tiles.openfreemap.org/styles/dark' };
-const XM_BOUNDS = [[139.60, 35.60], [139.90, 35.78]];   /* 신주쿠·시부야 ~ 긴시초·오시아게 · 시나가와 ~ 기타센주 */
+const XM_BOUNDS = [[139.55, 35.55], [140.48, 35.86]];   /* 신주쿠·시부야 ~ 긴시초 · 동쪽 끝은 나리타 공항까지 */
+const NRT_LL = [35.7720, 140.3929];
 const XCAT = {
   plan:  { e: '📌', ko: '일정' },
   sight: { e: '🏯', ko: '관광' },
@@ -4972,7 +4984,7 @@ function xInit(ml){
   const h = P.hotel.ll;
   xm = new ml.Map({
     container: 'xmapMap', style: xmStyleKey, center: [h[1], h[0]], zoom: 12.6, pitch: 45, bearing: -12,
-    maxBounds: XM_BOUNDS, minZoom: 10.6, maxZoom: 19.5, attributionControl: { compact: true },
+    maxBounds: XM_BOUNDS, minZoom: 8.6, maxZoom: 19.5, attributionControl: { compact: true },
     localIdeographFontFamily: '"Jua","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans JP",sans-serif',
     fadeDuration: 150, dragRotate: true, touchPitch: true, pitchWithRotate: true
   });
@@ -4980,6 +4992,7 @@ function xInit(ml){
   xm.addControl(new ml.NavigationControl({ visualizePitch: true, showZoom: false, showCompass: true }), 'top-right');
   xm.addControl(new ml.ScaleControl({ maxWidth: 96, unit: 'metric' }), 'top-left');
   xm.on('style.load', () => { xAddLayers(); xSkin(); xRoute(); });
+  xm.on('styleimagemissing', e => { try { if (!xm.hasImage(e.id)) xm.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) }); } catch(x){} });   /* 아이콘 세트에 없는 작은 아이콘은 빈칸으로 */
   xm.on('zoom', () => { cancelAnimationFrame(xVis.raf); xVis.raf = requestAnimationFrame(xVis); });
   xm.on('pitchend', x3dPaint); xm.on('rotateend', x3dPaint);
   xm.on('moveend', () => { xVis(); xDeclutter(); });
@@ -4989,7 +5002,8 @@ function xInit(ml){
 }
 
 function xFit(animate){
-  const pts = xmPins.filter(p => p.s.plan && xIn(p.s.ll)).map(p => p.s.ll);
+  let pts = xmPins.filter(p => p.s.plan && xIn(p.s.ll) && p.s.pid !== 'nrt').map(p => p.s.ll);   /* 공항까지 넣으면 너무 작아져서 도쿄 쪽만 */
+  if (!pts.length) pts = xmPins.filter(p => p.s.plan && xIn(p.s.ll)).map(p => p.s.ll);
   if (!pts.length) return;
   const b = new maplibregl.LngLatBounds([pts[0][1], pts[0][0]], [pts[0][1], pts[0][0]]);
   pts.forEach(ll => b.extend([ll[1], ll[0]]));
@@ -5060,7 +5074,7 @@ function xGeo(fly){
 }
 function xFlyMe(){
   if (!xmMeLL || !xm) return;
-  if (!xIn(xmMeLL)){ xMsg('🗺️ 지금 위치는 지도 지원 지역(도쿄 도심) 밖이에요 · 🏠 버튼으로 일정 지역을 볼 수 있어요', 4500); return; }
+  if (!xIn(xmMeLL)){ xMsg('🗺️ 지금 위치는 지도 지원 지역(도쿄 도심~나리타) 밖이에요 · 🏠 버튼으로 일정 지역을 볼 수 있어요', 4500); return; }
   xm.easeTo({ center: [xmMeLL[1], xmMeLL[0]], zoom: Math.max(xm.getZoom(), 15.6), duration: reduce ? 0 : 900 });
 }
 function xStopGeo(){ if (xmWatch != null && navigator.geolocation){ navigator.geolocation.clearWatch(xmWatch); } xmWatch = null; }
@@ -5112,7 +5126,7 @@ function xFocus(o){
   const pin = o.sid ? xmPins.find(p => p.s.id === o.sid) : xmPins.find(p => Math.abs(p.s.ll[0] - o.ll[0]) < 1e-5 && Math.abs(p.s.ll[1] - o.ll[1]) < 1e-5);
   if (pin){ xSelect(pin.s.id, true); return; }
   if (xIn(o.ll)) xm.easeTo({ center: [o.ll[1], o.ll[0]], zoom: 15.6, duration: reduce ? 0 : 800 });
-  else xMsg('🗺️ 그곳은 지도 지원 지역(도쿄 도심) 밖이에요 · 구글 지도 버튼을 써 주세요', 4200);
+  else xMsg('🗺️ 그곳은 지도 지원 지역(도쿄 도심~나리타) 밖이에요 · 구글 지도 버튼을 써 주세요', 4200);
 }
 function closeXmap(fromPop){
   if (!xmOpen) return;
@@ -5121,6 +5135,8 @@ function closeXmap(fromPop){
   const b = $('#xmapBtn'); if (b) b.focus({ preventScroll: true });
 }
 function initXmap(){
+  /* 실제 지도 라이브러리(약 300KB)를 한가할 때 미리 받아 둬요 → 처음 열 때 기다림 없음 + 오프라인 저장 */
+  setTimeout(() => { if (navigator.onLine !== false && !xm) loadMapLib().catch(() => {}); }, 9000);
   xEl.addEventListener('click', e => {
     const t = e.target;
     if (t.closest('#xmapX')){ closeXmap(); return; }
@@ -5129,6 +5145,7 @@ function initXmap(){
     const f = t.closest('[data-xf]'); if (f){ xmFilter = f.dataset.xf; store.set('xmf', xmFilter); xPaintChips(); xVis(); xDeclutter(); const c = XCAT[xmFilter]; if (c) xMsg(`${c.e} ${c.ko} — 확대할수록 더 많이 보여요`, 2200); return; }
     if (t.closest('#xmapMe')){ xGeo(true); return; }
     if (t.closest('#xmapHome')){ xSelect(null); xFit(true); return; }
+    if (t.closest('#xmapNrt')){ const pin = xmPins.find(p => p.s.pid === 'nrt'); if (pin) xSelect(pin.s.id, true); else xm.easeTo({ center: [NRT_LL[1], NRT_LL[0]], zoom: 13.4, duration: reduce ? 0 : 1200 }); return; }
     if (t.closest('#xmap3d')){ const on = xm.getPitch() > 5; xm.easeTo({ pitch: on ? 0 : 55, bearing: on ? 0 : -12, duration: reduce ? 0 : 700 }); setTimeout(x3dPaint, 750); return; }
     if (t.closest('#xmapRetry')){ openXmap({}); return; }
     const q = t.closest('[data-xquest]');
@@ -5155,36 +5172,39 @@ const IS_IOS = /iPhone|iPad|iPod/i.test(UA) || (/Macintosh/.test(UA) && navigato
 const playUrl = pkg => 'https://play.google.com/store/apps/details?id=' + pkg;
 const iosStore = id => 'https://apps.apple.com/kr/app/id' + id;
 const intentUrl = (hostPath, scheme, pkg, fb) => `intent://${hostPath}#Intent;scheme=${scheme};package=${pkg};S.browser_fallback_url=${encodeURIComponent(fb)};end`;
+/* 크롬은 "링크로 열기"가 등록된 화면만 열어 줘서, 렌즈·제미나이처럼 등록이 안 맞는 앱은 스토어/웹으로 빠져요.
+   플레이스토어의 launch 주소는 설치돼 있으면 그 앱을 바로 실행하고, 없으면 설치 화면을 보여줘요. */
+const launchUrl = (pkg, fb) => intentUrl('launch?id=' + pkg, 'market', 'com.android.vending', fb || playUrl(pkg));
 const APPS = [
   { id: 'maps', e: '🗺️', n: '구글 지도', s: '지도', d: '길찾기·지하철 환승·가게 리뷰. 일정 카드의 「지도」「길」 버튼도 이 앱으로 열려요.', top: 1,
     web: 'https://www.google.com/maps', android: intentUrl('www.google.com/maps', 'https', 'com.google.android.apps.maps', 'https://www.google.com/maps') },
   { id: 'lens', e: '🔍', n: '구글 렌즈', s: '렌즈', d: '간판·메뉴판·약 상자를 카메라로 비추면 바로 번역·검색. 아이폰은 구글 앱의 카메라 아이콘.', top: 1,
-    web: 'https://lens.google/', android: intentUrl('lens/', 'googleapp', 'com.google.android.googlequicksearchbox', playUrl('com.google.ar.lens')), ios: { scheme: 'google://', store: iosStore(284815942) } },
+    web: 'https://lens.google/', android: launchUrl('com.google.ar.lens'), ios: { scheme: 'google://', store: iosStore(284815942) } },
   { id: 'papago', e: '🦜', n: '파파고', s: '파파고', d: '한국어 ↔ 일본어 대화·사진 번역. 메뉴판은 「이미지」로 찍으면 통째로 번역돼요.', top: 1,
-    web: 'https://papago.naver.com/', android: playUrl('com.naver.labs.translator'), ios: iosStore(1147874819) },
+    web: 'https://papago.naver.com/', android: launchUrl('com.naver.labs.translator'), ios: iosStore(1147874819) },
   { id: 'translate', e: '🈯', n: '구글 번역', s: '번역', d: '일본어 → 한국어 카메라 번역·대화 모드. 오프라인 일본어 팩을 받아 두면 지하철에서도 돼요.', top: 1,
-    web: 'https://translate.google.com/?sl=ja&tl=ko', android: intentUrl('translate.google.com/?sl=ja&tl=ko', 'https', 'com.google.android.apps.translate', 'https://translate.google.com/?sl=ja&tl=ko'), ios: { scheme: 'googletranslate://', store: iosStore(414706506) } },
+    web: 'https://translate.google.com/?sl=ja&tl=ko', android: launchUrl('com.google.android.apps.translate'), ios: { scheme: 'googletranslate://', store: iosStore(414706506) } },
   { id: 'claude', e: '🤖', n: 'Claude', s: 'Claude', d: '사진 찍어 「이거 뭐야?」, 일정 바뀌면 동선 다시 짜기, 메뉴 추천까지.', top: 1,
-    web: 'https://claude.ai/new', android: intentUrl('claude.ai/new', 'https', 'com.anthropic.claude', 'https://claude.ai/new') },
+    web: 'https://claude.ai/new', android: launchUrl('com.anthropic.claude') },
   { id: 'gemini', e: '✨', n: 'Gemini', s: 'Gemini', d: '구글 지도·검색과 연결된 AI. 「근처 지금 여는 이자카야」 같은 질문에.', top: 1,
-    web: 'https://gemini.google.com/app/download/mobile', android: intentUrl('gemini.google.com/app', 'https', 'com.google.android.apps.bard', 'https://gemini.google.com/app') },
-  { id: 'chatgpt', e: '💬', n: 'ChatGPT', s: 'ChatGPT', d: '사진 번역·질문용 AI 하나 더.', web: 'https://chatgpt.com/open-app' },
+    web: 'https://gemini.google.com/app/download/mobile', android: launchUrl('com.google.android.apps.bard') },
+  { id: 'chatgpt', e: '💬', n: 'ChatGPT', s: 'ChatGPT', d: '사진 번역·질문용 AI 하나 더.', web: 'https://chatgpt.com/open-app', android: launchUrl('com.openai.chatgpt') },
   { id: 'go', e: '🚕', n: 'GO 택시', s: 'GO 택시', d: '일본 1위 택시 호출 앱. 한국어 화면, 해외 카드 등록 가능. 술 마신 뒤 귀가할 때.', top: 1,
     web: 'https://un2f.adj.st?adj_t=22w8ux1e&adj_deep_link=mot-go%3A%2F%2F' },
   { id: 'kakaot', e: '🟡', n: '카카오T', s: '카카오T', d: '한국 카카오T로 일본 택시 호출 (한국어·한국 카드 결제).', top: 1,
-    web: playUrl('com.kakao.taxi'), android: playUrl('com.kakao.taxi'), ios: iosStore(981110422) },
+    web: playUrl('com.kakao.taxi'), android: launchUrl('com.kakao.taxi'), ios: iosStore(981110422) },
   { id: 'uber', e: '⚫', n: '우버', s: '우버', d: '도쿄 우버는 일반 택시를 미터 요금으로 불러요.',
-    web: 'https://m.uber.com/ul/' },
+    web: 'https://m.uber.com/ul/', android: launchUrl('com.ubercab', 'https://m.uber.com/ul/') },
   { id: 'tabelog', e: '🍽️', n: '타베로그', s: '타베로그', d: '일본 맛집 평점 (3.5 넘으면 맛집). 한국어 웹으로 열려요.', top: 1,
-    web: 'https://tabelog.com/kr/' },
+    web: 'https://tabelog.com/kr/', android: launchUrl('com.kakaku.tabelog.tourists', 'https://tabelog.com/kr/') },
   { id: 'airseoul', e: '✈️', n: '에어서울', s: '에어서울', d: '귀국편 RS702 모바일 체크인·탑승권.',
-    web: 'https://flyairseoul.com/', android: playUrl('com.asianaidt.airseoul'), ios: iosStore(1140026677) },
+    web: 'https://flyairseoul.com/', android: launchUrl('com.asianaidt.airseoul', 'https://flyairseoul.com/'), ios: iosStore(1140026677) },
   { id: 'safety', e: '🆘', n: 'Safety tips', s: '재난 알림', d: '일본 관광청 감수 지진·쓰나미·기상 경보 앱 (한국어 알림).',
-    web: 'https://www.jnto.go.jp/safety-tips/kor/app.html', android: playUrl('jp.co.rcsc.safetyTips.android'), ios: iosStore(858357174) },
+    web: 'https://www.jnto.go.jp/safety-tips/kor/app.html', android: launchUrl('jp.co.rcsc.safetyTips.android'), ios: iosStore(858357174) },
   { id: 'twallet', e: '💳', n: '트래블월렛', s: '트래블월렛', d: '트래블월렛 카드 잔액·엔화 충전.',
-    web: playUrl('com.mobiletoong.travelwallet'), android: playUrl('com.mobiletoong.travelwallet'), ios: iosStore(1460769945) },
+    web: playUrl('com.mobiletoong.travelwallet'), android: launchUrl('com.mobiletoong.travelwallet'), ios: iosStore(1460769945) },
   { id: 'hanamoney', e: '💳', n: '하나머니 (트래블로그)', s: '트래블로그', d: '트래블로그 카드 엔화 충전·환전.',
-    web: playUrl('kr.co.hanamembers.hmscustomer'), android: playUrl('kr.co.hanamembers.hmscustomer'), ios: iosStore(1038288833) }
+    web: playUrl('kr.co.hanamembers.hmscustomer'), android: launchUrl('kr.co.hanamembers.hmscustomer'), ios: iosStore(1038288833) }
 ];
 function appLink(a){
   if (IS_AND && a.android) return { href: a.android, tab: !/^intent:/.test(a.android) };
@@ -5515,9 +5535,22 @@ function init(){
   const openBig = (from, o) => { fillBig(o); taxiFrom = from; if (taxi.hidden) ovlPush(); taxi.hidden = false; $('#taxiClose').focus(); };
   const closeTaxi = fromPop => { if (taxi.hidden) return; taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); if (fromPop !== true) ovlPop(); };
   const syncUrl = () => { try { history.replaceState(history.state, '', view === 'map' ? location.pathname + location.search : '#' + view); } catch(e){} };
+  /* 뒤로 가기로 바로 앱이 닫히지 않게: 맨 밑에 "보호막" 기록을 하나 깔아 두고
+     → 다른 화면이면 지도로, 지도면 "한 번 더 누르면 나가요" (2초 안에 한 번 더 누르면 나가요)
+     크롬은 손대지 않고 넣은 기록은 뒤로 가기 때 건너뛰어서, 처음 화면을 만질 때 깔아요 */
+  let guardOn = false, exitArm = 0;
+  const pushGuard = () => { if (guardOn || ovlDepth > 0 || popSkip > 0) return; try { history.pushState({ tq:'guard' }, ''); guardOn = true; } catch(e){} };
+  ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, pushGuard, { capture:true, passive:true }));
   addEventListener('popstate', () => {
     if (popSkip > 0){ popSkip--; syncUrl(); ovlSettle(); return; }
-    if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else if (xmOpen) closeXmap(true); else closeSheet(true); }
+    if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else if (xmOpen) closeXmap(true); else closeSheet(true); syncUrl(); return; }
+    if (guardOn){
+      guardOn = false;
+      if (!$('#who').hidden && WHO){ $('#who').hidden = true; pushGuard(); return; }
+      if (view !== 'map'){ showView('map'); pushGuard(); return; }
+      if (Date.now() - exitArm < 2200){ try { history.back(); } catch(e){} return; }
+      exitArm = Date.now(); toast('↩️ 뒤로 한 번 더 누르면 나가요'); pushGuard(); return;
+    }
     syncUrl();
   });
   document.addEventListener('click', e => {
@@ -5530,6 +5563,10 @@ function init(){
   });
   $('#taxiClose').addEventListener('click', () => closeTaxi());
   locShare.init();
+  /* 실시간 위치를 켜 둔 채 나갔으면 다시 열 때 이어서 켜요 (권한이 이미 있을 때만 — 묻는 창 안 뜸) */
+  if (store.get('live', false) && navigator.geolocation){
+    if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({ name: 'geolocation' }).then(r => { if (r.state === 'granted') startLive(); }).catch(() => {});
+  }
   taxi.addEventListener('click', e => { if (e.target === taxi) closeTaxi(); });
   document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; if (!taxi.hidden) closeTaxi(); else if (xmOpen) closeXmap(); else closeSheet(); });
 

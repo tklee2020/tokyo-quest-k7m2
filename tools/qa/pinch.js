@@ -14,7 +14,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
   const errs = [];
   page.on('pageerror', e => errs.push(e.message)); page.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
-  await page.evaluateOnNewDocument(() => { localStorage.setItem('tokyoquest:mapmode', '"3d"'); localStorage.setItem('tokyoquest:hello', 'true'); });
+  await page.evaluateOnNewDocument(() => { localStorage.setItem('tokyoquest:mapmode', '"3d"'); localStorage.setItem('tokyoquest:hello', 'true'); localStorage.setItem('tokyoquest:me', '"a"'); });
   await page.goto(URL0, { waitUntil: 'networkidle2' });
   await page.waitForSelector('.n3[data-node]', { timeout: 40000 }); await sleep(2500);
   const box = await page.evaluate(() => { const r = document.querySelector('#m3d').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
