@@ -19,7 +19,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   page.on('pageerror', e => logs.push('pageerror: ' + e.message));
   const mode = process.argv[2] || '2d';
   await page.evaluateOnNewDocument(mode => {
-    localStorage.setItem('tokyoquest:hello', 'true');
+    localStorage.setItem('tokyoquest:hello', 'true'); localStorage.setItem('tokyoquest:me', '"a"');
     if (!sessionStorage.getItem('x')) { localStorage.setItem('tokyoquest:mapmode', JSON.stringify(mode)); sessionStorage.setItem('x', 1); }
   }, mode);
   await page.goto(URL0, { waitUntil: 'networkidle2' });

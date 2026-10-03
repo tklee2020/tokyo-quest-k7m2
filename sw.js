@@ -18,7 +18,8 @@ self.addEventListener('activate', e => {
 
 function pageFirst(){
   return caches.open(V).then(c => {
-    const net = fetch(PAGE, { cache: 'no-cache' }).then(r => { if (r.ok){ c.put(PAGE, r.clone()); return r; } return c.match(PAGE).then(h => h || r); });
+    /* GitHub Pages는 CDN이 10분씩 들고 있어서, 주소에 매번 다른 꼬리를 붙여 원본을 바로 받아요 (저장은 원래 주소로) */
+    const net = fetch(PAGE + (PAGE.indexOf('?') < 0 ? '?' : '&') + 'sw=' + Date.now(), { cache: 'no-store' }).then(r => { if (r.ok){ c.put(PAGE, r.clone()); return r; } return c.match(PAGE).then(h => h || r); });
     const late = new Promise(res => setTimeout(res, 4000)).then(() => c.match(PAGE));
     return Promise.race([net, late.then(r => r || net)]).catch(() => c.match(PAGE)).then(r => r || net);
   });
