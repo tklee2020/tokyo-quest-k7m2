@@ -2103,6 +2103,7 @@ Object.entries(D.extras || {}).forEach(([id, x]) => { P[id] = Object.assign({ si
 Object.entries(D.openHours || {}).forEach(([id, o]) => { if (P[id]) P[id].oh = o; });
 const root = document.documentElement;
 const NS = 'tokyoquest:';
+const BUILD = '10/3 13:40';   /* 배포할 때마다 바꿔요 — 폰에 최신 버전이 떴는지 확인용 (공략집 맨 아래 · 바뀌면 알림) */
 const store = {
   get(k, d){ try{ const v = localStorage.getItem(NS + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k, v){ try{ localStorage.setItem(NS + k, JSON.stringify(v)); }catch(e){} }
@@ -3259,7 +3260,7 @@ function renderGuide(){
   const phr = `<details class="acc reveal" id="phrAcc"><summary><span class="acc__e" aria-hidden="true">🗣️</span><span class="acc__t">보여주는 일본어</span>${ICON.chev}</summary><div class="acc__body"><p class="sec__sub">누르면 화면 가득 크게 떠요. 점원에게 그대로 보여주세요.</p><div class="phr">${(D.phrases || []).map(g => `<p class="phr__g">${esc(g.g)}</p>${g.list.map(phraseRow).join('')}`).join('')}</div></div></details>`;
   $('#tipsList').innerHTML = (D.checklists || []).map(ckAcc).join('') + phr + D.tips.map(t => acc(t.icon, t.title, t.body.map(b => blockHTML(b, '공략 · ' + t.title)).join(''))).join('');
   paintChecks(); renderInstall();
-  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('') + '<p><button class="gbtn gbtn--sm" type="button" data-sharelink>📤 이 페이지 링크 보내기</button></p>';
+  $('#foot').innerHTML = D.footer.map(f => `<p>${esc(f)}</p>`).join('') + `<p>🔖 앱 버전 ${esc(BUILD)}${isStandalone() ? ' · 홈 화면 앱' : ' · 브라우저'}</p>` + '<p><button class="gbtn gbtn--sm" type="button" data-sharelink>📤 이 페이지 링크 보내기</button></p>';
 }
 /* ---------- 체크리스트 ---------- */
 let checks = store.get('checks', {});
@@ -5618,6 +5619,7 @@ function init(){
   });
   $('#taxiClose').addEventListener('click', () => closeTaxi());
   locShare.init();
+  { const was = store.get('build', null); if (was !== BUILD){ store.set('build', BUILD); if (was) setTimeout(() => toast(`🆕 새 버전으로 바뀌었어요 (${BUILD})`), 1200); } }
   /* 실시간 위치를 켜 둔 채 나갔으면 다시 열 때 이어서 켜요 (권한이 이미 있을 때만 — 묻는 창 안 뜸) */
   if (store.get('live', false) && navigator.geolocation){
     if (navigator.permissions && navigator.permissions.query) navigator.permissions.query({ name: 'geolocation' }).then(r => { if (r.state === 'granted') startLive(); }).catch(() => {});
