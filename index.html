@@ -5535,21 +5535,28 @@ function init(){
   const openBig = (from, o) => { fillBig(o); taxiFrom = from; if (taxi.hidden) ovlPush(); taxi.hidden = false; $('#taxiClose').focus(); };
   const closeTaxi = fromPop => { if (taxi.hidden) return; taxi.hidden = true; if (taxiFrom) taxiFrom.focus({ preventScroll:true }); if (fromPop !== true) ovlPop(); };
   const syncUrl = () => { try { history.replaceState(history.state, '', view === 'map' ? location.pathname + location.search : '#' + view); } catch(e){} };
-  /* 뒤로 가기로 바로 앱이 닫히지 않게: 맨 밑에 "보호막" 기록을 하나 깔아 두고
+  /* 뒤로 가기로 바로 앱이 닫히지 않게: 맨 밑에 "보호막" 기록을 두 겹 깔아 두고
      → 다른 화면이면 지도로, 지도면 "한 번 더 누르면 나가요" (2초 안에 한 번 더 누르면 나가요)
-     크롬은 손대지 않고 넣은 기록은 뒤로 가기 때 건너뛰어서, 처음 화면을 만질 때 깔아요 */
-  let guardOn = false, exitArm = 0;
-  const pushGuard = () => { if (guardOn || ovlDepth > 0 || popSkip > 0) return; try { history.pushState({ tq:'guard' }, ''); guardOn = true; } catch(e){} };
-  ['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, pushGuard, { capture:true, passive:true }));
+     크롬은 사용자 손길(user activation) 없이 넣은 기록을 뒤로 가기 때 건너뛰어요. 터치는 손을 뗄 때 손길로 쳐서
+     pointerdown이 아니라 click·keydown 때 채워요. 한 겹을 쓰면 다음 손길 때 다시 두 겹으로. */
+  let guards = 0, exitArm = 0;
+  const topUpGuards = () => {
+    if (ovlDepth > 0 || popSkip > 0 || pushOwed > 0) return;
+    while (guards < 2){ try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){ break; } }
+  };
+  ['click', 'keydown'].forEach(ev => document.addEventListener(ev, topUpGuards, { capture:true, passive:true }));
+  if (navigator.webdriver) window.__hist = () => ({ guards, ovlDepth, popSkip, pushOwed, sheetIsOpen, xmOpen });   /* QA 하네스용 */
   addEventListener('popstate', () => {
     if (popSkip > 0){ popSkip--; syncUrl(); ovlSettle(); return; }
     if (ovlDepth > 0){ ovlDepth--; if (!taxi.hidden) closeTaxi(true); else if (xmOpen) closeXmap(true); else closeSheet(true); syncUrl(); return; }
-    if (guardOn){
-      guardOn = false;
-      if (!$('#who').hidden && WHO){ $('#who').hidden = true; pushGuard(); return; }
-      if (view !== 'map'){ showView('map'); pushGuard(); return; }
-      if (Date.now() - exitArm < 2200){ try { history.back(); } catch(e){} return; }
-      exitArm = Date.now(); toast('↩️ 뒤로 한 번 더 누르면 나가요'); pushGuard(); return;
+    if (guards > 0){
+      guards--;
+      if (!$('#who').hidden && WHO){ $('#who').hidden = true; return; }
+      if (view !== 'map'){ showView('map'); return; }
+      if (Date.now() - exitArm < 2200){ const n = guards + 1; guards = 0; try { history.go(-n); } catch(e){} return; }
+      exitArm = Date.now(); toast('↩️ 뒤로 한 번 더 누르면 나가요');
+      if (!guards) try { history.pushState({ tq:'guard' }, ''); guards++; } catch(e){}
+      return;
     }
     syncUrl();
   });
