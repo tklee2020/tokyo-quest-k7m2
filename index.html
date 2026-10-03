@@ -261,6 +261,9 @@ html.anim .quests.slide-l{animation:slideL .42s cubic-bezier(.2,.75,.2,1)}
 .qcard__badge{display:none;padding:2px 7px;border-radius:6px;font-family:var(--f-px);font-size:11px;font-weight:700}
 .qcard.is-now .qcard__badge{display:inline-block;background:var(--red);color:var(--on-red)}
 .qcard.is-past .qcard__badge{display:inline-block;background:var(--gold);color:var(--on-gold)}
+.qcard__must{flex-shrink:0;padding:2px 7px;border-radius:999px;background:var(--red);color:var(--on-red);font-family:var(--f-game);font-size:12px;line-height:1.4;white-space:nowrap}
+.tl__must{margin-right:3px}
+.tag--must{background:var(--red);color:var(--on-red)}
 .qcard.is-now{border-color:var(--red);box-shadow:0 4px 0 var(--red)}
 .qcard__main{display:flex;align-items:center;gap:12px;min-width:0}
 .qcard__emo{display:grid;place-items:center;flex-shrink:0;width:52px;height:52px;border-radius:16px;background:var(--kb);border:2px solid var(--edge);font-size:27px;line-height:1}
@@ -1209,7 +1212,15 @@ const TRIP = {
     hotel:  { name: 'APA 호텔 히가시니혼바시 에키마에', short: '숙소', e: '🏨', ja: 'アパホテル〈東日本橋駅前〉', q: 'アパホテル〈東日本橋駅前〉', url: 'https://www.apahotel.com/hotel/syutoken/tokyo/higashi-nihombashi-ekimae/' },
     nrt:    { name: '나리타 국제공항 제1터미널', short: '나리타공항', e: '🛬', ja: '成田国際空港 第1ターミナル', q: '成田国際空港 第1ターミナル', url: 'https://www.narita-airport.jp/ko/' },
     icn:    { name: '인천공항 제2여객터미널', short: '인천공항 T2', e: '🛫', ja: '', q: '인천국제공항 제2여객터미널' },
-    sensoji:{ name: '센소지', short: '센소지 밤 산책', e: '🏮', ja: '浅草寺', q: '浅草寺' },
+    sensoji:{ name: '센소지', short: '센소지 밤 산책', e: '🏯', ja: '浅草寺', q: '浅草寺', url: 'https://www.senso-ji.jp/info/lightup.html',
+      hours: '경내 24시간 · 조명 해 질 녘~23:00쯤 · 본당 안 06:30–17:00(10~3월)' },
+    yomatsuri: { name: '아사쿠사 야시장', short: '아사쿠사 야시장', e: '🏮', ja: '浅草夜祭', q: '浅草六区ブロードウェイ', url: 'https://asakusarokku.jp/week', tags: ['food', 'drink'],
+      desc: '금·토·일 밤 롯쿠 브로드웨이 북쪽에 푸드트럭·하이테이블·조명 큐브가 서는 야시장. 21:00 오이란 무료 공연.',
+      hours: '금·토·일 18:00–21:30 (10/2~10/4 개최)', closed: '비 예보면 취소될 수 있어요', price: '입장 무료 · 푸드트럭은 가게마다', loc: '浅草六区ブロードウェイ 북쪽 · 호피도리에서 2분',
+      open: { sat: 1, sun: 1, mon: 0 } },
+    yokocho: { name: '아사쿠사 요코초', short: '아사쿠사 요코초', e: '🏮', ja: '浅草横町', q: '浅草横町 東京楽天地浅草ビル', url: 'https://asakusayokocho.com/', tags: ['food', 'drink'],
+      desc: '축제 포장마차처럼 꾸민 실내 푸드홀(4층). 야키토리·스시·장어·한식 가게와 춤 공연. 비 오는 날 야시장 대신.',
+      hours: '가게 12:00–23:00 (가게마다 L.O. 22:00쯤)', loc: '東京楽天地浅草ビル 4층 · 야시장 바로 옆', open: { sat: 1, sun: 1, mon: 1 } },
 
     arcakit_food: { name: '아르카킷 10층 식당가', short: '아르카킷 10F 식당가', e: '🍱', ja: 'アルカキット錦糸町 10F', q: 'アルカキット錦糸町', url: 'https://mitsui-shopping-park.com/arcakit/',
       hours: '10층 식당가 11:00–22:30 · 1~9층 매장 10:00–21:00', loc: 'JR 긴시초역 북쪽 출구 도보 1분' },
@@ -1309,11 +1320,12 @@ const TRIP = {
 
   /* ===================== 챕터(날짜)별 퀘스트 ===================== */
   days: [
-    { date: '2026-10-03', md: '10.3', dow: '土', dowKo: '토', start: 'nrt', title: '도착 · 긴시초 쇼핑 · 아사쿠사 밤',
+    { date: '2026-10-03', md: '10.3', dow: '土', dowKo: '토', start: 'nrt', title: '도착 · 긴시초 쇼핑 · 아사쿠사 야시장',
       events: [
         { e: '🎫', t: '나리타 도착하면 48시간권 먼저 (1,500엔 · 여권) — 개시는 13:30 긴시초 갈 때' },
         { e: '🛍️', t: '아카짱혼포 5층·유니클로 4층·GU 6층이 한 건물 (아르카킷)' },
-        { e: '🥃', t: '가미야 바는 20:00 마감 → 아사쿠사 1차로' },
+        { e: '🥃', t: '가미야 바는 20:00 마감(L.O. 19:30) → 아사쿠사 1차로' },
+        { e: '🏮', t: '⭐ 아사쿠사 야시장(浅草夜祭) 18:00–21:30 · 21:00 오이란 무료 공연 · 비 오면 취소될 수 있어요' },
         { e: '🐟', t: '츠키지는 Day 3 월요일 아침에' }
       ],
       items: [
@@ -1351,19 +1363,25 @@ const TRIP = {
           move: [{ line: 'hanzomon', text: '긴시초 → 스미요시', dur: '약 2분' }, { line: 'shinjuku', text: '스미요시 환승 → 바쿠로요코야마', dur: '약 8분' }],
           memo: '쇼핑백 정리하고 샤워 한 번. 위탁은 1인 15kg 1개라 오늘 산 기저귀는 비닐째 캐리어에 맞춰 미리 정리해 두기.',
           alt: { text: '짐이 너무 많으면 긴시초역에서 택시 (낮 약 1,800~2,300엔 {?}).' } },
-        { t: '18:00', end: '19:30', node: 'asakusa', place: 'kamiya', tags: ['drink'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
-          move: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 (3정거장)', dur: '6분' }],
-          memo: '1층에서 식권 먼저 사고 자리 잡기. 전기브랜 + 생맥주 체이서가 정석.',
+        { t: '18:00', end: '19:20', node: 'asakusa', place: 'kamiya', tags: ['drink'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 (3정거장) · A5 출구 1~2분', dur: '6분' }],
+          memo: '1층에서 식권 먼저 사고(현금만) 자리 잡기. 전기브랜 + 생맥주 체이서가 정석. L.O. 19:30이라 19:20엔 일어서요.',
           alt: { text: '자리가 없으면 호피도리 「오카모토」(23:00까지)부터.', place: 'okamoto' } },
-        { t: '19:30', end: '21:00', node: 'asakusa', place: 'shochan', title: '2차 · 호피도리 쇼짱', tags: ['drink', 'food'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
-          move: [{ line: 'walk', text: '가미야 바 → 호피도리', dur: '약 8분 {?}' }],
-          memo: '소 니코미가 다 팔리면 끝이라 서둘러요. 호피(ホッピー)는 소주에 타 마시는 맥주맛 음료.',
+        { t: '19:30', end: '20:30', node: 'asakusa', place: 'shochan', title: '2차 · 호피도리 쇼짱', tags: ['drink', 'food'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'walk', text: '가미야 바 → 덴보인도리 → 호피도리', dur: '약 8분' }],
+          memo: '소 니코미가 다 팔리면 끝이라 서둘러요 (L.O. 20:30 · 현금만). 호피(ホッピー)는 소주에 타 마시는 맥주맛 음료.',
           alt: { text: '꽉 찼으면 바로 옆 「오카모토」(무휴, 23:00까지).', place: 'okamoto' } },
-        { t: '21:10', node: 'asakusa', place: 'sensoji', tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
-          memo: '밤엔 사람이 적고 본당·오층탑 조명이 예뻐요. 조명 시간 {?}',
-          alt: { text: '비가 오면 건너뛰고 바로 귀가.' } },
-        { t: '22:00', node: 'hotel', place: 'hotel', title: '숙소 귀가', short: '세이브 · 귀가', save: true, tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
-          move: [{ line: 'asakusa', text: '아사쿠사 → 히가시니혼바시', dur: '6분' }],
+        { t: '20:30', end: '21:30', node: 'asakusa', place: 'yomatsuri', must: '친구 픽', tags: ['food', 'drink'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'walk', text: '호피도리 → 롯쿠 브로드웨이 북쪽', dur: '약 2분' }],
+          facts: [['오늘', '10/2(금)~10/4(일) 18:00–21:30 · 푸드트럭·조명 큐브 · 입장 무료'], ['21:00', '오이란 나이트록 무료 공연 (21:00–21:30, 롯쿠 브로드웨이)'], ['바로 옆', '「아사쿠사 요코초」 4층 — 축제 포장마차 분위기 실내 푸드홀 (23:00까지)']],
+          memo: '친구가 꼭 가고 싶다던 아사쿠사 야시장! 푸드트럭에서 한 잔 들고 조명 큐브 앞에서 사진 → 21:00 오이란 무료 공연. 바로 옆 건물 4층 「아사쿠사 요코초」도 한 바퀴.',
+          alt: { text: '비가 오면 야외 행사가 취소될 수 있어요 → 같은 블록 실내 「아사쿠사 요코초」(4층, 23:00까지). 당일 개최 여부는 아사쿠사 롯쿠 홈페이지 맨 위에 떠요.', place: 'yokocho' } },
+        { t: '21:40', node: 'asakusa', place: 'sensoji', tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'walk', text: '롯쿠 → 센소지 본당', dur: '약 5분' }],
+          memo: '본당·오층탑·호조몬 조명은 해 질 녘부터 23:00쯤까지. 나카미세 셔터 그림을 보면서 가미나리몬까지 걸어 내려가요.',
+          alt: { text: '힘이 남으면 가미나리몬에서 3분, 아즈마바시에서 스카이트리 + 아사히 빌딩 야경. 맞은편 관광센터 8층 무료 전망 테라스는 22:00까지.' } },
+        { t: '22:30', node: 'hotel', place: 'hotel', title: '숙소 귀가', short: '세이브 · 귀가', save: true, tags: ['move'], last: { t: '00:08', txt: '아사쿠사 → 히가시니혼바시' },
+          move: [{ line: 'walk', text: '가미나리몬 → 아사쿠사역 A4·A5 출구', dur: '약 3분' }, { line: 'asakusa', text: '아사쿠사 → 히가시니혼바시', dur: '6분' }],
           facts: [['막차', '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일) · 그다음 00:26 열차는 히가시니혼바시에 안 서요']],
           alt: { text: '택시 낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' } }
       ] },
@@ -1454,8 +1472,8 @@ const TRIP = {
   bars: [
     { id: 'asakusa', name: '아사쿠사', ja: '浅草', e: '🏮', tonight: 'Day 1 밤',
       access: [{ line: 'asakusa', text: '히가시니혼바시 → 아사쿠사 직통', dur: '6분' }],
-      course: [{ step: '1차', place: 'kamiya', note: '20:00 마감이라 먼저' }, { step: '2차', place: 'shochan', note: '니코미 품절 전에' }, { step: '3차', place: 'okamoto', note: '23:00까지' }],
-      spots: ['kamiya', 'okamoto', 'shochan'], last: '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일)', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+      course: [{ step: '1차', place: 'kamiya', note: '20:00 마감이라 먼저' }, { step: '2차', place: 'shochan', note: '니코미 품절 전에' }, { step: '야시장', place: 'yomatsuri', note: '⭐ 21:30까지 · 21:00 공연' }, { step: '3차', place: 'okamoto', note: '23:00까지' }],
+      spots: ['kamiya', 'okamoto', 'shochan', 'yomatsuri', 'yokocho'], last: '아사쿠사 00:08 → 히가시니혼바시 00:13 (토·일)', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
     { id: 'ueno', name: '우에노', ja: '上野', e: '🍢', tonight: 'Day 2 밤',
       access: [{ line: 'hibiya', text: '고덴마초 → 우에노 직통', dur: '6분' }],
       course: [{ step: '1차', place: 'bunraku', note: '일요일 음식 19:00까지' }, { step: '2차', place: 'ohyama', note: '일 22:00 마감' }, { step: '3차', place: 'daitoryo', note: '23:30까지' }],
@@ -1542,7 +1560,7 @@ const TRIP = {
     nrt:        { ll: [35.7720, 140.3929], todo: ['에어서울은 제1터미널 남쪽 윙', '도착하면 지하 「나리타공항역」에서 액세스 특급', '출국 때 면세 봉투는 뜯지 않기 · 남은 엔화는 면세점에서'] },
     hotel:      { ll: [35.6928, 139.7838], todo: ['짐 맡기기·찾기는 프런트에서', '체크아웃 10:00', '술 마시고 귀가할 땐 택시 카드 보여주기'] },
     kinshicho:  { ll: [35.6975, 139.8140], todo: ['아카짱혼포 5층 · 유니클로 4층 · GU 6층 (아르카킷)', '면세는 같은 가게 하루 5,000엔 이상 · 여권 실물', '부피 큰 기저귀·물티슈는 오늘 사서 숙소로'] },
-    asakusa:    { ll: [35.7110, 139.7960], todo: ['가미야 바 20:00 마감 (L.O. 19:30)', '쇼짱 니코미는 품절 전에', '막차 00:08 아사쿠사 → 히가시니혼바시'] },
+    asakusa:    { ll: [35.7110, 139.7960], todo: ['가미야 바 20:00 마감 (L.O. 19:30)', '쇼짱 니코미는 품절 전에 (L.O. 20:30)', '⭐ 야시장(浅草夜祭) 토·일 18:00–21:30 · 21:00 오이란 공연', '막차 00:08 아사쿠사 → 히가시니혼바시'] },
     ueno:       { ll: [35.7100, 139.7745], todo: ['분라쿠는 일요일 음식 주문 19:00까지', '니쿠노 오야마 일요일 음식 L.O. 21:00', '막차 00:01 우에노 → 고덴마초'] },
     nihonbashi: { ll: [35.6850, 139.7737], todo: ['미쓰코시 본점 10:00 개점 · 본관 7층 미키하우스', '다카시마야는 10:30 개점'] },
     ningyocho:  { ll: [35.6862, 139.7826], todo: ['일요일엔 문 닫는 집이 많아요 (사사신 휴무)', '숙소까지 약 1km, 걸어서 귀가 가능'] },
@@ -1555,7 +1573,8 @@ const TRIP = {
     hotel: ['hotel', 35.6928, 139.7838], monju: ['hotel', 35.6921, 139.7829],
     arcakit_food: ['kinshicho', 35.6979, 139.8135], akachan: ['kinshicho', 35.6979, 139.8135], uq_arcakit: ['kinshicho', 35.6979, 139.8135],
     nishimatsuya: ['kinshicho', 35.6960, 139.8160], nonki: ['kinshicho', 35.6984, 139.8163], bariki: ['kinshicho', 35.6950, 139.8142],
-    kamiya: ['asakusa', 35.7110, 139.7975], okamoto: ['asakusa', 35.7136, 139.7934], shochan: ['asakusa', 35.7138, 139.7937], sensoji: ['asakusa', 35.7148, 139.7967],
+    kamiya: ['asakusa', 35.7109, 139.7975], okamoto: ['asakusa', 35.7137, 139.7942], shochan: ['asakusa', 35.7145, 139.7942], sensoji: ['asakusa', 35.7147, 139.7968],
+    yomatsuri: ['asakusa', 35.7142, 139.7932], yokocho: ['asakusa', 35.7141, 139.7936],
     bunraku: ['ueno', 35.7104, 139.7749], ohyama: ['ueno', 35.7088, 139.7741], daitoryo: ['ueno', 35.7097, 139.7745], uokusa: ['ueno', 35.7092, 139.7748],
     nmitsukoshi: ['nihonbashi', 35.6857, 139.7735], takashimaya: ['nihonbashi', 35.6810, 139.7740],
     sasashin: ['ningyocho', 35.6866, 139.7838], daiana: ['ningyocho', 35.6852, 139.7820], tamahide: ['ningyocho', 35.6860, 139.7826],
@@ -1569,6 +1588,8 @@ const TRIP = {
   /* 요일별 영업시간 — 위 places의 hours 문구를 그대로 옮긴 값 (지금 영업 중인지 표시용). 0 = 휴무, 없으면 표시 안 함 */
   openHours: {
     kamiya:   { sat: ['11:00-20:00'], sun: ['11:00-20:00'], mon: 0 },
+    yomatsuri: { sat: ['18:00-21:30'], sun: ['18:00-21:30'], mon: 0 },
+    yokocho:  { sat: ['12:00-23:00'], sun: ['12:00-23:00'], mon: ['12:00-23:00'] },
     okamoto:  { sat: ['11:00-23:00'], sun: ['11:00-22:30'], mon: ['11:00-23:00'] },
     shochan:  { sat: ['12:00-21:00'], sun: ['12:00-21:00'], mon: ['12:00-21:00'] },
     bunraku:  { sat: ['12:00-22:00'], sun: ['11:00-22:00'] },
@@ -2200,7 +2221,7 @@ function cardHTML(it, di, k){
   const kind = itKind(it), name = itShort(it), ja = itJa(it), lp = itLink(it);
   const kindLbl = it.save ? '💾 세이브' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
   return `<article class="qcard k-${kind}" data-k="${k}" id="q-${di}-${k}" aria-label="${esc(it.t)} ${esc(itName(it))}">
-    <div class="qcard__top"><span class="qcard__time">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span><span class="qcard__kind">${kindLbl}</span></div>
+    <div class="qcard__top"><span class="qcard__time">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}</span>${it.end ? `<span class="qcard__end">→${esc(it.end)}</span>` : ''}<span class="qcard__badge"></span>${it.must ? '<span class="qcard__must" title="꼭 가는 곳">⭐ 필수</span>' : ''}<span class="qcard__kind">${kindLbl}</span></div>
     <div class="qcard__main"><span class="qcard__emo" aria-hidden="true">${itEmo(it)}</span><div class="qcard__ttl"><h3>${esc(name)}</h3>${ja ? `<span class="ja" lang="ja">${esc(ja)}</span>` : ''}</div><span class="qcard__wx" data-wx="${k}"></span></div>
     <p class="qcard__how">${howHTML(it, di, k)}</p>
     <div class="qcard__btns">${lp && lp.q ? `<a class="gbtn gbtn--go" href="${esc(mapsUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 구글 지도 열기 (새 탭)">${ICON.pin}지도</a><a class="gbtn" href="${esc(dirUrl(lp.q))}" ${EXT} aria-label="${esc(itName(it))} 대중교통 길찾기 (새 탭)">${ICON.route}길</a>` : ''}<button class="gbtn" type="button" data-open="${k}" aria-label="${esc(itName(it))} 자세히 보기">자세히</button></div>
@@ -2241,7 +2262,7 @@ function detailHTML(it, di, k, opts){
   }
   h += linksHTML(itLink(it), name);
   const tag = opts.titleId ? 'h2 id="sheetTitle"' : 'h4';
-  return { head: `<span class="qcard__emo k-${itKind(it)}" aria-hidden="true">${itEmo(it)}</span><div><p class="sh-time">DAY ${di + 1} · ${it.approx ? '약 ' : ''}${esc(it.t)}${it.end ? ' → ' + esc(it.end) : ''}</p><${tag}>${esc(name)}${ja ? ` <span class="ja" lang="ja">${esc(ja)}</span>` : ''}</${tag.split(' ')[0]}><div class="tags">${tagChips(it.tags)}</div></div>`, body: h };
+  return { head: `<span class="qcard__emo k-${itKind(it)}" aria-hidden="true">${itEmo(it)}</span><div><p class="sh-time">DAY ${di + 1} · ${it.approx ? '약 ' : ''}${esc(it.t)}${it.end ? ' → ' + esc(it.end) : ''}</p><${tag}>${esc(name)}${ja ? ` <span class="ja" lang="ja">${esc(ja)}</span>` : ''}</${tag.split(' ')[0]}><div class="tags">${it.must ? `<span class="tag tag--must">⭐ 필수${typeof it.must === 'string' ? ' · ' + esc(it.must) : ''}</span>` : ''}${tagChips(it.tags)}</div></div>`, body: h };
 }
 function renderQuests(di, dir){
   const day = D.days[di];
@@ -2273,7 +2294,7 @@ function renderTimeline(di){
     const hint = p && !it.noFacts ? (p.loc ? p.loc.split(' · ')[0] : (p.hours || '')) : '';
     const sub = tr ? (tr.board ? `🚆 → ${fmtMin(tr.arrive)} 도착 · ${tr.mt}분` : tr.tight ? `🚶 끝나면 바로 · ${tr.mins}분 → ${fmtMin(tr.arrive)}` : `🚶 <b>${fmtMin(tr.leave)}</b> 출발 · ${tr.rush ? '빠듯' : tr.mins + '분'}`)
       : it.sky ? plain(it.move && it.move[0] && it.move[0].text) : hint ? plain(hint) : it.memo ? plain(it.memo.split(/[.!?]\s/)[0]) : it.save ? '💾 세이브 포인트' : `${TAGS[it.tags[0]][0]} ${TAGS[it.tags[0]][1]}`;
-    return `<li data-k="${k}"><button class="tl__row" type="button" data-tl="${k}" aria-label="${esc(it.t)} ${esc(itName(it))}. 누르면 자세히"><span class="tl__t">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}${it.end ? `<small>→${esc(it.end)}</small>` : ''}</span><span class="tl__e" aria-hidden="true">${itEmo(it)}</span><span class="tl__n"><b>${esc(itShort(it))}</b><small>${sub}</small></span><span class="tl__s"></span><span class="tl__w qcard__wx" data-wx="${k}"></span></button></li>`;
+    return `<li data-k="${k}"><button class="tl__row" type="button" data-tl="${k}" aria-label="${esc(it.t)} ${esc(itName(it))}. 누르면 자세히"><span class="tl__t">${it.approx ? '<span class="apx">~</span>' : ''}${esc(it.t)}${it.end ? `<small>→${esc(it.end)}</small>` : ''}</span><span class="tl__e" aria-hidden="true">${itEmo(it)}</span><span class="tl__n"><b>${it.must ? '<span class="tl__must" aria-label="필수">⭐</span>' : ''}${esc(itShort(it))}</b><small>${sub}</small></span><span class="tl__s"></span><span class="tl__w qcard__wx" data-wx="${k}"></span></button></li>`;
   }).join('');
 }
 function paintTimeline(){
