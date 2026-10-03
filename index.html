@@ -1317,7 +1317,8 @@ const TRIP = {
     ginza:      { x: 94,  y: 312, e: '🕰️', name: '긴자', ja: '銀座', bars: 'ginza' },
     tsukiji:    { x: 130, y: 368, e: '🍣', name: '츠키지', ja: '築地' },
     shinjuku:   { x: 26,  y: 132, e: '🌃', name: '신주쿠', ja: '新宿', bars: 'shinjuku', label: '신주쿠 · 20분' },
-    shibuya:    { x: 26,  y: 300, e: '🚥', name: '시부야', ja: '渋谷', bars: 'shibuya', label: '시부야 · 긴자선 15분' }
+    shibuya:    { x: 26,  y: 300, e: '🚥', name: '시부야', ja: '渋谷', bars: 'shibuya', label: '시부야 · 긴자선 15분' },
+    shinbashi:  { x: 71,  y: 343, e: '🚂', name: '신바시', ja: '新橋', bars: 'shinbashi' }
   },
 
   hotel: {
@@ -1470,7 +1471,36 @@ const TRIP = {
     shibuya_sky: { name: '시부야 스카이', short: '시부야 스카이', e: '🏙️', ja: 'SHIBUYA SKY（渋谷スクランブルスクエア）', q: 'SHIBUYA SKY', url: 'https://www.shibuya-scramble-square.com/sky/ticket/', tags: ['sight'],
       desc: '229m 옥상 전망대. 20분 단위 시간 지정 · 2주 전 0시 판매 · 웹에서 매진이면 현장도 매진.', hours: '10:00–22:30 (입장 21:20)', price: '웹 2,700엔(~14:59)·3,400엔(15:00~) · 현장 +300엔', pay: '옥상엔 가방 반입 불가 (46층 락커)' },
     toritake: { name: '토리다케 총본점', short: '토리다케', e: '🍢', ja: '鳥竹総本店', q: '鳥竹総本店 渋谷', tags: ['drink', 'food'],
-      desc: '백종원도 다녀간 노포 야키토리. 타레 꼬치·닭껍질.', hours: '12:00–23:00 (L.O. 22:00)', price: '1인 3,000–4,000엔' }
+      desc: '백종원도 다녀간 노포 야키토리. 타레 꼬치·닭껍질.', hours: '12:00–23:00 (L.O. 22:00)', price: '1인 3,000–4,000엔' },
+
+    /* ---- Day 2 신바시 (research/2026-10-04-shinbashi.json · 일요일 영업 확인분) ---- */
+    sl_hiroba: { name: '신바시 SL광장', short: '신바시 SL광장', e: '🚂', ja: '新橋駅 SL広場', q: '新橋駅 SL広場', url: 'https://www.city.minato.tokyo.jp/documents/73746/20250402085637.pdf', tags: ['sight'], sight: true,
+      desc: '신바시역 앞 C11 증기기관차. 매일 12·15·18시에 기적을 울려요. 회사원 술집 거리의 입구.', hours: '광장 상시 · 기적 12:00·15:00·18:00', price: '무료', loc: '신바시역 日比谷口 바로 앞' },
+    karasumori_jinja: { name: '가라스모리 신사', short: '가라스모리 신사', e: '⛩️', ja: '烏森神社', q: '烏森神社', url: 'https://hotokami.jp/posts/399871', tags: ['sight'], sight: true,
+      desc: '술집 골목 안 작은 신사. 4색 오미쿠지로 유명 (저녁엔 고슈인 불가).', hours: '경내 24시간 {?} · 고슈인 09:00–16:00', price: '무료' },
+    heso_honten: { name: '다치노미 헤소 신바시 본점', short: '헤소 (서서 한 잔)', e: '🍺', ja: '立呑処 へそ 新橋本店', q: '立呑処 へそ 新橋本店', url: 'https://www.hotpepper.jp/strJ003298964/', tags: ['drink'],
+      desc: '日比谷口 1분 서서 마시는 집 본점. 싸게 생맥주 한두 잔.', hours: '일·공휴일 12:00–21:00 (L.O. 20:30) · 토 12:00–24:00', closed: '없음', price: '1,500~2,000엔', pay: '카드·Suica·PayPay 가능', loc: '新橋2-8-2 1층',
+      open: { sat: 1, sun: 1, mon: 1 } },
+    banpaiya_sl: { name: '반파이야 신바시 SL광장점', short: '반파이야 (가드 아래)', e: '🍶', ja: '立呑み 晩杯屋 新橋SL広場店', q: '晩杯屋 新橋SL広場店', url: 'https://stores.toridoll.com/910047', tags: ['drink'],
+      desc: '日比谷口 개찰구 오른쪽 JR 고가 아래 서서 마시는 집. 싼 안주에 맥주, 가드 아래 분위기.', hours: '토·일 13:00–23:00 · 평일 15:00–23:00', price: '1,000~2,000엔', pay: '현금만일 수 있어요 {?}', loc: '新橋2-17 JR 고가 아래',
+      open: { sat: 1, sun: 1, mon: 1 } },
+    shinbashi_gado_yokocho: { name: '신바시 가드시타 요코초', short: '가드시타 요코초', e: '🏮', ja: '新橋ガード下横丁', q: '新橋ガード下横丁', url: 'https://www.hamakura-style.com/works/shinbashi_yokocho/', tags: ['food', 'drink'],
+      desc: '銀座口 쪽 고가 아래 10개 가게 골목. 아무 자리에 앉아 여러 가게에서 시킬 수 있어요.', hours: '매일 15:00–05:00 (가게마다 바뀔 수 있음)', closed: '연중무휴', price: '가게마다 {?}', loc: '新橋1-13-3 · 銀座口' },
+    ibrew_shinbashi: { name: 'IBREW 신바시역앞점', short: 'IBREW 크래프트 맥주', e: '🍻', ja: 'クラフトビアバル IBREW 新橋駅前店', q: 'IBREW 新橋駅前店', url: 'https://tabelog.com/tokyo/A1301/A130103/13214161/', tags: ['drink'],
+      desc: '신바시역앞빌딩 1층 크래프트 맥주 바. 싼 크래프트 맥주로 맥주파 1순위.', hours: '13:00–23:00 (음료 L.O. 22:30)', closed: '없음', price: '2,000~3,000엔', pay: '현금만', loc: '新橋駅前ビル1号館 1층 · 일요일엔 지하통로가 막혀 1층 입구',
+      open: { sat: 1, sun: 1, mon: 1 } },
+    uokin_sohonten: { name: '우오킨 총본점', short: '우오킨 총본점', e: '🐟', ja: '魚金 総本店', q: '魚金 総本店 新橋', url: 'https://uokingroup.jp/pages/brands', tags: ['food', 'drink'],
+      desc: '신바시 해산물 이자카야 본점. 두툼한 사시미 안주에 맥주. 근처 4호점(新橋3-18-8, 일 15–23시)도 있어요.', hours: '토·일 13:00–23:00 · 평일 15:00–23:00', closed: '연말연시', price: '4,000~5,000엔', pay: '카드·PayPay 가능',
+      open: { sat: 1, sun: 1, mon: 1 } },
+    sankichi_shinbashi: { name: '야키톤 산키치 신바시점', short: '야키톤 산키치', e: '🍢', ja: 'やきとん三吉 新橋店', q: 'やきとん三吉 新橋店', url: 'https://www.hotpepper.jp/strJ003872579/', tags: ['food', 'drink'],
+      desc: '烏森口 3분, 돼지 꼬치(야키톤)집. 일요일 낮 12시부터 자정까지.', hours: '토·일 12:00–24:00 · 월~목 14:00–24:00', closed: '없음', price: '2,000~3,000엔', pay: '{?}',
+      open: { sat: 1, sun: 1, mon: 1 } },
+    torahachi: { name: '야키톤 사카바 도라하치', short: '도라하치', e: '🍢', ja: 'やきとん酒場 新橋 とら八', q: 'やきとん酒場 新橋 とら八', url: 'https://www.hotpepper.jp/strJ000120974/', tags: ['food', 'drink'],
+      desc: '烏森口 쪽 야키톤 술집. 일요일 16시부터.', hours: '일 16:00–23:00 · 월~토 16:00–23:20', price: '{?}' },
+    tahara_nsb: { name: '다하라 (뉴신바시빌딩)', short: '다하라', e: '🍱', ja: '田はら ニュー新橋ビル', q: '田はら ニュー新橋ビル', url: 'https://www.hotpepper.jp/strJ000120694/', tags: ['food', 'drink'],
+      desc: '쇼와 분위기 그대로인 뉴신바시빌딩 지하 술집 골목의 가정식 이자카야. 일요일에 여는 몇 안 되는 곳.', hours: '매일 09:00–23:30 (L.O. 23:00)', price: '{?}', pay: '현금만' },
+    genki_manman: { name: '겐키 만만 사카바', short: '겐키 만만', e: '🍻', ja: '元気まんまん酒場 ニュー新橋ビル', q: '元気まんまん酒場 新橋', url: 'https://www.hotpepper.jp/strJ003736070/', tags: ['food', 'drink'],
+      desc: '뉴신바시빌딩 지하 대중주점. 일요일에도 여는 야키토리·안주집.', hours: '매일 11:00–24:00', price: '1,500~3,000엔', pay: '카드·PayPay 가능' }
   },
 
   /* Day 2 시부야 (2026-10-03 공식 페이지·OSM 좌표 기준) */
@@ -1656,6 +1686,11 @@ const TRIP = {
       access: [{ line: 'asakusa', text: '히가시니혼바시 → 히가시긴자 직통', dur: '7분' }],
       course: [{ step: '1차', place: 'lion', note: '1934년 비어홀' }, { step: '2차', place: 'tonton', note: '고가 밑 · 일 21:30까지' }],
       spots: ['lion', 'tonton', 'bairin', 'kagari', 'komatsuan'], last: '히가시긴자 00:11 → 히가시니혼바시 00:18 (토·일)', taxi: '낮 약 1,400~2,000엔 · 22시 이후 약 1,700~2,400엔 {?}' },
+    { id: 'shinbashi', name: '신바시', ja: '新橋', e: '🚂', tonight: 'Day 2 옵션 · 시부야 요코초 대신 (일요일 영업 확인한 곳만)',
+      access: [{ line: 'ginza', text: '시부야 → 신바시 직통', dur: '약 14분' }, { line: 'ginza', text: '신바시 → 우에노 직통', dur: '약 13분' }, { line: 'asakusa', text: '신바시 → 히가시니혼바시 직통', dur: '약 10분' }],
+      course: [{ step: '1차', place: 'banpaiya_sl', note: '가드 아래 서서 한 잔' }, { step: '2차', place: 'ibrew_shinbashi', note: '크래프트 맥주 · 현금만' }, { step: '옵션', place: 'uokin_sohonten', note: '앉아서 해산물' }],
+      spots: ['banpaiya_sl', 'heso_honten', 'ibrew_shinbashi', 'uokin_sohonten', 'sankichi_shinbashi', 'shinbashi_gado_yokocho', 'torahachi', 'tahara_nsb', 'genki_manman'],
+      last: '신바시 00:09 → 히가시니혼바시 00:19 (도에이 아사쿠사선 京成高砂행 · 에어포트 쾌특은 안 서요) {?}', taxi: '약 1,600~2,100엔 · 22시 이후 약 1,900~2,500엔 {?}' },
     { id: 'shibuya', name: '시부야', ja: '渋谷', e: '🚥', tonight: 'Day 2 저녁',
       access: [{ line: 'ginza', text: '긴자 → 시부야 직통', dur: '15분' }, { line: 'ginza', text: '시부야 → 우에노 직통', dur: '28분' }],
       course: [{ step: '일몰', place: 'mag8', note: '옥상 1드링크 포함' }, { step: '1차', place: 'shibuya_yokocho', note: '일요일 23:00까지' }, { step: '2차', place: 'toritake', note: '야키토리 노포' }],
@@ -1739,7 +1774,8 @@ const TRIP = {
     ginza:      { ll: [35.6717, 139.7650], todo: ['보행자 천국 토·일 12:00–17:00', '긴자 미쓰코시 신관 10층: 패밀리아·미키하우스', '@b 출산 선물은 포장 요청', '마쓰야 긴자 일요일 19:30 마감'] },
     tsukiji:    { ll: [35.6655, 139.7705], todo: ['06:00–09:00은 업자 우선 시간, 통로 비켜 다니기', '07:40엔 일어서기 (08:26 공항 열차)', '일요일·공휴일은 휴시'] },
     shinjuku:   { ll: [35.6935, 139.7010], todo: ['골든가이 바는 자릿세가 있어요', '막차 00:00 신주쿠 → 바쿠로요코야마 {?}'] },
-    shibuya:    { ll: [35.6595, 139.7005], todo: ['⭐ 하치코 · 스크램블 교차로 → 스타벅스 츠타야 2층에서 내려다보기', '닌텐도 도쿄 주말 정리권 (파르코 6층 마리오 동상 앞)', '일몰 17:21 · MAG8 옥상 1,800엔(1드링크)', '시부야 → 우에노 긴자선 직통 28분 · 시부야 → 숙소 막차 23:43(긴자선)·23:53(한조몬선)'] }
+    shibuya:    { ll: [35.6595, 139.7005], todo: ['⭐ 하치코 · 스크램블 교차로 → 스타벅스 츠타야 2층에서 내려다보기', '닌텐도 도쿄 주말 정리권 (파르코 6층 마리오 동상 앞)', '일몰 17:21 · MAG8 옥상 1,800엔(1드링크)', '시부야 → 우에노 긴자선 직통 28분 · 시부야 → 숙소 막차 23:43(긴자선)·23:53(한조몬선)'] },
+    shinbashi:  { ll: [35.6664, 139.7577], todo: ['18:00 SL광장 증기기관차 기적 (12·15·18시)', 'IBREW 현금만 · 일요일엔 지하통로가 막혀 1층 입구', '헤소 본점 일요일 21:00 마감 (L.O. 20:30)', '일요일 휴무: まこちゃん 가드 아래점·ニュー加賀屋·竜馬·大露路·羅生門·ビアライゼ\'98·DRY-DOCK·鶏繁·鳥ぎん', '신바시 → 우에노 긴자선 13분 · 막차 00:09 → 히가시니혼바시 00:19 {?}'] }
   },
   /* 장소별 지역·좌표(대략, 거리 계산용): [지역, 위도, 경도] */
   geo: {
@@ -1759,6 +1795,9 @@ const TRIP = {
     uobei: ['shibuya', 35.65947, 139.6978], scramble: ['shibuya', 35.6595, 139.7005], parco_shibuya: ['shibuya', 35.66192, 139.69899], kiddyland: ['shibuya', 35.66772, 139.70654],
     mag8: ['shibuya', 35.6599, 139.70095], shibuya_yokocho: ['shibuya', 35.66078, 139.70179], motomura: ['shibuya', 35.65698, 139.70402], hikarie: ['shibuya', 35.65918, 139.70369],
     donki_shibuya: ['shibuya', 35.66045, 139.69784], miyashita: ['shibuya', 35.66193, 139.7018], shibuya_sky: ['shibuya', 35.65838, 139.70222], toritake: ['shibuya', 35.65805, 139.69899],
+    sl_hiroba: ['shinbashi', 35.66709, 139.75741], karasumori_jinja: ['shinbashi', 35.66680, 139.75682], heso_honten: ['shinbashi', 35.66746, 139.75630], banpaiya_sl: ['shinbashi', 35.66713, 139.75816],
+    shinbashi_gado_yokocho: ['shinbashi', 35.66785, 139.75810], ibrew_shinbashi: ['shinbashi', 35.66594, 139.75938], uokin_sohonten: ['shinbashi', 35.66511, 139.75732], sankichi_shinbashi: ['shinbashi', 35.66548, 139.75684],
+    torahachi: ['shinbashi', 35.66528, 139.75833], tahara_nsb: ['shinbashi', 35.66646, 139.75737], genki_manman: ['shinbashi', 35.66632, 139.75752],
     nrt: ['nrt', 35.7720, 140.3929], icn: ['icn', 37.4602, 126.4407]
   },
   /* 요일별 영업시간 — 위 places의 hours 문구를 그대로 옮긴 값 (지금 영업 중인지 표시용). 0 = 휴무, 없으면 표시 안 함 */
@@ -1804,7 +1843,16 @@ const TRIP = {
     motomura: { sat: ['11:00-22:00'], sun: ['11:00-22:00'], mon: ['11:00-22:00'] },
     donki_shibuya: { sat: ['00:00-24:00'], sun: ['00:00-24:00'], mon: ['00:00-24:00'] },
     shibuya_sky: { sat: ['10:00-22:30'], sun: ['10:00-22:30'], mon: ['10:00-22:30'] },
-    toritake: { sat: ['12:00-23:00'], sun: ['12:00-23:00'], mon: ['12:00-23:00'] }
+    toritake: { sat: ['12:00-23:00'], sun: ['12:00-23:00'], mon: ['12:00-23:00'] },
+    heso_honten: { sat: ['12:00-24:00'], sun: ['12:00-21:00'], mon: ['11:30-24:00'] },
+    banpaiya_sl: { sat: ['13:00-23:00'], sun: ['13:00-23:00'], mon: ['15:00-23:00'] },
+    shinbashi_gado_yokocho: { sat: ['15:00-05:00'], sun: ['15:00-05:00'], mon: ['15:00-05:00'] },
+    ibrew_shinbashi: { sat: ['13:00-23:00'], sun: ['13:00-23:00'], mon: ['13:00-23:00'] },
+    uokin_sohonten: { sat: ['13:00-23:00'], sun: ['13:00-23:00'], mon: ['15:00-23:00'] },
+    sankichi_shinbashi: { sat: ['12:00-24:00'], sun: ['12:00-24:00'], mon: ['14:00-24:00'] },
+    torahachi: { sat: ['16:00-23:20'], sun: ['16:00-23:00'], mon: ['16:00-23:20'] },
+    tahara_nsb: { sat: ['09:00-23:30'], sun: ['09:00-23:30'], mon: ['09:00-23:30'] },
+    genki_manman: { sat: ['11:00-24:00'], sun: ['11:00-24:00'], mon: ['11:00-24:00'] }
   },
   /* 미리 저장해 둔 주변 추천 (일정에 없어도 들르기 좋은 곳) */
   extras: {
